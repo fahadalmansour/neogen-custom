@@ -2551,3 +2551,469 @@ body.single-product .upsells.products {
   .ng-single-description { margin-top: 48px; padding-top: 32px; }
   .ng-single-related { margin-top: 48px; }
 }
+
+/* ==========================================================
+   THANK-YOU / ORDER RECEIVED
+   "TRANSMISSION RECEIVED" — telemetry readout after checkout.
+   Pipeline illuminates left-to-right via staggered animation.
+   ========================================================== */
+
+body.woocommerce-order-received main,
+body.woocommerce-page.page-template-default main {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  max-width: none;
+}
+
+.ng-thankyou {
+  position: relative;
+  min-height: calc(100vh - 180px);
+  padding: 96px 24px 120px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(900px circle at 75% 20%, rgba(63, 232, 143, 0.08), transparent 60%),
+    radial-gradient(700px circle at 20% 80%, rgba(0, 209, 255, 0.06), transparent 55%),
+    var(--bg);
+}
+
+.ng-thankyou--alert {
+  background:
+    radial-gradient(900px circle at 50% 30%, rgba(232, 115, 74, 0.12), transparent 60%),
+    var(--bg);
+}
+
+.ng-thankyou-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 0;
+}
+
+.ng-thankyou-bg svg {
+  width: min(780px, 86vw);
+  color: var(--accent);
+}
+
+.ng-thankyou-bg svg path {
+  fill: currentColor;
+}
+
+.ng-thankyou--alert .ng-thankyou-bg svg { color: var(--alert); }
+
+.ng-thankyou-inner {
+  position: relative;
+  z-index: 1;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+.ng-thankyou-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--signal);
+  text-transform: uppercase;
+  direction: ltr;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: rise 0.7s var(--ease-out) 0.1s forwards;
+}
+
+.ng-thankyou--alert .ng-thankyou-kicker { color: var(--alert); }
+
+.ng-thankyou-kicker .led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 14px var(--signal);
+  animation: pulse 1.6s var(--ease) infinite;
+}
+
+.ng-thankyou-kicker .led.warn {
+  background: var(--alert);
+  box-shadow: 0 0 14px var(--alert);
+}
+
+.ng-thankyou-kicker .sep {
+  display: inline-block;
+  width: 1px;
+  height: 10px;
+  background: var(--line);
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+.ng-thankyou-h1 {
+  margin-top: 24px;
+  display: grid;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: rise 0.9s var(--ease-out) 0.3s forwards;
+}
+
+.ng-thankyou-h1 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(48px, 7.4vw, 112px);
+  line-height: 0.98;
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.ng-thankyou-h1 .en {
+  font-family: var(--font-wordmark);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.ng-thankyou--alert .ng-thankyou-h1 .ar { color: var(--alert); }
+
+.ng-thankyou-lede {
+  margin-top: 16px;
+  max-width: 640px;
+  font-family: var(--font-ar-body);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--warm);
+}
+
+/* --- PIPELINE ----------------------------------------------- */
+.ng-pipeline {
+  list-style: none;
+  padding: 0;
+  margin: 48px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  direction: ltr;
+  position: relative;
+}
+
+.ng-pipeline::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
+  z-index: 0;
+}
+
+.ng-pipeline-node {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise 0.7s var(--ease-out) forwards;
+  animation-delay: var(--d, 0ms);
+  z-index: 1;
+}
+
+.ng-pipeline-node .dot {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  transition: box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.ng-pipeline-node .dot::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dim);
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.ng-pipeline-node--on .dot {
+  border-color: var(--accent);
+}
+
+.ng-pipeline-node--on .dot::after {
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+
+.ng-pipeline-node--active .dot {
+  border-color: var(--signal);
+  box-shadow: 0 0 0 4px rgba(63, 232, 143, 0.12);
+}
+
+.ng-pipeline-node--active .dot::after {
+  background: var(--signal);
+  box-shadow: 0 0 16px var(--signal);
+  animation: pulse 1.6s var(--ease) infinite;
+}
+
+.ng-pipeline-node .lbl {
+  display: grid;
+  gap: 2px;
+  line-height: 1.2;
+}
+
+.ng-pipeline-node .lbl .en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+
+.ng-pipeline-node .lbl .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 12px;
+  color: var(--dim);
+  direction: rtl;
+  transition: color 0.3s var(--ease);
+}
+
+.ng-pipeline-node--on .lbl .en,
+.ng-pipeline-node--active .lbl .en { color: var(--text); }
+.ng-pipeline-node--on .lbl .ar,
+.ng-pipeline-node--active .lbl .ar { color: var(--warm); }
+.ng-pipeline-node--active .lbl .en { color: var(--signal); }
+
+/* --- BODY GRID --- */
+.ng-thankyou-body {
+  margin-top: 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: rise 0.8s var(--ease-out) 0.95s forwards;
+}
+
+/* --- LEDGER TABLE --- */
+.ng-ledger {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.ng-ledger-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-ledger-head span:last-child { color: var(--muted); }
+
+.ng-ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.ng-ledger-table th {
+  text-align: left;
+  padding: 12px 20px;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-alt);
+}
+
+.ng-ledger-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line-warm);
+  color: var(--text);
+  vertical-align: top;
+}
+
+.ng-ledger-table tbody tr:last-child td { border-bottom: 1px solid var(--line); }
+
+.ng-ledger-table .col-sku {
+  width: 160px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.ng-ledger-table .col-qty {
+  width: 70px;
+  text-align: center;
+  color: var(--warm);
+}
+
+.ng-ledger-table .col-amt {
+  width: 140px;
+  text-align: right;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.ng-ledger-table .col-item {
+  font-family: var(--font-ar-ui);
+  font-size: 15px;
+  color: var(--text);
+}
+
+.ng-ledger-table tfoot td {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line-warm);
+  padding: 10px 20px;
+  font-size: 12px;
+  color: var(--warm);
+}
+
+.ng-ledger-table tfoot tr:last-child td { border-bottom: 0; }
+
+.ng-ledger-table tfoot .col-lbl {
+  text-align: right;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.ng-ledger-table tfoot .col-amt {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.ng-ledger-table tfoot .row-order_total .col-lbl {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.ng-ledger-table tfoot .row-order_total .col-amt {
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* --- BRIEF ASIDE --- */
+.ng-thankyou-brief {
+  padding: 22px;
+  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  direction: ltr;
+}
+
+.ng-thankyou-brief .ng-brief-row--stacked {
+  grid-template-columns: 92px 1fr;
+}
+
+.ng-thankyou-brief .ng-brief-row--stacked .v {
+  font-family: var(--font-ar-body);
+  font-size: 13px;
+  white-space: pre-line;
+  color: var(--text);
+}
+
+.ng-thankyou-cta {
+  margin-top: 22px;
+  display: grid;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+}
+
+.ng-thankyou-cta .btn { width: 100%; }
+
+/* --- VOICE CLOSE --- */
+.ng-thankyou-voice {
+  margin-top: 96px;
+  padding-top: 48px;
+  border-top: 1px dashed var(--line);
+  text-align: center;
+  font-family: var(--font-wordmark);
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fade 0.9s var(--ease-out) 1.25s forwards;
+}
+
+.ng-thankyou-voice .sep {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  vertical-align: middle;
+  background: var(--accent);
+  margin: 0 14px;
+  opacity: 0.55;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .ng-thankyou { padding: 64px 16px 80px; }
+  .ng-thankyou-body {
+    grid-template-columns: 1fr;
+    margin-top: 48px;
+    gap: 24px;
+  }
+  .ng-pipeline {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .ng-pipeline::before { display: none; }
+  .ng-pipeline-node {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    justify-items: start;
+    text-align: left;
+    gap: 14px;
+  }
+  .ng-pipeline-node .lbl { align-self: center; }
+  .ng-ledger-table .col-sku { width: auto; }
+  .ng-ledger-table .col-item { display: block; padding-top: 0; }
+  .ng-ledger-table .col-qty { width: 50px; }
+  .ng-thankyou-voice { margin-top: 56px; padding-top: 32px; }
+  .ng-thankyou-voice .sep { margin: 0 8px; width: 14px; }
+}
+
+@media (max-width: 560px) {
+  .ng-ledger-table th.col-item,
+  .ng-ledger-table td.col-item {
+    font-size: 13px;
+    padding-inline: 14px;
+  }
+  .ng-ledger-table th,
+  .ng-ledger-table td { padding: 10px 14px; }
+  .ng-ledger-table .col-sku { font-size: 10px; }
+}

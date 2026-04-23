@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, and Woo archive/single overrides.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.2.0');
+    define('NEOGEN_THEME_VERSION', '1.2.1');
 }
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
@@ -92,6 +92,23 @@ add_filter('wc_get_template_part', function ($template, $slug, $name) {
     }
     return $template;
 }, 10, 3);
+
+/**
+ * Route full Woo template paths (not template_parts) to our overrides.
+ * Used for checkout/thankyou.php etc.
+ */
+add_filter('wc_get_template', function ($template, $template_name, $args, $template_path, $default_path) {
+    $overrides = [
+        'checkout/thankyou.php',
+    ];
+    if (in_array($template_name, $overrides, true)) {
+        $candidate = NG_THEME_ASSET_DIR . '/templates/woocommerce/' . $template_name;
+        if (file_exists($candidate)) {
+            return $candidate;
+        }
+    }
+    return $template;
+}, 10, 5);
 
 /**
  * Bilingual title field on the Woo product editor.
