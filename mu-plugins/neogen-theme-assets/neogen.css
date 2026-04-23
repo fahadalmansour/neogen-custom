@@ -1,0 +1,1866 @@
+/* ==========================================================
+   NeoGen Theme — sitewide brand skin for neogen.store
+   Ported from "NeoGen Store - Homepage Preview v1.html".
+   Tokens, typography, buttons, product-card styling, homepage
+   sections, and Woo archive/single overrides.
+   ========================================================== */
+
+:root {
+  --bg: #050505;
+  --bg-alt: #0b0a08;
+  --surface: #0f0e0c;
+  --surface-2: #16140f;
+  --raised: #1f1c15;
+  --line: rgba(0, 209, 255, 0.14);
+  --line-strong: rgba(0, 209, 255, 0.34);
+  --line-warm: rgba(229, 227, 221, 0.08);
+  --accent: #00d1ff;
+  --accent-soft: #66e4ff;
+  --accent-deep: #0099cc;
+  --accent-wash: rgba(0, 209, 255, 0.06);
+  --signal: #3fe88f;
+  --alert: #e8734a;
+  --indigo: #1a2b4b;
+  --indigo-deep: #0f1a2e;
+  --ice: #f5f6fa;
+  --white: #ffffff;
+  --text: #e5e3dd;
+  --warm: #cfc9bb;
+  --muted: #8f8a7e;
+  --dim: #4f4a40;
+
+  --font-wordmark: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-ultra: "Major Mono Display", monospace;
+  --font-sans: "Manrope", "IBM Plex Sans", system-ui, sans-serif;
+  --font-ar-display: "Rakkas", serif;
+  --font-ar-ui: "Reem Kufi", "Tajawal", system-ui, sans-serif;
+  --font-ar-body: "Tajawal", "Reem Kufi", system-ui, sans-serif;
+
+  --container: 1240px;
+  --radius: 4px;
+  --radius-lg: 6px;
+  --ease: cubic-bezier(0.2, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --mx: 50%;
+  --my: 50%;
+}
+
+/* ==========================================================
+   HIDE BLOCKSY CHROME
+   Our mu-plugin injects its own header/footer via wp_body_open
+   and wp_footer. Suppress Blocksy's so we don't double up.
+   ========================================================== */
+body > header.site-header,
+body > header.ct-header,
+body > [data-id="header"],
+body > .ct-header,
+body.ct-footer-visible > footer.site-footer,
+body > footer.site-footer,
+body > footer.ct-footer,
+body > [data-id="footer"],
+body > .ct-footer {
+  display: none !important;
+}
+
+/* ==========================================================
+   GLOBAL RESET / BODY
+   ========================================================== */
+html {
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(600px circle at var(--mx) var(--my), rgba(0, 209, 255, 0.045), transparent 60%),
+    linear-gradient(rgba(0, 209, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 209, 255, 0.022) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 48px 48px, 48px 48px, auto;
+  color: var(--warm);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body[dir="rtl"],
+html[lang^="ar"] body {
+  font-family: var(--font-ar-body);
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--accent); }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; background: none; border: 0; color: inherit; cursor: pointer; padding: 0; }
+
+::selection { background: var(--accent); color: #04121a; }
+
+/* ==========================================================
+   FORM FIELDS (global)
+   ========================================================== */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 209, 255, 0.12);
+}
+
+label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   STATUS BAR — persistent operator telemetry
+   ========================================================== */
+.ng-sysbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-transform: uppercase;
+  direction: ltr;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ng-sysbar .led {
+  width: 7px;
+  height: 7px;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+  flex-shrink: 0;
+  animation: ng-pulse 1.8s var(--ease) infinite;
+}
+
+.ng-sysbar b { color: var(--text); font-weight: 500; }
+.ng-sysbar .sep { width: 1px; height: 12px; background: var(--line); flex-shrink: 0; }
+.ng-sysbar .spacer { flex: 1; }
+.ng-sysbar .cyan { color: var(--accent); }
+
+@keyframes ng-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.82); }
+}
+
+/* ==========================================================
+   TOP NAV — NG lockup + categories + tools
+   ========================================================== */
+.ng-topnav {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 5, 5, 0.72);
+  backdrop-filter: blur(8px);
+  direction: ltr;
+}
+
+.ng-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 1;
+}
+
+.ng-lockup .mono {
+  font-family: var(--font-ultra);
+  font-size: 28px;
+  color: var(--warm);
+  letter-spacing: 0.06em;
+}
+
+.ng-lockup .mono .g { color: var(--accent); }
+
+.ng-lockup .sep {
+  width: 1px;
+  height: 24px;
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+.ng-lockup .wordmark {
+  font-family: var(--font-wordmark);
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  color: var(--warm);
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.ng-lockup .wordmark .neo { color: var(--warm); font-weight: 300; }
+.ng-lockup .wordmark .gen { color: var(--accent); font-weight: 700; }
+
+.ng-nav-cats {
+  display: flex;
+  gap: 4px;
+  justify-self: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ng-nav-cats a {
+  padding: 10px 14px;
+  color: var(--warm);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ng-nav-cats a:hover {
+  color: var(--accent);
+  border-color: var(--line);
+  background: var(--accent-wash);
+}
+
+.ng-nav-cats a .dot {
+  width: 5px;
+  height: 5px;
+  background: var(--dim);
+  border-radius: 50%;
+  transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.ng-nav-cats a:hover .dot {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.ng-nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ng-nav-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--warm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.ng-nav-tool:hover { border-color: var(--accent); color: var(--accent); }
+.ng-nav-tool svg { width: 14px; height: 14px; }
+
+.ng-nav-tool .count {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #04121a;
+  border-radius: 9px;
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.ng-nav-tool .count.is-empty { display: none; }
+
+/* ==========================================================
+   BUTTONS (global)
+   ========================================================== */
+.btn,
+.ng-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn svg,
+.ng-btn svg { width: 14px; height: 14px; }
+
+.btn-primary,
+.ng-btn-primary {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  box-shadow: 0 12px 32px -16px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.btn-primary:hover,
+.ng-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px -18px rgba(0, 209, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  color: #04121a;
+}
+
+.btn-ghost,
+.ng-btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--line-strong);
+}
+
+.btn-ghost:hover,
+.ng-btn-ghost:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+/* ==========================================================
+   HERO — bilingual split, systems-brief aside
+   ========================================================== */
+.ng-hero {
+  position: relative;
+  padding: 92px 24px 72px;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.ng-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ng-hero-backdrop svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(920px, 92vw);
+  height: auto;
+  color: var(--accent);
+  opacity: 0.14;
+}
+
+.ng-hero-backdrop svg path,
+.ng-hero-backdrop svg circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+.ng-hero-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 209, 255, 0.07) 50%, transparent 100%);
+  animation: ng-scan 6.4s var(--ease) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes ng-scan {
+  0% { top: -140px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.ng-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.ng-hero-main { direction: rtl; }
+
+.ng-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  direction: ltr;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: ng-rise 0.7s var(--ease-out) 0.1s forwards;
+}
+
+.ng-kicker::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: var(--signal);
+  box-shadow: 0 0 14px var(--signal);
+  animation: ng-pulse 1.8s var(--ease) infinite;
+}
+
+.ng-kicker::after {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  align-self: center;
+}
+
+.ng-hero-h1 {
+  margin: 28px 0 0;
+  font-family: var(--font-ar-display);
+  font-size: clamp(64px, 8.4vw, 128px);
+  line-height: 0.95;
+  color: var(--text);
+  font-weight: 400;
+  direction: rtl;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(24px);
+  animation: ng-rise 0.9s var(--ease-out) 0.3s forwards;
+}
+
+.ng-hero-h1 .accent { color: var(--accent); }
+
+.ng-hero-wordmark {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  direction: ltr;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: ng-rise 0.7s var(--ease-out) 0.55s forwards;
+}
+
+.ng-hero-wordmark .mono {
+  font-family: var(--font-ultra);
+  font-size: 36px;
+  color: var(--warm);
+  letter-spacing: 0.06em;
+}
+
+.ng-hero-wordmark .mono .g { color: var(--accent); }
+
+.ng-hero-wordmark .sep {
+  width: 1px;
+  height: 28px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+.ng-hero-wordmark .wordmark {
+  font-family: var(--font-wordmark);
+  font-size: 38px;
+  letter-spacing: 0.02em;
+  color: var(--warm);
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.ng-hero-wordmark .neo { font-weight: 300; color: var(--warm); }
+.ng-hero-wordmark .gen { font-weight: 700; color: var(--accent); }
+
+.ng-hero-wordmark .store {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  margin-right: 4px;
+}
+
+.ng-hero-copy {
+  margin: 28px 0 0;
+  max-width: 620px;
+  font-family: var(--font-ar-ui);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--warm);
+  direction: rtl;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: ng-rise 0.7s var(--ease-out) 0.7s forwards;
+}
+
+.ng-hero-sub {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  direction: ltr;
+  opacity: 0;
+  animation: ng-fade 0.7s var(--ease-out) 0.85s forwards;
+}
+
+.ng-hero-ctas {
+  margin-top: 36px;
+  display: inline-flex;
+  gap: 12px;
+  direction: ltr;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: ng-rise 0.7s var(--ease-out) 0.95s forwards;
+}
+
+/* --- systems-brief aside --- */
+.ng-hero-brief {
+  position: relative;
+  padding: 26px;
+  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  direction: ltr;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--warm);
+  opacity: 0;
+  transform: translateY(24px);
+  animation: ng-rise 0.9s var(--ease-out) 0.45s forwards;
+}
+
+.ng-hero-brief::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.8;
+}
+
+.ng-brief-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed var(--line);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-brief-head span:last-child { color: var(--muted); }
+
+.ng-brief-row {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  gap: 14px;
+  padding: 9px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--line-warm);
+}
+
+.ng-brief-row:last-of-type { border-bottom: 0; }
+
+.ng-brief-row .k {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+}
+
+.ng-brief-row .v { color: var(--text); }
+.ng-brief-row .t { color: var(--signal); font-size: 11px; }
+.ng-brief-row .t.warn { color: var(--alert); }
+
+.ng-brief-cta {
+  margin-top: 18px;
+  display: block;
+  width: 100%;
+  padding: 14px;
+  text-align: center;
+  background: transparent;
+  color: var(--accent);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ng-brief-cta:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  border-style: solid;
+}
+
+.ng-hero-meta {
+  position: relative;
+  z-index: 2;
+  width: min(var(--container), 100%);
+  margin: 48px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  direction: ltr;
+  opacity: 0;
+  animation: ng-fade 0.7s var(--ease-out) 1.05s forwards;
+}
+
+.ng-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: rgba(15, 14, 12, 0.75);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.ng-chip strong { color: var(--accent); font-weight: 700; }
+
+.ng-chip .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--signal);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--signal);
+}
+
+/* ==========================================================
+   TICKER — running SKU stream
+   ========================================================== */
+.ng-ticker {
+  position: relative;
+  padding: 14px 0;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  direction: ltr;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.ng-ticker-track {
+  display: inline-flex;
+  gap: 48px;
+  animation: ng-ticker 38s linear infinite;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ng-ticker-track > span { display: inline-flex; align-items: center; gap: 10px; }
+.ng-ticker-track .sku { color: var(--accent); }
+.ng-ticker-track .dot { color: var(--dim); }
+
+@keyframes ng-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ==========================================================
+   SECTIONS
+   ========================================================== */
+.ng-section {
+  padding: 96px 24px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+
+.ng-section > .ng-container {
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ng-section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: end;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px dashed var(--line);
+  direction: ltr;
+}
+
+.ng-section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.ng-section-label b { color: var(--text); font-weight: 500; }
+
+.ng-section-h {
+  margin: 10px 0 0;
+  font-family: var(--font-wordmark);
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.ng-section-h .accent { color: var(--accent); }
+
+.ng-section-ar {
+  margin-top: 14px;
+  font-family: var(--font-ar-display);
+  font-size: clamp(28px, 3.6vw, 40px);
+  color: var(--warm);
+  direction: rtl;
+  line-height: 1.2;
+}
+
+.ng-section-note {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  max-width: 460px;
+  justify-self: end;
+  text-align: right;
+  margin: 0;
+}
+
+/* ==========================================================
+   RACK (categories)
+   ========================================================== */
+.ng-rack {
+  display: grid;
+  gap: 12px;
+}
+
+.ng-rack-unit {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px 56px minmax(0, 1fr) minmax(0, 1.1fr) auto 160px;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 24px;
+  background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+  direction: ltr;
+}
+
+.ng-rack-unit:hover {
+  border-color: var(--line-strong);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  transform: translateX(-2px);
+}
+
+.ng-rack-unit::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.ng-rack-unit:hover::before { opacity: 1; }
+
+.ng-rack-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ng-rack-led {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.ng-rack-led .l {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.ng-rack-led .l.on { background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: ng-pulse 2.2s var(--ease) infinite; }
+.ng-rack-led .l.cyan { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.ng-rack-led .l.warn { background: var(--alert); box-shadow: 0 0 10px var(--alert); }
+
+.ng-rack-icon {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(0, 209, 255, 0.04);
+}
+
+.ng-rack-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+.ng-rack-title {
+  display: grid;
+  gap: 4px;
+}
+
+.ng-rack-title .en {
+  font-family: var(--font-wordmark);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.ng-rack-title .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 16px;
+  color: var(--warm);
+  direction: rtl;
+}
+
+.ng-rack-desc {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+}
+
+.ng-rack-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ng-rack-count b {
+  display: block;
+  font-family: var(--font-ultra);
+  font-size: 28px;
+  color: var(--accent);
+  font-weight: 400;
+  margin-bottom: 2px;
+  letter-spacing: 0.04em;
+}
+
+.ng-rack-link {
+  justify-self: end;
+  padding: 12px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ng-rack-link:hover { background: var(--accent-wash); border-color: var(--accent); }
+.ng-rack-link svg { width: 12px; height: 12px; transition: transform 0.2s var(--ease); }
+.ng-rack-link:hover svg { transform: translateX(3px); }
+
+/* ==========================================================
+   PRODUCT CARD — homepage "Operator Picks"
+   ========================================================== */
+.ng-band-dark {
+  background:
+    linear-gradient(rgba(0, 209, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 209, 255, 0.018) 1px, transparent 1px),
+    var(--bg-alt);
+  background-size: 64px 64px, 64px 64px, auto;
+}
+
+.ng-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  direction: ltr;
+}
+
+.ng-product {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 14px;
+  background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+  overflow: hidden;
+}
+
+.ng-product::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.25s var(--ease);
+}
+
+.ng-product:hover { transform: translateY(-3px); }
+.ng-product:hover::after { border-color: var(--line-strong); }
+
+.ng-product-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-product-head .sku { color: var(--accent); }
+.ng-product-head .tag {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--warm);
+  background: var(--surface);
+}
+.ng-product-head .tag.hot { color: var(--alert); border-color: rgba(232, 115, 74, 0.35); }
+.ng-product-head .tag.new { color: var(--signal); border-color: rgba(63, 232, 143, 0.35); }
+
+.ng-product-media {
+  position: relative;
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.18), transparent 55%),
+    var(--bg);
+  border: 1px solid rgba(0, 209, 255, 0.12);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ng-product-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.ng-product-media img,
+.ng-product-media .ng-product-img {
+  position: relative;
+  width: 82%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 8px 24px rgba(0, 209, 255, 0.18));
+  z-index: 1;
+}
+
+.ng-product-media svg.placeholder {
+  position: relative;
+  width: 62%;
+  color: var(--accent);
+  z-index: 1;
+}
+
+.ng-product-title {
+  display: grid;
+  gap: 3px;
+}
+
+.ng-product-title .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 19px;
+  color: var(--text);
+  direction: rtl;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.ng-product-title .en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.ng-product-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+
+.ng-product-specs .s {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm);
+  padding: 4px 8px;
+  background: rgba(0, 209, 255, 0.05);
+  border: 1px solid rgba(0, 209, 255, 0.16);
+  border-radius: var(--radius);
+}
+
+.ng-product-foot {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.ng-product-price {
+  display: grid;
+  gap: 2px;
+}
+
+.ng-product-price .amount {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.ng-product-price .amount small { font-size: 12px; color: var(--warm); font-weight: 500; letter-spacing: 0.12em; }
+.ng-product-price .inc {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ng-product-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.ng-product-cta:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 209, 255, 0.7);
+  transform: translateY(-1px);
+  color: #04121a;
+}
+
+.ng-product-cta svg { width: 13px; height: 13px; }
+
+/* ==========================================================
+   SERVICE STRIP
+   ========================================================== */
+.ng-service-strip {
+  position: relative;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  padding: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(1200px circle at 90% 50%, rgba(0, 209, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, var(--surface), var(--bg-alt));
+  overflow: hidden;
+}
+
+.ng-service-strip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.ng-service-strip::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 340px;
+  height: 340px;
+  color: var(--accent);
+  opacity: 0.08;
+  background: conic-gradient(from 0deg, transparent, currentColor, transparent);
+  border-radius: 50%;
+  filter: blur(20px);
+}
+
+.ng-service-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto;
+  gap: 40px;
+  align-items: center;
+  direction: ltr;
+}
+
+.ng-service-text .kicker-s {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 18px;
+}
+
+.ng-service-text .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(34px, 4.4vw, 52px);
+  color: var(--text);
+  direction: rtl;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+.ng-service-text .en {
+  font-family: var(--font-wordmark);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--warm);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.ng-service-text p {
+  font-family: var(--font-ar-body);
+  font-size: 18px;
+  color: var(--warm);
+  direction: rtl;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0;
+}
+
+.ng-service-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; }
+
+/* ==========================================================
+   VOICE BAND
+   ========================================================== */
+.ng-voice {
+  position: relative;
+  padding: 132px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.ng-voice-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0.08;
+}
+
+.ng-voice-bg svg { width: min(780px, 88vw); color: var(--accent); }
+.ng-voice-bg svg path { fill: currentColor; }
+
+.ng-voice-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+}
+
+.ng-voice-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-voice-ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(56px, 9vw, 128px);
+  color: var(--text);
+  direction: rtl;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  max-width: 900px;
+}
+
+.ng-voice-ar .accent { color: var(--accent); }
+
+.ng-voice-en {
+  font-family: var(--font-wordmark);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.ng-voice-en .sep {
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  vertical-align: middle;
+  background: var(--accent);
+  margin: 0 14px;
+  opacity: 0.6;
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+.ng-footer {
+  padding: 56px 24px 36px;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
+.ng-foot-inner {
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  direction: ltr;
+}
+
+.ng-foot-col h4 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 16px;
+}
+
+.ng-foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+
+.ng-foot-col li {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--warm);
+  letter-spacing: 0.04em;
+}
+
+.ng-foot-col li a:hover { color: var(--accent); }
+
+.ng-foot-brand p {
+  font-family: var(--font-ar-body);
+  font-size: 14px;
+  color: var(--muted);
+  direction: rtl;
+  margin: 18px 0 0;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.ng-foot-bottom {
+  width: min(var(--container), 100%);
+  margin: 40px auto 0;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  direction: ltr;
+}
+
+.ng-foot-bottom b { color: var(--accent); font-weight: 500; }
+
+/* ==========================================================
+   UTILITY ANIMATIONS
+   ========================================================== */
+@keyframes ng-rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ng-fade {
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ng-hero-scan, .ng-ticker-track { display: none !important; }
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 1180px) {
+  .ng-rack-unit { grid-template-columns: 56px 48px minmax(0, 1fr) minmax(0, 1fr) auto 140px; gap: 18px; padding: 20px; }
+  .ng-rack-desc { display: none; }
+}
+
+@media (max-width: 1024px) {
+  .ng-topnav { grid-template-columns: auto auto; gap: 20px; }
+  .ng-nav-cats { display: none; }
+  .ng-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .ng-section-head { grid-template-columns: 1fr; gap: 20px; }
+  .ng-section-note { text-align: left; justify-self: start; }
+  .ng-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ng-service-inner { grid-template-columns: 1fr; }
+  .ng-foot-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .ng-sysbar { gap: 14px; padding: 9px 16px; font-size: 10px; }
+  .ng-sysbar .sep, .ng-sysbar .hide-sm { display: none; }
+  .ng-topnav { padding: 14px 16px; gap: 14px; }
+  .ng-lockup .mono { font-size: 24px; }
+  .ng-lockup .wordmark { font-size: 24px; }
+  .ng-nav-tools { gap: 6px; }
+  .ng-nav-tool { padding: 8px 10px; font-size: 10px; }
+  .ng-nav-tool .tool-label { display: none; }
+  .ng-hero { padding: 56px 16px 48px; }
+  .ng-section { padding: 64px 16px; }
+  .ng-rack-unit {
+    grid-template-columns: auto 1fr auto;
+    grid-auto-rows: auto;
+  }
+  .ng-rack-unit .ng-rack-led,
+  .ng-rack-unit .ng-rack-desc { grid-column: 1 / -1; }
+  .ng-rack-unit .ng-rack-count { grid-column: 2 / 3; text-align: left; }
+  .ng-rack-link { grid-column: 1 / -1; justify-self: stretch; text-align: center; justify-content: center; }
+  .ng-product-grid { grid-template-columns: 1fr; }
+  .ng-service-strip { padding: 32px 22px; }
+  .ng-hero-meta { gap: 8px; }
+  .ng-chip { padding: 7px 10px; font-size: 10px; }
+  .ng-foot-inner { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+   WOOCOMMERCE OVERRIDES — sitewide product-card aesthetic
+   ========================================================== */
+.woocommerce,
+.woocommerce-page {
+  color: var(--text);
+}
+
+/* Shop / archive grid */
+.woocommerce ul.products,
+.woocommerce-page ul.products {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  direction: ltr;
+}
+
+.woocommerce ul.products li.product,
+.woocommerce-page ul.products li.product {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 12px;
+  background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.woocommerce ul.products li.product:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+}
+
+/* Product image slot with cyan-grid backdrop */
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link,
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link:hover {
+  display: block;
+  text-decoration: none;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__link,
+.woocommerce ul.products li.product a > img:first-of-type,
+.woocommerce ul.products li.product .attachment-woocommerce_thumbnail {
+  position: relative;
+}
+
+.woocommerce ul.products li.product img,
+.woocommerce ul.products li.product .attachment-woocommerce_thumbnail {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 240px;
+  object-fit: contain;
+  padding: 18px 14px;
+  margin: 0 !important;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.18), transparent 55%),
+    linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 24px 24px, 24px 24px, auto;
+  border: 1px solid rgba(0, 209, 255, 0.12);
+  border-radius: var(--radius);
+  filter: drop-shadow(0 8px 24px rgba(0, 209, 255, 0.18));
+  box-shadow: none !important;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+  font-family: var(--font-sans) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: var(--text) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1.35;
+}
+
+.woocommerce ul.products li.product a:hover .woocommerce-loop-product__title {
+  color: var(--accent) !important;
+}
+
+.woocommerce ul.products li.product .price,
+.woocommerce ul.products li.product span.price,
+.woocommerce-page ul.products li.product .price {
+  font-family: var(--font-mono) !important;
+  font-size: 20px !important;
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  margin: 0 !important;
+}
+
+.woocommerce ul.products li.product .price del {
+  color: var(--muted) !important;
+  font-size: 14px !important;
+  opacity: 0.7;
+}
+
+.woocommerce ul.products li.product .price ins {
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+/* Add-to-cart button on archive */
+.woocommerce ul.products li.product .button,
+.woocommerce ul.products li.product a.add_to_cart_button,
+.woocommerce ul.products li.product a.added_to_cart {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px !important;
+  margin-top: 8px !important;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%) !important;
+  color: #04121a !important;
+  border: 0 !important;
+  border-radius: var(--radius) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.woocommerce ul.products li.product .button:hover,
+.woocommerce ul.products li.product a.add_to_cart_button:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 209, 255, 0.7);
+  transform: translateY(-1px);
+  color: #04121a !important;
+}
+
+/* Sale badge */
+.woocommerce ul.products li.product .onsale,
+.woocommerce span.onsale {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  min-height: 0;
+  min-width: 0;
+  padding: 3px 8px !important;
+  background: rgba(232, 115, 74, 0.18) !important;
+  color: var(--alert) !important;
+  border: 1px solid rgba(232, 115, 74, 0.35) !important;
+  border-radius: var(--radius);
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 !important;
+  line-height: 1.4;
+}
+
+/* Pagination */
+.woocommerce nav.woocommerce-pagination ul,
+.woocommerce-page nav.woocommerce-pagination ul {
+  border: 0 !important;
+  font-family: var(--font-mono);
+}
+
+.woocommerce nav.woocommerce-pagination ul li {
+  border: 1px solid var(--line) !important;
+  margin: 0 4px !important;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.woocommerce nav.woocommerce-pagination ul li a,
+.woocommerce nav.woocommerce-pagination ul li span {
+  padding: 10px 14px !important;
+  color: var(--warm) !important;
+  background: var(--surface) !important;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.woocommerce nav.woocommerce-pagination ul li span.current,
+.woocommerce nav.woocommerce-pagination ul li a:hover {
+  background: var(--accent) !important;
+  color: #04121a !important;
+}
+
+/* Result count / orderby */
+.woocommerce .woocommerce-result-count,
+.woocommerce .woocommerce-ordering {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.woocommerce .woocommerce-ordering select {
+  min-height: 40px;
+}
+
+/* Responsive for Woo archive */
+@media (max-width: 1024px) {
+  .woocommerce ul.products,
+  .woocommerce-page ul.products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .woocommerce ul.products,
+  .woocommerce-page ul.products {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   SINGLE PRODUCT PAGE
+   ========================================================== */
+.woocommerce div.product {
+  font-family: var(--font-sans);
+}
+
+.woocommerce div.product .product_title {
+  font-family: var(--font-sans);
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+  font-family: var(--font-mono) !important;
+  color: var(--accent) !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+}
+
+.woocommerce div.product .woocommerce-product-gallery {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.woocommerce div.product .woocommerce-product-gallery img {
+  background:
+    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.14), transparent 55%),
+    var(--bg);
+  border-radius: var(--radius);
+}
+
+.woocommerce div.product form.cart .button,
+.woocommerce div.product .single_add_to_cart_button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 24px !important;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%) !important;
+  color: #04121a !important;
+  border: 0 !important;
+  border-radius: var(--radius) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 12px 32px -16px rgba(0, 209, 255, 0.6);
+  transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.woocommerce div.product form.cart .button:hover,
+.woocommerce div.product .single_add_to_cart_button:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 18px 40px -18px rgba(0, 209, 255, 0.9);
+  transform: translateY(-1px);
+  color: #04121a !important;
+}
+
+.woocommerce div.product form.cart .quantity input {
+  min-height: 48px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 24px !important;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs::before { display: none; }
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+  padding: 10px 16px !important;
+  color: var(--warm) !important;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+  background: var(--accent-wash) !important;
+  border-color: var(--accent) !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+  color: var(--accent) !important;
+}
+
+/* Cart page & checkout page — minimal dark-mode pass */
+.woocommerce table.shop_table,
+.woocommerce-page table.shop_table {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  border-collapse: separate;
+}
+
+.woocommerce table.shop_table th,
+.woocommerce-page table.shop_table th {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+
+.woocommerce table.shop_table td,
+.woocommerce-page table.shop_table td {
+  border-top: 1px solid var(--line-warm);
+  color: var(--warm);
+}
+
+.woocommerce .cart_totals h2,
+.woocommerce-checkout #order_review_heading {
+  font-family: var(--font-wordmark);
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error,
+.woocommerce-noreviews,
+p.no-comments {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-left: 3px solid var(--accent) !important;
+  color: var(--text) !important;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius);
+  padding: 14px 18px !important;
+}
+
+.woocommerce-error {
+  border-left-color: var(--alert) !important;
+}
+
+.woocommerce-message::before,
+.woocommerce-info::before,
+.woocommerce-error::before {
+  color: var(--accent) !important;
+}
+
+/* Blocksy-specific chrome that would contradict dark mode */
+.ct-breadcrumbs,
+.ct-breadcrumbs a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.ct-breadcrumbs a:hover { color: var(--accent); }
