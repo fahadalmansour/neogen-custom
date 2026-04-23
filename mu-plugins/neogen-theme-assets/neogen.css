@@ -49,19 +49,26 @@
 /* ==========================================================
    HIDE BLOCKSY CHROME
    Our mu-plugin injects its own header/footer via wp_body_open
-   and wp_footer. Suppress Blocksy's so we don't double up.
+   and wp_footer. Blocksy nests its header several wrapper divs
+   deep (not a direct body child), and an external JS snippet
+   keeps re-injecting the legacy .nx-logo-lockup into it. Kill
+   the header root regardless of DOM depth so both disappear.
    ========================================================== */
-body > header.site-header,
-body > header.ct-header,
-body > [data-id="header"],
-body > .ct-header,
-body.ct-footer-visible > footer.site-footer,
-body > footer.site-footer,
-body > footer.ct-footer,
-body > [data-id="footer"],
-body > .ct-footer {
+header.ct-header,
+header.site-header,
+[data-id="header"],
+[data-loc="type-1"],
+[data-loc="offcanvas"],
+footer.ct-footer,
+footer.site-footer,
+[data-id="footer"] {
   display: none !important;
 }
+
+/* Legacy logo injection (runs regardless of the header being
+   hidden). Belt-and-braces: if the snippet still writes the
+   lockup somewhere reachable, keep it invisible. */
+.nx-logo-lockup { display: none !important; }
 
 /* ==========================================================
    GLOBAL RESET / BODY
