@@ -1044,9 +1044,14 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-product-head .tag.hot { color: var(--alert); border-color: rgba(232, 115, 74, 0.35); }
 .ng-product-head .tag.new { color: var(--signal); border-color: rgba(63, 232, 143, 0.35); }
 
+/* Product media tile — dual-mode:
+   - with <img>:   photo fills the whole tile (object-fit: cover),
+                   overlay muted so the product reads boldly.
+   - no <img>:     SVG placeholder centered with diagnostic grid
+                   background at full intensity (matches preview). */
 .ng-product-media {
   position: relative;
-  min-height: 200px;
+  aspect-ratio: 4 / 3;
   display: grid;
   place-items: center;
   background:
@@ -1055,12 +1060,14 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   border: 1px solid rgba(0, 209, 255, 0.12);
   border-radius: var(--radius);
   overflow: hidden;
+  isolation: isolate;
 }
 
 .ng-product-media::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   background:
     linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px);
@@ -1069,23 +1076,31 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   pointer-events: none;
 }
 
+/* When a real image is present, take over the tile. */
 .ng-product-media img,
 .ng-product-media .ng-product-img {
   position: relative;
-  width: 82%;
-  height: auto;
-  max-height: 180px;
-  object-fit: contain;
-  mix-blend-mode: normal;
-  filter: drop-shadow(0 8px 24px rgba(0, 209, 255, 0.18));
   z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
+.ng-product-media:has(img) {
+  background: var(--bg-alt);
+}
+
+.ng-product-media:has(img)::before {
+  opacity: 0.18;
+}
+
+/* SVG placeholder path — keep the diagnostic look. */
 .ng-product-media svg.placeholder {
   position: relative;
+  z-index: 1;
   width: 62%;
   color: var(--accent);
-  z-index: 1;
 }
 
 .ng-product-title {
