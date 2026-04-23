@@ -1906,3 +1906,125 @@ p.no-comments {
 }
 
 .ct-breadcrumbs a:hover { color: var(--accent); }
+
+/* ==========================================================
+   WOO ARCHIVE — shop, category, tag, search
+   Loop card renders via our content-product.php override
+   (.ng-product). This block turns Woo's <ul class="products">
+   into a matching grid and cleans up the archive frame.
+   ========================================================== */
+.woocommerce ul.products,
+ul.products {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  direction: ltr;
+}
+
+/* Our li.ng-product matches .ng-product — reuse the homepage
+   card rules. This block just re-applies the grid-rows hint
+   Woo would otherwise reset via its own .product layout CSS. */
+.woocommerce ul.products li.ng-product,
+ul.products li.ng-product {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 16px;
+  float: none !important;
+  clear: none !important;
+}
+
+/* Kill Woo/Blocksy archive chrome that contradicts the console
+   aesthetic: page title banner, result count, orderby dropdown,
+   and the sidebar (products breathe better without it). */
+.woocommerce-products-header,
+.woocommerce-result-count,
+.woocommerce-ordering,
+body.woocommerce .sidebar,
+body.woocommerce [data-sidebar],
+body.post-type-archive-product [data-sidebar],
+body.tax-product_cat [data-sidebar],
+body.tax-product_tag [data-sidebar] {
+  display: none !important;
+}
+
+/* Give the shop archive the same section framing as the homepage:
+   outer section padding, hero-like header block via the shop title. */
+body.post-type-archive-product main,
+body.tax-product_cat main,
+body.tax-product_tag main,
+body.woocommerce-shop main {
+  padding: 48px 24px 96px;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+/* Pagination — match the button aesthetic. */
+.woocommerce nav.woocommerce-pagination {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.woocommerce nav.woocommerce-pagination ul {
+  display: inline-flex;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.woocommerce nav.woocommerce-pagination ul li {
+  border: 0;
+  margin: 0;
+}
+
+.woocommerce nav.woocommerce-pagination ul li a,
+.woocommerce nav.woocommerce-pagination ul li span {
+  min-width: 40px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.woocommerce nav.woocommerce-pagination ul li a:hover,
+.woocommerce nav.woocommerce-pagination ul li span.current {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+/* Responsive grid, same cadence as homepage product grid. */
+@media (max-width: 1024px) {
+  .woocommerce ul.products,
+  ul.products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .woocommerce ul.products,
+  ul.products {
+    grid-template-columns: 1fr;
+  }
+  body.post-type-archive-product main,
+  body.tax-product_cat main,
+  body.tax-product_tag main,
+  body.woocommerce-shop main {
+    padding: 32px 16px 64px;
+  }
+}

@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, and Woo archive/single overrides.
- * Version: 1.1.4
+ * Version: 1.1.5
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.1.4');
+    define('NEOGEN_THEME_VERSION', '1.1.5');
 }
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
@@ -68,6 +68,25 @@ add_action('wp_head', function () {
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     echo '<meta name="theme-color" content="#050505">' . "\n";
 }, 2);
+
+/**
+ * Route WooCommerce template parts to our overrides. Keeps all
+ * deployable code inside mu-plugins/ (the known-reliable deploy
+ * target) instead of themes/blocksy-child/woocommerce/.
+ *
+ * Only `content-product.php` is overridden at this stage — the
+ * shop-archive loop card. Single-product stays Blocksy-default
+ * until explicitly themed.
+ */
+add_filter('wc_get_template_part', function ($template, $slug, $name) {
+    if ($slug === 'content' && $name === 'product') {
+        $override = NG_THEME_ASSET_DIR . '/templates/woocommerce/content-product.php';
+        if (file_exists($override)) {
+            return $override;
+        }
+    }
+    return $template;
+}, 10, 3);
 
 /**
  * Swap the front-page template for our branded one. The template itself
