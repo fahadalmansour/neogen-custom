@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name: NeoGen Theme
- * Description: Sitewide visual skin for neogen.store — tokens, typography, buttons, product-card styling, header/footer, and homepage template. Ported from the v1 brand preview.
- * Version: 1.1.0
+ * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, and Woo archive/single overrides.
+ * Version: 1.1.1
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.1.0');
+    define('NEOGEN_THEME_VERSION', '1.1.1');
 }
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
