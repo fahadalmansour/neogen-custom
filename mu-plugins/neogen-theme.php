@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, and Woo archive/single overrides.
- * Version: 1.1.5
+ * Version: 1.2.0
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.1.5');
+    define('NEOGEN_THEME_VERSION', '1.2.0');
 }
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
@@ -79,14 +79,75 @@ add_action('wp_head', function () {
  * until explicitly themed.
  */
 add_filter('wc_get_template_part', function ($template, $slug, $name) {
-    if ($slug === 'content' && $name === 'product') {
-        $override = NG_THEME_ASSET_DIR . '/templates/woocommerce/content-product.php';
+    $map = [
+        'content|product'        => 'content-product.php',
+        'content|single-product' => 'content-single-product.php',
+    ];
+    $key = $slug . '|' . $name;
+    if (isset($map[$key])) {
+        $override = NG_THEME_ASSET_DIR . '/templates/woocommerce/' . $map[$key];
         if (file_exists($override)) {
             return $override;
         }
     }
     return $template;
 }, 10, 3);
+
+/**
+ * Bilingual title field on the Woo product editor.
+ * Writes to _ng_ar_title — the meta key our content-product.php and
+ * content-single-product.php templates both read (falls back to the
+ * English title when empty).
+ */
+add_action('woocommerce_product_options_general_product_data', function () {
+    global $post;
+    woocommerce_wp_text_input([
+        'id'          => '_ng_ar_title',
+        'label'       => __('Arabic title', 'neogen'),
+        'placeholder' => get_post_meta($post->ID, '_ng_ar_title', true) ?: '',
+        'desc_tip'    => true,
+        'description' => __('Shown above the English title on shop and single-product pages. Leave blank to reuse the English title.', 'neogen'),
+        'value'       => get_post_meta($post->ID, '_ng_ar_title', true),
+    ]);
+});
+
+add_action('woocommerce_process_product_meta', function ($post_id) {
+    if (!current_user_can('edit_post', $post_id)) { return; }
+    $val = isset($_POST['_ng_ar_title']) ? sanitize_text_field((string) wp_unslash($_POST['_ng_ar_title'])) : '';
+    if ($val === '') {
+        delete_post_meta($post_id, '_ng_ar_title');
+    } else {
+        update_post_meta($post_id, '_ng_ar_title', $val);
+    }
+});
+
+/**
+ * Category archive header — styled intro block above the product loop
+ * on /product-category/<slug>/ pages. Uses the term's description
+ * verbatim (admins can enter AR + EN there).
+ */
+add_action('woocommerce_archive_description', function () {
+    if (!is_product_taxonomy()) { return; }
+    $term = get_queried_object();
+    if (!$term || empty($term->term_id)) { return; }
+
+    $count = (int) $term->count;
+    $desc  = term_description($term->term_id, $term->taxonomy);
+    ?>
+    <header class="ng-cat-header">
+      <div class="ng-cat-kicker">
+        <span class="led on"></span>
+        <span>CATEGORY / <?php echo esc_html(strtoupper($term->taxonomy === 'product_cat' ? 'RACK' : 'TAG')); ?></span>
+        <span class="sep"></span>
+        <span><?php echo esc_html(sprintf(_n('%d SKU', '%d SKUs', $count, 'neogen'), $count)); ?></span>
+      </div>
+      <h1 class="ng-cat-h1"><?php echo esc_html($term->name); ?></h1>
+      <?php if ($desc) : ?>
+        <div class="ng-cat-desc"><?php echo wp_kses_post($desc); ?></div>
+      <?php endif; ?>
+    </header>
+    <?php
+}, 5);
 
 /**
  * Swap the front-page template for our branded one. The template itself

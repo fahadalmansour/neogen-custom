@@ -2028,3 +2028,526 @@ body.woocommerce-shop main {
     padding: 32px 16px 64px;
   }
 }
+
+/* ==========================================================
+   CATEGORY / TAG ARCHIVE HEADER
+   ========================================================== */
+.ng-cat-header {
+  padding: 24px 0 32px;
+  margin-bottom: 24px;
+  border-bottom: 1px dashed var(--line);
+  direction: ltr;
+}
+
+.ng-cat-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.ng-cat-kicker .led {
+  width: 7px;
+  height: 7px;
+  background: var(--dim);
+  border-radius: 50%;
+}
+
+.ng-cat-kicker .led.on {
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: pulse 2s var(--ease) infinite;
+}
+
+.ng-cat-kicker .sep {
+  width: 1px;
+  height: 10px;
+  background: var(--line);
+}
+
+.ng-cat-h1 {
+  font-family: var(--font-wordmark);
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.ng-cat-desc {
+  margin-top: 16px;
+  max-width: 760px;
+  font-family: var(--font-ar-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--warm);
+}
+
+.ng-cat-desc p { margin: 0 0 12px; }
+.ng-cat-desc p:last-child { margin-bottom: 0; }
+
+/* ==========================================================
+   SINGLE PRODUCT
+   ========================================================== */
+body.single-product main {
+  padding: 40px 24px 96px;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+.ng-single-product {
+  direction: ltr;
+}
+
+.ng-single-top {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-single-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.ng-single-kicker .led {
+  width: 7px;
+  height: 7px;
+  background: var(--dim);
+  border-radius: 50%;
+}
+
+.ng-single-kicker .led.on {
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: pulse 2s var(--ease) infinite;
+}
+
+.ng-single-kicker .sep {
+  width: 1px;
+  height: 10px;
+  background: var(--line);
+}
+
+.ng-single-kicker .sku {
+  color: var(--warm);
+}
+
+.ng-single-kicker a {
+  color: var(--accent);
+}
+
+.ng-single-kicker a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ng-single-h1 {
+  display: grid;
+  gap: 6px;
+}
+
+.ng-single-h1 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(38px, 5.2vw, 68px);
+  color: var(--text);
+  line-height: 1;
+  direction: rtl;
+  font-weight: 400;
+}
+
+.ng-single-h1 .en {
+  font-family: var(--font-wordmark);
+  font-size: clamp(18px, 1.6vw, 22px);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.ng-single-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+/* --- Gallery (Woo default markup, restyled) --- */
+.ng-single-gallery .woocommerce-product-gallery {
+  width: 100% !important;
+  float: none !important;
+  margin: 0 !important;
+}
+
+.ng-single-gallery .woocommerce-product-gallery__image {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ng-single-gallery .woocommerce-product-gallery__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ng-single-gallery .flex-control-thumbs {
+  margin-top: 12px;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.ng-single-gallery .flex-control-thumbs li {
+  width: auto !important;
+  margin: 0 !important;
+  float: none !important;
+}
+
+.ng-single-gallery .flex-control-thumbs img {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  opacity: 0.7;
+  transition: opacity 0.2s var(--ease), border-color 0.2s var(--ease);
+  cursor: pointer;
+}
+
+.ng-single-gallery .flex-control-thumbs img:hover,
+.ng-single-gallery .flex-control-thumbs img.flex-active {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+/* --- Summary aside --- */
+.ng-single-summary {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.ng-single-price {
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+}
+
+.ng-single-price .price,
+.ng-single-price .woocommerce-Price-amount {
+  font-family: var(--font-mono);
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.ng-single-price del {
+  color: var(--muted);
+  font-size: 18px;
+  opacity: 0.7;
+  margin-right: 8px;
+}
+
+.ng-single-price ins {
+  text-decoration: none;
+  background: transparent;
+  color: var(--accent);
+}
+
+.ng-single-price .woocommerce-Price-currencySymbol {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--warm);
+  letter-spacing: 0.1em;
+  margin-inline-start: 4px;
+}
+
+.ng-single-price .inc {
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ng-single-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+  width: max-content;
+}
+
+.ng-single-stock .led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+}
+
+.ng-single-stock--warn .led {
+  background: var(--alert);
+  box-shadow: 0 0 10px var(--alert);
+}
+
+.ng-single-stock--warn {
+  color: var(--alert);
+  border-color: rgba(232, 115, 74, 0.4);
+}
+
+.ng-single-excerpt {
+  font-family: var(--font-ar-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--warm);
+  direction: rtl;
+}
+
+.ng-single-excerpt p { margin: 0 0 10px; }
+.ng-single-excerpt p:last-child { margin-bottom: 0; }
+
+/* --- Add-to-cart form (native Woo markup, restyled) --- */
+.ng-single-cart form.cart {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.ng-single-cart form.cart .quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  width: max-content;
+}
+
+.ng-single-cart form.cart .quantity input[type="number"] {
+  width: 64px;
+  height: 44px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  -moz-appearance: textfield;
+}
+
+.ng-single-cart form.cart .quantity input[type="number"]::-webkit-outer-spin-button,
+.ng-single-cart form.cart .quantity input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ng-single-cart form.cart button.single_add_to_cart_button {
+  justify-self: stretch;
+  min-height: 52px;
+  padding: 0 24px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.ng-single-cart form.cart button.single_add_to_cart_button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.ng-single-cart form.cart button.single_add_to_cart_button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Variation dropdowns */
+.ng-single-cart form.cart table.variations {
+  width: 100%;
+  border: 0;
+  margin: 0;
+}
+
+.ng-single-cart form.cart table.variations td {
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+}
+
+.ng-single-cart form.cart table.variations td.label {
+  width: 30%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-single-cart form.cart table.variations td.value select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.ng-single-cart form.cart .woocommerce-variation-price .price {
+  font-size: 22px;
+}
+
+.ng-single-cart form.cart .reset_variations {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --- Brief aside inside the summary (reuses .ng-brief-* tokens) --- */
+.ng-single-brief {
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--warm);
+}
+
+/* --- Meta (SKU, categories, tags) --- */
+.ng-single-meta {
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.ng-single-meta .sku_wrapper,
+.ng-single-meta .posted_in,
+.ng-single-meta .tagged_as {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ng-single-meta .sku,
+.ng-single-meta a {
+  color: var(--warm);
+}
+
+.ng-single-meta a:hover { color: var(--accent); }
+
+/* --- Long description --- */
+.ng-single-description {
+  margin-top: 72px;
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+}
+
+.ng-single-desc-body {
+  max-width: 860px;
+  font-family: var(--font-ar-body);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--warm);
+}
+
+.ng-single-desc-body p { margin: 0 0 16px; }
+.ng-single-desc-body h2,
+.ng-single-desc-body h3 {
+  font-family: var(--font-wordmark);
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 32px 0 12px;
+}
+
+.ng-single-desc-body h2 { font-size: 26px; letter-spacing: 0.02em; }
+.ng-single-desc-body h3 { font-size: 20px; letter-spacing: 0.02em; color: var(--accent); }
+
+.ng-single-desc-body ul,
+.ng-single-desc-body ol {
+  margin: 0 0 16px;
+  padding-inline-start: 24px;
+}
+
+.ng-single-desc-body li { margin: 6px 0; }
+
+.ng-single-desc-body img {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 16px 0;
+}
+
+/* --- Related products — Woo wraps in .related.products; cards
+       already inherit .ng-product via content-product.php override. --- */
+.ng-single-related {
+  margin-top: 72px;
+}
+
+.ng-single-related .related h2 {
+  font-family: var(--font-wordmark);
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0 0 24px;
+}
+
+/* Hide Woo's default tabs (we flatten to .ng-single-description) and
+   upsells (not in our IA). */
+body.single-product .woocommerce-tabs,
+body.single-product .upsells.products {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .ng-single-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  body.single-product main { padding: 32px 16px 72px; }
+  .ng-single-description { margin-top: 48px; padding-top: 32px; }
+  .ng-single-related { margin-top: 48px; }
+}
