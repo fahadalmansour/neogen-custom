@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen Deploy Tools
  * Description: Admin-only escape hatches for the neogen-deploy workflow. Attempts to raise the 20/hr rate-limit via common filter hooks, and provides a nonce-gated "Clear rate-limit transients" button at Tools -> NeoGen Deploy Tools.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Fahad Almansour
  */
 

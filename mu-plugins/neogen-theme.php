@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.4.0');
+    define('NEOGEN_THEME_VERSION', '1.4.1');
 }
 
 /**
@@ -395,6 +395,59 @@ function ng_info_pages() {
                     'h_en'      => 'International data transfers.',
                     'h_ar'      => 'نقل البيانات خارج المملكة.',
                     'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Cross-border transfer disclosures (e.g., to payment gateway processors hosted outside KSA) and the safeguards relied upon will be specified.'],
+                ],
+            ],
+        ],
+
+        'usage' => [
+            'kicker'   => '09 · USAGE',
+            'h1_en'    => 'ACCEPTABLE USE POLICY',
+            'h1_ar'    => 'سياسة الاستخدام',
+            'lede_en'  => 'How you may and may not use neogen.store, your account, and any related services. Distinct from the Terms & Conditions, which govern the commercial transaction. Section bodies are pending legal review and not authoritative.',
+            'lede_ar'  => 'القواعد التي تحكم استخدامك للموقع والحساب والخدمات ذات الصلة. مستقلة عن "الشروط والأحكام" التي تحكم المعاملة التجارية. النصوص داخل الأقسام قيد المراجعة القانونية.',
+            'draft'    => true,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · ACCEPTANCE',
+                    'h_en'      => 'Using the site means accepting this policy.',
+                    'h_ar'      => 'استخدام الموقع يعني قبول هذه السياسة.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'By accessing, browsing, registering, or transacting on neogen.store you agree to this Acceptable Use Policy in addition to the Terms &amp; Conditions. Specific binding language is being drafted by counsel.'],
+                ],
+                [
+                    'kicker_en' => '02 · PROHIBITED USES',
+                    'h_en'      => 'What you must not do.',
+                    'h_ar'      => 'ممنوعات الاستخدام.',
+                    'body'      => [
+                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        'Indicative non-exhaustive list, subject to final wording: automated scraping or harvesting; placing fraudulent or fictitious orders; impersonating another person or entity; circumventing security or rate-limiting; uploading or transmitting malware; infringing intellectual-property rights; using the site to violate any KSA law including the Anti-Cybercrime Law (نظام مكافحة جرائم المعلوماتية).',
+                    ],
+                ],
+                [
+                    'kicker_en' => '03 · ACCOUNT CONDUCT',
+                    'h_en'      => 'Your account, your responsibility.',
+                    'h_ar'      => 'الحساب على مسؤوليتك.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'You are responsible for keeping your credentials confidential, for the accuracy of the information you supply (delivery address, contact details, payment data), and for any activity that occurs under your account.'],
+                ],
+                [
+                    'kicker_en' => '04 · USER CONTENT',
+                    'h_en'      => 'Reviews, comments, and other submissions.',
+                    'h_ar'      => 'التقييمات والتعليقات.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Where the site allows you to submit content (e.g., product reviews), you grant us a non-exclusive licence to display it and undertake that the content is lawful, accurate, and non-infringing. We may moderate, edit, or remove submissions at our discretion. Final terms pending counsel.'],
+                ],
+                [
+                    'kicker_en' => '05 · ENFORCEMENT',
+                    'h_en'      => 'Suspension and termination.',
+                    'h_ar'      => 'الإيقاف وإنهاء الحساب.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'We may suspend or terminate access for violations of this policy, with or without prior notice depending on severity, and we may seek to recover any losses caused. Specific enforcement procedures are being finalized.'],
+                ],
+                [
+                    'kicker_en' => '06 · REPORTING ABUSE',
+                    'h_en'      => 'How to report violations.',
+                    'h_ar'      => 'كيفية الإبلاغ عن المخالفات.',
+                    'body'      => [
+                        sprintf('Email: %s — please include URLs, timestamps, and any supporting evidence.', $cr['email']),
+                        sprintf('Mobile: %s', $cr['phone_mobile']),
+                    ],
                 ],
             ],
         ],
@@ -911,8 +964,9 @@ add_action('wp_footer', function () {
       <h4>// INFO</h4>
       <ul>
         <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About · من نحن</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms &amp; Conditions</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy Policy</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms &amp; Conditions · الشروط والأحكام</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/usage/' ) ); ?>">Acceptable Use · سياسة الاستخدام</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy Policy · سياسة الخصوصية</a></li>
         <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">Legal disclosure</a></li>
       </ul>
     </div>
