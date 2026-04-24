@@ -5122,3 +5122,410 @@ body.woocommerce-account:not(.logged-in) .woocommerce {
     border-bottom: 1px solid var(--line);
   }
 }
+
+/* ==========================================================
+   CHECKOUT — operator commit-order surface
+   Form structure stays Woo-default (gateway hooks intact);
+   we restyle the existing markup classes.
+   ========================================================== */
+
+body.woocommerce-checkout main {
+  padding: 48px 24px 96px;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+.ng-checkout {
+  direction: ltr;
+}
+
+.ng-checkout-head {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-checkout-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-checkout-kicker .led {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+
+.ng-checkout-h1 {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.ng-checkout-h1 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(40px, 5.4vw, 72px);
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.ng-checkout-h1 .en {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-checkout-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.ng-checkout-details {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+#customer_details.col2-set {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+#customer_details .col-1,
+#customer_details .col-2 { min-width: 0; }
+
+#customer_details h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+
+/* --- WOO FORM FIELDS inside checkout --- */
+
+.woocommerce-checkout .form-row {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.woocommerce-checkout .form-row label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.woocommerce-checkout .form-row .required { color: var(--alert); margin-inline-start: 4px; }
+
+.woocommerce-checkout .form-row .input-text,
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout textarea.input-text {
+  height: 42px;
+  background: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  width: 100%;
+}
+
+.woocommerce-checkout textarea.input-text {
+  height: auto;
+  min-height: 84px;
+  padding: 10px 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.woocommerce-checkout .form-row .input-text:focus,
+.woocommerce-checkout .form-row select:focus,
+.woocommerce-checkout textarea.input-text:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.woocommerce-checkout .form-row.form-row-first { grid-column: 1 / 2; }
+.woocommerce-checkout .form-row.form-row-last  { grid-column: 2 / 3; }
+.woocommerce-checkout .form-row.form-row-wide  { grid-column: 1 / -1; }
+
+.woocommerce-checkout #customer_details .col-1 .woocommerce-billing-fields,
+.woocommerce-checkout #customer_details .col-1 .woocommerce-additional-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+/* "Ship to a different address" toggle */
+.woocommerce-checkout #ship-to-different-address {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+}
+
+.woocommerce-checkout #ship-to-different-address-checkbox { accent-color: var(--accent); }
+
+/* --- ASIDE: review-order + payment --- */
+
+.ng-checkout-aside {
+  position: sticky;
+  top: 100px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ng-checkout-review-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-checkout-review-head span:last-child { color: var(--muted); }
+
+.ng-checkout-review {
+  padding: 18px 20px;
+}
+
+/* Woo's review table — themed without overriding the template */
+.woocommerce-checkout-review-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  margin: 0;
+  background: transparent;
+}
+
+.woocommerce-checkout-review-order-table thead th {
+  text-align: left;
+  padding: 10px 0;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.woocommerce-checkout-review-order-table tbody td {
+  padding: 10px 0;
+  vertical-align: top;
+  color: var(--text);
+  border-bottom: 1px solid var(--line-warm);
+}
+
+.woocommerce-checkout-review-order-table tbody td.product-name {
+  font-family: var(--font-ar-ui);
+  font-size: 14px;
+}
+
+.woocommerce-checkout-review-order-table tbody td.product-total,
+.woocommerce-checkout-review-order-table tfoot td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.woocommerce-checkout-review-order-table tfoot th {
+  text-align: left;
+  padding: 10px 0;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line-warm);
+}
+
+.woocommerce-checkout-review-order-table tfoot td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-warm);
+  color: var(--text);
+}
+
+.woocommerce-checkout-review-order-table tfoot tr.order-total th {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.woocommerce-checkout-review-order-table tfoot tr.order-total td {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* --- PAYMENT METHODS — gateway-injected, theme container only --- */
+
+.woocommerce-checkout #payment {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 18px;
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.woocommerce-checkout #payment ul.payment_methods li input[type="radio"] {
+  accent-color: var(--accent);
+  margin-inline-end: 8px;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li label {
+  display: inline-block;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.woocommerce-checkout #payment .payment_box {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--warm);
+  line-height: 1.5;
+}
+
+.woocommerce-checkout #payment .terms,
+.woocommerce-checkout #payment .woocommerce-terms-and-conditions-wrapper {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.woocommerce-checkout #payment .terms a,
+.woocommerce-checkout #payment .woocommerce-terms-and-conditions-wrapper a {
+  color: var(--accent);
+}
+
+.woocommerce-checkout #payment #place_order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 54px;
+  margin-top: 14px;
+  padding: 0 22px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.woocommerce-checkout #payment #place_order:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+/* --- COUPON + LOGIN slide-down notices at top --- */
+
+.woocommerce-checkout .woocommerce-form-coupon-toggle .woocommerce-info,
+.woocommerce-checkout .woocommerce-form-login-toggle .woocommerce-info {
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--warm);
+  margin-bottom: 16px;
+}
+
+.woocommerce-checkout .woocommerce-form-coupon-toggle a,
+.woocommerce-checkout .woocommerce-form-login-toggle a {
+  color: var(--accent);
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.woocommerce-checkout .woocommerce-form-coupon,
+.woocommerce-checkout .woocommerce-form-login {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  body.woocommerce-checkout main { padding: 32px 16px 64px; }
+  .ng-checkout-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ng-checkout-aside { position: static; }
+  #customer_details.col2-set { grid-template-columns: 1fr; }
+  .woocommerce-checkout #customer_details .col-1 .woocommerce-billing-fields,
+  .woocommerce-checkout #customer_details .col-1 .woocommerce-additional-fields {
+    grid-template-columns: 1fr;
+  }
+  .woocommerce-checkout .form-row.form-row-first,
+  .woocommerce-checkout .form-row.form-row-last { grid-column: 1 / -1; }
+}

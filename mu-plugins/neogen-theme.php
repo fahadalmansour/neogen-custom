@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.7
+ * Version: 1.5.8
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.7');
+    define('NEOGEN_THEME_VERSION', '1.5.8');
 }
 
 /**
@@ -802,6 +802,7 @@ add_filter('wc_get_template', function ($template, $template_name, $args, $templ
         'myaccount/dashboard.php',
         'myaccount/orders.php',
         'myaccount/form-login.php',
+        'checkout/form-checkout.php',
     ];
     if (in_array($template_name, $overrides, true)) {
         $candidate = NG_THEME_ASSET_DIR . '/templates/woocommerce/' . $template_name;
