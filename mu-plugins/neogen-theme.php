@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.1');
+    define('NEOGEN_THEME_VERSION', '1.5.2');
 }
 
 /**
@@ -84,6 +84,50 @@ function ng_cr() {
     }
     return $cached;
 }
+
+/**
+ * Top-level product_cat terms by SKU count, transient-cached for 1
+ * hour. Used by the sysbar nav, footer, and homepage front-page
+ * template. On a host without a persistent object cache (Blocksy on
+ * blazr.net VPS), this saves one terms-table SELECT per page load.
+ *
+ * Cache busts via the edited/created/delete _product_cat hooks
+ * registered below.
+ */
+function ng_top_product_cats($limit = 6) {
+    if (!taxonomy_exists('product_cat')) { return []; }
+    $limit = max(1, (int) $limit);
+    $key   = 'neogen_top_cats_' . $limit;
+    $cached = get_transient($key);
+    if (is_array($cached)) { return $cached; }
+
+    $terms = get_terms([
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => true,
+        'parent'     => 0,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'number'     => $limit,
+    ]);
+    if (is_wp_error($terms)) { return []; }
+
+    set_transient($key, $terms, HOUR_IN_SECONDS);
+    return $terms;
+}
+
+/**
+ * Bust the ng_top_product_cats() transient when categories change.
+ * Covers the three limit values currently called from this codebase
+ * (5, 6, plus a safety margin in case future call sites add more).
+ */
+$ng_bust_cats = function () {
+    foreach ([4, 5, 6, 7, 8] as $n) {
+        delete_transient('neogen_top_cats_' . $n);
+    }
+};
+add_action('edited_product_cat',  $ng_bust_cats);
+add_action('created_product_cat', $ng_bust_cats);
+add_action('delete_product_cat',  $ng_bust_cats);
 
 /**
  * Info-page registry — drives every /about/, /terms/, /privacy/,
@@ -828,19 +872,8 @@ add_action('wp_body_open', function () {
         $cart_count = (int) WC()->cart->get_cart_contents_count();
     }
 
-    // Top 5 live product categories for the nav.
-    $cats = [];
-    if (taxonomy_exists('product_cat')) {
-        $terms = get_terms([
-            'taxonomy'   => 'product_cat',
-            'hide_empty' => true,
-            'parent'     => 0,
-            'orderby'    => 'count',
-            'order'      => 'DESC',
-            'number'     => 5,
-        ]);
-        if (!is_wp_error($terms)) { $cats = $terms; }
-    }
+    // Top 5 live product categories for the nav (cached, 1h TTL).
+    $cats = ng_top_product_cats(5);
 
     // Queue seed — a plausible in-range number; nudged by JS client-side.
     $queue_seed = 14;
@@ -911,18 +944,7 @@ add_action('wp_footer', function () {
     if (is_admin()) { return; }
     $home = home_url('/');
     $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : $home;
-    $cats = [];
-    if (taxonomy_exists('product_cat')) {
-        $terms = get_terms([
-            'taxonomy'   => 'product_cat',
-            'hide_empty' => true,
-            'parent'     => 0,
-            'orderby'    => 'count',
-            'order'      => 'DESC',
-            'number'     => 6,
-        ]);
-        if (!is_wp_error($terms)) { $cats = $terms; }
-    }
+    $cats = ng_top_product_cats(6);
     $year = date_i18n('Y');
     ?>
 <footer class="ng-footer">

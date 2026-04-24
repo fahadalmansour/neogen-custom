@@ -171,7 +171,14 @@ if (is_wp_error($cats)) { $cats = []; }
       </div>
     </div>
     <div class="ng-single-desc-body">
-      <?php echo apply_filters('the_content', $product->get_description()); ?>
+      <?php
+      // wp_kses_post strips <script>/<style>/etc from the raw stored
+      // content (defence against malicious or compromised shop_manager
+      // accounts that hold unfiltered_html on single-site WP). Then
+      // apply the_content filter chain so autop, shortcodes, embeds,
+      // and Gutenberg blocks still render normally.
+      echo apply_filters('the_content', wp_kses_post($product->get_description()));
+      ?>
     </div>
   </section>
   <?php endif; ?>

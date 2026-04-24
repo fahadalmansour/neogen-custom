@@ -24,18 +24,8 @@ $shop_url     = function_exists('wc_get_page_permalink') ? wc_get_page_permalink
 // Catalog counts (for the hero systems-brief aside).
 $published_products = (int) wp_count_posts('product')->publish;
 
-// Top 5 product categories, ordered by count desc.
-$top_categories = get_terms([
-    'taxonomy'   => 'product_cat',
-    'hide_empty' => true,
-    'parent'     => 0,
-    'orderby'    => 'count',
-    'order'      => 'DESC',
-    'number'     => 5,
-]);
-if (is_wp_error($top_categories)) {
-    $top_categories = [];
-}
+// Top 5 product categories — transient-cached helper from neogen-theme.php.
+$top_categories = function_exists('ng_top_product_cats') ? ng_top_product_cats(5) : [];
 
 // Operator Picks — featured products, padded with latest if fewer than 4.
 $featured_ids = function_exists('wc_get_featured_product_ids') ? wc_get_featured_product_ids() : [];

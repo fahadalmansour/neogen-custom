@@ -98,8 +98,15 @@ get_header();
        *   add_action('neogen_info_extra_terms', function ($cr, $page) {
        *       echo '<article class="ng-info-block">…lawyer-supplied HTML…</article>';
        *   }, 10, 2);
+       *
+       * Output is captured and run through wp_kses_post so callbacks
+       * cannot ship <script> or other dangerous tags. Allowed tag set
+       * = WordPress post_content default, which covers every element
+       * a legal page needs.
        */
+      ob_start();
       do_action('neogen_info_extra_' . $slug, $cr, $page);
+      echo wp_kses_post(ob_get_clean());
       ?>
 
       <div class="ng-legal-voice">

@@ -213,8 +213,18 @@ $cr = ng_cr();
       /**
        * Extension point — VAT / physical address / etc. arrive here
        * via add_action('neogen_legal_extra', ...) in a future commit.
+       *
+       * Output is captured and run through wp_kses_post so callbacks
+       * that emit raw HTML (the typical pattern for lawyer-supplied
+       * legal copy) cannot ship <script> or other dangerous tags.
+       * The allowed tags are bounded by wp_kses_post — the same set
+       * WordPress accepts in post_content. That covers everything a
+       * legal page needs (h2/h3, p, ul/ol, a, strong, em, blockquote)
+       * without giving callbacks a script-injection channel.
        */
+      ob_start();
       do_action('neogen_legal_extra', $cr);
+      echo wp_kses_post(ob_get_clean());
       ?>
 
       <!-- VOICE CLOSE -->

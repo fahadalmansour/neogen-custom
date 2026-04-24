@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen Recommendations
  * Description: Cookie-based recently-viewed tracking and rule-based product recommendations. No ML, no third-party. Renders themed .ng-rec-strip below related products on single-product pages, and via [neogen_recommendations] shortcode anywhere. Admin test mode: ?ng_simulate_recent=12,15,22 to preview the engine.
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Fahad Almansour
  */
 
@@ -31,14 +31,20 @@ add_action('template_redirect', function () {
 
     $value = implode(',', array_map('intval', $existing));
     if (!headers_sent()) {
+        // PHP 7.3+ array form so we can set HttpOnly + SameSite together.
+        // HttpOnly: nothing in the page reads this cookie from JS.
+        // SameSite=Lax: prevents the cookie from leaking on cross-site
+        // navigations and from skewing recommendations via CSRF-style requests.
         setcookie(
             NG_REC_COOKIE,
             $value,
-            time() + (NG_REC_TTL_DAYS * DAY_IN_SECONDS),
-            '/',
-            '',
-            is_ssl(),
-            false
+            [
+                'expires'  => time() + (NG_REC_TTL_DAYS * DAY_IN_SECONDS),
+                'path'     => '/',
+                'secure'   => is_ssl(),
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]
         );
     }
     $_COOKIE[NG_REC_COOKIE] = $value;
