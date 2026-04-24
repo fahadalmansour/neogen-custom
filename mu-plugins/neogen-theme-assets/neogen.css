@@ -3017,3 +3017,578 @@ body.woocommerce-page.page-template-default main {
   .ng-ledger-table td { padding: 10px 14px; }
   .ng-ledger-table .col-sku { font-size: 10px; }
 }
+
+/* ==========================================================
+   FOOTER DISCLOSURE ROW — sitewide MOC identity strip.
+   Sits between .ng-foot-inner and .ng-foot-bottom.
+   ========================================================== */
+.ng-disclosure {
+  margin-top: 32px;
+  padding-top: 20px;
+  padding-bottom: 4px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  direction: ltr;
+}
+
+.ng-disclosure-en {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--warm);
+}
+
+.ng-disclosure-en .sep {
+  width: 1px;
+  height: 10px;
+  background: var(--line);
+  display: inline-block;
+}
+
+.ng-disclosure-en b {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.ng-disclosure-en .ok { color: var(--signal); font-weight: 500; }
+
+.ng-disclosure-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--accent);
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ng-disclosure-link:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+.ng-disclosure-link svg { width: 12px; height: 12px; transition: transform 0.2s var(--ease); }
+.ng-disclosure-link:hover svg { transform: translateX(3px); }
+
+/* ==========================================================
+   /LEGAL/ PAGE — establishment identity readout.
+   ========================================================== */
+.ng-legal-page {
+  padding: 0;
+  margin: 0;
+}
+
+.ng-legal-hero {
+  position: relative;
+  padding: 80px 24px 56px;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  background:
+    radial-gradient(800px circle at 80% 20%, rgba(0, 209, 255, 0.06), transparent 60%),
+    radial-gradient(600px circle at 10% 90%, rgba(63, 232, 143, 0.04), transparent 55%),
+    var(--bg);
+}
+
+.ng-legal-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 0;
+}
+
+.ng-legal-bg svg { width: min(620px, 82vw); color: var(--accent); }
+.ng-legal-bg svg path { fill: currentColor; }
+
+.ng-legal-inner {
+  position: relative;
+  z-index: 1;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+.ng-legal-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  direction: ltr;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise 0.7s var(--ease-out) 0.1s forwards;
+}
+
+.ng-legal-kicker .led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.ng-legal-kicker .led.on {
+  background: var(--signal);
+  box-shadow: 0 0 14px var(--signal);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+
+.ng-legal-h1 {
+  margin-top: 20px;
+  display: grid;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: rise 0.9s var(--ease-out) 0.28s forwards;
+}
+
+.ng-legal-h1 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1;
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.ng-legal-h1 .en {
+  font-family: var(--font-wordmark);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.ng-legal-lede {
+  margin-top: 18px;
+  max-width: 760px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--warm);
+  opacity: 0;
+  animation: fade 0.9s var(--ease-out) 0.55s forwards;
+}
+
+.ng-legal-lede b { color: var(--accent); font-weight: 600; letter-spacing: 0.04em; }
+.ng-legal-lede a { color: var(--accent); border-bottom: 1px dashed var(--line-strong); }
+.ng-legal-lede a:hover { border-bottom-style: solid; }
+
+/* --- SECTION body --- */
+.ng-legal-section {
+  padding: 64px 24px 96px;
+  background: var(--bg);
+}
+
+.ng-legal-block {
+  margin-top: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.ng-legal-block:first-of-type { margin-top: 0; }
+
+.ng-legal-block-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-legal-block-head span:last-child { color: var(--muted); }
+
+/* --- Readout (dl as a dot-leader spec sheet) --- */
+.ng-legal-readout {
+  margin: 0;
+  padding: 8px 22px 16px;
+}
+
+.ng-legal-readout .row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-warm);
+  align-items: baseline;
+}
+
+.ng-legal-readout .row:last-child { border-bottom: 0; }
+
+.ng-legal-readout dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-legal-readout dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ng-legal-readout dd.ar {
+  font-family: var(--font-ar-body);
+  font-size: 17px;
+  direction: rtl;
+  text-align: start;
+}
+
+.ng-legal-readout dd .ar {
+  font-family: var(--font-ar-body);
+  font-size: 15px;
+  color: var(--warm);
+  margin-inline-start: 4px;
+}
+
+.ng-legal-readout dd.mono-bold {
+  font-family: var(--font-ultra);
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.ng-legal-readout dd.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--signal);
+}
+
+.ng-legal-readout dd.status .led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+
+.ng-legal-readout dd small {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-inline-start: 4px;
+}
+
+.ng-legal-readout dd a {
+  color: var(--accent);
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-legal-readout dd a:hover { border-bottom-style: solid; }
+
+/* --- CONTACT tiles --- */
+.ng-legal-tiles {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  direction: ltr;
+}
+
+.ng-legal-tile {
+  padding: 18px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.2s var(--ease);
+}
+
+.ng-legal-tile:hover { border-color: var(--line-strong); }
+
+.ng-legal-tile .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.ng-legal-tile .v {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+.ng-legal-tile .v:hover { color: var(--accent-soft); }
+
+/* --- ACTIVITIES --- */
+.ng-legal-activities {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  direction: ltr;
+}
+
+.ng-legal-activity {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 16px 18px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.ng-legal-activity:hover {
+  border-color: var(--line-strong);
+  transform: translateX(-2px);
+}
+
+.ng-legal-activity .code {
+  font-family: var(--font-ultra);
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.ng-legal-activity .en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.ng-legal-activity .ar {
+  font-family: var(--font-ar-body);
+  font-size: 15px;
+  color: var(--warm);
+  direction: rtl;
+  text-align: start;
+}
+
+/* --- REGULATORY REGISTRATIONS --- */
+.ng-legal-regs {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  direction: ltr;
+}
+
+.ng-legal-reg {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
+  padding: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.ng-legal-reg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+.ng-legal-reg:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+}
+
+.ng-legal-reg:hover::before { opacity: 1; }
+
+.ng-legal-reg-head {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-legal-reg-head .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 16px;
+  color: var(--text);
+  direction: rtl;
+  text-align: start;
+}
+
+.ng-legal-reg-head .en {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.ng-legal-reg-num {
+  display: grid;
+  gap: 6px;
+  align-content: center;
+}
+
+.ng-legal-reg-num .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-legal-reg-num .v {
+  font-family: var(--font-ultra);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+
+.ng-legal-reg-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ng-legal-reg-link:hover {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+.ng-legal-reg-link svg { width: 12px; height: 12px; transition: transform 0.2s var(--ease); }
+.ng-legal-reg-link:hover svg { transform: translateX(3px); }
+
+/* --- VERIFY BAND --- */
+.ng-legal-verify {
+  margin-top: 48px;
+  padding: 40px 24px;
+  background:
+    radial-gradient(600px circle at 80% 50%, rgba(0, 209, 255, 0.08), transparent 60%),
+    var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.ng-legal-verify-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.ng-legal-verify .k {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-legal-verify p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--warm);
+}
+
+.ng-legal-verify p b { color: var(--accent); font-weight: 700; letter-spacing: 0.06em; }
+
+/* --- VOICE CLOSE --- */
+.ng-legal-voice {
+  margin-top: 72px;
+  padding-top: 32px;
+  border-top: 1px dashed var(--line);
+  text-align: center;
+  font-family: var(--font-wordmark);
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-legal-voice .sep {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  vertical-align: middle;
+  background: var(--accent);
+  margin: 0 14px;
+  opacity: 0.55;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .ng-legal-hero { padding: 56px 16px 40px; }
+  .ng-legal-section { padding: 40px 16px 64px; }
+  .ng-legal-readout .row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .ng-legal-readout dt { color: var(--accent); }
+  .ng-legal-tiles { grid-template-columns: 1fr; }
+  .ng-legal-regs { grid-template-columns: 1fr; }
+  .ng-legal-activity {
+    grid-template-columns: 72px 1fr;
+    gap: 12px;
+  }
+  .ng-legal-activity .ar { grid-column: 2 / 3; }
+  .ng-legal-voice { margin-top: 48px; }
+  .ng-disclosure {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ng-disclosure-en { font-size: 10px; gap: 8px; }
+  .ng-disclosure-link { width: 100%; justify-content: center; }
+}

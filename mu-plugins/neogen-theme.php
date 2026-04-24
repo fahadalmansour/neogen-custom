@@ -1,15 +1,88 @@
 <?php
 /**
  * Plugin Name: NeoGen Theme
- * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, and Woo archive/single overrides.
- * Version: 1.2.1
+ * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
+ * Version: 1.3.0
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.2.1');
+    define('NEOGEN_THEME_VERSION', '1.3.0');
+}
+
+/**
+ * Commercial Registration data — single source of truth.
+ * Values reproduced verbatim from the active MOC register for
+ * CR 7053130576. Do NOT edit to add speculative data — VAT /
+ * physical address / extra contacts should arrive via filters
+ * (neogen_org_data, neogen_org_jsonld, neogen_legal_extra).
+ */
+if (!defined('NG_CR')) {
+    define('NG_CR', [
+        'legal_name_ar'  => 'مكتب فهد سعد فهد المنصور للخدمات الإلكترونية',
+        'legal_name_en'  => 'FAHAD SAAD FAHAD ALMANSOUR Office For electronic services',
+        'brand_ar'       => 'نيوجين ستور',
+        'brand_en'       => 'NeoGen Store',
+        'owner'          => 'FAHAD SAAD FAHAD ALMANSOUR',
+        'entity_type'    => 'Sole Proprietorship',
+        'entity_type_ar' => 'مؤسسة فردية',
+        'cr'             => '7053130576',
+        'status'         => 'Active',
+        'status_ar'      => 'نشط',
+        'register_type'  => 'Main register',
+        'registered_ad'  => '2025-12-27',
+        'registered_ah'  => '1447-07-07',
+        'next_conf_ad'   => '2026-12-26',
+        'next_conf_ah'   => '1448-07-17',
+        'capital_sar'    => '1.00',
+        'phone_landline' => '+966 11 421 3842',
+        'phone_mobile'   => '+966 57 013 1122',
+        'email'          => 'support@neogen.store',
+        'website'        => 'https://neogen.store/',
+        'activities'     => [
+            ['code' => '620101', 'ar' => 'تكامل الأنظمة',                            'en' => 'System integration'],
+            ['code' => '821100', 'ar' => 'أنشطة الخدمات الإدارية المتكاملة للمكاتب', 'en' => 'Combined office administrative service activities'],
+            ['code' => '829903', 'ar' => 'أنشطة تعقيب المعاملات',                     'en' => 'Transaction follow-up activities'],
+        ],
+        'authority'      => 'Ministry of Commerce, Kingdom of Saudi Arabia',
+        'authority_ar'   => 'وزارة التجارة - المملكة العربية السعودية',
+        'authority_url'  => 'https://mc.gov.sa/',
+        'verify_url'     => 'https://eservices.mc.gov.sa/',
+        // Additional regulatory body registrations (factual, supplied by user).
+        'regulatory'     => [
+            [
+                'key'    => 'zatca',
+                'label'  => 'ZATCA REGISTRATION',
+                'authority_ar' => 'هيئة الزكاة والضريبة والجمارك',
+                'authority_en' => 'Zakat, Tax and Customs Authority',
+                'number' => '3145127947',
+                'url'    => 'https://zatca.gov.sa/',
+            ],
+            [
+                'key'    => 'csc',
+                'label'  => 'CHAMBER OF COMMERCE',
+                'authority_ar' => 'هيئة الغرف التجارية',
+                'authority_en' => 'Council of Saudi Chambers',
+                'number' => '1238532',
+                'url'    => 'https://csc.org.sa/',
+            ],
+        ],
+    ]);
+}
+
+/**
+ * Accessor so future filters can override any field without
+ * touching the constant. Always use ng_cr() — never NG_CR directly.
+ */
+function ng_cr() {
+    /** @var array $cr */
+    static $cached = null;
+    if ($cached === null) {
+        $cached = apply_filters('neogen_org_data', NG_CR);
+    }
+    return $cached;
 }
 
 // Resolve asset dir + URL regardless of where the deploy plugin clones us.
@@ -68,6 +141,104 @@ add_action('wp_head', function () {
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     echo '<meta name="theme-color" content="#050505">' . "\n";
 }, 2);
+
+/**
+ * Schema.org Store JSON-LD so crawlers can verify the business.
+ * Only fields from the active MOC register are emitted — no
+ * fabricated VAT, address, or contact.
+ */
+add_action('wp_head', function () {
+    $cr       = ng_cr();
+    $tel_e164 = preg_replace('/\s+/', '', $cr['phone_mobile']); // +966570131122
+
+    $data = [
+        '@context'      => 'https://schema.org',
+        '@type'         => 'Store',
+        '@id'           => rtrim(home_url('/'), '/') . '/#org',
+        'name'          => $cr['brand_en'],
+        'alternateName' => [$cr['brand_ar'], $cr['legal_name_en']],
+        'legalName'     => $cr['legal_name_ar'],
+        'url'           => home_url('/'),
+        'email'         => $cr['email'],
+        'telephone'     => $tel_e164,
+        'foundingDate'  => $cr['registered_ad'],
+        'founder'       => ['@type' => 'Person', 'name' => $cr['owner']],
+        'address'       => ['@type' => 'PostalAddress', 'addressCountry' => 'SA'],
+        'areaServed'    => ['@type' => 'Country', 'name' => 'Saudi Arabia'],
+        'inLanguage'    => ['ar-SA', 'en'],
+        'identifier'    => array_merge(
+            [[
+                '@type'      => 'PropertyValue',
+                'propertyID' => 'Saudi Ministry of Commerce Unified CR Number',
+                'value'      => $cr['cr'],
+            ]],
+            array_map(function ($r) {
+                return [
+                    '@type'      => 'PropertyValue',
+                    'propertyID' => $r['authority_en'] . ' Registration',
+                    'value'      => $r['number'],
+                ];
+            }, $cr['regulatory']),
+            array_map(function ($a) {
+                return [
+                    '@type'      => 'PropertyValue',
+                    'propertyID' => 'ISIC v4 ' . $a['code'],
+                    'value'      => $a['en'],
+                ];
+            }, $cr['activities'])
+        ),
+        'knowsAbout'    => [
+            'System integration', 'Network infrastructure', 'Homelab hardware',
+            'Smart home systems', 'Gaming hardware', 'E-commerce',
+        ],
+        'contactPoint'  => [[
+            '@type'             => 'ContactPoint',
+            'telephone'         => $tel_e164,
+            'email'             => $cr['email'],
+            'contactType'       => 'customer support',
+            'availableLanguage' => ['Arabic', 'English'],
+            'areaServed'        => 'SA',
+        ]],
+    ];
+
+    $data = apply_filters('neogen_org_jsonld', $data, $cr);
+    $json = wp_json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    if ($json) {
+        echo "\n" . '<script type="application/ld+json">' . "\n" . $json . "\n" . '</script>' . "\n";
+    }
+}, 5);
+
+/**
+ * /legal/ route — register rewrite + query var + template_include.
+ * Same pattern as the front-page template swap below.
+ */
+add_action('init', function () {
+    add_rewrite_rule('^legal/?$', 'index.php?neogen_page=legal', 'top');
+
+    // Flush rewrite cache exactly once per theme version so /legal/ resolves
+    // without the admin needing to manually re-save permalinks.
+    $flag = 'neogen_rewrites_flushed_' . str_replace('.', '_', NEOGEN_THEME_VERSION);
+    if (!get_option($flag)) {
+        flush_rewrite_rules(false);
+        update_option($flag, 1, true);
+    }
+});
+
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'neogen_page';
+    return $vars;
+});
+
+add_filter('template_include', function ($template) {
+    if (is_admin()) { return $template; }
+    if (get_query_var('neogen_page') !== 'legal') { return $template; }
+    $legal = NG_THEME_ASSET_DIR . '/templates/legal.php';
+    if (!file_exists($legal)) { return $template; }
+    if (!defined('NG_RENDER_LEGAL_PAGE')) {
+        define('NG_RENDER_LEGAL_PAGE', true);
+    }
+    return $legal;
+}, 98);
 
 /**
  * Route WooCommerce template parts to our overrides. Keeps all
@@ -360,10 +531,14 @@ add_action('wp_footer', function () {
         <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact · WhatsApp</a></li>
       </ul>
     </div>
+    <?php $cr_foot = ng_cr(); ?>
     <div class="ng-foot-col">
       <h4>// STORE</h4>
       <ul>
-        <li>CR · 7053130576</li>
+        <li>CR · <?php echo esc_html( $cr_foot['cr'] ); ?></li>
+        <?php foreach ( $cr_foot['regulatory'] as $r ) : ?>
+          <li><?php echo esc_html( strtoupper( $r['key'] ) ); ?> · <?php echo esc_html( $r['number'] ); ?></li>
+        <?php endforeach; ?>
         <li>VAT · 15% INCLUDED</li>
         <li>RIYADH · JEDDAH · DAMMAM</li>
         <li>MADA · APPLE PAY · STC · TABBY</li>
@@ -371,8 +546,26 @@ add_action('wp_footer', function () {
       </ul>
     </div>
   </div>
+  <?php $cr = ng_cr(); ?>
+  <div class="ng-disclosure" role="complementary" aria-label="Legal disclosure">
+    <div class="ng-disclosure-en">
+      <span><?php echo esc_html(strtoupper($cr['entity_type'])); ?></span>
+      <span class="sep"></span>
+      <span><?php echo esc_html($cr['owner']); ?></span>
+      <span class="sep"></span>
+      <span>CR <b><?php echo esc_html($cr['cr']); ?></b></span>
+      <span class="sep"></span>
+      <span class="ok"><?php echo esc_html(strtoupper($cr['status'])); ?></span>
+      <span class="sep"></span>
+      <span><?php echo esc_html($cr['phone_mobile']); ?></span>
+    </div>
+    <a class="ng-disclosure-link" href="<?php echo esc_url( home_url('/legal/') ); ?>">
+      LEGAL DISCLOSURE
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+    </a>
+  </div>
   <div class="ng-foot-bottom">
-    <span>© <?php echo esc_html( $year ); ?> <b>NEOGEN STORE</b> · ALL RIGHTS RESERVED</span>
+    <span>© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b> · ALL RIGHTS RESERVED</span>
     <span>BRAND KIT v1.1 · APPLIED</span>
     <span>NEOGEN.STORE</span>
   </div>

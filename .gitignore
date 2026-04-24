@@ -19,3 +19,15 @@ wp-config.php
 *.sql.gz
 *.zip
 *.tar.gz
+
+# Official certificates / PII documents — never stage
+*.pdf
+
+.claude/settings.local.json
+
+# Personal productivity overlay (added by productivity:start, 2026-04-23)
+# These are not deployable code — keep them local.
+TASKS.md
+CLAUDE-personal.md
+dashboard.html
+memory/
