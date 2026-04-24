@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.4
+ * Version: 1.5.5
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.4');
+    define('NEOGEN_THEME_VERSION', '1.5.5');
 }
 
 /**
@@ -712,6 +712,29 @@ add_filter('query_vars', function ($vars) {
 
 add_filter('template_include', function ($template) {
     if (is_admin()) { return $template; }
+
+    // 404 — operator-console "ROUTE NOT FOUND" page.
+    if (is_404()) {
+        $tpl = NG_THEME_ASSET_DIR . '/templates/404.php';
+        if (file_exists($tpl)) {
+            if (!defined('NG_RENDER_404')) { define('NG_RENDER_404', true); }
+            return $tpl;
+        }
+    }
+
+    // Empty search — themed "no results" surface. Non-empty searches
+    // fall through so Blocksy / default search.php renders normally.
+    if (is_search()) {
+        global $wp_query;
+        if ($wp_query && (int) $wp_query->found_posts === 0) {
+            $tpl = NG_THEME_ASSET_DIR . '/templates/search.php';
+            if (file_exists($tpl)) {
+                if (!defined('NG_RENDER_SEARCH_EMPTY')) { define('NG_RENDER_SEARCH_EMPTY', true); }
+                return $tpl;
+            }
+        }
+    }
+
     $page = get_query_var('neogen_page');
     if (!$page) { return $template; }
 

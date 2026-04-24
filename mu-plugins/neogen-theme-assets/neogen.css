@@ -4348,3 +4348,242 @@ body.woocommerce-page main:has(.ng-cart) {
   .ng-cart-coupon { max-width: none; }
   .ng-update-cart { margin-inline-start: 0; width: 100%; }
 }
+
+/* ==========================================================
+   404 + EMPTY SEARCH — wrong-turn surfaces
+   Reuses .ng-legal-page chrome; adds tile grid + categories list.
+   ========================================================== */
+
+.ng-404-h1 .ar,
+.ng-search-empty-h1 .ar {
+  color: var(--alert);
+}
+
+.ng-404-h1 .en code,
+.ng-search-empty-h1 .en code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: rgba(0, 209, 255, 0.08);
+  border: 1px solid var(--line-strong);
+  padding: 2px 8px;
+  border-radius: var(--radius);
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-inline-start: 8px;
+}
+
+.ng-legal-lede code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-alt);
+  border: 1px dashed var(--line);
+  padding: 1px 6px;
+  border-radius: var(--radius);
+  color: var(--accent);
+}
+
+/* --- 404 quick-action tiles --- */
+.ng-404-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  direction: ltr;
+}
+
+.ng-404-tile {
+  display: grid;
+  gap: 10px;
+  padding: 24px 18px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.ng-404-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.ng-404-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.ng-404-tile:hover::before { opacity: 1; }
+
+.ng-404-tile .k {
+  font-family: var(--font-ultra);
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.ng-404-tile .lbl {
+  display: grid;
+  gap: 2px;
+}
+
+.ng-404-tile .lbl .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 18px;
+  color: var(--text);
+  direction: rtl;
+  text-align: start;
+}
+
+.ng-404-tile .lbl .en {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+/* --- Browse by rack list --- */
+.ng-404-cats {
+  margin-top: 48px;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.ng-404-cats-head {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-404-cats-head span:last-child { color: var(--muted); }
+
+.ng-404-cats ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.ng-404-cats li a {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line-warm);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.ng-404-cats li a:hover {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.ng-404-cats li .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.ng-404-cats li a:hover .dot {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.ng-404-cats li .name {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.ng-404-cats li .count {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* --- Empty-search form + contact line --- */
+.ng-search-empty-form {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  max-width: 520px;
+}
+
+.ng-search-empty-form input[type="search"] {
+  flex: 1;
+  height: 44px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 14px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.ng-search-empty-form input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.ng-search-empty-form button {
+  height: 44px;
+  padding: 0 18px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ng-search-empty-contact {
+  margin-top: 32px;
+  padding: 18px 22px;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--warm);
+}
+
+.ng-search-empty-contact a {
+  color: var(--accent);
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.ng-search-empty-contact a:hover { border-bottom-style: solid; }
+
+@media (max-width: 720px) {
+  .ng-404-tiles { grid-template-columns: 1fr 1fr; }
+  .ng-search-empty-form { flex-direction: column; max-width: none; }
+  .ng-search-empty-form button { width: 100%; }
+}
