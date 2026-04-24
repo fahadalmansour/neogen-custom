@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.0');
+    define('NEOGEN_THEME_VERSION', '1.5.1');
 }
 
 /**
@@ -964,9 +964,13 @@ add_action('wp_footer', function () {
       <h4>// INFO</h4>
       <ul>
         <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">من نحن · About</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">سياسة الشحن · Shipping Policy</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">سياسة الاسترجاع · Returns &amp; Refunds</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">سياسة الضمان · Warranty Policy</a></li>
         <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">الشروط والأحكام · Terms &amp; Conditions</a></li>
         <li><a href="<?php echo esc_url( home_url( '/usage/' ) ); ?>">سياسة الاستخدام · Acceptable Use</a></li>
         <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">سياسة الخصوصية · Privacy Policy</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تواصل معنا · Contact</a></li>
         <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">هوية المنشأة · Legal disclosure</a></li>
       </ul>
     </div>
