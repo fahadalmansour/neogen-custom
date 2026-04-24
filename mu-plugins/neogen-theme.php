@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.2
+ * Version: 1.5.3
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.2');
+    define('NEOGEN_THEME_VERSION', '1.5.3');
 }
 
 /**
@@ -596,6 +596,30 @@ add_action('wp_head', function () {
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     echo '<meta name="theme-color" content="#050505">' . "\n";
 }, 2);
+
+/**
+ * Favicon + PWA icon set. Brand kit v1.1 approves the 8-point star
+ * for favicon use specifically (it reads cleanly at 16x16 unlike
+ * the NG monogram lockup, which needs typography).
+ *
+ * Cascade:
+ *   - SVG primary (modern browsers Chrome 80+, Firefox 41+, Safari 9+)
+ *   - 32x32 PNG fallback (older browsers)
+ *   - 180x180 apple-touch-icon (iOS home screen)
+ *   - 192x192 + 512x512 PNG via webmanifest (PWA / Android home screen)
+ *   - WP's wp_site_icon() default is suppressed by remove_action below
+ *     so we have a single source of truth.
+ */
+remove_action('wp_head', 'wp_site_icon', 99);
+
+add_action('wp_head', function () {
+    $base = NG_THEME_ASSET_URL . '/icons';
+    echo "\n";
+    echo '<link rel="icon" type="image/svg+xml" href="' . esc_url($base . '/favicon.svg') . '">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url($base . '/icon-32.png') . '">' . "\n";
+    echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url($base . '/apple-touch-icon.png') . '">' . "\n";
+    echo '<link rel="manifest" href="' . esc_url($base . '/site.webmanifest') . '">' . "\n";
+}, 1);
 
 /**
  * Schema.org Store JSON-LD so crawlers can verify the business.

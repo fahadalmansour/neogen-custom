@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100" width="64" height="64">
+  <!-- NeoGen Store mark — 8-point star.
+       Brand Kit v1.1 explicitly approves this for favicon, mobile
+       accents, hero backdrops, and app surfaces. -->
+  <rect x="-50" y="-50" width="100" height="100" rx="8" fill="#050505"/>
+  <path d="M0 -40 L8 -22 L30 -30 L22 -8 L40 0 L22 8 L30 30 L8 22 L0 40 L-8 22 L-30 30 L-22 8 L-40 0 L-22 -8 L-30 -30 L-8 -22 Z"
+        fill="#00d1ff"/>
+</svg>
