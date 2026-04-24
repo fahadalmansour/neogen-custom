@@ -3779,3 +3779,76 @@ body.woocommerce-page.page-template-default main {
   .ng-disclosure-en { font-size: 10px; gap: 8px; }
   .ng-disclosure-link { width: 100%; justify-content: center; }
 }
+
+/* ==========================================================
+   RECOMMENDATIONS STRIP — "OPERATOR · NEXT PICKS"
+   Auto-rendered below related-products on single-product pages.
+   Reuses .ng-product cards via wc_get_template_part('content','product').
+   ========================================================== */
+.ng-rec-strip {
+  margin-top: 72px;
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+  width: min(var(--container), 100%);
+  margin-left: auto;
+  margin-right: auto;
+  direction: ltr;
+}
+
+.ng-rec-head {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 24px;
+  margin-bottom: 28px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-rec-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  width: max-content;
+}
+
+.ng-rec-kicker .led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+
+.ng-rec-h {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.ng-rec-h .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.05;
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.ng-rec-h .en {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .ng-rec-strip { margin-top: 48px; padding-top: 32px; }
+  .ng-rec-head { margin-bottom: 20px; padding-bottom: 16px; }
+}
