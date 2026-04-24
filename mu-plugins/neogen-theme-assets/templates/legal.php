@@ -65,7 +65,7 @@ $cr = ng_cr();
           </div>
           <div class="row">
             <dt>BRAND</dt>
-            <dd><?php echo esc_html( $cr['brand_en'] ); ?> · <span class="ar"><?php echo esc_html( $cr['brand_ar'] ); ?></span></dd>
+            <dd><span class="ar"><?php echo esc_html( $cr['brand_ar'] ); ?></span> · <?php echo esc_html( $cr['brand_en'] ); ?></dd>
           </div>
           <div class="row">
             <dt>OWNER</dt>
@@ -87,7 +87,7 @@ $cr = ng_cr();
             <dt>STATUS</dt>
             <dd class="status">
               <span class="led on" aria-hidden="true"></span>
-              <span><?php echo esc_html( strtoupper( $cr['status'] ) ); ?> · <span class="ar"><?php echo esc_html( $cr['status_ar'] ); ?></span></span>
+              <span><span class="ar"><?php echo esc_html( $cr['status_ar'] ); ?></span> · <?php echo esc_html( strtoupper( $cr['status'] ) ); ?></span>
             </dd>
           </div>
           <div class="row">
@@ -105,8 +105,8 @@ $cr = ng_cr();
           <div class="row">
             <dt>AUTHORITY</dt>
             <dd>
-              <a href="<?php echo esc_url( $cr['authority_url'] ); ?>" rel="noopener"><?php echo esc_html( $cr['authority'] ); ?></a>
-              · <span class="ar"><?php echo esc_html( $cr['authority_ar'] ); ?></span>
+              <span class="ar"><?php echo esc_html( $cr['authority_ar'] ); ?></span>
+              · <a href="<?php echo esc_url( $cr['authority_url'] ); ?>" rel="noopener"><?php echo esc_html( $cr['authority'] ); ?></a>
             </dd>
           </div>
         </dl>
@@ -186,8 +186,8 @@ $cr = ng_cr();
           <?php foreach ( $cr['activities'] as $a ) : ?>
           <div class="ng-legal-activity">
             <div class="code"><?php echo esc_html( $a['code'] ); ?></div>
-            <div class="en"><?php echo esc_html( strtoupper( $a['en'] ) ); ?></div>
             <div class="ar"><?php echo esc_html( $a['ar'] ); ?></div>
+            <div class="en"><?php echo esc_html( strtoupper( $a['en'] ) ); ?></div>
           </div>
           <?php endforeach; ?>
         </div>

@@ -261,8 +261,8 @@ $rack_letter = function ($i) {
         <span class="ng-rack-led" aria-hidden="true"><?php echo $led; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
         <span class="ng-rack-title">
-          <span class="en"><?php echo esc_html( strtoupper( $term->name ) ); ?></span>
           <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
+          <span class="en"><?php echo esc_html( strtoupper( $term->name ) ); ?></span>
         </span>
         <span class="ng-rack-desc">
           <?php

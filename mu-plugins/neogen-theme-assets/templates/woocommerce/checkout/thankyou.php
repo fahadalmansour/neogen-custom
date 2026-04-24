@@ -106,8 +106,8 @@ $orders_url  = $order->get_view_order_url();
       <li class="ng-pipeline-node ng-pipeline-node--<?php echo esc_attr($state); ?>" style="--d: <?php echo 120 + ($i * 180); ?>ms;">
         <span class="dot" aria-hidden="true"></span>
         <span class="lbl">
-          <span class="en"><?php echo esc_html($node[0]); ?></span>
           <span class="ar"><?php echo esc_html($node[1]); ?></span>
+          <span class="en"><?php echo esc_html($node[0]); ?></span>
         </span>
       </li>
       <?php endforeach; ?>

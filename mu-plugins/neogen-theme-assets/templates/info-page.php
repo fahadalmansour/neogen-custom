@@ -47,11 +47,11 @@ get_header();
         <span class="ar"><?php echo esc_html($page['h1_ar']); ?></span>
         <span class="en"><?php echo esc_html($page['h1_en']); ?></span>
       </h1>
-      <?php if (!empty($page['lede_en'])) : ?>
-      <p class="ng-legal-lede"><?php echo wp_kses_post($page['lede_en']); ?></p>
-      <?php endif; ?>
       <?php if (!empty($page['lede_ar'])) : ?>
       <p class="ng-legal-lede ng-legal-lede--ar"><?php echo wp_kses_post($page['lede_ar']); ?></p>
+      <?php endif; ?>
+      <?php if (!empty($page['lede_en'])) : ?>
+      <p class="ng-legal-lede"><?php echo wp_kses_post($page['lede_en']); ?></p>
       <?php endif; ?>
     </div>
   </section>
@@ -77,10 +77,10 @@ get_header();
         <div class="ng-info-block-head">
           <span class="ng-info-block-kicker"><?php echo esc_html($section['kicker_en']); ?></span>
           <h2 class="ng-info-block-h">
-            <span class="en"><?php echo esc_html($section['h_en']); ?></span>
             <?php if (!empty($section['h_ar'])) : ?>
               <span class="ar"><?php echo esc_html($section['h_ar']); ?></span>
             <?php endif; ?>
+            <span class="en"><?php echo esc_html($section['h_en']); ?></span>
           </h2>
         </div>
         <div class="ng-info-block-body">
