@@ -4587,3 +4587,538 @@ body.woocommerce-page main:has(.ng-cart) {
   .ng-search-empty-form { flex-direction: column; max-width: none; }
   .ng-search-empty-form button { width: 100%; }
 }
+
+/* ==========================================================
+   MY-ACCOUNT — operator console (auth + dashboard + orders)
+   ========================================================== */
+
+body.woocommerce-account main {
+  padding: 48px 24px 96px;
+  width: min(var(--container), 100%);
+  margin: 0 auto;
+}
+
+body.woocommerce-account .woocommerce {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+body.woocommerce-account .woocommerce-MyAccount-content { min-width: 0; }
+
+/* Login + register: single-column layout (no nav) */
+body.woocommerce-account:not(.logged-in) .woocommerce {
+  display: block;
+}
+
+/* --- NAV --- */
+.ng-account-nav {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: sticky;
+  top: 100px;
+}
+
+.ng-account-nav-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ng-account-nav-head .led {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: pulse 1.8s var(--ease) infinite;
+}
+
+.ng-account-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+}
+
+.ng-account-nav li { margin: 0; }
+
+.ng-account-nav li a {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--warm);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.ng-account-nav li a .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.ng-account-nav li a:hover {
+  background: var(--bg-alt);
+  color: var(--accent);
+}
+
+.ng-account-nav li.is-active a {
+  background: var(--accent-wash);
+  color: var(--accent);
+}
+
+.ng-account-nav li.is-active a .dot {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+/* --- DASHBOARD --- */
+.ng-account-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.ng-account-kicker .led {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 12px var(--signal);
+}
+
+.ng-account-kicker .led.on { animation: pulse 1.8s var(--ease) infinite; }
+
+.ng-account-greeting {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ng-account-h1 {
+  display: grid;
+  gap: 6px;
+}
+
+.ng-account-h1 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.ng-account-h1 .en {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-account-h2 {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 24px;
+}
+
+.ng-account-h2 .ar {
+  font-family: var(--font-ar-display);
+  font-size: clamp(28px, 3.6vw, 40px);
+  color: var(--text);
+  direction: rtl;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.ng-account-h2 .en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-account-lede {
+  margin-top: 14px;
+  font-family: var(--font-ar-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--warm);
+}
+
+.ng-account-lede a { color: var(--accent); border-bottom: 1px dashed var(--line-strong); }
+
+.ng-account-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ng-account-tile {
+  display: grid;
+  gap: 10px;
+  padding: 22px 18px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.ng-account-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.ng-account-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.ng-account-tile:hover::before { opacity: 1; }
+
+.ng-account-tile .k {
+  font-family: var(--font-ultra);
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.ng-account-tile .lbl { display: grid; gap: 2px; }
+
+.ng-account-tile .lbl .ar {
+  font-family: var(--font-ar-ui);
+  font-size: 18px;
+  color: var(--text);
+  direction: rtl;
+}
+
+.ng-account-tile .lbl .en {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+/* --- SECTION HEAD shared --- */
+.ng-account-section-head {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--line);
+}
+
+/* --- ORDERS TABLE --- */
+.ng-account-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.ng-account-orders-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+}
+
+.ng-account-orders-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line-warm);
+  color: var(--text);
+}
+
+.ng-account-orders-table tbody tr:last-child td { border-bottom: 1px solid var(--line); }
+
+.ng-order-num {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.ng-order-num:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.ng-order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+  background: var(--bg-alt);
+}
+
+.ng-order-status .led {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.ng-order-status--processing .led { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.ng-order-status--completed  .led { background: var(--signal); box-shadow: 0 0 6px var(--signal); }
+.ng-order-status--cancelled  .led,
+.ng-order-status--refunded   .led,
+.ng-order-status--failed     .led { background: var(--alert); box-shadow: 0 0 6px var(--alert); }
+.ng-order-status--processing { color: var(--accent); }
+.ng-order-status--completed  { color: var(--signal); }
+.ng-order-status--cancelled,
+.ng-order-status--refunded,
+.ng-order-status--failed     { color: var(--alert); }
+
+.ng-order-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  margin-right: 4px;
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.ng-order-btn:hover { background: var(--accent-wash); border-color: var(--accent); }
+
+.ng-account-pagination {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* --- EMPTY STATE for no orders --- */
+.ng-account-empty {
+  text-align: center;
+  padding: 56px 24px;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.ng-account-empty-led {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--dim);
+  margin: 0 auto 18px;
+}
+
+.ng-account-empty h3 {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+.ng-account-empty h3 .ar {
+  font-family: var(--font-ar-display);
+  font-size: 28px;
+  color: var(--muted);
+  direction: rtl;
+}
+
+.ng-account-empty h3 .en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-account-empty p {
+  font-family: var(--font-sans);
+  color: var(--warm);
+  margin: 0 0 24px;
+}
+
+/* --- AUTH (login + register) --- */
+.ng-account-auth {
+  position: relative;
+  padding: 48px 0;
+  overflow: hidden;
+}
+
+.ng-account-auth-bg {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0.04;
+  z-index: 0;
+}
+
+.ng-account-auth-bg svg {
+  width: min(560px, 80vw);
+  color: var(--accent);
+}
+
+.ng-account-auth-bg svg path { fill: currentColor; }
+
+.ng-account-auth-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.ng-account-auth-card {
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+}
+
+.ng-account-form .form-row { display: grid; gap: 6px; margin-bottom: 16px; }
+
+.ng-account-form label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-account-form .required { color: var(--alert); }
+
+.ng-account-form input.input-text,
+.ng-account-form input[type="text"],
+.ng-account-form input[type="email"],
+.ng-account-form input[type="password"] {
+  height: 42px;
+  background: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.ng-account-form input.input-text:focus,
+.ng-account-form input[type="text"]:focus,
+.ng-account-form input[type="email"]:focus,
+.ng-account-form input[type="password"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+
+.ng-account-form .woocommerce-form-login__rememberme {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--warm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ng-auth-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  margin-top: 8px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #04121a;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.ng-auth-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.ng-account-auth .lost_password a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  body.woocommerce-account .woocommerce {
+    grid-template-columns: 1fr;
+  }
+  .ng-account-nav { position: static; }
+  .ng-account-tiles { grid-template-columns: 1fr 1fr; }
+  .ng-account-auth-inner { grid-template-columns: 1fr; }
+  .ng-account-orders-table thead { display: none; }
+  .ng-account-orders-table tbody td {
+    display: block;
+    border-bottom: 0;
+    padding: 6px 16px;
+  }
+  .ng-account-orders-table tbody td::before {
+    content: attr(data-title) ' · ';
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ng-account-orders-table tbody tr {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+}

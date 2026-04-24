@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen Recommendations
  * Description: Cookie-based recently-viewed tracking and rule-based product recommendations. No ML, no third-party. Renders themed .ng-rec-strip below related products on single-product pages, and via [neogen_recommendations] shortcode anywhere. Admin test mode: ?ng_simulate_recent=12,15,22 to preview the engine.
- * Version: 1.5.6
+ * Version: 1.5.7
  * Author: Fahad Almansour
  */
 
