@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.3.0');
+    define('NEOGEN_THEME_VERSION', '1.4.0');
 }
 
 /**
@@ -82,6 +82,364 @@ function ng_cr() {
     if ($cached === null) {
         $cached = apply_filters('neogen_org_data', NG_CR);
     }
+    return $cached;
+}
+
+/**
+ * Info-page registry — drives every /about/, /terms/, /privacy/,
+ * /returns/, /warranty/, /shipping/, /contact/ route through one
+ * shared template. Pages marked draft=true render a "PENDING LEGAL
+ * REVIEW" banner and use placeholder section bodies.
+ *
+ * Real legal copy arrives via add_action('neogen_info_extra_<slug>',
+ * fn($cr) => echo '<div>...</div>'). The registry stays factual.
+ */
+function ng_info_pages() {
+    static $cached = null;
+    if ($cached !== null) { return $cached; }
+
+    $cr = ng_cr();
+
+    $cached = [
+
+        'about' => [
+            'kicker'   => '02 · ABOUT',
+            'h1_en'    => 'WHO WE ARE',
+            'h1_ar'    => 'من نحن',
+            'lede_en'  => 'A Saudi technology retailer built for the operators behind the screens — networks, homelabs, smart homes, competitive gaming, and the people who keep them running.',
+            'lede_ar'  => 'متجر تقني سعودي للمختصين خلف الشاشات — شبكات، هوم لاب، بيوت ذكية، عتاد ألعاب تنافسية، والمشغّلين الذين يديرون كل ذلك.',
+            'draft'    => false,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · MISSION',
+                    'h_en' => 'Specialized hardware, no commodity noise.',
+                    'h_ar' => 'عتاد متخصص، بدون ضوضاء العامة.',
+                    'body' => [
+                        'NeoGen Store carries gear used by people who actually deploy infrastructure inside the Kingdom. We curate by reliability, repairability, and parts availability — not by the brand with the loudest ad spend.',
+                        'إذا لم يكن المنتج مفيداً على شبكة جدية، تركيبة هوم لاب، بيت ذكي حقيقي، محطة ألعاب تنافسية، أو مشروع تركيب فعلي — لا نحمله.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · WHO WE SERVE',
+                    'h_en' => 'Built for operators.',
+                    'h_ar' => 'مبني للمشغّلين.',
+                    'body' => [
+                        'Network engineers buying enterprise APs and switches for SMB sites. Hobbyists running k3s clusters in their garages on Synology + Mikrotik. Smart-home installers commissioning Aqara and Shelly across villas. Competitive gamers chasing 0.1 ms latency cuts. We carry exactly what each of these jobs requires.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '03 · WHAT WE STOCK',
+                    'h_en' => 'Five racks. Each one curated.',
+                    'h_ar' => 'خمسة "رفوف". كل رف مختار بعناية.',
+                    'body' => [
+                        'NETWORKING / WI-FI 7 — Ubiquiti, MikroTik, TP-Link Omada. Routers, PoE switches, access points, SFP+ modules, fiber patch.',
+                        'HOMELAB / STORAGE — NAS, rack-mount mini-PCs, enterprise HDDs and SSDs, UPS units, rack accessories, cable management.',
+                        'SMART HOME / MATTER — Aqara, Shelly, Sonoff. Hubs, sensors, relays, door locks, lighting, Matter-over-Thread bridges.',
+                        'GAMING / COMPETITIVE — Hall-effect switches, low-latency monitors, studio audio, DAC/AMP, mechanical keyboards, custom cables.',
+                        'SERVICES / BUILDS — Network design, rack builds, smart-home commissioning, on-site setup inside KSA metros.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '04 · HOW WE OPERATE',
+                    'h_en' => 'Plain specs. Honest stock. Real tracking.',
+                    'h_ar' => 'مواصفات واضحة. مخزون حقيقي. تتبع فعلي.',
+                    'body' => [
+                        'Every product page shows the SKU, real specifications without marketing inflation, live stock count, and a single primary action. No decoy buttons.',
+                        'الشحن من داخل المملكة، 2-5 أيام عمل لمدن الرياض وجدة والدمام. ضمان 12 شهراً، ودعم بالعربي.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '05 · LEGAL · OFFICIAL',
+                    'h_en' => 'Saudi MOC-registered establishment.',
+                    'h_ar' => 'منشأة سعودية مرخصة من وزارة التجارة.',
+                    'body' => [
+                        sprintf('Trade name: %s. Owner: %s. CR: %s. Status: Active.', $cr['legal_name_en'], $cr['owner'], $cr['cr']),
+                        sprintf('الاسم التجاري: %s · المالك: %s · السجل التجاري: %s · الحالة: نشط.', $cr['legal_name_ar'], $cr['owner'], $cr['cr']),
+                        'Full identity readout, regulatory registrations, and verification links: <a href="' . esc_url(home_url('/legal/')) . '">/legal/ →</a>',
+                    ],
+                ],
+            ],
+        ],
+
+        'shipping' => [
+            'kicker'   => '03 · SHIPPING',
+            'h1_en'    => 'SHIPPING POLICY',
+            'h1_ar'    => 'سياسة الشحن',
+            'lede_en'  => 'Shipped from inside the Kingdom. 2–5 business days to Riyadh, Jeddah, and Dammam metros. Tracking via WhatsApp and email.',
+            'lede_ar'  => 'الشحن من داخل المملكة. 2-5 أيام عمل لمدن الرياض وجدة والدمام. التتبع عبر واتساب والبريد الإلكتروني.',
+            'draft'    => false,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · ZONES',
+                    'h_en' => 'Where we ship.',
+                    'h_ar' => 'مناطق التغطية.',
+                    'body' => [
+                        'PRIMARY METROS — Riyadh · Jeddah · Dammam · Khobar · Dhahran. Same-day or next-day handling, 2–3 business days transit.',
+                        'OTHER KSA CITIES — Madinah · Makkah · Tabuk · Abha · Hail · Buraidah · Najran · Yanbu · Jubail and others. 3–5 business days transit.',
+                        'REMOTE GOVERNORATES — Smaller villages and remote areas may add 1–2 days. Tracking is provided regardless.',
+                        'INTERNATIONAL — Not currently offered.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · TIMELINES',
+                    'h_en' => 'When it ships.',
+                    'h_ar' => 'متى يُشحن.',
+                    'body' => [
+                        'Orders placed before 14:00 KSA time on a business day are typically dispatched the same day. Orders placed later, or on weekends/holidays, are dispatched the next business day.',
+                        'Backorders are flagged at checkout and on the product page (LOW STOCK / OUT badges). For backorders, we contact you with the expected restock date before processing payment.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '03 · PAYMENT & ON-DELIVERY',
+                    'h_en' => 'Payment methods accepted.',
+                    'h_ar' => 'وسائل الدفع المقبولة.',
+                    'body' => [
+                        'Mada · Apple Pay · STC Pay · Tabby (split into 4) · all major credit cards via the secure payment gateway.',
+                        'الدفع عند الاستلام: غير متوفر حالياً.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '04 · TRACKING & ISSUES',
+                    'h_en' => 'After it ships.',
+                    'h_ar' => 'بعد الشحن.',
+                    'body' => [
+                        'You receive a tracking number by email and on your order page. For shipping issues, contact us via the channels listed below — we respond within one business day.',
+                        sprintf('Mobile: %s · Email: %s', $cr['phone_mobile'], $cr['email']),
+                    ],
+                ],
+            ],
+        ],
+
+        'returns' => [
+            'kicker'   => '04 · RETURNS',
+            'h1_en'    => 'RETURNS & REFUNDS',
+            'h1_ar'    => 'سياسة الاسترجاع والاسترداد',
+            'lede_en'  => 'Statutory baseline summarized below. Store-specific extensions (extended return windows, free-return shipping, restocking fees) are pending legal review.',
+            'lede_ar'  => 'الحد الأدنى النظامي ملخص أدناه. التفاصيل الخاصة بالمتجر (تمديد المدة، رسوم إعادة الترتيب، شحن الإرجاع) قيد المراجعة القانونية.',
+            'draft'    => true,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · STATUTORY BASELINE',
+                    'h_en' => 'Your default rights under KSA E-Commerce Law.',
+                    'h_ar' => 'الحقوق الافتراضية بموجب نظام التجارة الإلكترونية السعودي.',
+                    'body' => [
+                        'Saudi E-Commerce Law (نظام التجارة الإلكترونية, Royal Decree M/126) gives you a default right to return distance-purchased goods within seven (7) days of delivery, provided the item is unused, unopened where applicable, and in its original condition and packaging.',
+                        'Certain categories may be excluded by law: digital downloads or activation keys after redemption, software with broken seals, perishable goods, and items personalized to your specifications.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · STORE-SPECIFIC TERMS',
+                    'h_en' => 'NeoGen Store extensions.',
+                    'h_ar' => 'تمديدات متجر نيوجين.',
+                    'body' => [
+                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        'The store currently advertises a 14-day return window in its footer chips. Specific eligibility conditions, restocking fees, and refund timelines are being finalized by legal counsel and will be published here.',
+                        'In the interim, please contact us before returning any item so we can confirm eligibility and arrange the return.',
+                    ],
+                ],
+            ],
+        ],
+
+        'warranty' => [
+            'kicker'   => '05 · WARRANTY',
+            'h1_en'    => 'WARRANTY POLICY',
+            'h1_ar'    => 'سياسة الضمان',
+            'lede_en'  => 'Statutory minimums under KSA Consumer Protection law plus pass-through manufacturer warranties. Specific claim procedures are pending legal review.',
+            'lede_ar'  => 'الحد الأدنى النظامي بموجب نظام حماية المستهلك السعودي بالإضافة إلى ضمانات المصنّع. إجراءات المطالبة قيد المراجعة القانونية.',
+            'draft'    => true,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · STATUTORY MINIMUM',
+                    'h_en' => 'Defect protection by law.',
+                    'h_ar' => 'الحماية من العيوب بحكم النظام.',
+                    'body' => [
+                        'Under the Saudi Consumer Protection regime, the seller is responsible for hidden defects (عيب خفي) that materially affect the product\'s value or fitness for purpose, regardless of any manufacturer warranty.',
+                        'This statutory protection runs in parallel with — not instead of — the manufacturer\'s commercial warranty.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · MANUFACTURER WARRANTY',
+                    'h_en' => 'Pass-through coverage.',
+                    'h_ar' => 'الضمان المُقدَّم من المصنّع.',
+                    'body' => [
+                        'Each product page lists the manufacturer warranty period the unit ships with (e.g., 12 months on most networking equipment). Claims under manufacturer warranty are processed through our service desk and routed to the relevant brand.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '03 · CLAIM PROCEDURE',
+                    'h_en' => 'How to open a warranty claim.',
+                    'h_ar' => 'كيفية فتح طلب ضمان.',
+                    'body' => [
+                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        'Detailed claim procedures, RMA timelines, and replacement-vs-refund rules are being finalized.',
+                        sprintf('In the meantime, contact: %s · %s.', $cr['phone_mobile'], $cr['email']),
+                    ],
+                ],
+            ],
+        ],
+
+        'terms' => [
+            'kicker'   => '06 · TERMS',
+            'h1_en'    => 'TERMS & CONDITIONS',
+            'h1_ar'    => 'الشروط والأحكام',
+            'lede_en'  => 'Section headings reflect the standard structure required for a Saudi e-commerce store. The body text in each section is pending legal counsel review and is not authoritative.',
+            'lede_ar'  => 'عناوين الأقسام تعكس البنية المعتادة لمتجر إلكتروني سعودي. النصوص داخل كل قسم قيد المراجعة القانونية وليست نهائية.',
+            'draft'    => true,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · ACCEPTANCE',
+                    'h_en'      => 'Acceptance of terms.',
+                    'h_ar'      => 'قبول الشروط.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'By accessing or using neogen.store, you agree to be bound by these terms. Specific binding language is being drafted by legal counsel.'],
+                ],
+                [
+                    'kicker_en' => '02 · ACCOUNTS',
+                    'h_en'      => 'Customer accounts.',
+                    'h_ar'      => 'حسابات العملاء.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Account creation requirements, security obligations, and termination conditions will appear here.'],
+                ],
+                [
+                    'kicker_en' => '03 · ORDERS · PRICING',
+                    'h_en'      => 'Orders, pricing, and payment.',
+                    'h_ar'      => 'الطلبات والأسعار والدفع.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Order acceptance, price changes, currency, payment processors, and tax handling will be specified here. Note: VAT 15% is included in displayed prices.'],
+                ],
+                [
+                    'kicker_en' => '04 · IP',
+                    'h_en'      => 'Intellectual property.',
+                    'h_ar'      => 'الملكية الفكرية.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Trademarks, brand assets, and content ownership clauses will appear here.'],
+                ],
+                [
+                    'kicker_en' => '05 · LIABILITY',
+                    'h_en'      => 'Limitation of liability.',
+                    'h_ar'      => 'تحديد المسؤولية.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Liability caps and exclusions, subject to mandatory consumer-protection rules, will appear here.'],
+                ],
+                [
+                    'kicker_en' => '06 · GOVERNING LAW',
+                    'h_en'      => 'Governing law and disputes.',
+                    'h_ar'      => 'القانون الواجب التطبيق وفض النزاعات.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'These terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes are subject to the competent commercial courts in KSA and the e-commerce dispute mechanism, as applicable.'],
+                ],
+                [
+                    'kicker_en' => '07 · CHANGES',
+                    'h_en'      => 'Changes to these terms.',
+                    'h_ar'      => 'تعديل الشروط.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Modification rights, notice mechanisms, and effective-date rules will appear here.'],
+                ],
+            ],
+        ],
+
+        'privacy' => [
+            'kicker'   => '07 · PRIVACY',
+            'h1_en'    => 'PRIVACY POLICY',
+            'h1_ar'    => 'سياسة الخصوصية',
+            'lede_en'  => 'This policy is structured against the Saudi Personal Data Protection Law (PDPL, Royal Decree M/19, in full effect from September 2024). Specific clauses are pending legal review and are not authoritative.',
+            'lede_ar'  => 'هذه السياسة مبنية على نظام حماية البيانات الشخصية السعودي (PDPL، المرسوم الملكي م/19، نافذ بالكامل من سبتمبر 2024). البنود الخاصة قيد المراجعة القانونية.',
+            'draft'    => true,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · CONTROLLER',
+                    'h_en'      => 'Who controls your data.',
+                    'h_ar'      => 'الجهة المتحكمة في بياناتك.',
+                    'body'      => [
+                        sprintf('Data controller: %s (CR %s).', $cr['legal_name_en'], $cr['cr']),
+                        sprintf('Contact: %s · %s.', $cr['email'], $cr['phone_mobile']),
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · DATA WE COLLECT',
+                    'h_en'      => 'Categories of personal data.',
+                    'h_ar'      => 'فئات البيانات الشخصية.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Identity (name), contact (email, phone, shipping address), order history, payment metadata (handled by the payment gateway, not stored by us in raw form), device and usage data (IP, browser, cookies). The full enumeration will be confirmed by counsel.'],
+                ],
+                [
+                    'kicker_en' => '03 · PURPOSES',
+                    'h_en'      => 'Why we process it.',
+                    'h_ar'      => 'أغراض المعالجة.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Order fulfillment, customer support, fraud prevention, regulatory compliance (CR / ZATCA), and (with consent) marketing communications.'],
+                ],
+                [
+                    'kicker_en' => '04 · LEGAL BASES',
+                    'h_en'      => 'Lawful grounds under PDPL.',
+                    'h_ar'      => 'الأسس النظامية بموجب PDPL.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Contract performance (orders), legal obligation (tax/CR), legitimate interest (fraud prevention), and explicit consent (marketing).'],
+                ],
+                [
+                    'kicker_en' => '05 · SHARING',
+                    'h_en'      => 'Who we share with.',
+                    'h_ar'      => 'الجهات التي نشارك معها.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Payment processors (Mada / Apple Pay / STC / Tabby / card gateway), shipping couriers, Saudi tax/regulatory authorities when legally required.'],
+                ],
+                [
+                    'kicker_en' => '06 · RETENTION',
+                    'h_en'      => 'How long we keep data.',
+                    'h_ar'      => 'مدة الاحتفاظ.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Retention periods will be specified by category (e.g., order records for tax-law-mandated minimum, marketing data until consent withdrawal).'],
+                ],
+                [
+                    'kicker_en' => '07 · YOUR RIGHTS',
+                    'h_en'      => 'Data subject rights under PDPL.',
+                    'h_ar'      => 'حقوقك بموجب PDPL.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Right to be informed, right of access, right of correction, right of deletion, right to data portability, right to object to processing, right to withdraw consent. Exercise via the controller contact above.'],
+                ],
+                [
+                    'kicker_en' => '08 · COOKIES',
+                    'h_en'      => 'Cookies and tracking.',
+                    'h_ar'      => 'ملفات الارتباط والتتبع.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Strictly-necessary cookies (cart, session, security) plus optional analytics. A consent banner will be wired in a follow-up commit when the cookie inventory is finalized.'],
+                ],
+                [
+                    'kicker_en' => '09 · CROSS-BORDER',
+                    'h_en'      => 'International data transfers.',
+                    'h_ar'      => 'نقل البيانات خارج المملكة.',
+                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Cross-border transfer disclosures (e.g., to payment gateway processors hosted outside KSA) and the safeguards relied upon will be specified.'],
+                ],
+            ],
+        ],
+
+        'contact' => [
+            'kicker'   => '08 · CONTACT',
+            'h1_en'    => 'CONTACT',
+            'h1_ar'    => 'تواصل معنا',
+            'lede_en'  => 'Direct lines to the operator behind the desk. We respond within one business day.',
+            'lede_ar'  => 'قنوات تواصل مباشرة مع المسؤول. نرد خلال يوم عمل واحد.',
+            'draft'    => false,
+            'sections' => [
+                [
+                    'kicker_en' => '01 · CHANNELS',
+                    'h_en' => 'How to reach us.',
+                    'h_ar' => 'وسائل التواصل.',
+                    'body' => [
+                        sprintf('Mobile · %s', $cr['phone_mobile']),
+                        sprintf('Landline · %s', $cr['phone_landline']),
+                        sprintf('Email · %s', $cr['email']),
+                        sprintf('Website · %s', $cr['website']),
+                    ],
+                ],
+                [
+                    'kicker_en' => '02 · HOURS',
+                    'h_en' => 'When we answer.',
+                    'h_ar' => 'ساعات الرد.',
+                    'body' => [
+                        'Saturday – Thursday · 09:00 – 22:00 KSA time. Friday: limited support, expect next-business-day response.',
+                    ],
+                ],
+                [
+                    'kicker_en' => '03 · SUPPORT POSTURE',
+                    'h_en' => 'What we handle directly.',
+                    'h_ar' => 'ما نعالجه مباشرة.',
+                    'body' => [
+                        'Pre-sales spec questions, order status, shipping issues, returns, warranty intake, build briefs.',
+                        'For technical product support beyond setup, manufacturer warranty channels are usually faster — we route those for you.',
+                    ],
+                ],
+            ],
+        ],
+
+    ];
+
     return $cached;
 }
 
@@ -209,14 +567,16 @@ add_action('wp_head', function () {
 }, 5);
 
 /**
- * /legal/ route — register rewrite + query var + template_include.
- * Same pattern as the front-page template swap below.
+ * Custom routes — /legal/ + the seven info pages from ng_info_pages().
+ * One rewrite rule per slug, all driven by the neogen_page query var.
+ * Rewrite cache flushed exactly once per theme version (keyed option).
  */
 add_action('init', function () {
-    add_rewrite_rule('^legal/?$', 'index.php?neogen_page=legal', 'top');
+    $slugs = array_merge(['legal'], array_keys(ng_info_pages()));
+    foreach ($slugs as $slug) {
+        add_rewrite_rule('^' . preg_quote($slug, '#') . '/?$', 'index.php?neogen_page=' . $slug, 'top');
+    }
 
-    // Flush rewrite cache exactly once per theme version so /legal/ resolves
-    // without the admin needing to manually re-save permalinks.
     $flag = 'neogen_rewrites_flushed_' . str_replace('.', '_', NEOGEN_THEME_VERSION);
     if (!get_option($flag)) {
         flush_rewrite_rules(false);
@@ -231,13 +591,29 @@ add_filter('query_vars', function ($vars) {
 
 add_filter('template_include', function ($template) {
     if (is_admin()) { return $template; }
-    if (get_query_var('neogen_page') !== 'legal') { return $template; }
-    $legal = NG_THEME_ASSET_DIR . '/templates/legal.php';
-    if (!file_exists($legal)) { return $template; }
-    if (!defined('NG_RENDER_LEGAL_PAGE')) {
-        define('NG_RENDER_LEGAL_PAGE', true);
+    $page = get_query_var('neogen_page');
+    if (!$page) { return $template; }
+
+    if ($page === 'legal') {
+        $legal = NG_THEME_ASSET_DIR . '/templates/legal.php';
+        if (!file_exists($legal)) { return $template; }
+        if (!defined('NG_RENDER_LEGAL_PAGE')) {
+            define('NG_RENDER_LEGAL_PAGE', true);
+        }
+        return $legal;
     }
-    return $legal;
+
+    $info = ng_info_pages();
+    if (isset($info[$page])) {
+        $tpl = NG_THEME_ASSET_DIR . '/templates/info-page.php';
+        if (!file_exists($tpl)) { return $template; }
+        if (!defined('NG_RENDER_INFO_PAGE')) {
+            define('NG_RENDER_INFO_PAGE', $page);
+        }
+        return $tpl;
+    }
+
+    return $template;
 }, 98);
 
 /**
@@ -528,7 +904,16 @@ add_action('wp_footer', function () {
         <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">Returns · 14 days</a></li>
         <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">Warranty · 12 months</a></li>
         <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">Shipping · 2-5D</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact · WhatsApp</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a></li>
+      </ul>
+    </div>
+    <div class="ng-foot-col">
+      <h4>// INFO</h4>
+      <ul>
+        <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About · من نحن</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms &amp; Conditions</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy Policy</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">Legal disclosure</a></li>
       </ul>
     </div>
     <?php $cr_foot = ng_cr(); ?>
