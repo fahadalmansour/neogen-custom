@@ -94,6 +94,60 @@ function ng_gift_card_asset_map() {
             'keywords' => ['careem', 'كريم'],
         ],
 
+        // -------------------- Wallet / telco — UAE
+        'etisalat' => [
+            'files'    => ['etisalat.webp', 'etisalat-uae.webp'],
+            'keywords' => ['etisalat', 'اتصالات', 'إتصالات'],
+        ],
+        'du' => [
+            'files'    => ['du.webp', 'du-uae.webp'],
+            'keywords' => ['du uae', 'du mobile', 'دو'],
+        ],
+
+        // -------------------- Wallet / telco — Bahrain
+        'batelco' => [
+            'files'    => ['batelco.webp'],
+            'keywords' => ['batelco', 'بتلكو'],
+        ],
+
+        // -------------------- Wallet / telco — Oman
+        'omantel' => [
+            'files'    => ['omantel.webp'],
+            'keywords' => ['omantel', 'عمانتل'],
+        ],
+
+        // -------------------- Wallet / telco — Qatar / Kuwait / Oman (Ooredoo Group)
+        'ooredoo' => [
+            'files'    => ['ooredoo.webp'],
+            'keywords' => ['ooredoo', 'اوريدو', 'أوريدو'],
+        ],
+
+        // -------------------- GCC marketplaces / retail
+        'talabat' => [
+            'files'    => ['talabat.webp'],
+            'keywords' => ['talabat', 'طلبات'],
+        ],
+        'carrefour' => [
+            'files'    => ['carrefour.webp', 'carrefour-maf.webp'],
+            'keywords' => ['carrefour', 'كارفور'],
+        ],
+        'sharaf-dg' => [
+            'files'    => ['sharaf-dg.webp'],
+            'keywords' => ['sharaf dg', 'sharaf', 'شرف دي جي'],
+        ],
+        'lulu' => [
+            'files'    => ['lulu.webp', 'lulu-hypermarket.webp'],
+            'keywords' => ['lulu', 'lulu hypermarket', 'لولو'],
+        ],
+        'x-cite' => [
+            'files'    => ['x-cite.webp', 'xcite.webp', 'alghanim.webp'],
+            'keywords' => ['x-cite', 'xcite', 'alghanim', 'اكس سايت', 'إكس سايت', 'الغانم'],
+        ],
+        'virgin-megastore' => [
+            'files'    => ['virgin-megastore.webp', 'virgin.webp'],
+            'keywords' => ['virgin megastore', 'virgin', 'فيرجن'],
+        ],
+
         // -------------------- Streaming / audio
         'netflix' => [
             'files'    => ['netflix.webp'],

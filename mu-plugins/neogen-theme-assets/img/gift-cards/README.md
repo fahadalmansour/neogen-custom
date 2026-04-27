@@ -37,6 +37,14 @@ google-play slot, `psn.webp` → playstation slot).
 **Wallet / telco (KSA):** `stc-pay.webp`, `stc.webp`, `mobily.webp`,
 `zain.webp`, `careem.webp`
 
+**Wallet / telco (GCC):** `etisalat.webp`, `du.webp` (UAE),
+`batelco.webp` (Bahrain), `omantel.webp` (Oman), `ooredoo.webp`
+(Qatar / Kuwait / Oman group)
+
+**GCC marketplaces / retail:** `talabat.webp`, `carrefour.webp`,
+`sharaf-dg.webp`, `lulu.webp`, `x-cite.webp`,
+`virgin-megastore.webp`
+
 **Streaming / audio:** `netflix.webp`, `shahid.webp`, `spotify.webp`,
 `anghami.webp`, `disney-plus.webp`
 
