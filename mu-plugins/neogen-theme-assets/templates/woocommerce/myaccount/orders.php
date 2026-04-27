@@ -4,6 +4,7 @@
  *
  * @var WC_Order[] $customer_orders
  * @var bool       $has_orders
+ * @version 9.5.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

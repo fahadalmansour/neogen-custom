@@ -14,6 +14,7 @@
  * place-order button) still register.
  *
  * @var WC_Checkout $checkout
+ * @version 9.4.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

@@ -5,6 +5,7 @@
  * Routed via wc_get_template filter map. Closes the table chain
  * opened in email-header.php and adds the brand identity strip
  * (CR / ZATCA / CSC) plus contact info.
+ * @version 10.4.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

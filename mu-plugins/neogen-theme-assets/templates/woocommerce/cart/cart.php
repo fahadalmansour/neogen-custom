@@ -9,6 +9,7 @@
  * flow keeps working. Adds .ng-cart-* classes alongside for theming.
  *
  * @var WC_Cart $cart
+ * @version 10.1.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;
@@ -169,6 +170,13 @@ do_action('woocommerce_before_cart');
 
     <aside class="cart-collaterals ng-cart-aside">
       <?php
+      /**
+       * Upstream WC fires woocommerce_before_cart_collaterals before
+       * the totals/coupons block — extension point for cart-side
+       * promotion banners, BOGO widgets, etc.
+       */
+      do_action( 'woocommerce_before_cart_collaterals' );
+
       /**
        * Renders cart-totals.php (our themed override) and any
        * shipping calculator. Plugins that hook here (Tabby

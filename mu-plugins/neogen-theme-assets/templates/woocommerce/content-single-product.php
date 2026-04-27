@@ -16,6 +16,7 @@
  *   +--------------------------------------------+
  *   | related products (inherits .ng-product)    |
  *   +--------------------------------------------+
+ * @version 3.6.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

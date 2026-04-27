@@ -5,6 +5,7 @@
  * Renders inside .ng-cart-aside (.cart-collaterals) via the standard
  * woocommerce_cart_collaterals action chain. Preserves all WC class
  * names so AJAX updates patch the right elements.
+ * @version 2.3.6 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

@@ -5,6 +5,7 @@
  * Routed via wc_get_template filter map. Replaces Woo's default
  * "Your cart is currently empty" notice with an operator-console
  * "NO ITEMS IN QUEUE" surface plus suggestion strip.
+ * @version 7.0.1 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

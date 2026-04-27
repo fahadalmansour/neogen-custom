@@ -5,6 +5,7 @@
  * Routed via wc_get_template filter map. Each menu item carries its
  * Woo class names (woocommerce-MyAccount-navigation-link--<endpoint>,
  * is-active) plus our .ng-account-nav-* classes.
+ * @version 9.3.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

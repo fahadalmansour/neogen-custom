@@ -15,6 +15,7 @@
  * called — we render those ourselves.
  *
  * @var WC_Product $product
+ * @version 9.4.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;
@@ -133,12 +134,26 @@ do_action('woocommerce_before_shop_loop_item');
     <?php endif; ?>
   </a>
 
+  <?php
+  /*
+   * Upstream WC fires three title-position hooks. We don't render
+   * Woo's default title (we have our own AR/EN markup below), but we
+   * fire the hooks at the correct positions so 3rd-party plugins
+   * that attach badges, ribbons, or annotations (Yoast SEO, WC GLA
+   * compliance markers, sale-flash, conversion pixels) still get
+   * their attach point. We intentionally do NOT fire
+   * `woocommerce_shop_loop_item_title` itself, because that emits
+   * the default <h2> which would duplicate our title block below.
+   */
+  do_action( 'woocommerce_before_shop_loop_item_title' );
+  ?>
   <div class="ng-product-title">
     <div class="ar"><?php echo esc_html($name_ar); ?></div>
     <?php if ($show_en_title) : ?>
       <div class="en"><?php echo esc_html($name_en); ?></div>
     <?php endif; ?>
   </div>
+  <?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
 
   <?php if (!empty($specs)) : ?>
   <div class="ng-product-specs">

@@ -3,6 +3,7 @@
  * NeoGen override for /my-account/ dashboard landing.
  *
  * @var WP_User $current_user
+ * @version 4.4.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

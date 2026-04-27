@@ -5,6 +5,7 @@
  * Routed here by the wc_get_template filter in neogen-theme.php.
  *
  * @var WC_Order|bool $order  Passed in by Woo.
+ * @version 8.1.0  // upstream WC 10.7.0
  */
 
 defined('ABSPATH') || exit;
@@ -74,6 +75,14 @@ $copy     = $status_copy[$copy_key];
 $shop_url    = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/');
 $account_url = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/');
 $orders_url  = $order->get_view_order_url();
+
+/*
+ * Upstream WC fires woocommerce_before_thankyou here. Plugins like
+ * Stripe/Tabby/STC analytics and conversion-pixel injectors hook in.
+ * Skipping it would silently break payment-status hand-off banners
+ * and conversion tracking.
+ */
+do_action( 'woocommerce_before_thankyou', $order->get_id() );
 ?>
 
 <section class="ng-thankyou<?php echo $alert ? ' ng-thankyou--alert' : ''; ?>">
@@ -210,3 +219,14 @@ $orders_url  = $order->get_view_order_url();
 
   </div>
 </section>
+<?php
+/*
+ * Upstream WC fires these two at end-of-template. The gateway-specific
+ * action runs payment-method-aware code (Stripe analytics, etc.); the
+ * generic woocommerce_thankyou is THE conversion-pixel hook —
+ * GA4 enhanced ecommerce, Google Ads conversion, Tabby/STC analytics
+ * and any third-party order-followup plugin hooks here. Skipping it
+ * would silently break conversion tracking on the live site.
+ */
+do_action( 'woocommerce_thankyou_' . $order->get_payment_method(), $order->get_id() );
+do_action( 'woocommerce_thankyou', $order->get_id() );

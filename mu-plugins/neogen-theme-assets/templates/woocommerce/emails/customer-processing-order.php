@@ -15,6 +15,7 @@
  * @var string   $email_heading
  * @var string   $additional_content
  * @var WC_Email $email
+ * @version 10.4.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;

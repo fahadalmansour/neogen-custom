@@ -4,6 +4,7 @@
  *
  * Preserves all Woo nonces, hidden inputs, action names exactly so
  * authentication keeps working. Themed wrapper only.
+ * @version 9.9.0 (NeoGen reconciled against upstream WC 10.7.0)
  */
 
 defined('ABSPATH') || exit;
