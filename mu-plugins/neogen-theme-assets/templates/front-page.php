@@ -17,7 +17,18 @@ if (!function_exists('get_header')) return;
 
 get_header();
 
-$whatsapp_url = defined('NG_WHATSAPP_URL') ? NG_WHATSAPP_URL : '#';
+// WhatsApp URL — derive from CR phone if NG_WHATSAPP_URL is not defined.
+// Strip non-digits, drop a leading +, build wa.me/<digits>.
+$whatsapp_url = defined('NG_WHATSAPP_URL') ? NG_WHATSAPP_URL : '';
+if ($whatsapp_url === '' && function_exists('ng_cr')) {
+    $cr_data = ng_cr();
+    $tel     = isset($cr_data['phone_mobile']) ? $cr_data['phone_mobile'] : '';
+    $digits  = preg_replace('/\D/', '', (string) $tel);
+    if ($digits !== '') {
+        $whatsapp_url = 'https://wa.me/' . $digits;
+    }
+}
+$has_whatsapp = $whatsapp_url !== '' && $whatsapp_url !== '#';
 $contact_url  = function_exists('wc_get_page_permalink') ? home_url('/contact/') : home_url('/');
 $shop_url     = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/');
 
@@ -27,28 +38,79 @@ $published_products = (int) wp_count_posts('product')->publish;
 // Top 5 product categories — transient-cached helper from neogen-theme.php.
 $top_categories = function_exists('ng_top_product_cats') ? ng_top_product_cats(5) : [];
 
-// Operator Picks — featured products, padded with latest if fewer than 4.
-$featured_ids = function_exists('wc_get_featured_product_ids') ? wc_get_featured_product_ids() : [];
-$picks        = [];
-if (!empty($featured_ids) && function_exists('wc_get_products')) {
-    $picks = wc_get_products([
-        'status'  => 'publish',
-        'include' => array_slice($featured_ids, 0, 4),
-        'limit'   => 4,
-    ]);
+// Operator Picks — diversified across distinct top-level categories so
+// gift-cards don't monopolize the row. Strategy:
+//   1. Featured products grouped by primary category — keep 1 per cat.
+//   2. If still <4, fill from latest products in OTHER categories than
+//      what's already represented.
+//   3. As a last resort, drop the diversity rule and pad with latest.
+$picks         = [];
+$picks_cats    = [];   // primary category slugs we've already used
+$picks_added   = [];   // product IDs added (dedup)
+
+$primary_cat_slug = function ($product) {
+    if (!$product instanceof WC_Product) return '';
+    $terms = get_the_terms($product->get_id(), 'product_cat');
+    if (is_wp_error($terms) || empty($terms)) return '';
+    return (string) $terms[0]->slug;
+};
+
+if (function_exists('wc_get_products')) {
+    $featured_ids = function_exists('wc_get_featured_product_ids') ? wc_get_featured_product_ids() : [];
+
+    // Pass 1 — featured, one per primary cat
+    if (!empty($featured_ids)) {
+        $featured = wc_get_products([
+            'status'  => 'publish',
+            'include' => array_slice($featured_ids, 0, 24),
+            'limit'   => 24,
+        ]);
+        foreach ((array) $featured as $p) {
+            if (count($picks) >= 4) break;
+            $slug = $primary_cat_slug($p);
+            if ($slug !== '' && in_array($slug, $picks_cats, true)) continue;
+            $picks[] = $p;
+            $picks_cats[]  = $slug;
+            $picks_added[] = $p->get_id();
+        }
+    }
+
+    // Pass 2 — fill from latest in NEW categories
+    if (count($picks) < 4) {
+        $fill = wc_get_products([
+            'status'  => 'publish',
+            'limit'   => 24,
+            'orderby' => 'date',
+            'order'   => 'DESC',
+            'exclude' => $picks_added,
+        ]);
+        foreach ((array) $fill as $p) {
+            if (count($picks) >= 4) break;
+            $slug = $primary_cat_slug($p);
+            if ($slug !== '' && in_array($slug, $picks_cats, true)) continue;
+            $picks[] = $p;
+            $picks_cats[]  = $slug;
+            $picks_added[] = $p->get_id();
+        }
+    }
+
+    // Pass 3 — last resort, drop diversity rule and pad to 4
+    if (count($picks) < 4) {
+        $pad = wc_get_products([
+            'status'  => 'publish',
+            'limit'   => 4 - count($picks),
+            'orderby' => 'date',
+            'order'   => 'DESC',
+            'exclude' => $picks_added,
+        ]);
+        foreach ((array) $pad as $p) {
+            if (count($picks) >= 4) break;
+            $picks[] = $p;
+            $picks_added[] = $p->get_id();
+        }
+    }
 }
-$picks = array_slice(is_array($picks) ? $picks : [], 0, 4);
-if (count($picks) < 4 && function_exists('wc_get_products')) {
-    $exclude = array_map(function ($p) { return $p->get_id(); }, $picks);
-    $fill    = wc_get_products([
-        'status'  => 'publish',
-        'limit'   => 4 - count($picks),
-        'orderby' => 'date',
-        'order'   => 'DESC',
-        'exclude' => $exclude,
-    ]);
-    $picks = array_merge($picks, is_array($fill) ? $fill : []);
-}
+$picks = array_slice($picks, 0, 4);
 
 // Ticker — latest 7 with SKUs.
 $ticker_products = [];
@@ -96,17 +158,13 @@ $rack_letter = function ($i) {
      ============================================================ -->
 <header class="ng-hero">
   <?php
+      // Use ONLY the explicitly-configured hero image. Auto-falling back to
+      // a category thumbnail or first product image used to surface a
+      // random gift-card visual on the homepage, which made the store
+      // read like an Amazon reseller. If unset, the hero is brand-only
+      // (NG mark + wordmark + scan/backdrop SVGs) — that's the intended
+      // first signal.
       $ng_hero_id = (int) get_option('ng_hero_image_id');
-      if ( ! $ng_hero_id && ! empty( $top_categories ) ) {
-          foreach ( $top_categories as $_cat ) {
-              $_cat_thumb = (int) get_term_meta( $_cat->term_id, 'thumbnail_id', true );
-              if ( $_cat_thumb ) { $ng_hero_id = $_cat_thumb; break; }
-          }
-      }
-      if ( ! $ng_hero_id && ! empty( $picks ) ) {
-          $_first_pick = reset( $picks );
-          if ( $_first_pick ) { $ng_hero_id = (int) $_first_pick->get_image_id(); }
-      }
   ?>
   <?php if ( $ng_hero_id ) : ?>
     <div class="ng-hero-photo" aria-hidden="true">
@@ -131,7 +189,7 @@ $rack_letter = function ($i) {
     <div class="ng-hero-main">
       <div class="ng-kicker">
         <span></span>
-        <?php echo esc_html( sprintf( __( 'إصدار مقفل / %s', 'neogen' ), date_i18n( 'F Y' ) ) ); ?>
+        <?php echo esc_html__( 'متجر تقني سعودي · معتمد', 'neogen' ); ?>
       </div>
       <h1 class="ng-hero-h1">جيل التقنية <br> <span class="accent">القادم</span>.</h1>
 
@@ -260,10 +318,38 @@ $rack_letter = function ($i) {
         </span>
         <span class="ng-rack-desc">
           <?php
-          if ( $term->description && $term->description !== $ar_name ) {
-              echo esc_html( $term->description );
+          /*
+           * AR-first card description. Three sources, in priority order:
+           *   1. Manual override map (slug → short Arabic line) — keeps
+           *      the homepage tight regardless of what's in the term
+           *      description in WP admin.
+           *   2. The term description itself, but only if it's Arabic
+           *      AND under 100 chars.
+           *   3. Generic Arabic fallback line.
+           */
+          $copy_map = apply_filters('neogen_homepage_cat_copy', [
+              'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
+              'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
+              'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
+              'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
+              'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+              'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+              'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
+              'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
+          ]);
+
+          $ar_label = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
+          if ( isset( $copy_map[ $slug ] ) ) {
+              echo esc_html( $copy_map[ $slug ] );
           } else {
-              echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $term->name ) );
+              $desc_raw    = trim( (string) $term->description );
+              $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
+              $is_too_long = mb_strlen($desc_raw) > 100;
+              if ( $desc_raw === '' || $desc_raw === $ar_name || $is_english || $is_too_long ) {
+                  echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $ar_label ) );
+              } else {
+                  echo esc_html( $desc_raw );
+              }
           }
           ?>
         </span>
@@ -502,10 +588,12 @@ if ( ! empty( $ng_brand_ids ) ) :
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/spec-brief.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           أرسل المواصفات
         </a>
-        <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank">
+        <?php if ( $has_whatsapp ) : ?>
+        <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank" aria-label="مراسلتنا عبر واتساب">
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/whatsapp.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           واتساب
         </a>
+        <?php endif; ?>
       </div>
     </div>
   </div>

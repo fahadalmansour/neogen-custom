@@ -1138,9 +1138,23 @@ add_action('wp_body_open', function () {
     if (is_admin()) { return; }
 
     $home = home_url('/');
-    $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : $home;
-    $cart = function_exists('wc_get_cart_url') ? wc_get_cart_url() : $home;
-    $acct = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : $home;
+    // Defensive resolution — if WC page options are unset/misconfigured
+    // and the Woo helpers fall back to home, force the canonical paths
+    // so the header icons never silently link to the storefront root.
+    $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : '';
+    if ( $shop === '' || untrailingslashit( $shop ) === untrailingslashit( $home ) ) {
+        $shop = home_url('/shop/');
+    }
+    $cart = function_exists('wc_get_cart_url') ? wc_get_cart_url() : '';
+    if ( $cart === '' || untrailingslashit( $cart ) === untrailingslashit( $home ) ) {
+        $cart = home_url('/cart/');
+    }
+    $acct = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : '';
+    if ( $acct === '' || untrailingslashit( $acct ) === untrailingslashit( $home ) ) {
+        $acct = home_url('/my-account/');
+    }
+    // Search target — go straight to /?s= so the icon click lands on a search box.
+    $search = home_url('/?s=');
 
     $cart_count = 0;
     if (function_exists('WC') && WC() && WC()->cart) {
@@ -1183,8 +1197,8 @@ add_action('wp_body_open', function () {
     <?php endforeach; ?>
   </div>
   <div class="ng-nav-tools">
-    <a class="ng-nav-tool" href="<?php echo esc_url( $shop ); ?>" aria-label="البحث">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <a class="ng-nav-tool" href="<?php echo esc_url( $search ); ?>" aria-label="البحث في المتجر" rel="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <span class="tool-label">البحث</span>
     </a>
     <a class="ng-nav-tool" href="<?php echo esc_url( $acct ); ?>" aria-label="الحساب">
@@ -1317,7 +1331,7 @@ add_action('wp_footer', function () {
   </div>
   <div class="ng-foot-bottom">
     <span>© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b> · جميع الحقوق محفوظة</span>
-    <span>دليل العلامة 1.1 · مطبَّق</span>
+    <span>الرياض · جدة · الدمام</span>
     <span>NEOGEN.STORE</span>
   </div>
 </footer>

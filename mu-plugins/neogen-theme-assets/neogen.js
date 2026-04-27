@@ -47,6 +47,36 @@
     }
   })();
 
+  // --- Demote cart/offcanvas H1 → H2 ------------------------------------
+  // Blocksy renders the empty-cart heading as <h1>السلة فارغة</h1> inside
+  // the offcanvas panel. Even when the panel is closed it sits in the DOM
+  // and bots/screen-readers count it as a page-level H1. We replace any
+  // H1 that lives inside the cart/offcanvas containers with an H2. Runs
+  // on DOMContentLoaded and again whenever Blocksy refreshes the panel.
+  (function demoteOffcanvasH1() {
+    var SELECTORS = '#woo-cart-panel h1, .ct-cart-content h1, #offcanvas h1, .ct-panel h1';
+    function demote() {
+      document.querySelectorAll(SELECTORS).forEach(function (h) {
+        var h2 = document.createElement('h2');
+        h2.className = h.className;
+        for (var i = 0; i < h.attributes.length; i++) {
+          var a = h.attributes[i];
+          if (a.name !== 'class') h2.setAttribute(a.name, a.value);
+        }
+        h2.innerHTML = h.innerHTML;
+        h.parentNode.replaceChild(h2, h);
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', demote, { once: true });
+    } else {
+      demote();
+    }
+    // Re-run after WC ajax fragments refresh (Blocksy re-injects panel).
+    document.addEventListener('wc_fragments_refreshed', demote);
+    document.addEventListener('updated_cart_totals', demote);
+  })();
+
   // --- IntersectionObserver scroll reveal --------------------------------
   (function reveal() {
     var els = document.querySelectorAll('.reveal');

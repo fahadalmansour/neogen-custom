@@ -46,17 +46,17 @@ $tag_class = '';
 $tag_label = '';
 if (is_numeric($stock_qty) && (int) $stock_qty > 0 && (int) $stock_qty < 5) {
     $tag_class = 'hot';
-    $tag_label = 'LOW STOCK · ' . (int) $stock_qty;
+    $tag_label = 'مخزون منخفض · ' . (int) $stock_qty;
 } elseif ($is_new) {
     $tag_class = 'new';
-    $tag_label = 'NEW';
+    $tag_label = 'جديد';
 } elseif (is_numeric($stock_qty) && (int) $stock_qty >= 5) {
-    $tag_label = 'IN STOCK · ' . (int) $stock_qty;
+    $tag_label = 'متوفّر · ' . (int) $stock_qty;
 } elseif ($product->is_in_stock()) {
-    $tag_label = 'IN STOCK';
+    $tag_label = 'متوفّر';
 } else {
     $tag_class = 'hot';
-    $tag_label = 'OUT';
+    $tag_label = 'نفد';
 }
 
 // Featured image — real first, SVG placeholder fallback.
@@ -102,7 +102,12 @@ $price_html = $product->get_price_html();
 $cta_url   = $product->is_type('simple') && $product->is_in_stock()
     ? esc_url($product->add_to_cart_url())
     : esc_url($perm);
-$cta_label = $product->is_type('simple') && $product->is_in_stock() ? 'ADD' : 'VIEW';
+$cta_label = $product->is_type('simple') && $product->is_in_stock() ? 'أضف للسلة' : 'عرض';
+
+// AR/EN dedup — if the cleaned Arabic title equals the cleaned English
+// title (common for SKUs like "Steam 50 USD" where there's no Arabic
+// translation), only emit the AR line. Otherwise show both stacked.
+$show_en_title = trim((string) $name_en) !== '' && trim((string) $name_ar) !== trim((string) $name_en);
 
 // Outer hook so plugins that wrap the card still run. Inner hooks
 // deliberately skipped — we own the markup.
@@ -130,7 +135,9 @@ do_action('woocommerce_before_shop_loop_item');
 
   <div class="ng-product-title">
     <div class="ar"><?php echo esc_html($name_ar); ?></div>
-    <div class="en"><?php echo esc_html($name_en); ?></div>
+    <?php if ($show_en_title) : ?>
+      <div class="en"><?php echo esc_html($name_en); ?></div>
+    <?php endif; ?>
   </div>
 
   <?php if (!empty($specs)) : ?>
@@ -148,7 +155,7 @@ do_action('woocommerce_before_shop_loop_item');
       <?php else : ?>
         <div class="amount"><?php echo wp_kses_post($price_html); ?></div>
       <?php endif; ?>
-      <div class="inc">VAT INC / SHIP 2-5D</div>
+      <div class="inc">شامل الضريبة · شحن 2-5 أيام</div>
     </div>
     <a class="ng-product-cta" href="<?php echo esc_url($cta_url); ?>"<?php echo $product->is_type('simple') && $product->is_in_stock() ? ' data-product_id="' . esc_attr($id) . '"' : ''; ?>>
       <?php echo esc_html($cta_label); ?>

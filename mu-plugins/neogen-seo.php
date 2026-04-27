@@ -151,20 +151,70 @@ add_filter('robots_txt', function ($output, $public) {
 }, 10, 2);
 
 /**
- * Homepage meta description — overrides any plugin-emitted description
- * with a 120-155 char canonical sentence covering brand, geography,
- * verticals, fulfilment, and warranty. Only on the front page.
+ * Homepage canonical description string. Single source of truth — used
+ * by Rank Math via the existing rank_math/frontend/description filter
+ * (line ~306 below) AND by our fallback emitter when Rank Math is off.
+ *
+ * 145 chars (AR is denser; ~145 visual chars matches the 120-155 latin target).
  */
-add_filter('document_title_parts', function ($parts) { return $parts; });
+function ng_home_description_ar() {
+    return 'NeoGen Store — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
+}
 
+/**
+ * Homepage <title> — fix the duplicate-brand bug. WP's document_title
+ * combines page-title + site-name + tagline, so the homepage with
+ * Rank Math active was emitting:
+ *   "الرئيسية - NeoGen Store - NeoGen Store | جيل التقنية القادم"
+ * Replace with a single canonical title on the front page.
+ */
+function ng_home_title_ar() {
+    return 'NeoGen Store · متجر تقني سعودي للشبكات والهوم لاب والبيوت الذكية';
+}
+
+add_filter('document_title_parts', function ($parts) {
+    if ( is_front_page() || is_home() ) {
+        // WP joins these with " - "; collapsing to one part avoids dups.
+        return [ 'title' => ng_home_title_ar() ];
+    }
+    return $parts;
+}, 99);
+
+add_filter('rank_math/frontend/title', function ($title) {
+    if ( is_front_page() || is_home() ) {
+        return ng_home_title_ar();
+    }
+    return $title;
+}, 99);
+
+/**
+ * Homepage robots — strip 'nofollow' and 'noimageindex' that Rank Math
+ * was emitting on the front page. Public storefront homepage must be
+ * fully indexable.
+ */
+add_filter('rank_math/frontend/robots', function ($robots) {
+    if ( ! ( is_front_page() || is_home() ) ) return $robots;
+    return [
+        'index'             => 'index',
+        'follow'            => 'follow',
+        'max-snippet'       => 'max-snippet:-1',
+        'max-video-preview' => 'max-video-preview:-1',
+        'max-image-preview' => 'max-image-preview:large',
+    ];
+}, 99);
+
+/**
+ * Direct meta description / robots — emit ONLY when Rank Math is not
+ * active (to avoid the duplicate-meta bug). Rank Math is canonical when
+ * present.
+ */
 add_action('wp_head', function () {
     if ( ! ( is_front_page() || is_home() ) ) return;
+    if ( class_exists('RankMath') ) return; // Rank Math will emit via filters above.
 
-    $desc_ar = 'NeoGen Store — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
-    // 145 chars (AR is denser; ~145 visual chars matches the 120-155 latin target).
-
-    echo "\n<!-- NeoGen SEO: canonical home description -->\n";
-    echo '<meta name="description" content="' . esc_attr( $desc_ar ) . '">' . "\n";
+    echo "\n<!-- NeoGen SEO: canonical home description (no Rank Math) -->\n";
+    echo '<meta name="description" content="' . esc_attr( ng_home_description_ar() ) . '">' . "\n";
+    echo '<meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large">' . "\n";
 }, 1);
 
 /**
@@ -286,10 +336,28 @@ add_filter('rank_math/json_ld', function ($data, $jsonld) {
         }
         if ( isset($node['name']) && (
                 stripos($node['name'], 'بلازر') !== false ||
-                stripos($node['name'], 'blazr')  !== false
+                stripos($node['name'], 'blazr')  !== false ||
+                stripos($node['name'], 'جيل التقنية') !== false
         ) ) {
             $data[$key]['name'] = 'NeoGen Store';
             $data[$key]['alternateName'] = 'نيوجين ستور';
+        }
+        // ImageObject / Organization logo — force absolute URL.
+        foreach (['image', 'logo', 'thumbnailUrl'] as $img_key) {
+            if ( isset($node[$img_key]) ) {
+                if ( is_string($node[$img_key]) && $node[$img_key] !== '' && $node[$img_key][0] === '/' ) {
+                    $data[$key][$img_key] = home_url( $node[$img_key] );
+                } elseif ( is_array($node[$img_key]) && isset($node[$img_key]['url'])
+                    && is_string($node[$img_key]['url']) && $node[$img_key]['url'] !== ''
+                    && $node[$img_key]['url'][0] === '/' ) {
+                    $data[$key][$img_key]['url'] = home_url( $node[$img_key]['url'] );
+                }
+            }
+        }
+        // slogan should never duplicate the brand name
+        if ( isset($node['slogan']) && isset($node['name'])
+            && trim( (string) $node['slogan'] ) === trim( (string) $node['name'] ) ) {
+            unset( $data[$key]['slogan'] );
         }
         if ( isset($node['sameAs']) && is_array($node['sameAs']) ) {
             $data[$key]['sameAs'] = array_values(array_filter(
@@ -305,7 +373,7 @@ add_filter('rank_math/json_ld', function ($data, $jsonld) {
 
 add_filter('rank_math/frontend/description', function ($d) {
     if ( is_front_page() || is_home() ) {
-        return 'NeoGen Store — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
+        return ng_home_description_ar();
     }
     return $d;
 }, 99);

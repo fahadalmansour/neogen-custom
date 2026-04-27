@@ -6171,3 +6171,89 @@ html.dark,
 body.dark-mode {
     background: var(--bg, #faf7f0) !important;
 }
+
+/* ---------------------------------------------------------------
+ * Homepage cleanup (v1.20.2) — kill empty headings, hide intrusive
+ * floating chrome on small mobile, suppress the ticker on tiny
+ * viewports, neutralize the SEO impact of cart-panel H1s.
+ * ------------------------------------------------------------- */
+
+/* Empty Gutenberg/wp-block heading shells injected somewhere upstream
+ * (visible via DOM as <h2 class="wp-block-heading"></h2>). Prevents
+ * Lighthouse "empty heading" finding and screen-reader noise. */
+h1.wp-block-heading:empty,
+h2.wp-block-heading:empty,
+h3.wp-block-heading:empty,
+h4.wp-block-heading:empty,
+.wp-block-heading:empty {
+    display: none !important;
+}
+
+/* Cart offcanvas H1 ("السلة فارغة") — when the panel is closed, the
+ * heading is still in DOM. Visually hide via aria-hidden parent and
+ * downgrade visual weight; the JS demoter (neogen.js) replaces the
+ * tag with H2 at runtime so it never registers as the page H1. */
+#woo-cart-panel[aria-hidden="true"] h1,
+#woo-cart-panel[aria-hidden="true"] h2,
+.ct-panel[aria-hidden="true"] h1,
+.ct-panel[aria-hidden="true"] h2 {
+    visibility: hidden;
+}
+
+/* Floating language / theme / scroll triggers from Blocksy or
+ * Polylang/WPML overlap content on small mobile. Hide them under
+ * 480px — the topnav already provides every navigation control. */
+@media (max-width: 480px) {
+    .ct-trigger-floating,
+    .ct-floating-button,
+    .ct-back-to-top,
+    .wpml-ls-statics-shortcode_actions,
+    .wpml-ls-statics-footer,
+    [data-id="language-switcher"],
+    .ct-language-switcher.ct-floating,
+    .ct-floating-language-switcher,
+    .pll-parent-menu-item.ct-floating {
+        display: none !important;
+    }
+}
+
+/* Ticker — suppress on small mobile (<480px). It sits awkwardly at the
+ * bottom of the first viewport on phones and steals attention from the
+ * primary CTAs. Keep on tablet and desktop where it has room. */
+@media (max-width: 480px) {
+    .ng-ticker { display: none !important; }
+}
+
+/* Hero contrast — guarantee text is readable when the optional hero
+ * photo is present. Stronger overlay + explicit text shadow on H1
+ * regardless of background brightness. */
+.ng-hero .ng-hero-h1 {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.ng-hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(250, 247, 240, 0.55), rgba(225, 232, 237, 0.35));
+    pointer-events: none;
+}
+
+/* Dead-link safety net (v1.20.2) — Blocksy header/footer can leak
+ * social icons whose href was never configured (renders as href="#").
+ * Hiding them is safer than leaving "click → top of page" anchors. */
+.ct-header [data-id="socials"] a[href="#"],
+.ct-footer [data-id="socials"] a[href="#"],
+.ng-footer a[href="#"],
+.ct-header a[href="#"]:not([data-toggle]):not(.ct-toggle-close),
+.ct-footer a[href="#"]:not([data-toggle]):not(.ct-toggle-close) {
+    display: none !important;
+}
+
+/* Closed offcanvas/cart panels should be inert to bots/crawlers — keep
+ * them out of accessibility tree when collapsed. */
+#woo-cart-panel[aria-hidden="true"],
+#offcanvas[aria-hidden="true"],
+.ct-panel[aria-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+}
