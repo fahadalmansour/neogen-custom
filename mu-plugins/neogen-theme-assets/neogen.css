@@ -154,7 +154,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0, 209, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.12);
 }
 
 label {
@@ -177,7 +177,7 @@ label {
   gap: 28px;
   padding: 10px 24px;
   border-bottom: 1px solid var(--line);
-  background: rgba(5, 5, 5, 0.94);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   font-family: var(--font-mono);
@@ -221,7 +221,7 @@ label {
   gap: 40px;
   padding: 20px 24px;
   border-bottom: 1px solid var(--line);
-  background: rgba(5, 5, 5, 0.72);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(8px);
   direction: ltr;
 }
@@ -241,7 +241,7 @@ label {
 .ng-lockup .mono {
   font-family: var(--font-ultra);
   font-size: 32px;
-  color: var(--warm);
+  color: var(--text);
   letter-spacing: 0.08em;
 }
 
@@ -250,20 +250,20 @@ label {
 .ng-lockup .sep {
   width: 1px;
   height: 30px;
-  background: var(--accent);
-  opacity: 0.6;
+  background: var(--line-strong);
+  opacity: 1;
 }
 
 .ng-lockup .wordmark {
   font-family: var(--font-wordmark);
   font-size: 36px;
   letter-spacing: 0.02em;
-  color: var(--warm);
+  color: var(--text);
   display: inline-flex;
   align-items: baseline;
 }
 
-.ng-lockup .wordmark .neo { color: var(--warm); font-weight: 300; }
+.ng-lockup .wordmark .neo { color: var(--text); font-weight: 300; }
 .ng-lockup .wordmark .gen { color: var(--accent); font-weight: 700; }
 
 /* Light-context lockup — kit specifies this surface for invoices,
@@ -392,13 +392,13 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-btn-primary {
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
   color: #04121a;
-  box-shadow: 0 12px 32px -16px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 32px -16px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .btn-primary:hover,
 .ng-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 40px -18px rgba(0, 209, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 40px -18px rgba(0, 153, 204, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
   color: #04121a;
 }
 
@@ -456,7 +456,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   left: 0;
   right: 0;
   height: 140px;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 209, 255, 0.07) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 153, 204, 0.07) 50%, transparent 100%);
   animation: ng-scan 6.4s var(--ease) infinite;
   pointer-events: none;
   z-index: 1;
@@ -618,7 +618,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-hero-brief {
   position: relative;
   padding: 26px;
-  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  background: linear-gradient(180deg, #ffffff, #f5f0e4);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   direction: ltr;
@@ -719,7 +719,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   align-items: center;
   gap: 10px;
   padding: 9px 14px;
-  background: rgba(15, 14, 12, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -916,7 +916,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   place-items: center;
   color: var(--accent);
-  background: rgba(0, 209, 255, 0.04);
+  background: rgba(0, 153, 204, 0.04);
 }
 
 .ng-rack-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
@@ -997,8 +997,8 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
    ========================================================== */
 .ng-band-dark {
   background:
-    linear-gradient(rgba(0, 209, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 209, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(rgba(0, 153, 204, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 153, 204, 0.018) 1px, transparent 1px),
     var(--bg-alt);
   background-size: 64px 64px, 64px 64px, auto;
 }
@@ -1036,9 +1036,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .ng-product:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 38px -22px rgba(0, 209, 255, 0.55), 0 2px 0 rgba(10, 10, 10, 0.06);
+  box-shadow: 0 18px 38px -22px rgba(0, 153, 204, 0.55), 0 2px 0 rgba(10, 10, 10, 0.06);
 }
-.ng-product:hover::after { border-color: rgba(0, 209, 255, 0.55); }
+.ng-product:hover::after { border-color: rgba(0, 153, 204, 0.55); }
 
 .ng-product-head {
   display: flex;
@@ -1073,9 +1073,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.18), transparent 55%),
+    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.18), transparent 55%),
     var(--bg);
-  border: 1px solid rgba(0, 209, 255, 0.12);
+  border: 1px solid rgba(0, 153, 204, 0.12);
   border-radius: var(--radius);
   overflow: hidden;
   isolation: isolate;
@@ -1087,8 +1087,8 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(0, 153, 204, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 153, 204, 0.04) 1px, transparent 1px);
   background-size: 24px 24px, 24px 24px;
   opacity: 0.8;
   pointer-events: none;
@@ -1212,7 +1212,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 }
 
 .ng-product-cta:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 209, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 153, 204, 0.7);
   transform: translateY(-1px);
   color: #04121a;
 }
@@ -1230,7 +1230,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(1200px circle at 90% 50%, rgba(0, 209, 255, 0.08), transparent 60%),
+    radial-gradient(1200px circle at 90% 50%, rgba(0, 153, 204, 0.08), transparent 60%),
     linear-gradient(180deg, var(--surface), var(--bg-alt));
   overflow: hidden;
 }
@@ -1589,14 +1589,14 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   padding: 18px 14px;
   margin: 0 !important;
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.18), transparent 55%),
-    linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.18), transparent 55%),
+    linear-gradient(rgba(0, 153, 204, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 153, 204, 0.04) 1px, transparent 1px),
     var(--bg);
   background-size: auto, 24px 24px, 24px 24px, auto;
-  border: 1px solid rgba(0, 209, 255, 0.12);
+  border: 1px solid rgba(0, 153, 204, 0.12);
   border-radius: var(--radius);
-  filter: drop-shadow(0 8px 24px rgba(0, 209, 255, 0.18));
+  filter: drop-shadow(0 8px 24px rgba(0, 153, 204, 0.18));
   box-shadow: none !important;
 }
 
@@ -1662,7 +1662,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .woocommerce ul.products li.product .button:hover,
 .woocommerce ul.products li.product a.add_to_cart_button:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 209, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 153, 204, 0.7);
   transform: translateY(-1px);
   color: #04121a !important;
 }
@@ -1780,7 +1780,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .woocommerce div.product .woocommerce-product-gallery img {
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.14), transparent 55%),
+    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.14), transparent 55%),
     var(--bg);
   border-radius: var(--radius);
 }
@@ -1802,13 +1802,13 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   font-weight: 600 !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 12px 32px -16px rgba(0, 209, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 12px 32px -16px rgba(0, 153, 204, 0.6);
   transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
 }
 
 .woocommerce div.product form.cart .button:hover,
 .woocommerce div.product .single_add_to_cart_button:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 18px 40px -18px rgba(0, 209, 255, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 18px 40px -18px rgba(0, 153, 204, 0.9);
   transform: translateY(-1px);
   color: #04121a !important;
 }
@@ -2402,13 +2402,13 @@ body.single-product main {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-single-cart form.cart button.single_add_to_cart_button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 .ng-single-cart form.cart button.single_add_to_cart_button:disabled {
@@ -2466,7 +2466,7 @@ body.single-product main {
 /* --- Brief aside inside the summary (reuses .ng-brief-* tokens) --- */
 .ng-single-brief {
   padding: 20px;
-  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  background: linear-gradient(180deg, #ffffff, #f5f0e4);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   font-family: var(--font-mono);
@@ -2593,7 +2593,7 @@ body.woocommerce-page.page-template-default main {
   border-bottom: 1px solid var(--line);
   background:
     radial-gradient(900px circle at 75% 20%, rgba(63, 232, 143, 0.08), transparent 60%),
-    radial-gradient(700px circle at 20% 80%, rgba(0, 209, 255, 0.06), transparent 55%),
+    radial-gradient(700px circle at 20% 80%, rgba(0, 153, 204, 0.06), transparent 55%),
     var(--bg);
 }
 
@@ -2942,7 +2942,7 @@ body.woocommerce-page.page-template-default main {
 /* --- BRIEF ASIDE --- */
 .ng-thankyou-brief {
   padding: 22px;
-  background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+  background: linear-gradient(180deg, #ffffff, #f5f0e4);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   font-family: var(--font-mono);
@@ -3115,7 +3115,7 @@ body.woocommerce-page.page-template-default main {
   border-bottom: 1px solid var(--line);
   overflow: hidden;
   background:
-    radial-gradient(800px circle at 80% 20%, rgba(0, 209, 255, 0.06), transparent 60%),
+    radial-gradient(800px circle at 80% 20%, rgba(0, 153, 204, 0.06), transparent 60%),
     radial-gradient(600px circle at 10% 90%, rgba(63, 232, 143, 0.04), transparent 55%),
     var(--bg);
 }
@@ -3713,7 +3713,7 @@ body.woocommerce-page.page-template-default main {
   margin-top: 48px;
   padding: 40px 24px;
   background:
-    radial-gradient(600px circle at 80% 50%, rgba(0, 209, 255, 0.08), transparent 60%),
+    radial-gradient(600px circle at 80% 50%, rgba(0, 153, 204, 0.08), transparent 60%),
     var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
@@ -4237,14 +4237,14 @@ body.woocommerce-page main:has(.ng-cart) {
   text-transform: uppercase;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-cart-checkout .checkout-button:hover,
 .ng-cart-checkout a.button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 /* --- EMPTY STATE ---------------------------------------------- */
@@ -4379,7 +4379,7 @@ body.woocommerce-page main:has(.ng-cart) {
 .ng-search-empty-h1 .en code {
   font-family: var(--font-mono);
   font-size: 0.85em;
-  background: rgba(0, 209, 255, 0.08);
+  background: rgba(0, 153, 204, 0.08);
   border: 1px solid var(--line-strong);
   padding: 2px 8px;
   border-radius: var(--radius);
@@ -5096,13 +5096,13 @@ body.woocommerce-account:not(.logged-in) .woocommerce {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-auth-submit:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 .ng-account-auth .lost_password a {
@@ -5491,13 +5491,13 @@ body.woocommerce-checkout main {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .woocommerce-checkout #payment #place_order:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 209, 255, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 /* --- COUPON + LOGIN slide-down notices at top --- */
