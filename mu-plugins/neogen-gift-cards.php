@@ -25,7 +25,7 @@ if (!defined('NG_THEME_ASSET_URL')) {
  * Avoid promotional bonus artwork from temporary offer products.
  */
 function ng_gift_card_asset_map() {
-    return [
+    $map = [
         'apple' => [
             'files'    => ['apple.webp'],
             'keywords' => ['apple', 'itunes', 'آبل', 'ابل', 'ايتونز'],
@@ -67,10 +67,132 @@ function ng_gift_card_asset_map() {
             'keywords' => ['windows', 'windows 11', 'ويندوز'],
         ],
         'youtube' => [
-            'files'    => ['youtube.webp', 'youtube-premium.webp'],
-            'keywords' => ['youtube', 'youtube premium', 'يوتيوب'],
+            'files'    => ['youtube.webp', 'youtube-premium.webp', 'youtube-music.webp'],
+            'keywords' => ['youtube', 'youtube premium', 'youtube music', 'يوتيوب', 'يوتيوب بريميوم'],
+        ],
+
+        // -------------------- Wallet / telco (KSA) — high-specificity keys
+        // (e.g. 'stc-pay' before 'stc') so generic stc doesn't shadow stc-pay.
+        'stc-pay' => [
+            'files'    => ['stc-pay.webp', 'stcpay.webp'],
+            'keywords' => ['stc pay', 'stcpay', 'اس تي سي باي', 'إس تي سي باي'],
+        ],
+        'stc' => [
+            'files'    => ['stc.webp', 'sawa.webp'],
+            'keywords' => ['stc', 'سوا', 'اس تي سي', 'إس تي سي'],
+        ],
+        'mobily' => [
+            'files'    => ['mobily.webp'],
+            'keywords' => ['mobily', 'موبايلي'],
+        ],
+        'zain' => [
+            'files'    => ['zain.webp'],
+            'keywords' => ['zain', 'زين'],
+        ],
+        'careem' => [
+            'files'    => ['careem.webp'],
+            'keywords' => ['careem', 'كريم'],
+        ],
+
+        // -------------------- Streaming / audio
+        'netflix' => [
+            'files'    => ['netflix.webp'],
+            'keywords' => ['netflix', 'نتفلكس', 'نتفليكس'],
+        ],
+        'shahid' => [
+            'files'    => ['shahid.webp', 'shahid-vip.webp'],
+            'keywords' => ['shahid', 'shahid vip', 'شاهد'],
+        ],
+        'spotify' => [
+            'files'    => ['spotify.webp'],
+            'keywords' => ['spotify', 'سبوتيفاي', 'سبوتفاي'],
+        ],
+        'anghami' => [
+            'files'    => ['anghami.webp'],
+            'keywords' => ['anghami', 'أنغامي', 'انغامي'],
+        ],
+        'disney-plus' => [
+            'files'    => ['disney-plus.webp', 'disney.webp'],
+            'keywords' => ['disney+', 'disney plus', 'ديزني بلس', 'ديزني+'],
+        ],
+
+        // -------------------- Console / store credit
+        'nintendo-eshop' => [
+            'files'    => ['nintendo-eshop.webp', 'nintendo.webp', 'eshop.webp'],
+            'keywords' => ['nintendo', 'eshop', 'switch eshop', 'نينتندو', 'اي شوب'],
+        ],
+
+        // -------------------- Game top-ups (in-game currency)
+        'pubg' => [
+            'files'    => ['pubg.webp', 'pubg-uc.webp'],
+            'keywords' => ['pubg', 'uc', 'ببجي', 'يوسي'],
+        ],
+        'free-fire' => [
+            'files'    => ['free-fire.webp', 'freefire.webp', 'garena.webp'],
+            'keywords' => ['free fire', 'freefire', 'garena', 'فري فاير', 'جارينا', 'قارينا'],
+        ],
+        'roblox' => [
+            'files'    => ['roblox.webp', 'robux.webp'],
+            'keywords' => ['roblox', 'robux', 'روبلوكس', 'روبكس'],
+        ],
+        'razer-gold' => [
+            'files'    => ['razer-gold.webp', 'razer.webp'],
+            'keywords' => ['razer gold', 'razer pin', 'رايزر قولد', 'ريزر قولد'],
+        ],
+        'discord-nitro' => [
+            'files'    => ['discord-nitro.webp', 'discord.webp'],
+            'keywords' => ['discord nitro', 'discord', 'ديسكورد'],
+        ],
+        'fortnite' => [
+            'files'    => ['fortnite.webp', 'v-bucks.webp'],
+            'keywords' => ['fortnite', 'v-bucks', 'vbucks', 'فورتنايت'],
+        ],
+        'minecraft' => [
+            'files'    => ['minecraft.webp', 'minecoins.webp'],
+            'keywords' => ['minecraft', 'minecoins', 'ماين كرافت', 'مايكنرافت'],
+        ],
+
+        // -------------------- Marketplaces (KSA / global)
+        'noon' => [
+            'files'    => ['noon.webp'],
+            'keywords' => ['noon', 'نون'],
+        ],
+        'jarir' => [
+            'files'    => ['jarir.webp'],
+            'keywords' => ['jarir', 'jarir bookstore', 'جرير'],
+        ],
+        'ebay' => [
+            'files'    => ['ebay.webp'],
+            'keywords' => ['ebay', 'إيباي', 'ايباي'],
+        ],
+
+        // -------------------- Social / utility credits — specific before generic
+        'snapchat-plus' => [
+            'files'    => ['snapchat-plus.webp', 'snapchat.webp'],
+            'keywords' => ['snapchat+', 'snapchat plus', 'سناب شات بلس', 'سنابشات بلس'],
+        ],
+        'tiktok-coins' => [
+            'files'    => ['tiktok-coins.webp', 'tiktok.webp'],
+            'keywords' => ['tiktok', 'tik tok', 'tiktok coins', 'تيك توك'],
+        ],
+
+        // -------------------- Prepaid debit
+        'visa-prepaid' => [
+            'files'    => ['visa-prepaid.webp', 'visa.webp'],
+            'keywords' => ['visa prepaid', 'visa gift', 'فيزا'],
+        ],
+        'mastercard-prepaid' => [
+            'files'    => ['mastercard-prepaid.webp', 'mastercard.webp'],
+            'keywords' => ['mastercard prepaid', 'mastercard gift', 'ماستركارد', 'ماستر كارد'],
         ],
     ];
+
+    /*
+     * Filter so user-side snippets can register more brands without
+     * editing this file. ng_gift_card_existing_file() guards against
+     * missing webp files so registering a slot ahead of art is safe.
+     */
+    return apply_filters('ng_gift_card_asset_map', $map);
 }
 
 function ng_gift_card_asset_dir() {
