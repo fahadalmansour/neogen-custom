@@ -689,6 +689,43 @@ add_action('wp_head', function () {
 }, 1);
 
 /**
+ * Google Tag Manager — head script.
+ * Container ID is admin-overridable via option `ng_gtm_container_id`;
+ * default is the production container.
+ */
+add_action('wp_head', function () {
+    if ( is_admin() || is_customize_preview() ) return;
+    $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    $gtm_id = preg_replace( '/[^A-Za-z0-9_\-]/', '', $gtm_id );
+    if ( $gtm_id === '' ) return;
+    ?>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<?php echo esc_js( $gtm_id ); ?>');</script>
+<!-- End Google Tag Manager -->
+    <?php
+}, 1);
+
+/**
+ * Google Tag Manager — noscript iframe at the very top of <body>.
+ */
+add_action('wp_body_open', function () {
+    if ( is_admin() || is_customize_preview() ) return;
+    $gtm_id = (string) get_option( 'ng_gtm_container_id', 'GTM-PRTBSHTW' );
+    $gtm_id = preg_replace( '/[^A-Za-z0-9_\-]/', '', $gtm_id );
+    if ( $gtm_id === '' ) return;
+    ?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo esc_attr( $gtm_id ); ?>"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <?php
+}, 1);
+
+/**
  * Schema.org Store JSON-LD so crawlers can verify the business.
  * Only fields from the active MOC register are emitted — no
  * fabricated VAT, address, or contact.
