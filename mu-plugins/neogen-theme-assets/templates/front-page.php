@@ -139,46 +139,6 @@ $rack_letter = function ($i) {
       </div>
     </div>
 
-    <aside class="ng-hero-brief" aria-label="Systems brief">
-      <div class="ng-brief-head">
-        <span>// SYSTEMS BRIEF</span>
-        <span><?php echo esc_html( strtoupper( date_i18n( 'M Y' ) ) ); ?></span>
-      </div>
-
-      <div class="ng-brief-row">
-        <span class="k">Catalog</span>
-        <span class="v"><?php echo esc_html( sprintf( _n( '%d active SKU', '%d active SKUs', $published_products, 'neogen' ), $published_products ) ); ?></span>
-        <span class="t">LIVE</span>
-      </div>
-      <div class="ng-brief-row">
-        <span class="k">Fulfilment</span>
-        <span class="v">Riyadh · Jeddah · Dammam</span>
-        <span class="t">2-5D</span>
-      </div>
-      <div class="ng-brief-row">
-        <span class="k">Support</span>
-        <span class="v">12-month warranty · AR</span>
-        <span class="t">24/7</span>
-      </div>
-      <div class="ng-brief-row">
-        <span class="k">Payment</span>
-        <span class="v">Mada · Apple Pay · STC · Tabby</span>
-        <span class="t">PCI</span>
-      </div>
-      <div class="ng-brief-row">
-        <span class="k">Top cat</span>
-        <span class="v"><?php
-          if (!empty($top_categories)) {
-              echo esc_html( $top_categories[0]->name . ' · ' . $top_categories[0]->count . ' SKUs' );
-          } else {
-              echo '—';
-          }
-        ?></span>
-        <span class="t">OK</span>
-      </div>
-
-      <a class="ng-brief-cta" href="<?php echo esc_url( $shop_url ); ?>">OPEN CATALOG →</a>
-    </aside>
   </div>
 
   <div class="ng-hero-meta" aria-hidden="true">
