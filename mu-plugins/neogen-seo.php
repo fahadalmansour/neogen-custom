@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO
  * Description: Security headers, /llms.txt, robots.txt AI-crawler policy, and homepage meta-description override.
- * Version: 1.20.7
+ * Version: 1.20.9
  * Author: Fahad Almansour
  */
 
@@ -151,27 +151,25 @@ add_action('init', function () {
 }, 1);
 
 /**
- * robots.txt — explicit AI crawler policy.
+ * robots.txt — explicit ALLOW for citation crawlers.
  *
- * Allow citation/search crawlers (ChatGPT-User, PerplexityBot,
- * FacebookBot retrieving on-demand for share previews); block
- * training-only crawlers (GPTBot, ClaudeBot, anthropic-ai, Google
- * Extended training, CCBot, Bytespider). Common-sense default.
+ * Cloudflare's Managed Content block (emitted at the top of /robots.txt)
+ * already handles the disallow list for training crawlers (GPTBot,
+ * ClaudeBot, CCBot, Google-Extended, Bytespider, Amazonbot,
+ * Applebot-Extended, meta-externalagent). Our filter only needs to add
+ * the explicit Allow lines for the citation/share crawlers Cloudflare
+ * does NOT cover (ChatGPT-User, PerplexityBot, FacebookBot, anthropic-ai).
  */
 add_filter('robots_txt', function ($output, $public) {
     if ( ! $public ) return $output; // respect "discourage search engines" setting
 
-    $rules  = "\n# AI crawler policy — explicit per neogen.store\n";
-    $rules .= "User-agent: GPTBot\nDisallow: /\n\n";
-    $rules .= "User-agent: ClaudeBot\nDisallow: /\n\n";
-    $rules .= "User-agent: anthropic-ai\nDisallow: /\n\n";
-    $rules .= "User-agent: Google-Extended\nDisallow: /\n\n";
-    $rules .= "User-agent: CCBot\nDisallow: /\n\n";
-    $rules .= "User-agent: Bytespider\nDisallow: /\n\n";
-    $rules .= "User-agent: Amazonbot\nDisallow: /\n\n";
+    $rules  = "\n# Citation / share crawlers — explicit allow (per neogen.store)\n";
     $rules .= "User-agent: ChatGPT-User\nAllow: /\n\n";
     $rules .= "User-agent: PerplexityBot\nAllow: /\n\n";
     $rules .= "User-agent: FacebookBot\nAllow: /\n\n";
+    // anthropic-ai is not in Cloudflare's managed list yet — keep the
+    // explicit disallow until it lands there.
+    $rules .= "User-agent: anthropic-ai\nDisallow: /\n\n";
     return $output . $rules;
 }, 10, 2);
 
@@ -401,11 +399,13 @@ add_filter('rank_math/json_ld', function ($data, $jsonld) {
         // Rank Math's copy uses the slogan ("جيل التقنية القادم") as the
         // entity name and the same `#organization` @id, which produced a
         // duplicate-graph + name-conflict warning in the 2026-04-27 audit.
-        $org_types = ['Organization', 'ElectronicsStore', 'Store', 'LocalBusiness', 'OnlineStore'];
+        // Also drop WebSite + WebPage — neogen-theme.php emits those with
+        // proper inLanguage:[ar-SA, en], which Rank Math omits.
+        $drop_types = ['Organization', 'ElectronicsStore', 'Store', 'LocalBusiness', 'OnlineStore', 'WebSite', 'WebPage'];
         if ( isset($node['@type']) ) {
             $node_types = is_array($node['@type']) ? $node['@type'] : [ $node['@type'] ];
             foreach ( $node_types as $t ) {
-                if ( in_array($t, $org_types, true) ) {
+                if ( in_array($t, $drop_types, true) ) {
                     unset($data[$key]);
                     continue 2;
                 }
@@ -464,6 +464,31 @@ add_filter('rank_math/frontend/canonical', function ($c) {
 
 add_filter('rank_math/opengraph/facebook/site_name', function () { return 'NeoGen Store'; });
 add_filter('rank_math/opengraph/facebook/og_locale', function () { return 'ar_SA'; });
+
+/**
+ * Strip Rank Math's "Written by / Reading time" Twitter card meta tags
+ * on the homepage. They are article-style metadata that reads as
+ * "Written by NeoGen Store · 2 minutes" on a storefront homepage —
+ * misleading. Tags are emitted via Rank Math's twitter_card output, not
+ * wp_head directly, so we filter the buffered head to remove them.
+ *
+ * Surgical: only on front_page / home, only those four meta lines.
+ */
+add_action('wp_head', function () {
+    if ( ! ( is_front_page() || is_home() ) ) return;
+    ob_start();
+}, 1);
+add_action('wp_head', function () {
+    if ( ! ( is_front_page() || is_home() ) ) return;
+    $html = ob_get_clean();
+    if ( ! is_string($html) || $html === '' ) { echo $html; return; }
+    $html = preg_replace(
+        '#\s*<meta\s+name=["\']twitter:(?:label|data)[12]["\'][^>]*>#i',
+        '',
+        $html
+    );
+    echo $html;
+}, PHP_INT_MAX - 1);
 
 /**
  * C. Author-display rewrite — global override of "admin".
