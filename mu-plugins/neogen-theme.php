@@ -130,6 +130,74 @@ add_action('created_product_cat', $ng_bust_cats);
 add_action('delete_product_cat',  $ng_bust_cats);
 
 /**
+ * Inject a category tiles strip at the top of the WooCommerce shop
+ * and product-category archives. Reuses the homepage `.ng-rack-*`
+ * markup so the existing CSS picks it up site-wide. Only fires on
+ * is_shop() and is_product_category() — search/tag archives skip.
+ */
+add_action('woocommerce_before_shop_loop', 'ng_shop_category_tiles', 5);
+function ng_shop_category_tiles() {
+    if ( ! function_exists('is_shop') ) return;
+    if ( ! ( is_shop() || is_product_category() ) ) return;
+    if ( ! function_exists('ng_top_product_cats') ) return;
+
+    $current_id = is_product_category() ? get_queried_object_id() : 0;
+    $cats = ng_top_product_cats(6);
+    if ( empty( $cats ) ) return;
+
+    $icons    = apply_filters('neogen_theme_category_icons', []);
+    $fallback = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h6"/></svg>';
+    $led_patterns = [
+        '<span class="l on"></span><span class="l"></span><span class="l cyan"></span>',
+        '<span class="l cyan"></span><span class="l on"></span><span class="l"></span>',
+        '<span class="l"></span><span class="l cyan"></span><span class="l on"></span>',
+    ];
+
+    echo '<section class="ng-section ng-shop-cats">';
+    echo '<div class="ng-container">';
+    echo '<div class="ng-section-head">';
+    echo   '<div class="ng-section-kicker"><span></span>SHOP / <b>BY CATEGORY</b></div>';
+    echo   '<div class="ng-section-titles">';
+    echo     '<h2 class="ng-section-en">PICK A RACK.</h2>';
+    echo     '<div class="ng-section-ar">اختر فئة لبدء التصفّح.</div>';
+    echo   '</div>';
+    echo '</div>';
+    echo '<div class="ng-rack">';
+    foreach ( $cats as $i => $term ) {
+        $slug      = $term->slug;
+        $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+        $link      = get_term_link($term);
+        $link      = is_wp_error($link) ? '#' : $link;
+        $is_curr   = ( (int) $term->term_id === $current_id );
+        $ar_name   = trim((string) $term->description);
+        if ( $ar_name === '' ) { $ar_name = $term->name; }
+        $led       = $led_patterns[$i % count($led_patterns)];
+        $rack_id   = sprintf('%02d · RACK %s', $i + 1, chr(65 + $i));
+        $cls       = 'ng-rack-unit reveal' . ( $is_curr ? ' is-current' : '' );
+
+        echo '<a class="' . esc_attr($cls) . '" href="' . esc_url($link) . '">';
+        echo   '<span class="ng-rack-id">' . esc_html($rack_id) . '</span>';
+        echo   '<span class="ng-rack-led" aria-hidden="true">' . $led . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        if ( $thumb_id ) {
+            echo '<span class="ng-rack-photo" aria-hidden="true">';
+            echo wp_get_attachment_image( $thumb_id, 'medium', false, [ 'loading' => 'lazy', 'decoding' => 'async', 'alt' => '' ] );
+            echo '</span>';
+        } else {
+            $icon = isset($icons[$slug]) ? $icons[$slug] : $fallback;
+            echo '<span class="ng-rack-icon" aria-hidden="true">' . $icon . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        }
+        echo   '<span class="ng-rack-title">';
+        echo     '<span class="ar">' . esc_html($ar_name) . '</span>';
+        echo     '<span class="en">' . esc_html(strtoupper($term->name)) . '</span>';
+        echo   '</span>';
+        echo   '<span class="ng-rack-count"><b>' . (int) $term->count . '</b>SKUs</span>';
+        echo   '<span class="ng-rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>';
+        echo '</a>';
+    }
+    echo '</div></div></section>';
+}
+
+/**
  * Info-page registry — drives every /about/, /terms/, /privacy/,
  * /returns/, /warranty/, /shipping/, /contact/ route through one
  * shared template. Pages marked draft=true render a "PENDING LEGAL
