@@ -224,7 +224,20 @@ $rack_letter = function ($i) {
       </div>
     </div>
 
-    <?php if ( $ng_hero_side_id = (int) get_option('ng_hero_side_image_id') ) : ?>
+    <?php
+    /*
+     * Hero side visual — three-tier cascade:
+     *   1. Explicit ng_hero_side_image_id (admin override) — wins.
+     *   2. CSS-only auto-collage of the four diversified picks
+     *      (gift-cards can only ever fill 1 of 4 slots thanks to the
+     *      primary-cat dedup in front-page picks logic). Falls back
+     *      gracefully on each missing image.
+     *   3. Top category thumbnails (last resort) so the panel is never
+     *      empty as long as the catalog has at least one category.
+     */
+    $ng_hero_side_id = (int) get_option('ng_hero_side_image_id');
+    ?>
+    <?php if ( $ng_hero_side_id ) : ?>
       <aside class="ng-hero-side" aria-hidden="true">
         <?php echo wp_get_attachment_image( $ng_hero_side_id, 'large', false, [
             'loading'       => 'eager',
@@ -232,7 +245,42 @@ $rack_letter = function ($i) {
             'decoding'      => 'async',
         ] ); ?>
       </aside>
-    <?php endif; ?>
+    <?php else :
+        // Auto-collage from the diversified picks (or category thumbs as fallback)
+        $collage_imgs = [];
+        foreach ( (array) $picks as $cp ) {
+            if ( count($collage_imgs) >= 4 ) break;
+            if ( ! $cp instanceof WC_Product ) continue;
+            $cp_img_id = (int) $cp->get_image_id();
+            if ( $cp_img_id ) {
+                $collage_imgs[] = wp_get_attachment_image( $cp_img_id, 'medium', false, [
+                    'loading'  => 'eager',
+                    'decoding' => 'async',
+                    'alt'      => '',
+                ] );
+            }
+        }
+        if ( count($collage_imgs) < 4 && ! empty( $top_categories ) ) {
+            foreach ( $top_categories as $tc ) {
+                if ( count($collage_imgs) >= 4 ) break;
+                $tc_id = (int) get_term_meta( $tc->term_id, 'thumbnail_id', true );
+                if ( $tc_id ) {
+                    $collage_imgs[] = wp_get_attachment_image( $tc_id, 'medium', false, [
+                        'loading'  => 'eager',
+                        'decoding' => 'async',
+                        'alt'      => '',
+                    ] );
+                }
+            }
+        }
+        if ( ! empty( $collage_imgs ) ) :
+    ?>
+      <aside class="ng-hero-side ng-hero-collage" aria-hidden="true">
+        <?php foreach ( $collage_imgs as $tile ) : ?>
+          <span class="ng-hero-tile"><?php echo $tile; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <?php endforeach; ?>
+      </aside>
+    <?php endif; endif; ?>
   </div>
 
   <div class="ng-hero-meta" aria-hidden="true">

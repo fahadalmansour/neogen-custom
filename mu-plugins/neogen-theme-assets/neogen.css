@@ -6257,3 +6257,63 @@ h4.wp-block-heading:empty,
     visibility: hidden;
     pointer-events: none;
 }
+
+/* ---------------------------------------------------------------
+ * Hero side collage (v1.20.4) — auto-render a 2×2 grid of the
+ * diversified picks when no explicit ng_hero_side_image_id is set.
+ * Each tile is operator-console-styled (cyan border, cream surface,
+ * subtle inset) so the hero feels intentional, not random.
+ * ------------------------------------------------------------- */
+.ng-hero-collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 480px;
+    margin-inline-start: auto;
+    padding: 0;
+}
+
+.ng-hero-collage .ng-hero-tile {
+    position: relative;
+    display: block;
+    background: var(--surface, #e1e8ed);
+    border: 1px solid var(--accent, #0099cc);
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.4s ease;
+}
+
+.ng-hero-collage .ng-hero-tile:nth-child(1) { transform: rotate(-1deg); }
+.ng-hero-collage .ng-hero-tile:nth-child(2) { transform: rotate(0.7deg); }
+.ng-hero-collage .ng-hero-tile:nth-child(3) { transform: rotate(0.6deg); }
+.ng-hero-collage .ng-hero-tile:nth-child(4) { transform: rotate(-0.8deg); }
+
+.ng-hero-collage .ng-hero-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 153, 204, 0.08), rgba(255, 255, 255, 0.0));
+    pointer-events: none;
+}
+
+.ng-hero-collage .ng-hero-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    padding: 14%;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .ng-hero-collage {
+        max-width: 320px;
+        gap: 8px;
+        margin: 24px auto 0;
+    }
+    .ng-hero-collage .ng-hero-tile img { padding: 10%; }
+}
