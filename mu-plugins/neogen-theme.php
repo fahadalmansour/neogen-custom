@@ -758,8 +758,15 @@ add_action('wp_head', function () {
  * Force light mode on the HTML root before first paint so the parent
  * Blocksy theme's dark-mode initialization can't briefly flash dark.
  * Runs at wp_head priority 0 — before any other inline scripts.
+ *
+ * Phase 2c: gated by ng_blocksy_dark_mode_allowed(). When the operator
+ * opts into dark mode in Tools → NeoGen Blocksy Handoff, this script
+ * stops emitting, the data-prefers-color-scheme attribute is no
+ * longer forced, and Blocksy's Customize → Color Scheme picker is
+ * free to set the attribute itself.
  */
 add_action('wp_head', function () {
+    if ( function_exists('ng_blocksy_dark_mode_allowed') && ng_blocksy_dark_mode_allowed() ) return;
     echo "\n<script>" .
          "document.documentElement.setAttribute('data-prefers-color-scheme','light');" .
          "document.documentElement.classList.remove('ct-dark','dark','dark-mode');" .

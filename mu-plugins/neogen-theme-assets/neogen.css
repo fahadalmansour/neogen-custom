@@ -6184,27 +6184,32 @@ body.woocommerce-checkout main {
 }
 
 /* ---------------------------------------------------------------
- * Dark-mode kill (v1.20.1) — neogen.store is light-themed.
- * Hides Blocksy's dark/light toggle wherever it injects (header,
- * sticky, mobile drawer, off-canvas) and forces light color-scheme
- * on the root so user-agent inversion can't flip the surface.
+ * Dark-mode kill (v1.20.1) — neogen.store is light-themed by default.
+ *
+ * Phase 2c (v1.21.2): scoped under `.ng-light-only` body class so
+ * the operator can opt into Blocksy's dark-mode picker by flipping
+ * "Allow Blocksy dark mode" in Tools → NeoGen Blocksy Handoff.
+ * When that toggle is ON, the body class is no longer added by
+ * neogen-blocksy-handoff.php, these rules stop matching, and
+ * Blocksy's color-scheme picker takes over.
  * ------------------------------------------------------------- */
-.ct-header-dark-mode-switcher,
-[data-id="dark-mode-switcher"],
-.ct-dark-mode-switcher,
-.ct-toggle-dark-mode,
-[data-block="dark-mode-switcher"],
-.ct-color-mode-switcher {
+.ng-light-only .ct-header-dark-mode-switcher,
+.ng-light-only [data-id="dark-mode-switcher"],
+.ng-light-only .ct-dark-mode-switcher,
+.ng-light-only .ct-toggle-dark-mode,
+.ng-light-only [data-block="dark-mode-switcher"],
+.ng-light-only .ct-color-mode-switcher {
     display: none !important;
 }
-html,
-html[data-prefers-color-scheme],
-html[data-prefers-color-scheme="dark"] {
+.ng-light-only,
+html:has(body.ng-light-only),
+html:has(body.ng-light-only)[data-prefers-color-scheme],
+html:has(body.ng-light-only)[data-prefers-color-scheme="dark"] {
     color-scheme: light only !important;
 }
-html.ct-dark,
-html.dark,
-body.dark-mode {
+html.ct-dark body.ng-light-only,
+html.dark body.ng-light-only,
+body.ng-light-only.dark-mode {
     background: var(--bg, #faf7f0) !important;
 }
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: NeoGen Blocksy Handoff
- * Description: Phase-2b feature flag — hand control of the storefront header + footer over to Blocksy's header builder / footer builder. When OFF (default), the mu-plugin continues to inject the custom sysbar/topnav/footer. When ON, those injectors no-op and Blocksy chrome takes over. Toggle at Tools → NeoGen Blocksy Handoff.
- * Version: 1.21.1
+ * Description: Phase 2b/2c feature flags — (b) hand storefront header+footer to Blocksy header/footer builder, and (c) allow Blocksy dark-mode picker to drive color-scheme. Both default OFF. Toggle at Tools → NeoGen Blocksy Handoff.
+ * Version: 1.21.2
  * Author: Fahad Almansour
  *
  * Why this exists
@@ -10,27 +10,41 @@
  * The mu-plugin in neogen-theme.php replaces Blocksy's header + footer
  * entirely (see lines 1171–1249 and 1266–1370). That makes the Blocksy
  * Customize → Header / Footer panels useless — they edit chrome that
- * never renders. This plugin gates those injectors on a single option
- * so the operator can configure Blocksy's builder offline first, then
- * flip the switch when the Blocksy chrome looks right.
+ * never renders.
+ *
+ * The same mu-plugin also force-locks the storefront to light mode
+ * via an inline wp_head script + a stack of CSS hide rules — which
+ * means the Blocksy Customize → Color Scheme picker is also dead UI.
+ *
+ * This plugin gates BOTH bypasses behind admin-toggleable options so
+ * the operator can:
+ *   (b) configure Blocksy header/footer builder, then flip the switch
+ *       when chrome parity is reached, and
+ *   (c) configure Blocksy color-scheme settings, then opt the site
+ *       in to dark-mode-aware rendering.
  *
  * The CSS hide rules in neogen.css that hide ct-header/ct-footer are
- * scoped under .ng-mu-chrome (added by the body_class filter below)
- * so they only fire while the mu-plugin is in charge.
+ * scoped under .ng-mu-chrome (added by the body_class filter below).
+ * The CSS dark-mode kill rules are scoped under .ng-light-only,
+ * added by the same body_class filter when dark mode is not allowed.
  *
- * Two helper functions are exposed to the rest of the codebase:
- *   ng_blocksy_chrome_handoff()         → bool: handoff currently ON?
- *   ng_blocksy_chrome_mu_active()       → bool: mu-plugin chrome currently rendering?
+ * Helpers exposed to the rest of the codebase:
+ *   ng_blocksy_chrome_handoff()    → bool: chrome handoff ON?
+ *   ng_blocksy_chrome_mu_active()  → bool: mu-plugin chrome rendering?
+ *   ng_blocksy_dark_mode_allowed() → bool: dark mode allowed?
  *
- * They are inverses; use whichever reads better in context.
+ * Each option also accepts a wp-config constant override for emergencies:
+ *   NG_BLOCKSY_CHROME_HANDOFF
+ *   NG_BLOCKSY_DARK_MODE_ALLOWED
  */
 
 defined('ABSPATH') || exit;
 
-const NG_BLOCKSY_HANDOFF_OPTION = 'ng_blocksy_chrome_handoff';
+const NG_BLOCKSY_HANDOFF_OPTION   = 'ng_blocksy_chrome_handoff';
+const NG_BLOCKSY_DARK_MODE_OPTION = 'ng_blocksy_dark_mode_allowed';
 
 /**
- * Single source of truth — option, with a wp-config constant override.
+ * Phase 2b — chrome handoff. Option, with wp-config constant override.
  * Define `NG_BLOCKSY_CHROME_HANDOFF` in wp-config.php to force a value
  * (true or false) regardless of the admin option. Useful for emergencies.
  */
@@ -46,12 +60,31 @@ function ng_blocksy_chrome_mu_active() {
 }
 
 /**
- * Add the `.ng-mu-chrome` body class while the mu-plugin owns the
- * chrome. The CSS hide rules in neogen.css depend on this class.
+ * Phase 2c — dark mode. When false (default) the inline light-mode
+ * lock script and the dark-mode-kill CSS rules in neogen.css fire.
+ * When true, both step out of the way and Blocksy's color-scheme
+ * picker takes over.
+ */
+function ng_blocksy_dark_mode_allowed() {
+    if ( defined('NG_BLOCKSY_DARK_MODE_ALLOWED') ) {
+        return (bool) NG_BLOCKSY_DARK_MODE_ALLOWED;
+    }
+    return (bool) get_option(NG_BLOCKSY_DARK_MODE_OPTION, false);
+}
+
+/**
+ * Body classes:
+ *   ng-mu-chrome  — present while mu-plugin chrome is rendering.
+ *   ng-light-only — present while the light-mode lock is active.
+ * Both are consumed by neogen.css to scope hide-rules so flipping
+ * a toggle is a pure CSS change with no deploy needed.
  */
 add_filter('body_class', function ($classes) {
     if ( ng_blocksy_chrome_mu_active() ) {
         $classes[] = 'ng-mu-chrome';
+    }
+    if ( ! ng_blocksy_dark_mode_allowed() ) {
+        $classes[] = 'ng-light-only';
     }
     return $classes;
 }, 10);
@@ -72,18 +105,26 @@ add_action('admin_menu', function () {
 function ng_blocksy_handoff_render() {
     if ( ! current_user_can('manage_options') ) wp_die('forbidden');
 
-    $forced = defined('NG_BLOCKSY_CHROME_HANDOFF');
+    $forced_chrome = defined('NG_BLOCKSY_CHROME_HANDOFF');
+    $forced_dark   = defined('NG_BLOCKSY_DARK_MODE_ALLOWED');
 
-    // POST handler
+    // POST handler — both checkboxes saved on a single submit.
     if ( isset($_POST['ng_blocksy_handoff_nonce'])
-        && wp_verify_nonce($_POST['ng_blocksy_handoff_nonce'], 'ng_blocksy_handoff_save')
-        && ! $forced ) {
-        $new = isset($_POST['ng_blocksy_handoff_enabled']) ? 1 : 0;
-        update_option(NG_BLOCKSY_HANDOFF_OPTION, $new ? 1 : 0, false);
+        && wp_verify_nonce($_POST['ng_blocksy_handoff_nonce'], 'ng_blocksy_handoff_save') ) {
+
+        if ( ! $forced_chrome ) {
+            $new = isset($_POST['ng_blocksy_handoff_enabled']) ? 1 : 0;
+            update_option(NG_BLOCKSY_HANDOFF_OPTION, $new ? 1 : 0, false);
+        }
+        if ( ! $forced_dark ) {
+            $new = isset($_POST['ng_blocksy_dark_mode_enabled']) ? 1 : 0;
+            update_option(NG_BLOCKSY_DARK_MODE_OPTION, $new ? 1 : 0, false);
+        }
         echo '<div class="notice notice-success is-dismissible"><p>Saved. Reload the storefront in a new tab to verify.</p></div>';
     }
 
-    $on = ng_blocksy_chrome_handoff();
+    $on   = ng_blocksy_chrome_handoff();
+    $dark = ng_blocksy_dark_mode_allowed();
 
     ?>
     <div class="wrap">
@@ -93,9 +134,9 @@ function ng_blocksy_handoff_render() {
       <h2>Current state</h2>
       <table class="widefat striped" style="max-width:720px;">
         <tbody>
-          <tr><th>Handoff toggle</th><td><strong style="color:<?php echo $on ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $on ? 'ON — Blocksy chrome' : 'OFF — mu-plugin chrome'; ?></strong></td></tr>
-          <tr><th>Source</th><td><?php echo $forced ? 'wp-config.php constant <code>NG_BLOCKSY_CHROME_HANDOFF</code> (overrides this UI)' : 'admin option <code>' . esc_html(NG_BLOCKSY_HANDOFF_OPTION) . '</code>'; ?></td></tr>
-          <tr><th>Body class while OFF</th><td><code>ng-mu-chrome</code> — used by <code>neogen.css</code> to hide Blocksy header/footer</td></tr>
+          <tr><th>Chrome handoff (Phase 2b)</th><td><strong style="color:<?php echo $on ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $on ? 'ON — Blocksy header/footer' : 'OFF — mu-plugin header/footer'; ?></strong> · source: <?php echo $forced_chrome ? 'wp-config <code>NG_BLOCKSY_CHROME_HANDOFF</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_HANDOFF_OPTION) . '</code>'; ?></td></tr>
+          <tr><th>Dark mode allowed (Phase 2c)</th><td><strong style="color:<?php echo $dark ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $dark ? 'ON — Blocksy color-scheme picker' : 'OFF — site locked to light'; ?></strong> · source: <?php echo $forced_dark ? 'wp-config <code>NG_BLOCKSY_DARK_MODE_ALLOWED</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_DARK_MODE_OPTION) . '</code>'; ?></td></tr>
+          <tr><th>Body classes when OFF</th><td><code>ng-mu-chrome</code> (chrome OFF), <code>ng-light-only</code> (dark mode OFF) — both consumed by <code>neogen.css</code></td></tr>
         </tbody>
       </table>
 
@@ -113,16 +154,28 @@ function ng_blocksy_handoff_render() {
         <li>Publish in Customize. Verify in another tab. Only then come back here and flip the switch.</li>
       </ol>
 
-      <form method="post" style="margin-top:2em;<?php echo $forced ? 'opacity:.5;' : ''; ?>">
+      <form method="post" style="margin-top:2em;">
         <?php wp_nonce_field('ng_blocksy_handoff_save', 'ng_blocksy_handoff_nonce'); ?>
-        <label style="display:flex;gap:.6em;align-items:flex-start;max-width:720px;">
-          <input type="checkbox" name="ng_blocksy_handoff_enabled" value="1" <?php checked($on); ?> <?php disabled($forced); ?> style="margin-top:.3em;">
-          <span><strong>Hand storefront chrome over to Blocksy</strong><br>
+
+        <label style="display:flex;gap:.6em;align-items:flex-start;max-width:720px;<?php echo $forced_chrome ? 'opacity:.5;' : ''; ?>">
+          <input type="checkbox" name="ng_blocksy_handoff_enabled" value="1" <?php checked($on); ?> <?php disabled($forced_chrome); ?> style="margin-top:.3em;">
+          <span><strong>Hand storefront chrome over to Blocksy (Phase 2b)</strong><br>
           <small>When checked: the mu-plugin <code>wp_body_open</code> + <code>wp_footer</code> injectors stop firing, and the body class <code>ng-mu-chrome</code> is no longer added (so the CSS hide rules stop matching, exposing Blocksy chrome).</small></span>
         </label>
-        <p style="margin-top:1.5em;"><button class="button button-primary" type="submit" <?php disabled($forced); ?>>Save</button></p>
-        <?php if ( $forced ) : ?>
-          <p><small>The toggle is forced by <code>define('NG_BLOCKSY_CHROME_HANDOFF', <?php echo NG_BLOCKSY_CHROME_HANDOFF ? 'true' : 'false'; ?>)</code> in <code>wp-config.php</code>. Remove that line to control from this page.</small></p>
+
+        <label style="display:flex;gap:.6em;align-items:flex-start;max-width:720px;margin-top:1.2em;<?php echo $forced_dark ? 'opacity:.5;' : ''; ?>">
+          <input type="checkbox" name="ng_blocksy_dark_mode_enabled" value="1" <?php checked($dark); ?> <?php disabled($forced_dark); ?> style="margin-top:.3em;">
+          <span><strong>Allow Blocksy dark mode (Phase 2c)</strong><br>
+          <small>When checked: the inline <code>data-prefers-color-scheme=light</code> lock script stops emitting, and the body class <code>ng-light-only</code> is no longer added (so the dark-mode-kill CSS rules stop matching). Configure Blocksy's color-scheme settings in <strong>Customize → General Options → Color Scheme</strong> first.</small></span>
+        </label>
+
+        <p style="margin-top:1.5em;"><button class="button button-primary" type="submit">Save</button></p>
+
+        <?php if ( $forced_chrome ) : ?>
+          <p><small>Chrome toggle is forced by <code>define('NG_BLOCKSY_CHROME_HANDOFF', <?php echo NG_BLOCKSY_CHROME_HANDOFF ? 'true' : 'false'; ?>)</code> in <code>wp-config.php</code>. Remove that line to control from this page.</small></p>
+        <?php endif; ?>
+        <?php if ( $forced_dark ) : ?>
+          <p><small>Dark-mode toggle is forced by <code>define('NG_BLOCKSY_DARK_MODE_ALLOWED', <?php echo NG_BLOCKSY_DARK_MODE_ALLOWED ? 'true' : 'false'; ?>)</code> in <code>wp-config.php</code>. Remove that line to control from this page.</small></p>
         <?php endif; ?>
       </form>
 
@@ -141,9 +194,15 @@ add_action('admin_notices', function () {
     $screen = function_exists('get_current_screen') ? get_current_screen() : null;
     if ( ! $screen || $screen->id !== 'tools_page_neogen-deploy' ) return;
 
-    $on = ng_blocksy_chrome_handoff();
-    $url = admin_url('tools.php?page=neogen-blocksy-handoff');
-    $color = $on ? '#1f9d57' : '#c14a1a';
-    $label = $on ? 'Blocksy chrome' : 'mu-plugin chrome';
-    echo '<div class="notice notice-info"><p><strong>Storefront chrome:</strong> <span style="color:' . esc_attr($color) . ';">' . esc_html($label) . '</span> — <a href="' . esc_url($url) . '">change</a></p></div>';
+    $on   = ng_blocksy_chrome_handoff();
+    $dark = ng_blocksy_dark_mode_allowed();
+    $url  = admin_url('tools.php?page=neogen-blocksy-handoff');
+    $chrome_color = $on   ? '#1f9d57' : '#c14a1a';
+    $dark_color   = $dark ? '#1f9d57' : '#c14a1a';
+    $chrome_label = $on   ? 'Blocksy chrome' : 'mu-plugin chrome';
+    $dark_label   = $dark ? 'dark mode allowed' : 'light only';
+    echo '<div class="notice notice-info"><p><strong>Storefront:</strong> '
+        . '<span style="color:' . esc_attr($chrome_color) . ';">' . esc_html($chrome_label) . '</span>'
+        . ' · <span style="color:' . esc_attr($dark_color) . ';">' . esc_html($dark_label) . '</span>'
+        . ' — <a href="' . esc_url($url) . '">change</a></p></div>';
 });
