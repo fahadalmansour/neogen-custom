@@ -97,15 +97,23 @@ function ng_deploy_tools_render_inspection() {
     global $wpdb;
 
     $needles = ['neogen','deploy','ratelimit','rate_limit','throttle','pull_lock','last_pull','deploys_per_hour','deploy_count','ngdeploy','ng_deploy'];
-    $or = implode(' OR ', array_map(function($n) {
-        return "option_name LIKE '%" . esc_sql($n) . "%'";
-    }, $needles));
-    $rows = $wpdb->get_results("SELECT option_name, LEFT(option_value,180) AS preview, autoload FROM {$wpdb->options} WHERE $or ORDER BY option_name", ARRAY_A);
+    $opt_clauses = array_fill( 0, count($needles), 'option_name LIKE %s' );
+    $opt_args    = array_map( function ($n) use ($wpdb) {
+        return '%' . $wpdb->esc_like($n) . '%';
+    }, $needles );
+    $opt_sql  = "SELECT option_name, LEFT(option_value,180) AS preview, autoload "
+              . "FROM {$wpdb->options} WHERE " . implode(' OR ', $opt_clauses)
+              . " ORDER BY option_name";
+    $rows = $wpdb->get_results( $wpdb->prepare( $opt_sql, $opt_args ), ARRAY_A );
 
-    $mor = implode(' OR ', array_map(function($n) {
-        return "meta_key LIKE '%" . esc_sql($n) . "%'";
-    }, ['neogen','deploy','ngdeploy','ng_deploy']));
-    $mrows = $wpdb->get_results("SELECT user_id, meta_key, LEFT(meta_value,180) AS preview FROM {$wpdb->usermeta} WHERE $mor", ARRAY_A);
+    $meta_needles = ['neogen','deploy','ngdeploy','ng_deploy'];
+    $meta_clauses = array_fill( 0, count($meta_needles), 'meta_key LIKE %s' );
+    $meta_args    = array_map( function ($n) use ($wpdb) {
+        return '%' . $wpdb->esc_like($n) . '%';
+    }, $meta_needles );
+    $meta_sql = "SELECT user_id, meta_key, LEFT(meta_value,180) AS preview "
+              . "FROM {$wpdb->usermeta} WHERE " . implode(' OR ', $meta_clauses);
+    $mrows = $wpdb->get_results( $wpdb->prepare( $meta_sql, $meta_args ), ARRAY_A );
 
     echo '<pre style="background:#0c0c0c;color:#0f0;padding:14px;white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;border-radius:4px">';
     echo "wp_options matches: " . count($rows) . "\n\n";

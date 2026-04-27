@@ -109,8 +109,17 @@ add_filter( 'term_name',         'ng_ar_label', 5 );
 add_filter( 'single_term_title', 'ng_ar_label', 5 );
 add_filter( 'single_cat_title',  'ng_ar_label', 5 );
 add_filter( 'list_cats',         'ng_ar_label', 5 );
-add_filter( 'the_title',         'ng_ar_label', 5 );
 add_filter( 'woocommerce_product_title', 'ng_ar_label', 5 );
+
+// Scope the_title to products only — protects WC order item titles,
+// blog post titles, and any non-product titles that legitimately
+// contain a "|" character.
+add_filter( 'the_title', function ( $title, $post_id = null ) {
+    if ( $post_id && 'product' === get_post_type( $post_id ) ) {
+        return ng_ar_label( $title );
+    }
+    return $title;
+}, 5, 2 );
 add_filter( 'woocommerce_breadcrumb_main_term', function ( $term ) {
     if ( is_object( $term ) && isset( $term->name ) ) {
         $term->name = ng_ar_label( $term->name );

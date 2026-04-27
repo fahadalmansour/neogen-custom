@@ -55,6 +55,14 @@ add_action('init', function () {
     }
     // Strip 'ca-' prefix if Site Kit stored it that way (clientID is 'ca-pub-…')
     $pub = preg_replace('/^ca-/i', '', $client_id);
+    // Strict shape check — only emit a real publisher line if the value
+    // matches Google's pub-NNNNNNNNNNNNNNNN format. Anything else
+    // means the option was tampered with or Site Kit changed shape.
+    if ( ! preg_match('/^pub-\d+$/', $pub) ) {
+        echo "# ads.txt — malformed AdSense publisher ID, refusing to serve.\n";
+        echo "# Set ng_adsense_client_id option to a valid 'pub-NNNNNNNNNNNNNNNN' value.\n";
+        exit;
+    }
 
     echo "# ads.txt — neogen.store · auto-generated\n";
     echo "google.com, " . $pub . ", DIRECT, f08c47fec0942fa0\n";
