@@ -54,6 +54,16 @@ function ng_deploy_tools_render() {
         <?php submit_button('Clear rate-limit transients', 'primary'); ?>
       </form>
       <hr>
+      <h2>Plugin source dump (read-only)</h2>
+      <p>Prints lines around throttle keywords from the upstream <code>neogen-deploy</code> plugin so we can identify the actual storage mechanism (file? wpdb? cache?).</p>
+      <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <?php wp_nonce_field('ng_deploy_source_dump'); ?>
+        <input type="hidden" name="action" value="ng_deploy_source_dump">
+        <?php submit_button('Dump plugin source around throttle', 'secondary'); ?>
+      </form>
+      <?php if ( ! empty($_GET['source_dumped']) ) : ng_deploy_tools_render_source_dump(); endif; ?>
+
+      <hr>
       <h2>Throttle inspector (read-only)</h2>
       <p>
         Dumps every <code>wp_options</code> / <code>wp_usermeta</code> row whose
@@ -151,6 +161,114 @@ add_action('admin_post_ng_deploy_throttle_inspect', function () {
     ));
     exit;
 });
+
+add_action('admin_post_ng_deploy_source_dump', function () {
+    if (!current_user_can('manage_options')) {
+        wp_die('Insufficient permissions.');
+    }
+    check_admin_referer('ng_deploy_source_dump');
+    wp_safe_redirect(add_query_arg(
+        'source_dumped',
+        '1',
+        admin_url('tools.php?page=neogen-deploy-tools')
+    ));
+    exit;
+});
+
+function ng_deploy_tools_render_source_dump() {
+    if ( ! current_user_can('manage_options') ) return;
+
+    $candidates = [
+        WP_PLUGIN_DIR . '/neogen-deploy',
+        WP_PLUGIN_DIR . '/ngs-deploy',
+        WP_PLUGIN_DIR . '/ng-deploy',
+    ];
+
+    echo '<pre style="background:#0c0c0c;color:#0f0;padding:14px;white-space:pre-wrap;font:11.5px/1.5 ui-monospace,monospace;border-radius:4px;max-height:780px;overflow:auto">';
+
+    foreach ( $candidates as $plug ) {
+        if ( ! is_dir($plug) ) continue;
+        echo "==== plugin dir: " . esc_html($plug) . " ====\n\n";
+
+        // List all files in the plugin dir (1 level + subdirs)
+        $rii = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $plug, RecursiveDirectoryIterator::SKIP_DOTS ) );
+        echo "Files:\n";
+        foreach ( $rii as $file ) {
+            if ( $file->isFile() ) {
+                $rel = ltrim( str_replace( $plug, '', $file->getPathname() ), '/\\' );
+                printf("  %-60s %d bytes  mtime=%s\n",
+                    esc_html($rel),
+                    $file->getSize(),
+                    gmdate('Y-m-d H:i:s', $file->getMTime())
+                );
+            }
+        }
+        echo "\n";
+
+        // Look for non-PHP data files that might be a throttle counter
+        $data_exts = ['json', 'log', 'txt', 'lock', 'tmp', 'dat', 'cache'];
+        foreach ( $rii as $file ) {
+            if ( $file->isFile() ) {
+                $ext = strtolower( $file->getExtension() );
+                if ( in_array($ext, $data_exts, true) && $file->getSize() < 65536 ) {
+                    echo "---- DATA FILE: " . esc_html(basename($file->getPathname())) . " (" . $file->getSize() . "b) ----\n";
+                    echo esc_html( (string) @file_get_contents( $file->getPathname() ) ) . "\n\n";
+                }
+            }
+        }
+
+        // Grep PHP sources for throttle/storage keywords + show surrounding lines
+        $patterns = [
+            'rate.?limit',
+            '20.*hour',
+            'deploys?.?per.?hour',
+            'too.?many',
+            'file_put_contents',
+            'fopen',
+            'fwrite',
+            '\$wpdb',
+            'wp_cache_(set|get|delete)',
+            'set_transient',
+            'update_option',
+            'update_user_meta',
+            'add_action.*wp_ajax',
+            'add_action.*admin_post',
+            'check_ajax_referer',
+        ];
+
+        foreach ( glob("$plug/*.php") ?: [] as $f ) {
+            $src = @file_get_contents($f);
+            if ( $src === false ) continue;
+            $lines = explode("\n", $src);
+            $hits  = [];
+            foreach ( $lines as $i => $line ) {
+                foreach ( $patterns as $p ) {
+                    if ( preg_match('/' . $p . '/i', $line) ) {
+                        $hits[$i] = true;
+                        break;
+                    }
+                }
+            }
+            if ( empty($hits) ) continue;
+            echo "==== " . esc_html(basename($f)) . " (" . count($lines) . " lines) ====\n";
+            // Print 3 lines of context around each hit, dedup overlapping ranges
+            $printed = [];
+            foreach ( array_keys($hits) as $line_no ) {
+                $start = max(0, $line_no - 2);
+                $end   = min(count($lines) - 1, $line_no + 4);
+                for ( $i = $start; $i <= $end; $i++ ) {
+                    if ( isset($printed[$i]) ) continue;
+                    $printed[$i] = true;
+                    printf("%5d: %s\n", $i + 1, esc_html( rtrim($lines[$i]) ));
+                }
+                echo "  ---\n";
+            }
+            echo "\n";
+        }
+        break; // only first matched plugin dir
+    }
+    echo '</pre>';
+}
 
 /**
  * admin-post handler. Nonce + manage_options gated. Aggressively
