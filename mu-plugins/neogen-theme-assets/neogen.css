@@ -1015,7 +1015,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   grid-template-rows: auto auto 1fr auto auto;
   gap: 14px;
-  background: linear-gradient(180deg, #f6f1e8 0%, #ece5d6 100%);
+  background: #e1e8ed;
   border: 1px solid rgba(10, 10, 10, 0.18);
   border-radius: var(--radius-lg);
   padding: 16px;
