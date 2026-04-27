@@ -33,22 +33,24 @@ if (post_password_required()) {
 $id         = $product->get_id();
 $sku        = $product->get_sku();
 if (!$sku) { $sku = 'NG-' . $id; }
-$name_en    = $product->get_name();
+$name_full  = $product->get_name();
 $name_ar    = get_post_meta($id, '_ng_ar_title', true);
-if (!$name_ar) { $name_ar = $name_en; }
+if (!$name_ar) {
+    $name_ar = function_exists('ng_ar_label') ? ng_ar_label( $name_full ) : $name_full;
+}
 $price_html = $product->get_price_html();
 $stock_qty  = $product->get_stock_quantity();
 
 $stock_class = 'on';
-$stock_label = 'IN STOCK';
+$stock_label = 'متوفّر';
 if (!$product->is_in_stock()) {
     $stock_class = 'warn';
-    $stock_label = 'OUT OF STOCK';
+    $stock_label = 'نفد';
 } elseif (is_numeric($stock_qty) && (int) $stock_qty > 0 && (int) $stock_qty < 5) {
     $stock_class = 'warn';
-    $stock_label = 'LOW · ' . (int) $stock_qty;
+    $stock_label = 'مخزون منخفض · ' . (int) $stock_qty;
 } elseif (is_numeric($stock_qty)) {
-    $stock_label = 'STOCK ' . (int) $stock_qty;
+    $stock_label = (int) $stock_qty . ' وحدة';
 }
 
 $cats = wp_get_post_terms($id, 'product_cat');
@@ -59,10 +61,10 @@ if (is_wp_error($cats)) { $cats = []; }
   <header class="ng-single-top">
     <div class="ng-single-kicker">
       <span class="led on"></span>
-      <span>OPERATOR UNIT / DETAILS</span>
-      <?php if (!empty($cats)) : $first_cat = $cats[0]; $link = get_term_link($first_cat); ?>
+      <span>وحدة المشغّل · التفاصيل</span>
+      <?php if (!empty($cats)) : $first_cat = $cats[0]; $link = get_term_link($first_cat); $cat_name = function_exists('ng_ar_label') ? ng_ar_label($first_cat->name) : $first_cat->name; ?>
         <span class="sep"></span>
-        <a href="<?php echo esc_url(is_wp_error($link) ? '#' : $link); ?>"><?php echo esc_html(strtoupper($first_cat->name)); ?></a>
+        <a href="<?php echo esc_url(is_wp_error($link) ? '#' : $link); ?>"><?php echo esc_html($cat_name); ?></a>
       <?php endif; ?>
       <span class="sep"></span>
       <span class="sku"><?php echo esc_html(strtoupper($sku)); ?></span>
@@ -70,7 +72,6 @@ if (is_wp_error($cats)) { $cats = []; }
 
     <h1 class="ng-single-h1">
       <span class="ar"><?php echo esc_html($name_ar); ?></span>
-      <span class="en"><?php echo esc_html($name_en); ?></span>
     </h1>
   </header>
 
@@ -90,7 +91,7 @@ if (is_wp_error($cats)) { $cats = []; }
 
       <div class="ng-single-price">
         <?php echo wp_kses_post($price_html); ?>
-        <div class="inc">VAT INC / SHIP 2-5D</div>
+        <div class="inc">شامل الضريبة · شحن 2-5 أيام</div>
       </div>
 
       <div class="ng-single-stock ng-single-stock--<?php echo esc_attr($stock_class); ?>">
@@ -115,36 +116,36 @@ if (is_wp_error($cats)) { $cats = []; }
         ?>
       </div>
 
-      <div class="ng-single-brief" aria-label="Systems brief">
+      <div class="ng-single-brief" aria-label="بطاقة المواصفات">
         <div class="ng-brief-head">
-          <span>// UNIT SPECS</span>
+          <span>// بطاقة المواصفات</span>
           <span><?php echo esc_html(strtoupper(date_i18n('M Y'))); ?></span>
         </div>
         <div class="ng-brief-row">
-          <span class="k">SKU</span>
+          <span class="k">الرمز</span>
           <span class="v"><?php echo esc_html(strtoupper($sku)); ?></span>
-          <span class="t">LIVE</span>
+          <span class="t">مباشر</span>
         </div>
         <?php if (is_numeric($stock_qty)) : ?>
         <div class="ng-brief-row">
-          <span class="k">Stock</span>
-          <span class="v"><?php echo esc_html((int) $stock_qty); ?> units</span>
-          <span class="t <?php echo $stock_qty < 5 ? 'warn' : ''; ?>"><?php echo $stock_qty < 5 ? 'LOW' : 'OK'; ?></span>
+          <span class="k">المخزون</span>
+          <span class="v"><?php echo esc_html((int) $stock_qty); ?> وحدة</span>
+          <span class="t <?php echo $stock_qty < 5 ? 'warn' : ''; ?>"><?php echo $stock_qty < 5 ? 'منخفض' : 'متوفّر'; ?></span>
         </div>
         <?php endif; ?>
         <div class="ng-brief-row">
-          <span class="k">Shipping</span>
-          <span class="v">2-5D · KSA metros</span>
-          <span class="t">OK</span>
+          <span class="k">الشحن</span>
+          <span class="v">2-5 أيام · مدن المملكة</span>
+          <span class="t">جاهز</span>
         </div>
         <div class="ng-brief-row">
-          <span class="k">Warranty</span>
-          <span class="v">12 months · AR support</span>
+          <span class="k">الضمان</span>
+          <span class="v">12 شهر · دعم بالعربية</span>
           <span class="t">24/7</span>
         </div>
         <div class="ng-brief-row">
-          <span class="k">Payment</span>
-          <span class="v">Mada · Apple Pay · STC · Tabby</span>
+          <span class="k">الدفع</span>
+          <span class="v">مدى · Apple Pay · STC · Tabby</span>
           <span class="t">PCI</span>
         </div>
       </div>
@@ -162,12 +163,54 @@ if (is_wp_error($cats)) { $cats = []; }
     </aside>
   </div>
 
+  <?php
+  // Build a 2-column attributes table from product attributes.
+  $attrs = $product->get_attributes();
+  $attr_rows = [];
+  if ( ! empty( $attrs ) ) {
+      foreach ( $attrs as $attr ) {
+          if ( ! $attr instanceof WC_Product_Attribute ) continue;
+          if ( ! $attr->get_visible() ) continue;
+          $vals = $attr->is_taxonomy()
+              ? wp_get_post_terms( $id, $attr->get_name(), [ 'fields' => 'names' ] )
+              : $attr->get_options();
+          if ( is_wp_error( $vals ) || empty( $vals ) ) continue;
+          $label = $attr->is_taxonomy()
+              ? wc_attribute_label( $attr->get_name() )
+              : $attr->get_name();
+          $attr_rows[] = [
+              'label' => $label,
+              'value' => is_array( $vals ) ? implode( ' · ', $vals ) : (string) $vals,
+          ];
+      }
+  }
+  ?>
+
+  <?php if ( ! empty( $attr_rows ) ) : ?>
+  <section class="ng-single-attrs">
+    <div class="ng-section-head">
+      <div>
+        <div class="ng-section-label">02 · <b>المواصفات الفنية</b></div>
+        <h2 class="ng-section-h">المواصفات <span class="accent">الكاملة</span>.</h2>
+      </div>
+    </div>
+    <dl class="ng-single-attr-table">
+      <?php foreach ( $attr_rows as $row ) : ?>
+        <div class="ng-single-attr-row">
+          <dt><?php echo esc_html( $row['label'] ); ?></dt>
+          <dd><?php echo esc_html( $row['value'] ); ?></dd>
+        </div>
+      <?php endforeach; ?>
+    </dl>
+  </section>
+  <?php endif; ?>
+
   <?php if ($product->get_description()) : ?>
   <section class="ng-single-description">
     <div class="ng-section-head">
       <div>
-        <div class="ng-section-label">02 / <b>FULL SPEC SHEET</b></div>
-        <h2 class="ng-section-h">What's <span class="accent">actually</span> inside.</h2>
+        <div class="ng-section-label">03 · <b>تفاصيل المنتج</b></div>
+        <h2 class="ng-section-h">ما <span class="accent">داخل</span> الوحدة.</h2>
       </div>
     </div>
     <div class="ng-single-desc-body">

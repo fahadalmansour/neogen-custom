@@ -2554,6 +2554,11 @@ body.single-product main {
 .ng-single-excerpt p:last-child { margin-bottom: 0; }
 
 /* --- Add-to-cart form (native Woo markup, restyled) --- */
+.ng-single-cart {
+  position: sticky;
+  top: 80px;
+  z-index: 5;
+}
 .ng-single-cart form.cart {
   display: grid;
   gap: 12px;
@@ -2561,6 +2566,51 @@ body.single-product main {
   background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  box-shadow: 0 18px 38px -28px rgba(0, 153, 204, 0.45);
+}
+
+/* --- Spec attributes table (2-col definition list) --- */
+.ng-single-attrs {
+  width: min(var(--container), 100%);
+  margin: 56px auto;
+  padding: 0 24px;
+}
+.ng-single-attr-table {
+  display: grid;
+  gap: 0;
+  margin: 28px 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+}
+.ng-single-attr-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.4fr) 1fr;
+  gap: 24px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.ng-single-attr-row:last-child { border-bottom: 0; }
+.ng-single-attr-row dt {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: center;
+}
+.ng-single-attr-row dd {
+  margin: 0;
+  font-family: var(--font-ar-ui);
+  font-size: 16px;
+  color: var(--text);
+  align-self: center;
+}
+@media (max-width: 720px) {
+  .ng-single-cart { position: static; }
+  .ng-single-attr-row { grid-template-columns: 1fr; gap: 4px; padding: 12px 16px; }
 }
 
 .ng-single-cart form.cart .quantity {
