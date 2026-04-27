@@ -5079,6 +5079,36 @@ body.woocommerce-account:not(.logged-in) .woocommerce {
 
 .ng-account-lede a { color: var(--accent); border-bottom: 1px dashed var(--line-strong); }
 
+.ng-account-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 28px 0;
+}
+.ng-account-stat {
+  display: grid;
+  gap: 4px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.ng-account-stat .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ng-account-stat .v {
+  font-family: var(--font-ar-ui);
+  font-size: 18px;
+  color: var(--text);
+}
+@media (max-width: 720px) {
+  .ng-account-stats { grid-template-columns: 1fr; }
+}
+
 .ng-account-tiles {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
