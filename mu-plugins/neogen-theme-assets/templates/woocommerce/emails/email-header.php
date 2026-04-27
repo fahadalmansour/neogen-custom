@@ -21,8 +21,8 @@ $dir = is_rtl() ? 'rtl' : 'ltr';
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="color-scheme" content="dark light" />
-<meta name="supported-color-schemes" content="dark light" />
+<meta name="color-scheme" content="only dark" />
+<meta name="supported-color-schemes" content="dark" />
 <title><?php echo esc_html(get_bloginfo('name', 'display')); ?></title>
 </head>
 <body <?php echo is_rtl() ? 'rightmargin' : 'leftmargin'; ?>="0" topmargin="0" marginwidth="0" marginheight="0" style="background-color:#050505;margin:0;padding:0;">

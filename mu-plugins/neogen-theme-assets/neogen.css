@@ -2067,7 +2067,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   color: var(--accent) !important;
 }
 
-/* Cart page & checkout page — minimal dark-mode pass */
+/* Cart page & checkout page — operator-console light theme overrides */
 .woocommerce table.shop_table,
 .woocommerce-page table.shop_table {
   background: var(--surface);
@@ -2127,7 +2127,7 @@ p.no-comments {
   color: var(--accent) !important;
 }
 
-/* Blocksy-specific chrome that would contradict dark mode */
+/* Blocksy chrome — kept on-brand with the operator-console light theme */
 .ct-breadcrumbs,
 .ct-breadcrumbs a {
   font-family: var(--font-mono);
@@ -6145,4 +6145,29 @@ body.woocommerce-checkout main {
 }
 @media (max-width: 768px) {
     .ng-product-video-wrap { padding: 4px; }
+}
+
+/* ---------------------------------------------------------------
+ * Dark-mode kill (v1.20.1) — neogen.store is light-themed.
+ * Hides Blocksy's dark/light toggle wherever it injects (header,
+ * sticky, mobile drawer, off-canvas) and forces light color-scheme
+ * on the root so user-agent inversion can't flip the surface.
+ * ------------------------------------------------------------- */
+.ct-header-dark-mode-switcher,
+[data-id="dark-mode-switcher"],
+.ct-dark-mode-switcher,
+.ct-toggle-dark-mode,
+[data-block="dark-mode-switcher"],
+.ct-color-mode-switcher {
+    display: none !important;
+}
+html,
+html[data-prefers-color-scheme],
+html[data-prefers-color-scheme="dark"] {
+    color-scheme: light only !important;
+}
+html.ct-dark,
+html.dark,
+body.dark-mode {
+    background: var(--bg, #faf7f0) !important;
 }

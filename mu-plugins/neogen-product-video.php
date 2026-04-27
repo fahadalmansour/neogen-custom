@@ -80,6 +80,32 @@ add_action('save_post_product', function ($post_id) {
             update_post_meta($post_id, $meta, $val);
         }
     }
+
+    // Surface a transient warning if the saved URL won't render (no provider matched).
+    $saved_url = (string) get_post_meta($post_id, '_ng_product_video_url', true);
+    if ($saved_url !== '' && ng_product_video_detect($saved_url) === null) {
+        set_transient('ng_video_unrecognized_' . $post_id, $saved_url, 60);
+    } else {
+        delete_transient('ng_video_unrecognized_' . $post_id);
+    }
+});
+
+// Show the warning on the next admin page load
+add_action('admin_notices', function () {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (!$screen || $screen->post_type !== 'product') return;
+
+    global $post;
+    if (!is_object($post)) return;
+    $key = 'ng_video_unrecognized_' . $post->ID;
+    $url = get_transient($key);
+    if (!$url) return;
+    delete_transient($key);
+
+    echo '<div class="notice notice-warning is-dismissible"><p><strong>NeoGen Video:</strong> '
+       . 'الرابط محفوظ لكن لا يطابق أي مزود معروف (YouTube / Vimeo / mp4|webm|mov|m4v) — لن يظهر فيديو على صفحة المنتج. '
+       . '<br>Saved URL doesn\'t match a known provider, so no player will render: <code>'
+       . esc_html($url) . '</code></p></div>';
 });
 
 /* ---------------------------------------------------------------------
@@ -125,11 +151,15 @@ function ng_product_video_html($url, $poster = '') {
              . '" allowfullscreen></iframe></div>';
     }
 
-    // self-hosted
+    // self-hosted — emit MIME hint per file extension (some browsers need it)
+    $mime_map = ['mp4' => 'video/mp4', 'webm' => 'video/webm', 'mov' => 'video/quicktime', 'm4v' => 'video/mp4'];
+    $ext  = strtolower(pathinfo(parse_url($info['url'], PHP_URL_PATH) ?: '', PATHINFO_EXTENSION));
+    $mime = $mime_map[$ext] ?? 'video/mp4';
+
     $poster_attr = $poster !== '' ? ' poster="' . esc_url($poster) . '"' : '';
     return '<div class="ng-product-video ng-video-file"><video controls preload="metadata"'
          . $poster_attr . ' playsinline>'
-         . '<source src="' . esc_url($info['url']) . '">'
+         . '<source src="' . esc_url($info['url']) . '" type="' . esc_attr($mime) . '">'
          . '</video></div>';
 }
 
@@ -180,13 +210,20 @@ add_action('wp_head', function () {
         ? 'https://www.youtube-nocookie.com/embed/' . $info['id']
         : ($info['type'] === 'vimeo' ? 'https://player.vimeo.com/video/' . $info['id'] : $url);
 
+    /*
+     * Schema.org `uploadDate` should be the date the video was uploaded
+     * to YouTube/Vimeo — NOT when the WP product was created. We don't
+     * have that data without an oEmbed/API call, and a wrong date would
+     * cause Google to flag the rich-result. Schema.org allows omission;
+     * Google rich results test only enforces it on the ClipObject /
+     * BroadcastEvent variants. Omit and stay correct.
+     */
     $node = [
         '@context'     => 'https://schema.org',
         '@type'        => 'VideoObject',
         'name'         => $title,
         'description'  => $desc !== '' ? $desc : $title,
         'thumbnailUrl' => [$thumb],
-        'uploadDate'   => get_the_date('c', $id),
         'contentUrl'   => $url,
         'embedUrl'     => $embed,
     ];

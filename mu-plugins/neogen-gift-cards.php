@@ -346,20 +346,45 @@ function ng_gift_card_asset_for_product($product, $parent = null) {
         $parent = ng_gift_card_parent_product($product);
     }
 
+    /*
+     * Per-product explicit override: read _ng_gift_card_brand meta on the
+     * product (or its parent for variants) and short-circuit the keyword
+     * scan if it points at a registered slot key. This is the runtime
+     * side of the CSV column 'Meta: _ng_gift_card_brand'.
+     */
+    $map = ng_gift_card_asset_map();
+    foreach ([$product, $parent] as $candidate) {
+        if (!is_object($candidate) || !method_exists($candidate, 'get_id')) continue;
+        $id = (int) $candidate->get_id();
+        if ($id <= 0) continue;
+        $forced = (string) get_post_meta($id, '_ng_gift_card_brand', true);
+        $forced = strtolower(trim($forced));
+        if ($forced === '' || !isset($map[$forced])) continue;
+
+        $asset = $map[$forced];
+        $file  = ng_gift_card_existing_file($asset);
+        if ($file === '') break;          // override declared but no art on disk → fall through to keyword scan
+        $asset['key']  = $forced;
+        $asset['file'] = $file;
+        $asset['matched_via'] = 'override';
+        return $asset;
+    }
+
     if (!ng_gift_card_is_candidate_product($product, $parent)) {
         return null;
     }
 
     $haystack = ng_gift_card_match_text($product, $parent);
-    foreach (ng_gift_card_asset_map() as $key => $asset) {
+    foreach ($map as $key => $asset) {
         foreach ($asset['keywords'] as $keyword) {
             if (strpos($haystack, ng_gift_card_normalize_match_text($keyword)) !== false) {
                 $file = ng_gift_card_existing_file($asset);
                 if ($file === '') {
                     continue 2;
                 }
-                $asset['key'] = $key;
+                $asset['key']  = $key;
                 $asset['file'] = $file;
+                $asset['matched_via'] = 'keyword:' . $keyword;
                 return $asset;
             }
         }

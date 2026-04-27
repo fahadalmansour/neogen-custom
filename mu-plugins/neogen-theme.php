@@ -715,8 +715,22 @@ add_action('wp_enqueue_scripts', function () {
 add_action('wp_head', function () {
     echo "\n" . '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    echo '<meta name="theme-color" content="#050505">' . "\n";
+    // Match the manifest theme_color (#0099cc) + light operator-console aesthetic.
+    echo '<meta name="theme-color" content="#0099cc">' . "\n";
+    echo '<meta name="color-scheme" content="light only">' . "\n";
 }, 2);
+
+/**
+ * Force light mode on the HTML root before first paint so the parent
+ * Blocksy theme's dark-mode initialization can't briefly flash dark.
+ * Runs at wp_head priority 0 — before any other inline scripts.
+ */
+add_action('wp_head', function () {
+    echo "\n<script>" .
+         "document.documentElement.setAttribute('data-prefers-color-scheme','light');" .
+         "document.documentElement.classList.remove('ct-dark','dark','dark-mode');" .
+         "</script>\n";
+}, 0);
 
 /**
  * Favicon + PWA icon set. Brand kit v1.1 approves the 8-point star

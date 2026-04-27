@@ -79,6 +79,15 @@ function ng_deploy_tools_render() {
       </form>
       <?php if (!empty($_GET['inspected'])) : ng_deploy_tools_render_inspection(); endif; ?>
       <hr>
+      <h2>Gift-card match coverage report</h2>
+      <p>Walks every published WC product matched by <code>ng_gift_card_is_candidate_product()</code> and tallies which slot they resolve to. Shows unmatched products with name + SKU so you can see which spellings need extra Arabic keyword coverage in <code>ng_gift_card_asset_map()</code>.</p>
+      <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <?php wp_nonce_field('ng_deploy_gc_coverage'); ?>
+        <input type="hidden" name="action" value="ng_deploy_gc_coverage">
+        <?php submit_button('Run gift-card coverage report', 'secondary'); ?>
+      </form>
+      <?php if (!empty($_GET['gc_coverage'])) : ng_deploy_tools_render_gc_coverage(); endif; ?>
+      <hr>
       <h2>Current raised-cap override</h2>
       <p>
         This plugin attempts to raise the cap to <b>200/hr</b> by filtering
@@ -326,3 +335,82 @@ add_action('admin_post_ng_deploy_reset_ratelimit', function () {
     ));
     exit;
 });
+
+/* ---------------------------------------------------------------
+ * v1.20.1 — Gift-card match coverage report
+ * Iterates every published product, calls
+ * ng_gift_card_is_candidate_product() / ng_gift_card_asset_for_product()
+ * and tabulates per-brand match counts + unmatched-list.
+ * ------------------------------------------------------------- */
+
+add_action('admin_post_ng_deploy_gc_coverage', function () {
+    if (!current_user_can('manage_options')) wp_die('forbidden');
+    check_admin_referer('ng_deploy_gc_coverage');
+    wp_safe_redirect(add_query_arg('gc_coverage', '1', admin_url('tools.php?page=neogen-deploy-tools')));
+    exit;
+});
+
+function ng_deploy_tools_render_gc_coverage() {
+    if (!current_user_can('manage_options')) return;
+    if (!function_exists('ng_gift_card_asset_map') || !function_exists('wc_get_products')) {
+        echo '<div class="notice notice-error"><p>WooCommerce or gift-cards plugin not active.</p></div>';
+        return;
+    }
+
+    $matched   = [];      // brand_key => [['name'=>..,'sku'=>..,'matched_via'=>..]]
+    $unmatched = [];      // [['name'=>..,'sku'=>..,'id'=>..]]
+    $total_candidates = 0;
+
+    $products = wc_get_products([
+        'limit'   => -1,
+        'status'  => 'publish',
+        'type'    => ['simple', 'variable'],
+        'return'  => 'objects',
+    ]);
+
+    foreach ($products as $product) {
+        if (!ng_gift_card_is_candidate_product($product)) continue;
+        $total_candidates++;
+
+        $asset = ng_gift_card_asset_for_product($product);
+        $entry = [
+            'id'   => $product->get_id(),
+            'name' => $product->get_name(),
+            'sku'  => $product->get_sku(),
+        ];
+        if ($asset && !empty($asset['key'])) {
+            $entry['matched_via'] = $asset['matched_via'] ?? 'keyword';
+            $matched[$asset['key']][] = $entry;
+        } else {
+            $unmatched[] = $entry;
+        }
+    }
+
+    krsort($matched);
+    uasort($matched, function ($a, $b) { return count($b) <=> count($a); });
+
+    echo '<pre style="background:#0c0c0c;color:#0f0;padding:14px;white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;border-radius:4px;max-height:600px;overflow:auto">';
+    printf("Candidate products (gift-card-like): %d\nMatched: %d  ·  Unmatched: %d\n\n",
+        $total_candidates,
+        $total_candidates - count($unmatched),
+        count($unmatched)
+    );
+
+    echo "── Per-brand match counts ──────────────────\n";
+    foreach ($matched as $key => $list) {
+        printf("  %-22s %d\n", $key, count($list));
+    }
+
+    echo "\n── Unmatched products (first 100) ─────────\n";
+    foreach (array_slice($unmatched, 0, 100) as $u) {
+        printf("  #%-6d  %-12s  %s\n",
+            (int) $u['id'],
+            esc_html((string) $u['sku']),
+            esc_html((string) $u['name'])
+        );
+    }
+    if (count($unmatched) > 100) {
+        printf("\n  … and %d more not shown.\n", count($unmatched) - 100);
+    }
+    echo '</pre>';
+}
