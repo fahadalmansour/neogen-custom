@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Site Custom
  * Description: Central site customizations deployed via git. Auto-loaded (mu-plugin).
- * Version: 1.20.10
+ * Version: 1.20.11
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_CUSTOM_VERSION')) {
-    define('NEOGEN_CUSTOM_VERSION', '1.20.10');
+    define('NEOGEN_CUSTOM_VERSION', '1.20.11');
 }
 
 /**

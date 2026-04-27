@@ -1,0 +1,14 @@
+/*
+Theme Name:   NeoGen Child
+Theme URI:    https://neogen.store/
+Description:  Child theme of Blocksy for NeoGen Store. Phase 1 bootstrap — stands up a valid child theme so the Blocksy editor can take ownership of header/footer/colors/typography in later phases. All site customization currently still flows through mu-plugins/neogen-custom/ unchanged.
+Author:       Fahad Almansour
+Author URI:   https://neogen.store/
+Template:     blocksy
+Version:      1.0.0
+Requires PHP: 7.4
+License:      GPL-2.0-or-later
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  neogen-child
+Tags:         e-commerce, rtl-language-support, custom-colors, custom-logo, full-site-editing
+*/
