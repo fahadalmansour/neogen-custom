@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO
  * Description: Security headers, /llms.txt, robots.txt AI-crawler policy, and homepage meta-description override.
- * Version: 1.10.3
+ * Version: 1.12.2
  * Author: Fahad Almansour
  */
 
@@ -25,6 +25,41 @@ add_action('send_headers', function () {
         }
     }
 });
+
+/**
+ * /ads.txt — IAB authorized digital sellers manifest for AdSense.
+ * Publisher ID is set in admin Tools → NeoGen Merchant; falls back
+ * to the AdSense client connected via Site Kit if available.
+ */
+add_action('init', function () {
+    if ( ! isset($_SERVER['REQUEST_URI']) ) return;
+    $path = strtok( (string) $_SERVER['REQUEST_URI'], '?' );
+    if ( $path !== '/ads.txt' && $path !== '/ads.txt/' ) return;
+
+    nocache_headers();
+    header('Content-Type: text/plain; charset=utf-8');
+
+    // Read AdSense client ID from Site Kit option, fallback to a stored override.
+    $sitekit_settings = get_option('googlesitekit_adsense_settings', []);
+    $client_id = '';
+    if ( is_array($sitekit_settings) && ! empty($sitekit_settings['clientID']) ) {
+        $client_id = (string) $sitekit_settings['clientID'];
+    }
+    if ( $client_id === '' ) {
+        $client_id = (string) get_option('ng_adsense_client_id', '');
+    }
+    if ( $client_id === '' ) {
+        // No publisher configured — emit a comment so crawlers see we tried.
+        echo "# ads.txt placeholder — no AdSense publisher configured yet.\n";
+        exit;
+    }
+    // Strip 'ca-' prefix if Site Kit stored it that way (clientID is 'ca-pub-…')
+    $pub = preg_replace('/^ca-/i', '', $client_id);
+
+    echo "# ads.txt — neogen.store · auto-generated\n";
+    echo "google.com, " . $pub . ", DIRECT, f08c47fec0942fa0\n";
+    exit;
+}, 1);
 
 /**
  * /llms.txt — minimal LLM-readable site index. Intercepts the request
