@@ -736,9 +736,12 @@ remove_action('wp_head', 'wp_site_icon', 99);
 add_action('wp_head', function () {
     $base = NG_THEME_ASSET_URL . '/icons';
     echo "\n";
+    echo '<link rel="icon" href="' . esc_url($base . '/favicon.ico') . '" sizes="any">' . "\n";
     echo '<link rel="icon" type="image/svg+xml" href="' . esc_url($base . '/favicon.svg') . '">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url($base . '/icon-16.png') . '">' . "\n";
     echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url($base . '/icon-32.png') . '">' . "\n";
     echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url($base . '/apple-touch-icon.png') . '">' . "\n";
+    echo '<link rel="mask-icon" href="' . esc_url($base . '/safari-pinned-tab.svg') . '" color="#0099cc">' . "\n";
     echo '<link rel="manifest" href="' . esc_url($base . '/site.webmanifest') . '">' . "\n";
 }, 1);
 

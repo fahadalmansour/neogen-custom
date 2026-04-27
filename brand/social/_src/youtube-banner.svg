@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2048 1152" width="2048" height="1152">
+  <rect width="2048" height="1152" fill="#faf7f0"/>
+  <rect x="0" y="0" width="2048" height="19" fill="#0099cc"/>
+  <rect x="0" y="1133" width="2048" height="19" fill="#0099cc"/>
+  <image xlink:href="ng-mark.png" x="85" y="346" width="591" height="460"/>
+  <text x="736" y="565.65" font-family="'Chakra Petch',sans-serif" font-weight="700" font-size="207" fill="#0b0b0b" letter-spacing="6"><tspan>NEO</tspan><tspan fill="#0099cc">GEN</tspan><tspan font-family="'IBM Plex Mono',monospace" font-size="103" fill="#3a3a3a" font-weight="500" dx="20">STORE</tspan></text>
+  <text x="736" y="685.0" font-family="'Tajawal',sans-serif" font-weight="500" font-size="97" fill="#3a3a3a">متجر تشغيلي للمستخدم المتقدم</text>
+  <text x="736" y="787.0" font-family="'IBM Plex Mono',monospace" font-size="86" fill="#3a3a3a" letter-spacing="3">NEOGEN.STORE · KSA</text>
+</svg>

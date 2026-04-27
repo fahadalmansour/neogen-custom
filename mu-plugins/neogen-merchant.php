@@ -153,6 +153,12 @@ add_action('wp_head', function () {
 
     $img_id  = $product->get_image_id();
     $img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : '';
+    if ( function_exists('ng_gift_card_image_url') ) {
+        $gift_img_url = ng_gift_card_image_url( $product );
+        if ( $gift_img_url !== '' ) {
+            $img_url = $gift_img_url;
+        }
+    }
 
     $brand     = (string) $product->get_meta('_ng_brand');
     if ( $brand === '' ) {
@@ -178,12 +184,19 @@ add_action('wp_head', function () {
         'seller'         => [ '@id' => trailingslashit( home_url('/') ) . '#organization' ],
     ];
 
+    $schema_name = $product->get_name();
+    $schema_desc = wp_strip_all_tags( $product->get_short_description() ?: $product->get_description() );
+    if ( function_exists('ng_gift_card_clean_product_name') ) {
+        $schema_name = ng_gift_card_clean_product_name( $schema_name );
+        $schema_desc = ng_gift_card_clean_product_name( $schema_desc );
+    }
+
     $schema = [
         '@context'    => 'https://schema.org',
         '@type'       => 'Product',
         '@id'         => get_permalink( $product->get_id() ) . '#product',
-        'name'        => $product->get_name(),
-        'description' => wp_strip_all_tags( $product->get_short_description() ?: $product->get_description() ),
+        'name'        => $schema_name,
+        'description' => $schema_desc,
         'sku'         => $product->get_sku(),
         'mpn'         => $mpn,
         'brand'       => [ '@type' => 'Brand', 'name' => $brand ],
@@ -322,11 +335,17 @@ function ng_merchant_item_data( $product, $parent, $brand_default, $cond_default
 
     $title = $product->get_name();
     if ( $parent && trim($title) === '' ) $title = $parent->get_name();
+    if ( function_exists('ng_gift_card_clean_product_name') ) {
+        $title = ng_gift_card_clean_product_name( $title );
+    }
     $title = mb_substr( trim($title), 0, 150 );
 
     $desc = wp_strip_all_tags( $product->get_short_description() ?: $product->get_description() );
     if ( $desc === '' && $parent ) {
         $desc = wp_strip_all_tags( $parent->get_short_description() ?: $parent->get_description() );
+    }
+    if ( function_exists('ng_gift_card_clean_product_name') ) {
+        $desc = ng_gift_card_clean_product_name( $desc );
     }
     $desc = mb_substr( trim($desc), 0, 5000 );
 
@@ -336,13 +355,23 @@ function ng_merchant_item_data( $product, $parent, $brand_default, $cond_default
     $img_id  = $product->get_image_id();
     if ( ! $img_id && $parent ) $img_id = $parent->get_image_id();
     $img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : '';
+    $has_gift_card_image = false;
+    if ( function_exists('ng_gift_card_image_url') ) {
+        $gift_img_url = ng_gift_card_image_url( $product, $parent );
+        if ( $gift_img_url !== '' ) {
+            $img_url = $gift_img_url;
+            $has_gift_card_image = true;
+        }
+    }
 
     $additional_imgs = [];
-    $gallery_ids = $product->get_gallery_image_ids();
-    if ( empty($gallery_ids) && $parent ) $gallery_ids = $parent->get_gallery_image_ids();
-    foreach ( array_slice($gallery_ids, 0, 10) as $gid ) {
-        $u = wp_get_attachment_image_url( (int) $gid, 'large' );
-        if ( $u ) $additional_imgs[] = $u;
+    if ( ! $has_gift_card_image ) {
+        $gallery_ids = $product->get_gallery_image_ids();
+        if ( empty($gallery_ids) && $parent ) $gallery_ids = $parent->get_gallery_image_ids();
+        foreach ( array_slice($gallery_ids, 0, 10) as $gid ) {
+            $u = wp_get_attachment_image_url( (int) $gid, 'large' );
+            if ( $u ) $additional_imgs[] = $u;
+        }
     }
 
     $price = $product->get_price();

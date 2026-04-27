@@ -22,6 +22,7 @@ wp-config.php
 
 # Official certificates / PII documents — never stage
 *.pdf
+!brand/print/*.pdf
 
 .claude/
 .playwright-mcp/
@@ -46,5 +47,10 @@ audit/
 neogen-*.png
 neogen-store-*.png
 
-# But the brand kit PNGs in mu-plugins/.../img/logo/ are deployable assets — not screenshots
-!mu-plugins/neogen-theme-assets/img/logo/*.png
+# But the brand-kit PNGs anywhere under mu-plugins/.../img/ are deployable assets — not screenshots
+!mu-plugins/neogen-theme-assets/img/**/*.png
+
+# Brand asset suite (favicons, social cards, profile/banner artwork) — repo-tracked
+!brand/**/*.png
+!brand/**/*.svg
+!brand/**/*.html

@@ -302,6 +302,10 @@ $rack_letter = function ($i) {
           $name_en   = $product->get_name();
           $name_ar   = get_post_meta($id, '_ng_ar_title', true);
           if (!$name_ar) { $name_ar = function_exists('ng_ar_label') ? ng_ar_label( $name_en ) : $name_en; }
+          if (function_exists('ng_gift_card_clean_product_name')) {
+              $name_en = ng_gift_card_clean_product_name($name_en);
+              $name_ar = ng_gift_card_clean_product_name($name_ar);
+          }
           $perm      = get_permalink($id);
 
           // Tag / stock badge
@@ -330,11 +334,19 @@ $rack_letter = function ($i) {
           // Image — real product featured image, or fallback SVG
           $img_id  = $product->get_image_id();
           $img     = $img_id ? wp_get_attachment_image($img_id, 'medium_large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
+          $has_gift_img = false;
+          if (function_exists('ng_gift_card_image_html')) {
+              $gift_img = ng_gift_card_image_html($product, 'medium_large', $name_en, null, ['class' => 'ng-product-img']);
+              if ($gift_img) {
+                  $img = $gift_img;
+                  $has_gift_img = true;
+              }
+          }
 
           // Hover image — first gallery image (if any)
           $gallery_ids = $product->get_gallery_image_ids();
           $img_alt_html = '';
-          if ( ! empty( $gallery_ids ) ) {
+          if ( ! empty( $gallery_ids ) && ! $has_gift_img ) {
               $img_alt_html = wp_get_attachment_image(
                   (int) $gallery_ids[0],
                   'medium_large',

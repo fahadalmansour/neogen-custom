@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 91 61" width="91mm" height="61mm">
+  <!-- bleed area (outer 91x61), trim is 85x55 (3mm bleed) -->
+  <rect width="91" height="61" fill="#faf7f0"/>
+  <!-- safe-area inset border (ink stays inside trim) -->
+  <rect x="6" y="6" width="79" height="49" fill="none" stroke="#0099cc" stroke-width="0.4"/>
+  <!-- NG mark left -->
+  <image xlink:href="ng-mark.png" x="9" y="14" width="22" height="17"/>
+  <!-- vertical divider -->
+  <line x1="36" y1="14" x2="36" y2="36" stroke="#0099cc" stroke-width="0.3"/>
+  <!-- wordmark -->
+  <text x="40" y="26" font-family="'Chakra Petch',sans-serif" font-size="6" font-weight="700" letter-spacing="0.6"><tspan fill="#0b0b0b" font-weight="300">NEO</tspan><tspan fill="#0099cc">GEN</tspan></text>
+  <text x="40" y="32" font-family="'IBM Plex Mono',monospace" font-size="2.4" fill="#3a3a3a" letter-spacing="1">STORE · KSA</text>
+  <!-- AR tagline strip -->
+  <text x="45.5" y="46" text-anchor="middle" font-family="'Tajawal',sans-serif" font-size="2.6" fill="#3a3a3a">متجر تشغيلي للمستخدم المتقدم</text>
+  <text x="45.5" y="50" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="1.8" fill="#3a3a3a" letter-spacing="0.6">NEOGEN.STORE</text>
+</svg>

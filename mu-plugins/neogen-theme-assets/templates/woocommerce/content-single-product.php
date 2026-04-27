@@ -38,6 +38,10 @@ $name_ar    = get_post_meta($id, '_ng_ar_title', true);
 if (!$name_ar) {
     $name_ar = function_exists('ng_ar_label') ? ng_ar_label( $name_full ) : $name_full;
 }
+if (function_exists('ng_gift_card_clean_product_name')) {
+    $name_full = ng_gift_card_clean_product_name($name_full);
+    $name_ar   = ng_gift_card_clean_product_name($name_ar);
+}
 $price_html = $product->get_price_html();
 $stock_qty  = $product->get_stock_quantity();
 

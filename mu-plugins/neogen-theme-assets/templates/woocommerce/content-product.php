@@ -31,6 +31,10 @@ if (!$sku) { $sku = 'NG-' . $id; }
 $name_en = $product->get_name();
 $name_ar = get_post_meta($id, '_ng_ar_title', true);
 if (!$name_ar) { $name_ar = $name_en; }
+if (function_exists('ng_gift_card_clean_product_name')) {
+    $name_en = ng_gift_card_clean_product_name($name_en);
+    $name_ar = ng_gift_card_clean_product_name($name_ar);
+}
 $perm    = get_permalink($id);
 
 // Stock / freshness tag.
@@ -63,6 +67,12 @@ $img    = $img_id
         'alt'   => esc_attr($name_en),
     ])
     : '';
+if (function_exists('ng_gift_card_image_html')) {
+    $gift_img = ng_gift_card_image_html($product, 'woocommerce_thumbnail', $name_en, null, ['class' => 'ng-product-img']);
+    if ($gift_img) {
+        $img = $gift_img;
+    }
+}
 
 // Up to four spec chips — prefer product attributes, pad with tags.
 $specs = [];

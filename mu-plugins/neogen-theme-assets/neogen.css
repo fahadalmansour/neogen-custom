@@ -1169,6 +1169,12 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: block;
 }
 
+.ng-product-media .ng-gift-card-img {
+  object-fit: contain;
+  padding: 10px;
+  background: #ffffff;
+}
+
 .ng-product-media:has(img) {
   background: #ffffff;
   border-color: rgba(10, 10, 10, 0.12);
@@ -2426,6 +2432,12 @@ body.single-product main {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.ng-single-gallery .woocommerce-product-gallery__image .ng-gift-card-img {
+  padding: 18px;
+  background: #ffffff;
+  object-fit: contain;
 }
 
 .ng-single-gallery .flex-control-thumbs {

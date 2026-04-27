@@ -344,3 +344,52 @@ add_filter('rank_math/sitemap/locations', function ($locs) {
     if ( is_array($locs) ) return array_map('ng_seo_rewrite_legacy_host', $locs);
     return ng_seo_rewrite_legacy_host($locs);
 });
+
+/* =====================================================================
+ * v1.19.0 — Open Graph + Twitter Card image emission
+ * Static OG image lives at neogen-theme-assets/img/social/.
+ * If Rank Math is active, feed our path through its og_image filter so
+ * we don't emit duplicate <meta> tags. Otherwise emit directly.
+ * ===================================================================== */
+
+function ng_og_image_url() {
+    $base   = content_url('mu-plugins/neogen-custom/neogen-theme-assets/img/social');
+    $locale = function_exists('determine_locale') ? determine_locale() : get_locale();
+    $is_ar  = strpos((string) $locale, 'ar') === 0;
+    return $base . ($is_ar ? '/og-default-ar.png' : '/og-default-en.png');
+}
+
+function ng_twitter_image_url() {
+    $base   = content_url('mu-plugins/neogen-custom/neogen-theme-assets/img/social');
+    $locale = function_exists('determine_locale') ? determine_locale() : get_locale();
+    $is_ar  = strpos((string) $locale, 'ar') === 0;
+    return $base . ($is_ar ? '/twitter-card-ar.png' : '/twitter-card-en.png');
+}
+
+// Rank Math integration — replace, don't duplicate
+add_filter('rank_math/opengraph/facebook/og_image',          'ng_og_image_url', 99);
+add_filter('rank_math/opengraph/facebook/og_image_secure_url','ng_og_image_url', 99);
+add_filter('rank_math/opengraph/twitter/twitter_image',      'ng_twitter_image_url', 99);
+add_filter('rank_math/opengraph/facebook/og_image_width',    function () { return 1200; }, 99);
+add_filter('rank_math/opengraph/facebook/og_image_height',   function () { return 630;  }, 99);
+
+// Direct emission only when Rank Math is NOT around
+add_action('wp_head', function () {
+    if ( class_exists('RankMath') ) return;
+
+    $og  = esc_url( ng_og_image_url() );
+    $tw  = esc_url( ng_twitter_image_url() );
+    $url = esc_url( is_singular() ? get_permalink() : home_url('/') );
+
+    echo "\n<!-- NeoGen OG/Twitter -->\n";
+    echo '<meta property="og:type" content="website">' . "\n";
+    echo '<meta property="og:site_name" content="NEOGEN STORE">' . "\n";
+    echo '<meta property="og:locale" content="ar_SA">' . "\n";
+    echo '<meta property="og:locale:alternate" content="en_US">' . "\n";
+    echo '<meta property="og:url" content="' . $url . '">' . "\n";
+    echo '<meta property="og:image" content="' . $og . '">' . "\n";
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:image" content="' . $tw . '">' . "\n";
+}, 5);

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#faf7f0"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#0099cc" stroke-width="3"/>
+  <image xlink:href="ng-mark.png" x="80" y="80" width="180" height="140"/>
+  <text x="280" y="170" font-family="'IBM Plex Mono',monospace" font-size="22" fill="#3a3a3a" letter-spacing="4">{{SKU}}</text>
+  <text x="80" y="380" font-family="'Tajawal',sans-serif" font-weight="700" font-size="72" fill="#0b0b0b">{{TITLE}}</text>
+  <text x="80" y="470" font-family="'Chakra Petch',sans-serif" font-weight="700" font-size="64" fill="#0099cc">{{PRICE}} SAR</text>
+  <text x="80" y="580" font-family="'Tajawal',sans-serif" font-size="20" fill="#3a3a3a">neogen.store · شحن داخل المملكة · ضمان 12 شهر</text>
+</svg>

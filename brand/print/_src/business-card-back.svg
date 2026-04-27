@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 91 61" width="91mm" height="61mm">
+  <rect width="91" height="61" fill="#0099cc"/>
+  <!-- light grid overlay -->
+  <defs>
+    <pattern id="g" width="3" height="3" patternUnits="userSpaceOnUse">
+      <path d="M 3 0 L 0 0 0 3" fill="none" stroke="#ffffff" stroke-width="0.1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="91" height="61" fill="url(#g)"/>
+  <!-- name placeholder -->
+  <text x="9" y="14" font-family="'IBM Plex Mono',monospace" font-size="2" fill="#ffffff" opacity="0.7" letter-spacing="0.5">OPERATOR</text>
+  <text x="9" y="22" font-family="'Chakra Petch',sans-serif" font-size="6" fill="#ffffff" font-weight="600">_________________</text>
+  <text x="9" y="28" font-family="'Tajawal',sans-serif" font-size="3" fill="#ffffff" opacity="0.85">المسمى الوظيفي</text>
+  <!-- contact block -->
+  <text x="9" y="40" font-family="'IBM Plex Mono',monospace" font-size="2" fill="#ffffff" opacity="0.6" letter-spacing="0.5">CONTACT</text>
+  <text x="9" y="44" font-family="'IBM Plex Mono',monospace" font-size="2.6" fill="#ffffff">contact@neogen.store</text>
+  <text x="9" y="48" font-family="'IBM Plex Mono',monospace" font-size="2.6" fill="#ffffff">neogen.store</text>
+  <text x="9" y="52" font-family="'IBM Plex Mono',monospace" font-size="2.6" fill="#ffffff">+966 ___________</text>
+  <!-- legal block -->
+  <text x="60" y="40" font-family="'IBM Plex Mono',monospace" font-size="2" fill="#ffffff" opacity="0.6" letter-spacing="0.5">CR</text>
+  <text x="60" y="44" font-family="'IBM Plex Mono',monospace" font-size="2.6" fill="#ffffff">7053130576</text>
+  <text x="60" y="48" font-family="'IBM Plex Mono',monospace" font-size="2" fill="#ffffff" opacity="0.6">VAT</text>
+  <text x="60" y="52" font-family="'IBM Plex Mono',monospace" font-size="2.6" fill="#ffffff">_________________</text>
+  <!-- QR slot reservation -->
+  <rect x="76" y="9" width="11" height="11" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-opacity="0.4" stroke-width="0.2" stroke-dasharray="0.6 0.4"/>
+  <text x="81.5" y="15.5" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="1.4" fill="#ffffff" opacity="0.6">QR</text>
+</svg>
