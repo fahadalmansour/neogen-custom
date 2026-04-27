@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO
  * Description: Security headers, /llms.txt, robots.txt AI-crawler policy, and homepage meta-description override.
- * Version: 1.10.2
+ * Version: 1.10.3
  * Author: Fahad Almansour
  */
 
@@ -152,3 +152,152 @@ if ( defined('NG_SEO_DEDUP_DESC') && NG_SEO_DEDUP_DESC ) {
         echo $html;
     }, 9999);
 }
+
+/* =====================================================================
+ * v1.10.3 — Force-fix every code-reachable SEO finding
+ * ===================================================================== */
+
+/**
+ * Universal legacy-host rewriter. Used by nav menus, post content,
+ * widgets, and Rank Math sitemap output.
+ */
+function ng_seo_rewrite_legacy_host($x) {
+    if ( is_string($x) ) {
+        return preg_replace('#https?://(?:www\.)?ngs1\.blazr\.net#i', 'https://neogen.store', $x);
+    }
+    if ( is_array($x) ) {
+        foreach ( $x as $i => $item ) {
+            if ( is_object($item) && isset($item->url) ) {
+                $x[$i]->url = preg_replace('#https?://(?:www\.)?ngs1\.blazr\.net#i', 'https://neogen.store', $item->url);
+            } elseif ( is_string($item) ) {
+                $x[$i] = ng_seo_rewrite_legacy_host($item);
+            } elseif ( is_array($item) ) {
+                $x[$i] = ng_seo_rewrite_legacy_host($item);
+            }
+        }
+    }
+    return $x;
+}
+
+/**
+ * A. Rewrite stale ngs1.blazr.net host in every output surface.
+ */
+add_filter('the_content',           'ng_seo_rewrite_legacy_host', 1);
+add_filter('widget_text_content',   'ng_seo_rewrite_legacy_host', 1);
+add_filter('widget_text',           'ng_seo_rewrite_legacy_host', 1);
+add_filter('wp_get_nav_menu_items', 'ng_seo_rewrite_legacy_host', 1);
+
+add_filter('wp_nav_menu_objects', function ($items) {
+    if ( ! is_array($items) ) return $items;
+    foreach ( $items as $item ) {
+        if ( ! empty($item->url) ) {
+            $item->url = preg_replace(
+                '#https?://(?:www\.)?ngs1\.blazr\.net#i',
+                'https://neogen.store',
+                $item->url
+            );
+        }
+        if ( empty( trim( wp_strip_all_tags( (string) $item->title ) ) ) && ! empty( $item->url ) ) {
+            $slug = trim( parse_url( $item->url, PHP_URL_PATH ) ?? '', '/' );
+            $label = $slug !== '' ? ucwords( str_replace( ['-', '_'], ' ', $slug ) ) : 'Link';
+            $item->classes[] = 'ng-empty-anchor-fixed';
+            $item->attr_title = $label;
+            // wp_nav_menu uses $item->aria_label if set
+            if ( ! isset( $item->aria_label ) || $item->aria_label === '' ) {
+                $item->aria_label = $label;
+            }
+        }
+    }
+    return $items;
+}, 99);
+
+/**
+ * B. Force-correct Rank Math entity data — strip demo.local, drop
+ * Person:admin and homepage Article nodes, rebrand stale names.
+ */
+add_filter('rank_math/json_ld', function ($data, $jsonld) {
+    if ( ! is_array($data) || empty($data) ) return $data;
+    $is_home = is_front_page() || is_home();
+
+    foreach ( $data as $key => $node ) {
+        if ( ! is_array($node) ) continue;
+
+        if ( isset($node['url']) && stripos($node['url'], 'demo.local') !== false ) {
+            unset($data[$key]);
+            continue;
+        }
+        if ( isset($node['@type']) && $node['@type'] === 'Person'
+            && isset($node['name']) && strtolower($node['name']) === 'admin' ) {
+            unset($data[$key]);
+            continue;
+        }
+        if ( $is_home && isset($node['@type'])
+            && in_array($node['@type'], ['Article', 'BlogPosting', 'NewsArticle'], true) ) {
+            unset($data[$key]);
+            continue;
+        }
+        // Drop Rank Math's Organization on home — local Store node is canonical
+        if ( $is_home && isset($node['@type']) && $node['@type'] === 'Organization' ) {
+            unset($data[$key]);
+            continue;
+        }
+        if ( isset($node['name']) && (
+                stripos($node['name'], 'بلازر') !== false ||
+                stripos($node['name'], 'blazr')  !== false
+        ) ) {
+            $data[$key]['name'] = 'NeoGen Store';
+            $data[$key]['alternateName'] = 'نيوجين ستور';
+        }
+        if ( isset($node['sameAs']) && is_array($node['sameAs']) ) {
+            $data[$key]['sameAs'] = array_values(array_filter(
+                $node['sameAs'],
+                function ($u) { return stripos((string) $u, 'demo.local') === false; }
+            ));
+            if ( empty($data[$key]['sameAs']) ) unset($data[$key]['sameAs']);
+        }
+    }
+
+    return array_values( array_filter($data) );
+}, 99, 2);
+
+add_filter('rank_math/frontend/description', function ($d) {
+    if ( is_front_page() || is_home() ) {
+        return 'NeoGen Store — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
+    }
+    return $d;
+}, 99);
+
+add_filter('rank_math/frontend/canonical', function ($c) {
+    if ( is_string($c) ) {
+        return preg_replace('#https?://(?:www\.)?ngs1\.blazr\.net#i', 'https://neogen.store', $c);
+    }
+    return $c;
+}, 99);
+
+add_filter('rank_math/opengraph/facebook/site_name', function () { return 'NeoGen Store'; });
+add_filter('rank_math/opengraph/facebook/og_locale', function () { return 'ar_SA'; });
+
+/**
+ * C. Author-display rewrite — global override of "admin".
+ */
+add_filter('the_author', function ($name) {
+    return strtolower((string) $name) === 'admin' ? 'NeoGen Store' : $name;
+}, 1);
+add_filter('get_the_author_display_name', function ($name) {
+    return strtolower((string) $name) === 'admin' ? 'NeoGen Store' : $name;
+}, 1);
+foreach ( ['user_nicename', 'first_name', 'nickname'] as $field ) {
+    add_filter( "the_author_{$field}", function ($name) {
+        return strtolower((string) $name) === 'admin' ? 'NeoGen Store' : $name;
+    }, 1 );
+}
+
+/**
+ * F. Rank Math sitemap output — rewrite cached legacy URLs at flight.
+ */
+add_filter('rank_math/sitemap/build_index', 'ng_seo_rewrite_legacy_host', 1);
+add_filter('rank_math/sitemap/output',      'ng_seo_rewrite_legacy_host', 1);
+add_filter('rank_math/sitemap/locations', function ($locs) {
+    if ( is_array($locs) ) return array_map('ng_seo_rewrite_legacy_host', $locs);
+    return ng_seo_rewrite_legacy_host($locs);
+});
