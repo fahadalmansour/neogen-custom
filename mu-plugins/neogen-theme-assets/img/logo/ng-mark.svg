@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" role="img" aria-label="NeoGen NG monogram">
-  <!-- N: solid dark, three-piece geometric block -->
+  <!-- N: solid dark wedge — thick left bar + diagonal to bottom-right -->
   <g fill="#0b0b0b">
     <!-- left vertical bar -->
-    <rect x="10" y="10" width="20" height="80"/>
-    <!-- right vertical bar -->
-    <rect x="70" y="10" width="20" height="80"/>
-    <!-- diagonal stroke from top-of-left to bottom-of-right -->
-    <polygon points="30,10 50,10 90,90 70,90"/>
+    <rect x="10" y="10" width="26" height="80"/>
+    <!-- diagonal parallelogram from top-of-bar to bottom-right corner -->
+    <polygon points="36,10 56,10 90,90 70,90"/>
   </g>
 
   <!-- G: thin cyan outline, square-cornered with right-side bar opening -->
