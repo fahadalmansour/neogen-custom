@@ -6114,3 +6114,35 @@ body.woocommerce-checkout main {
   .ng-post-body { font-size: 17px; line-height: 1.8; }
   .ng-post-body > p:first-of-type::first-letter { font-size: 3.6em; }
 }
+
+/* ---------------------------------------------------------------
+ * Product video (v1.20.0) — rendered above the summary on single
+ * product pages. Border + padding match the operator-console
+ * aesthetic; iframe / video stays 16:9 via aspect-ratio.
+ * ------------------------------------------------------------- */
+.ng-product-video-wrap {
+    margin: 0 0 24px;
+    padding: 8px;
+    background: var(--surface, #e1e8ed);
+    border: 1px solid var(--accent, #0099cc);
+    border-radius: 4px;
+}
+.ng-product-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.ng-product-video iframe,
+.ng-product-video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+@media (max-width: 768px) {
+    .ng-product-video-wrap { padding: 4px; }
+}
