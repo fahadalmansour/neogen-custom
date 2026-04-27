@@ -46,6 +46,12 @@ NEOGEN*.html
 audit/
 neogen-*.png
 neogen-store-*.png
+neogen-*-eval.json
+ACTION-PLAN.md
+FULL-AUDIT-REPORT.md
+
+# Upstream agent-skills clone — not part of this repo
+agent-skills/
 
 # But the brand-kit PNGs anywhere under mu-plugins/.../img/ are deployable assets — not screenshots
 !mu-plugins/neogen-theme-assets/img/**/*.png

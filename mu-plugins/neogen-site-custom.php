@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Site Custom
  * Description: Central site customizations deployed via git. Auto-loaded (mu-plugin).
- * Version: 1.20.6
+ * Version: 1.20.7
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_CUSTOM_VERSION')) {
-    define('NEOGEN_CUSTOM_VERSION', '1.20.6');
+    define('NEOGEN_CUSTOM_VERSION', '1.20.7');
 }
 
 /**
@@ -20,6 +20,17 @@ if (!defined('NEOGEN_CUSTOM_VERSION')) {
 if (!defined('NG_TESTED_WC')) {
     define('NG_TESTED_WC', '10.7');
 }
+
+/**
+ * Lock the WordPress timezone to Asia/Riyadh — the merchant operates
+ * from KSA and all order timestamps, scheduled posts, cron events and
+ * email "received at" lines should read in local time. Filtered at
+ * runtime (no DB write) so it cannot drift if an admin clicks around in
+ * Settings → General. WP also clears `gmt_offset` when timezone_string
+ * is set, so we mirror that.
+ */
+add_filter('pre_option_timezone_string', function () { return 'Asia/Riyadh'; });
+add_filter('pre_option_gmt_offset',      function () { return ''; });
 
 // Admin bar badge — shows current deployed version (admin-only, visible proof of successful deploy)
 add_action('admin_bar_menu', function ($wp_admin_bar) {

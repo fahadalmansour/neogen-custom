@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO
  * Description: Security headers, /llms.txt, robots.txt AI-crawler policy, and homepage meta-description override.
- * Version: 1.12.2
+ * Version: 1.20.7
  * Author: Fahad Almansour
  */
 
@@ -10,8 +10,11 @@ defined('ABSPATH') || exit;
 
 /**
  * Security headers — conservative set safe for a WooCommerce site.
- * CSP intentionally omitted; layer it at Cloudflare or origin where
- * payment-gateway domains can be vetted without crashing checkout.
+ *
+ * CSP runs in Report-Only mode by default so it can ride alongside
+ * WooCommerce/Mada/Apple Pay/STC Pay/Tabby checkout without breaking
+ * payment redirects. Define NG_CSP_ENFORCE in wp-config.php after a
+ * clean reporting window to flip to enforcement.
  */
 add_action('send_headers', function () {
     if ( is_admin() ) return;
@@ -23,6 +26,28 @@ add_action('send_headers', function () {
         if ( is_ssl() ) {
             header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
         }
+
+        // Content-Security-Policy — broad allowances tuned for WooCommerce +
+        // common payment gateways used by this store. Report-only first.
+        $csp = implode('; ', [
+            "default-src 'self'",
+            "base-uri 'self'",
+            "object-src 'none'",
+            "frame-ancestors 'self'",
+            "form-action 'self' https://*.mada.com.sa https://*.checkout.com https://*.tabby.ai https://*.stcpay.com.sa https://*.paypal.com",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.googleadservices.com https://*.googlesyndication.com https://*.doubleclick.net https://*.gstatic.com https://*.tabby.ai https://*.checkout.com https://*.stcpay.com.sa https://*.applepay.cdn-apple.com",
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.gstatic.com",
+            "font-src 'self' data: https://fonts.gstatic.com",
+            "img-src 'self' data: blob: https:",
+            "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.tabby.ai https://*.checkout.com https://*.stcpay.com.sa",
+            "frame-src 'self' https://*.youtube.com https://*.youtube-nocookie.com https://*.tabby.ai https://*.checkout.com https://*.stcpay.com.sa https://*.applepay.cdn-apple.com",
+            "media-src 'self' blob: https:",
+            "upgrade-insecure-requests",
+        ]);
+        $csp_header = ( defined('NG_CSP_ENFORCE') && NG_CSP_ENFORCE )
+            ? 'Content-Security-Policy: ' . $csp
+            : 'Content-Security-Policy-Report-Only: ' . $csp;
+        header($csp_header);
     }
 });
 
@@ -204,6 +229,40 @@ add_filter('rank_math/frontend/robots', function ($robots) {
 }, 99);
 
 /**
+ * Belt-and-suspenders: surgically rewrite the homepage <meta name="robots">
+ * tag at flight, in case Rank Math's filter pipeline reintroduces
+ * `nofollow` / `noimageindex` after our filter runs (observed in live
+ * audit 2026-04-27). Buffers wp_head output and rewrites once.
+ */
+add_action('wp_head', function () {
+    if ( ! ( is_front_page() || is_home() ) ) return;
+    ob_start();
+}, 0);
+add_action('wp_head', function () {
+    if ( ! ( is_front_page() || is_home() ) ) return;
+    $html = ob_get_clean();
+    if ( ! is_string($html) || $html === '' ) { echo $html; return; }
+
+    $clean_robots = '<meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large">';
+
+    // Replace any existing robots meta(s); collapse to a single canonical line.
+    $count = 0;
+    $html = preg_replace_callback(
+        '#<meta\s+name=["\']robots["\'][^>]*>#i',
+        function () use ($clean_robots, &$count) {
+            $count++;
+            return $count === 1 ? $clean_robots : '';
+        },
+        $html
+    );
+    if ( $count === 0 ) {
+        // Nothing emitted upstream — inject our canonical tag.
+        $html = $clean_robots . "\n" . $html;
+    }
+    echo $html;
+}, PHP_INT_MAX);
+
+/**
  * Direct meta description / robots — emit ONLY when Rank Math is not
  * active (to avoid the duplicate-meta bug). Rank Math is canonical when
  * present.
@@ -319,8 +378,15 @@ add_filter('rank_math/json_ld', function ($data, $jsonld) {
             unset($data[$key]);
             continue;
         }
-        if ( isset($node['@type']) && $node['@type'] === 'Person'
-            && isset($node['name']) && strtolower($node['name']) === 'admin' ) {
+        // Drop every Person node — this is a single-merchant storefront,
+        // not an author-driven publication. The /author/admin/ Person that
+        // Rank Math emits has no real profile page and only confuses E-E-A-T
+        // signals. Removed unconditionally rather than name-matched.
+        if ( isset($node['@type']) && $node['@type'] === 'Person' ) {
+            unset($data[$key]);
+            continue;
+        }
+        if ( isset($node['@id']) && stripos((string) $node['@id'], '/author/') !== false ) {
             unset($data[$key]);
             continue;
         }
@@ -329,10 +395,21 @@ add_filter('rank_math/json_ld', function ($data, $jsonld) {
             unset($data[$key]);
             continue;
         }
-        // Drop Rank Math's Organization on home — local Store node is canonical
-        if ( $is_home && isset($node['@type']) && $node['@type'] === 'Organization' ) {
-            unset($data[$key]);
-            continue;
+        // Drop EVERY merchant-entity node Rank Math emits. The canonical
+        // Store node is emitted from neogen-theme.php directly into wp_head
+        // (outside Rank Math's filter pipeline), so it is unaffected here.
+        // Rank Math's copy uses the slogan ("جيل التقنية القادم") as the
+        // entity name and the same `#organization` @id, which produced a
+        // duplicate-graph + name-conflict warning in the 2026-04-27 audit.
+        $org_types = ['Organization', 'ElectronicsStore', 'Store', 'LocalBusiness', 'OnlineStore'];
+        if ( isset($node['@type']) ) {
+            $node_types = is_array($node['@type']) ? $node['@type'] : [ $node['@type'] ];
+            foreach ( $node_types as $t ) {
+                if ( in_array($t, $org_types, true) ) {
+                    unset($data[$key]);
+                    continue 2;
+                }
+            }
         }
         if ( isset($node['name']) && (
                 stripos($node['name'], 'بلازر') !== false ||

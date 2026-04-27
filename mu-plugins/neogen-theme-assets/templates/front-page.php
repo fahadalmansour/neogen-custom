@@ -196,7 +196,7 @@ $rack_letter = function ($i) {
         <span></span>
         <?php echo esc_html__( 'متجر تقني سعودي · معتمد', 'neogen' ); ?>
       </div>
-      <h1 class="ng-hero-h1">جيل التقنية <br> <span class="accent">القادم</span>.</h1>
+      <h1 class="ng-hero-h1">جيل التقنية<br><span class="accent">&#160;القادم</span>.</h1>
 
       <div class="ng-hero-wordmark" aria-hidden="true">
         <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="80" height="62" decoding="async">
@@ -329,7 +329,7 @@ $rack_letter = function ($i) {
     <div class="ng-section-head reveal">
       <div>
         <div class="ng-section-label">01 · <b>الفئات</b></div>
-        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>المختارة.</h2>
+        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>&#160;المختارة.</h2>
         <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
       </div>
       <p class="ng-section-note">
@@ -424,7 +424,7 @@ $rack_letter = function ($i) {
     <div class="ng-section-head reveal">
       <div>
         <div class="ng-section-label">02 · <b>المختارات</b></div>
-        <h2 class="ng-section-h">متوفّرة. <span class="accent">بمواصفات.</span><br>جاهزة للشحن.</h2>
+        <h2 class="ng-section-h">متوفّرة. <span class="accent">بمواصفات.</span><br>&#160;جاهزة للشحن.</h2>
         <div class="ng-section-ar">مختارات المشغّلين. جاهزة للشحن.</div>
       </div>
       <p class="ng-section-note">
@@ -664,7 +664,7 @@ if ( ! empty( $ng_brand_ids ) ) :
   <div class="ng-voice-inner">
     <div class="ng-voice-text">
       <div class="ng-voice-kicker">// 04 · صوت العلامة</div>
-      <div class="ng-voice-ar">التقنية.<br>كما <span class="accent">يجب</span> أن تكون.</div>
+      <div class="ng-voice-ar">التقنية.<br>&#160;كما <span class="accent">يجب</span> أن تكون.</div>
       <div class="ng-voice-en">
         تقنية
         <span class="sep"></span>
