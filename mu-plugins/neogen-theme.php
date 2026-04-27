@@ -912,6 +912,15 @@ add_filter('template_include', function ($template) {
         }
     }
 
+    // Single blog post — editorial reading template (post type `post` only).
+    if (is_singular('post')) {
+        $tpl = NG_THEME_ASSET_DIR . '/templates/single-post.php';
+        if (file_exists($tpl)) {
+            if (!defined('NG_RENDER_POST')) { define('NG_RENDER_POST', true); }
+            return $tpl;
+        }
+    }
+
     // Empty search — themed "no results" surface. Non-empty searches
     // fall through so Blocksy / default search.php renders normally.
     if (is_search()) {

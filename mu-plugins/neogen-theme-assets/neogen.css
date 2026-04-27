@@ -5945,3 +5945,158 @@ body.woocommerce-checkout main {
   .ng-brand-tile { padding: 10px; }
   .ng-brand-tile img { max-height: 40px; }
 }
+
+/* ==========================================================
+   BLOG SINGLE POST — editorial reading layout
+   ========================================================== */
+.ng-post {
+  width: min(760px, 100%);
+  margin: 80px auto;
+  padding: 0 24px;
+  direction: rtl;
+}
+.ng-post-head { margin-bottom: 36px; }
+.ng-post-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  direction: ltr;
+}
+.ng-post-kicker .led {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: ng-pulse 2.2s var(--ease) infinite;
+}
+.ng-post-kicker .sep { width: 1px; height: 12px; background: var(--line-strong); }
+.ng-post-kicker a { color: var(--accent); }
+
+.ng-post-h1 {
+  font-family: var(--font-ar-display);
+  font-size: clamp(36px, 5.4vw, 64px);
+  line-height: 1.1;
+  margin: 22px 0 14px;
+  color: var(--text);
+}
+.ng-post-lede {
+  font-family: var(--font-ar-body);
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--warm);
+  margin: 0 0 20px;
+  border-inline-start: 3px solid var(--accent);
+  padding-inline-start: 16px;
+}
+.ng-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  direction: ltr;
+}
+.ng-post-meta .k { color: var(--muted); }
+.ng-post-meta .v { color: var(--text); margin-inline-end: 12px; }
+.ng-post-meta .sep { width: 1px; height: 12px; background: var(--line-strong); }
+
+.ng-post-figure {
+  margin: 32px 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ng-post-figure img { width: 100%; height: auto; display: block; }
+
+.ng-post-body {
+  font-family: var(--font-ar-body);
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--text);
+}
+.ng-post-body > p:first-of-type::first-letter {
+  font-family: var(--font-ar-display);
+  font-size: 4.4em;
+  float: inline-start;
+  line-height: 0.9;
+  margin: 8px 14px 0 0;
+  color: var(--accent);
+}
+.ng-post-body p { margin: 0 0 18px; }
+.ng-post-body h2,
+.ng-post-body h3 {
+  font-family: var(--font-ar-display);
+  margin: 36px 0 12px;
+  line-height: 1.2;
+  color: var(--text);
+}
+.ng-post-body h2 { font-size: 30px; }
+.ng-post-body h3 { font-size: 22px; }
+.ng-post-body a { color: var(--accent); border-bottom: 1px solid var(--line-strong); }
+.ng-post-body img { max-width: 100%; height: auto; border-radius: var(--radius); }
+.ng-post-body blockquote {
+  margin: 24px 0;
+  padding: 18px 22px;
+  background: var(--surface);
+  border-inline-start: 4px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--warm);
+  font-style: normal;
+}
+.ng-post-body code, .ng-post-body pre {
+  font-family: var(--font-mono);
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 3px;
+  direction: ltr;
+}
+.ng-post-body pre {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.ng-post-foot {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px dashed var(--line-strong);
+  display: grid;
+  gap: 22px;
+}
+.ng-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.ng-post-tags .k { color: var(--muted); letter-spacing: 0.16em; }
+.ng-post-tags a {
+  padding: 4px 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+}
+.ng-post-tags a:hover { border-color: var(--accent); color: var(--accent); }
+.ng-post-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .ng-post { margin: 48px auto; }
+  .ng-post-h1 { font-size: 32px; }
+  .ng-post-body { font-size: 17px; line-height: 1.8; }
+  .ng-post-body > p:first-of-type::first-letter { font-size: 3.6em; }
+}
