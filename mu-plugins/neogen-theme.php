@@ -86,6 +86,39 @@ function ng_cr() {
 }
 
 /**
+ * Strip the English side of a bilingual "English | Arabic" string.
+ * Returns the Arabic part if a pipe separator is present and the
+ * trailing portion contains Arabic characters. Otherwise returns
+ * the input unchanged. Used to prefer Arabic labels site-wide
+ * without requiring editors to clean up every term/title.
+ */
+function ng_ar_label( $s ) {
+    $s = (string) $s;
+    if ( strpos( $s, '|' ) === false ) return $s;
+    $parts = array_map( 'trim', explode( '|', $s, 2 ) );
+    if ( count( $parts ) === 2 && preg_match( '/[\x{0600}-\x{06FF}]/u', $parts[1] ) ) {
+        return $parts[1];
+    }
+    return $s;
+}
+
+// Apply Arabic-side preference at the WP filter layer so every render path
+// (Woo grid, breadcrumbs, archive titles, product titles, term names) gets
+// the cleaned label without per-site code changes.
+add_filter( 'term_name',         'ng_ar_label', 5 );
+add_filter( 'single_term_title', 'ng_ar_label', 5 );
+add_filter( 'single_cat_title',  'ng_ar_label', 5 );
+add_filter( 'list_cats',         'ng_ar_label', 5 );
+add_filter( 'the_title',         'ng_ar_label', 5 );
+add_filter( 'woocommerce_product_title', 'ng_ar_label', 5 );
+add_filter( 'woocommerce_breadcrumb_main_term', function ( $term ) {
+    if ( is_object( $term ) && isset( $term->name ) ) {
+        $term->name = ng_ar_label( $term->name );
+    }
+    return $term;
+}, 5 );
+
+/**
  * Top-level product_cat terms by SKU count, transient-cached for 1
  * hour. Used by the sysbar nav, footer, and homepage front-page
  * template. On a host without a persistent object cache (Blocksy on
@@ -182,7 +215,7 @@ function ng_shop_category_tiles() {
         $link      = is_wp_error($link) ? '#' : $link;
         $is_curr   = ( (int) $term->term_id === $current_id );
         $ar_name   = trim((string) $term->description);
-        if ( $ar_name === '' ) { $ar_name = $term->name; }
+        if ( $ar_name === '' ) { $ar_name = ng_ar_label( $term->name ); }
         $led       = $led_patterns[$i % count($led_patterns)];
         $rack_id   = sprintf('%02d · رف %s', $i + 1, chr(65 + $i));
         $cls       = 'ng-rack-unit reveal' . ( $is_curr ? ' is-current' : '' );
@@ -1009,7 +1042,7 @@ add_action('woocommerce_archive_description', function () {
         <span class="sep"></span>
         <span><?php echo esc_html(sprintf(_n('%d SKU', '%d SKUs', $count, 'neogen'), $count)); ?></span>
       </div>
-      <h1 class="ng-cat-h1"><?php echo esc_html($term->name); ?></h1>
+      <h1 class="ng-cat-h1"><?php echo esc_html( ng_ar_label( $term->name ) ); ?></h1>
       <?php if ($desc) : ?>
         <div class="ng-cat-desc"><?php echo wp_kses_post($desc); ?></div>
       <?php endif; ?>
@@ -1111,7 +1144,7 @@ add_action('wp_body_open', function () {
         $link = get_term_link( $term );
         if ( is_wp_error( $link ) ) { continue; }
     ?>
-      <a href="<?php echo esc_url( $link ); ?>"><span class="dot"></span><?php echo esc_html( $term->name ); ?></a>
+      <a href="<?php echo esc_url( $link ); ?>"><span class="dot"></span><?php echo esc_html( ng_ar_label( $term->name ) ); ?></a>
     <?php endforeach; ?>
   </div>
   <div class="ng-nav-tools">
@@ -1172,7 +1205,7 @@ add_action('wp_footer', function () {
                 $link = get_term_link( $term );
                 if ( is_wp_error( $link ) ) { continue; }
         ?>
-          <li><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $term->name ); ?></a></li>
+          <li><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( ng_ar_label( $term->name ) ); ?></a></li>
         <?php   endforeach;
         else : ?>
           <li><a href="<?php echo esc_url( $shop ); ?>">تصفّح المتجر</a></li>

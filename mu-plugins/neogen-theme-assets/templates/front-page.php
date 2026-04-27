@@ -231,7 +231,7 @@ $rack_letter = function ($i) {
           $slug     = $term->slug;
           $icon     = isset($category_icons[$slug]) ? $category_icons[$slug] : $fallback_icon;
           $ar_name  = trim((string) $term->description);
-          if ($ar_name === '') { $ar_name = $term->name; }
+          if ($ar_name === '') { $ar_name = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name; }
           $link     = get_term_link($term);
           $link     = is_wp_error($link) ? '#' : $link;
           $led      = $led_patterns[$i % count($led_patterns)];
@@ -301,7 +301,7 @@ $rack_letter = function ($i) {
           if (!$sku) { $sku = 'NG-' . $id; }
           $name_en   = $product->get_name();
           $name_ar   = get_post_meta($id, '_ng_ar_title', true);
-          if (!$name_ar) { $name_ar = $name_en; }
+          if (!$name_ar) { $name_ar = function_exists('ng_ar_label') ? ng_ar_label( $name_en ) : $name_en; }
           $perm      = get_permalink($id);
 
           // Tag / stock badge
