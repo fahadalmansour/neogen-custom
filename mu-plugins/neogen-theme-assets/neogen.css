@@ -921,6 +921,24 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .ng-rack-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
 
+.ng-rack-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  display: block;
+  flex-shrink: 0;
+}
+.ng-rack-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ng-rack-unit:hover .ng-rack-photo { border-color: var(--line-strong); }
+
 .ng-rack-title {
   display: grid;
   gap: 4px;

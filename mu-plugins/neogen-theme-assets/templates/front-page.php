@@ -95,7 +95,20 @@ $rack_letter = function ($i) {
      HERO
      ============================================================ -->
 <header class="ng-hero">
-  <?php if ( $ng_hero_id = (int) get_option('ng_hero_image_id') ) : ?>
+  <?php
+      $ng_hero_id = (int) get_option('ng_hero_image_id');
+      if ( ! $ng_hero_id && ! empty( $top_categories ) ) {
+          foreach ( $top_categories as $_cat ) {
+              $_cat_thumb = (int) get_term_meta( $_cat->term_id, 'thumbnail_id', true );
+              if ( $_cat_thumb ) { $ng_hero_id = $_cat_thumb; break; }
+          }
+      }
+      if ( ! $ng_hero_id && ! empty( $picks ) ) {
+          $_first_pick = reset( $picks );
+          if ( $_first_pick ) { $ng_hero_id = (int) $_first_pick->get_image_id(); }
+      }
+  ?>
+  <?php if ( $ng_hero_id ) : ?>
     <div class="ng-hero-photo" aria-hidden="true">
       <?php echo wp_get_attachment_image( $ng_hero_id, 'full', false, [
           'loading'       => 'eager',
@@ -218,7 +231,21 @@ $rack_letter = function ($i) {
       <a class="ng-rack-unit reveal" href="<?php echo esc_url( $link ); ?>">
         <span class="ng-rack-id"><?php echo esc_html( $rack_id ); ?></span>
         <span class="ng-rack-led" aria-hidden="true"><?php echo $led; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <?php
+            $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+            $thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';
+            if ( $thumb_url ) :
+        ?>
+          <span class="ng-rack-photo" aria-hidden="true">
+            <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
+                'loading'  => 'lazy',
+                'decoding' => 'async',
+                'alt'      => '',
+            ] ); ?>
+          </span>
+        <?php else : ?>
+          <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <?php endif; ?>
         <span class="ng-rack-title">
           <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
           <span class="en"><?php echo esc_html( strtoupper( $term->name ) ); ?></span>
