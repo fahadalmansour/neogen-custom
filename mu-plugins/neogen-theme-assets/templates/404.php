@@ -28,12 +28,11 @@ get_header();
     <div class="ng-legal-inner">
       <div class="ng-legal-kicker">
         <span class="led warn" aria-hidden="true"></span>
-        <span>STATUS · 404 · ROUTE NOT FOUND</span>
+        <span>الحالة · 404 · المسار غير موجود</span>
       </div>
 
       <h1 class="ng-legal-h1 ng-404-h1">
         <span class="ar">المسار غير موجود</span>
-        <span class="en">ROUTE NOT FOUND</span>
       </h1>
 
       <p class="ng-legal-lede">
@@ -41,14 +40,22 @@ get_header();
         $req = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field((string) wp_unslash($_SERVER['REQUEST_URI'])) : '';
         if ($req !== '') {
           printf(
-            esc_html__('The URL %s does not match any page on this server. Try one of the routes below.', 'neogen'),
+            esc_html__('الرابط %s غير مطابق لأي صفحة على هذا الخادم. جرّب أحد المسارات أدناه أو ابحث.', 'neogen'),
             '<code>' . esc_html(wp_strip_all_tags($req)) . '</code>'
           );
         } else {
-          esc_html_e('The page you requested does not exist on this server.', 'neogen');
+          esc_html_e('الصفحة المطلوبة غير موجودة على هذا الخادم.', 'neogen');
         }
         ?>
       </p>
+
+      <form class="ng-404-search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+        <input type="search" name="s" placeholder="ابحث في المتجر…" aria-label="ابحث">
+        <button type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>ابحث</span>
+        </button>
+      </form>
     </div>
   </section>
 
@@ -60,28 +67,24 @@ get_header();
           <div class="k">01</div>
           <div class="lbl">
             <span class="ar">الرئيسية</span>
-            <span class="en">HOME</span>
           </div>
         </a>
         <a class="ng-404-tile" href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/')); ?>">
           <div class="k">02</div>
           <div class="lbl">
             <span class="ar">المتجر</span>
-            <span class="en">SHOP</span>
           </div>
         </a>
         <a class="ng-404-tile" href="<?php echo esc_url(home_url('/contact/')); ?>">
           <div class="k">03</div>
           <div class="lbl">
             <span class="ar">تواصل معنا</span>
-            <span class="en">CONTACT</span>
           </div>
         </a>
         <a class="ng-404-tile" href="<?php echo esc_url(home_url('/legal/')); ?>">
           <div class="k">04</div>
           <div class="lbl">
             <span class="ar">هوية المنشأة</span>
-            <span class="en">LEGAL</span>
           </div>
         </a>
       </div>
@@ -93,19 +96,20 @@ get_header();
       ?>
       <div class="ng-404-cats">
         <div class="ng-404-cats-head">
-          <span>// BROWSE BY RACK</span>
-          <span><?php echo esc_html(count($cats)); ?> CATEGORIES</span>
+          <span>// تصفّح حسب الفئة</span>
+          <span><?php echo esc_html(count($cats)); ?> فئات</span>
         </div>
         <ul>
           <?php foreach ($cats as $term) :
               $link = get_term_link($term);
               if (is_wp_error($link)) { continue; }
+              $name = function_exists('ng_ar_label') ? ng_ar_label($term->name) : $term->name;
           ?>
           <li>
             <a href="<?php echo esc_url($link); ?>">
               <span class="dot"></span>
-              <span class="name"><?php echo esc_html($term->name); ?></span>
-              <span class="count"><?php echo esc_html((int) $term->count); ?> SKUs</span>
+              <span class="name"><?php echo esc_html($name); ?></span>
+              <span class="count"><?php echo esc_html((int) $term->count); ?> منتج</span>
             </a>
           </li>
           <?php endforeach; ?>
@@ -115,7 +119,7 @@ get_header();
 
       <?php
       // Recommendations from recently-viewed cookie.
-      echo do_shortcode('[neogen_recommendations limit="4" title_ar="مقترحات لك" title_en="OPERATOR · NEXT PICKS"]');
+      echo do_shortcode('[neogen_recommendations limit="4" title_ar="مقترحات لك" title_en="مختاراتنا"]');
       ?>
 
     </div>

@@ -4652,6 +4652,45 @@ body.woocommerce-page main:has(.ng-cart) {
   color: var(--accent);
 }
 
+/* --- 404 inline search field --- */
+.ng-404-search {
+  margin-top: 26px;
+  display: flex;
+  gap: 0;
+  max-width: 520px;
+}
+.ng-404-search input[type="search"] {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-inline-end: 0;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-ar-ui);
+  font-size: 16px;
+}
+.ng-404-search input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.ng-404-search button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  background: var(--accent);
+  color: #04121a;
+  border: 1px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.ng-404-search button svg { width: 16px; height: 16px; }
+
 /* --- 404 quick-action tiles --- */
 .ng-404-tiles {
   display: grid;
