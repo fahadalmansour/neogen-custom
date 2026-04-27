@@ -6317,3 +6317,75 @@ h4.wp-block-heading:empty,
     }
     .ng-hero-collage .ng-hero-tile img { padding: 10%; }
 }
+
+/* ==========================================================
+   v1.20.10 — Blocksy/Elementor surface tweaks
+   Migrated from WP Customizer (Additional CSS) so they ship
+   through the repo and survive theme/plugin updates. The four
+   selectors below all target Blocksy or Elementor-emitted
+   markup; nothing here belongs in our .ng-* component layer.
+
+   Rewrites from original Customizer paste:
+   - .ct-frosted-glass: 40px → 24px blur (perf), background
+     fallback for browsers without backdrop-filter.
+   - .ct-subscribe-form: switched #000/#fff hardcodes to brand
+     near-blacks + light text, restored 1px border + accent
+     focus border (was border:0 with no focus ring → WCAG fail).
+     Added palette-slot-1 fallback to brand --accent.
+   - .ct-mainbox: scoped transition to color (was 'all'); added
+     :focus-within for keyboard users; reduced-motion guard;
+     verified palette slot 1 (the brand accent) is correct.
+   - .elementor-shortcode [data-products] figure: kept as-is
+     for any Elementor-driven product grid pages.
+   ========================================================== */
+
+.ct-frosted-glass {
+    backdrop-filter: blur(24px) brightness(200%);
+    -webkit-backdrop-filter: blur(24px) brightness(200%);
+    background: rgba(12, 12, 12, 0.55); /* opaque-enough fallback */
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .ct-frosted-glass {
+        background: rgba(12, 12, 12, 0.25);
+    }
+}
+
+.ct-subscribe-form {
+    --theme-form-field-height: 60px;
+    --theme-form-field-padding: 0 25px;
+    --theme-form-field-background-initial-color: #0c0c0c;
+    --theme-form-field-background-focus-color:   #1a1a1a;
+    --theme-form-field-border-width: 1px;
+    --theme-form-field-border-initial-color: rgba(255, 255, 255, 0.18);
+    --theme-form-field-border-focus-color:   var(--accent, #0099cc);
+    --theme-text-color: #f5f5f5;
+
+    --theme-button-min-height: 60px;
+    --theme-button-background-initial-color: var(--theme-palette-color-1, var(--accent, #0099cc));
+    --theme-button-text-initial-color: #fff;
+}
+
+.ct-mainbox h5,
+.ct-mainbox h6,
+.ct-mainbox p {
+    transition: color 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+    .ct-mainbox h5,
+    .ct-mainbox h6,
+    .ct-mainbox p {
+        transition: none;
+    }
+}
+.ct-mainbox:hover h5,
+.ct-mainbox:focus-within h5,
+.ct-mainbox:hover h6,
+.ct-mainbox:focus-within h6,
+.ct-mainbox:hover p,
+.ct-mainbox:focus-within p {
+    color: var(--theme-palette-color-1, var(--accent, #0099cc));
+}
+
+.elementor-shortcode [data-products] figure {
+    margin-bottom: var(--product-element-spacing, 10px);
+}
