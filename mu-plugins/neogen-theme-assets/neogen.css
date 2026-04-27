@@ -247,6 +247,14 @@ label {
 
 .ng-lockup .mono .g { color: var(--accent); }
 
+/* SVG monogram replacement (img tag with width/height attrs sets size). */
+.ng-lockup-mark {
+  display: inline-block;
+  height: auto;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 .ng-lockup .sep {
   width: 1px;
   height: 30px;
