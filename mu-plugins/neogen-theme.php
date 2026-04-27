@@ -1203,7 +1203,7 @@ add_action('wp_body_open', function () {
     ?>
 <div class="ng-sysbar" aria-label="حالة النظام">
   <span class="led" aria-hidden="true"></span>
-  <span>الساعة <b id="ng-clock">00:00:00</b> UTC</span>
+  <span>الساعة <b id="ng-clock">00:00:00</b> الرياض</span>
   <span class="sep"></span>
   <span>المخزون <b class="cyan">مباشر</b></span>
   <span class="sep hide-sm"></span>

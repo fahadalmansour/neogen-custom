@@ -3,15 +3,17 @@
 (function () {
   'use strict';
 
-  // --- UTC clock + queue drift -------------------------------------------
+  // --- Riyadh clock + queue drift ----------------------------------------
   (function clock() {
     var el = document.getElementById('ng-clock');
     var queue = document.getElementById('ng-queue');
     if (!el) return;
-    var pad = function (n) { return String(n).padStart(2, '0'); };
     function tick() {
-      var d = new Date();
-      el.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+      el.textContent = new Date().toLocaleTimeString('en-GB', {
+        timeZone: 'Asia/Riyadh',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
     }
     tick();
     setInterval(tick, 1000);
