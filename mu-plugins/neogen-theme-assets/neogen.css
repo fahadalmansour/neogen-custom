@@ -5,28 +5,28 @@
    ========================================================== */
 
 :root {
-  --bg: #050505;
-  --bg-alt: #0b0a08;
-  --surface: #0f0e0c;
-  --surface-2: #16140f;
-  --raised: #1f1c15;
-  --line: rgba(0, 209, 255, 0.16);
-  --line-strong: rgba(0, 209, 255, 0.38);
-  --line-warm: rgba(229, 227, 221, 0.08);
-  --accent: #00d1ff;
-  --accent-soft: #66e4ff;
-  --accent-deep: #0099cc;
-  --accent-wash: rgba(0, 209, 255, 0.06);
-  --signal: #3fe88f;
-  --alert: #e8734a;
+  --bg: #f6f1e8;
+  --bg-alt: #ece5d6;
+  --surface: #ffffff;
+  --surface-2: #f1ece1;
+  --raised: #ffffff;
+  --line: rgba(10, 10, 10, 0.14);
+  --line-strong: rgba(10, 10, 10, 0.32);
+  --line-warm: rgba(10, 10, 10, 0.08);
+  --accent: #0099cc;
+  --accent-soft: #00b8e6;
+  --accent-deep: #006c91;
+  --accent-wash: rgba(0, 153, 204, 0.06);
+  --signal: #1f9d57;
+  --alert: #c14a1a;
   --indigo: #1a2b4b;
   --indigo-deep: #0f1a2e;
-  --ice: #f5f6fa;
-  --white: #ffffff;
-  --text: #e5e3dd;
-  --warm: #cfc9bb;
-  --muted: #8f8a7e;
-  --dim: #4f4a40;
+  --ice: #0c0c0c;
+  --white: #0c0c0c;
+  --text: #0b0b0b;
+  --warm: #3a3a3a;
+  --muted: #6a6a6a;
+  --dim: #9a9a9a;
 
   --font-wordmark: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
