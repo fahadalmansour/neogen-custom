@@ -697,11 +697,11 @@ add_action('wp_head', function () {
 add_action('wp_head', function () {
     $cr       = ng_cr();
     $tel_e164 = preg_replace('/\s+/', '', $cr['phone_mobile']); // +966570131122
+    $home     = rtrim(home_url('/'), '/') . '/';
 
-    $data = [
-        '@context'      => 'https://schema.org',
+    $store = [
         '@type'         => 'Store',
-        '@id'           => rtrim(home_url('/'), '/') . '/#org',
+        '@id'           => $home . '#organization',
         'name'          => $cr['brand_en'],
         'alternateName' => [$cr['brand_ar'], $cr['legal_name_en']],
         'legalName'     => $cr['legal_name_ar'],
@@ -748,8 +748,40 @@ add_action('wp_head', function () {
         ]],
     ];
 
-    $data = apply_filters('neogen_org_jsonld', $data, $cr);
-    $json = wp_json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    $website = [
+        '@type'    => 'WebSite',
+        '@id'      => $home . '#website',
+        'url'      => $home,
+        'name'     => $cr['brand_en'],
+        'inLanguage' => ['ar-SA', 'en'],
+        'publisher' => ['@id' => $home . '#organization'],
+        'potentialAction' => [
+            '@type'       => 'SearchAction',
+            'target'      => [
+                '@type'       => 'EntryPoint',
+                'urlTemplate' => $home . '?s={search_term_string}',
+            ],
+            'query-input' => 'required name=search_term_string',
+        ],
+    ];
+
+    $webpage = [
+        '@type'      => 'WebPage',
+        '@id'        => trailingslashit( ( is_front_page() || is_home() ) ? $home : home_url( add_query_arg( null, null ) ) ) . '#webpage',
+        'url'        => ( is_front_page() || is_home() ) ? $home : home_url( add_query_arg( null, null ) ),
+        'name'       => wp_get_document_title(),
+        'isPartOf'   => ['@id' => $home . '#website'],
+        'about'      => ['@id' => $home . '#organization'],
+        'inLanguage' => is_rtl() ? 'ar-SA' : 'en',
+    ];
+
+    $graph = [
+        '@context' => 'https://schema.org',
+        '@graph'   => [ $store, $website, $webpage ],
+    ];
+
+    $graph = apply_filters('neogen_org_jsonld_graph', $graph, $cr);
+    $json = wp_json_encode($graph, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     if ($json) {
         echo "\n" . '<script type="application/ld+json">' . "\n" . $json . "\n" . '</script>' . "\n";
     }

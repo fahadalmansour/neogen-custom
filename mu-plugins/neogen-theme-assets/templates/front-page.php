@@ -133,7 +133,7 @@ $rack_letter = function ($i) {
         <span></span>
         <?php echo esc_html( sprintf( __( 'SELECTION LOCKED / %s DROP', 'neogen' ), date_i18n( 'F Y' ) ) ); ?>
       </div>
-      <h1 class="ng-hero-h1">جيل التقنية<br><span class="accent">القادم</span>.</h1>
+      <h1 class="ng-hero-h1">جيل التقنية <br> <span class="accent">القادم</span>.</h1>
 
       <div class="ng-hero-wordmark" aria-hidden="true">
         <span class="mono">N<span class="g">G</span></span>
@@ -245,11 +245,11 @@ $rack_letter = function ($i) {
             $thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';
             if ( $thumb_url ) :
         ?>
-          <span class="ng-rack-photo" aria-hidden="true">
+          <span class="ng-rack-photo">
             <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
                 'loading'  => 'lazy',
                 'decoding' => 'async',
-                'alt'      => '',
+                'alt'      => esc_attr( sprintf( __( '%s category', 'neogen' ), $term->name ) ),
             ] ); ?>
           </span>
         <?php else : ?>
