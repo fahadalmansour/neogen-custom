@@ -83,28 +83,28 @@ body {
 }
 
 /* ==========================================================
-   HIDE BLOCKSY CHROME
-   Our mu-plugin injects its own header/footer via wp_body_open
-   and wp_footer. Blocksy nests its header several wrapper divs
-   deep (not a direct body child), and an external JS snippet
-   keeps re-injecting the legacy .nx-logo-lockup into it. Kill
-   the header root regardless of DOM depth so both disappear.
+   HIDE BLOCKSY CHROME — only when mu-plugin renders chrome
+   Scoped under `.ng-mu-chrome` body class added by
+   neogen-blocksy-handoff.php when the handoff toggle is OFF.
+   Flip the toggle ON in Tools → NeoGen Blocksy Handoff to
+   stop adding the class, at which point Blocksy header +
+   footer take over and the rules below stop matching.
    ========================================================== */
-header.ct-header,
-header.site-header,
-[data-id="header"],
-[data-loc="type-1"],
-[data-loc="offcanvas"],
-footer.ct-footer,
-footer.site-footer,
-[data-id="footer"] {
+.ng-mu-chrome header.ct-header,
+.ng-mu-chrome header.site-header,
+.ng-mu-chrome [data-id="header"],
+.ng-mu-chrome [data-loc="type-1"],
+.ng-mu-chrome [data-loc="offcanvas"],
+.ng-mu-chrome footer.ct-footer,
+.ng-mu-chrome footer.site-footer,
+.ng-mu-chrome [data-id="footer"] {
   display: none !important;
 }
 
 /* Legacy logo injection (runs regardless of the header being
    hidden). Belt-and-braces: if the snippet still writes the
    lockup somewhere reachable, keep it invisible. */
-.nx-logo-lockup { display: none !important; }
+.ng-mu-chrome .nx-logo-lockup { display: none !important; }
 
 /* ==========================================================
    GLOBAL RESET / BODY

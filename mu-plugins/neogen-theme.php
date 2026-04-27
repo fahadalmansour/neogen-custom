@@ -1170,6 +1170,9 @@ add_shortcode('neogen_home_sections', function () {
  */
 add_action('wp_body_open', function () {
     if (is_admin()) { return; }
+    // Phase 2b: respect the Blocksy handoff toggle. When ON, this
+    // injector no-ops and Blocksy's header builder takes over.
+    if ( function_exists('ng_blocksy_chrome_handoff') && ng_blocksy_chrome_handoff() ) { return; }
 
     $home = home_url('/');
     // Defensive resolution — if WC page options are unset/misconfigured
@@ -1265,6 +1268,10 @@ add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
  */
 add_action('wp_footer', function () {
     if (is_admin()) { return; }
+    // Phase 2b: respect the Blocksy handoff toggle. When ON, this
+    // footer no-ops and Blocksy's footer builder takes over.
+    if ( function_exists('ng_blocksy_chrome_handoff') && ng_blocksy_chrome_handoff() ) { return; }
+
     $home = home_url('/');
     $shop = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : $home;
     $cats = ng_top_product_cats(6);
