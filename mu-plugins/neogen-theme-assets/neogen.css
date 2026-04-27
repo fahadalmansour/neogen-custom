@@ -47,6 +47,42 @@
 }
 
 /* ==========================================================
+   v1.21.0 — Phase 2a: theme.json bridge
+   Re-bind brand tokens to consume theme.json presets when on
+   the NeoGen Child theme, with the original hardcoded values
+   as fallback when not. The body-level rule has higher source
+   order specificity than :root so it wins where presets exist.
+   Net effect: editing palette in Customize → Colors or Site
+   Editor → Styles drives every .ng-* rule sitewide. No visual
+   change unless someone actually edits a value.
+   ========================================================== */
+body {
+  --accent:      var(--wp--preset--color--accent,      #0099cc);
+  --accent-soft: var(--wp--preset--color--accent-soft, #00b8e6);
+  --accent-deep: var(--wp--preset--color--accent-deep, #006c91);
+  --signal:      var(--wp--preset--color--signal,      #1f9d57);
+  --alert:       var(--wp--preset--color--alert,       #c14a1a);
+  --indigo:      var(--wp--preset--color--indigo,      #1a2b4b);
+  --indigo-deep: var(--wp--preset--color--indigo-deep, #0f1a2e);
+  --bg:          var(--wp--preset--color--bg,          #e1e8ed);
+  --bg-alt:      var(--wp--preset--color--bg-alt,      #d6dee4);
+  --text:        var(--wp--preset--color--text,        #0b0b0b);
+  --warm:        var(--wp--preset--color--warm,        #3a3a3a);
+  --muted:       var(--wp--preset--color--muted,       #6a6a6a);
+  --dim:         var(--wp--preset--color--dim,         #9a9a9a);
+
+  --font-wordmark:   var(--wp--preset--font-family--wordmark,   "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif);
+  --font-sans:       var(--wp--preset--font-family--sans,       "Manrope", "IBM Plex Sans", system-ui, sans-serif);
+  --font-mono:       var(--wp--preset--font-family--mono,       "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace);
+  --font-ultra:      var(--wp--preset--font-family--ultra,      "Major Mono Display", monospace);
+  --font-ar-display: var(--wp--preset--font-family--ar-display, "Rakkas", serif);
+  --font-ar-ui:      var(--wp--preset--font-family--ar-ui,      "Reem Kufi", "Tajawal", system-ui, sans-serif);
+  --font-ar-body:    var(--wp--preset--font-family--ar-body,    "Tajawal", "Reem Kufi", system-ui, sans-serif);
+
+  --container: var(--wp--style--global--content-size, 1240px);
+}
+
+/* ==========================================================
    HIDE BLOCKSY CHROME
    Our mu-plugin injects its own header/footer via wp_body_open
    and wp_footer. Blocksy nests its header several wrapper divs
