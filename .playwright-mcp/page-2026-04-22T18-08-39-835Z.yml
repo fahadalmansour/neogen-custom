@@ -1,0 +1,247 @@
+- generic [active] [ref=e1]:
+  - heading "Logo / Size Kit" [level=1] [ref=e2]:
+    - text: Logo /
+    - emphasis [ref=e3]: Size Kit
+  - generic [ref=e4]: // NEOGEN STORE · IDENTITY ASSETS v1.0 · 2026.04.20
+  - heading "01 · Symbol — 8-point star" [level=2] [ref=e5]
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: FAVICON·SM
+        - generic [ref=e10]: "16"
+      - img [ref=e12]
+      - link "SVG" [ref=e14] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]: FAVICON
+        - generic [ref=e18]: "32"
+      - img [ref=e20]
+      - link "SVG" [ref=e22] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: PIN TAB
+        - generic [ref=e26]: "48"
+      - img [ref=e28]
+      - link "SVG" [ref=e30] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: UI ICON
+        - generic [ref=e34]: "64"
+      - img [ref=e36]
+      - link "SVG" [ref=e38] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]: APPLE TOUCH
+        - generic [ref=e42]: "180"
+      - img [ref=e44]
+      - link "SVG · PNG-ready" [ref=e47] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]: PWA ANY
+        - generic [ref=e51]: "192"
+      - img [ref=e53]
+      - link "SVG" [ref=e56] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - generic [ref=e57]:
+    - generic [ref=e58]:
+      - generic [ref=e59]:
+        - generic [ref=e60]: PWA MASKABLE
+        - generic [ref=e61]: "192"
+      - img [ref=e63]
+      - link "SVG" [ref=e66] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - generic [ref=e69]: PWA ANY
+        - generic [ref=e70]: "512"
+      - img [ref=e72]
+      - link "SVG" [ref=e75] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e78]: APP STORE
+        - generic [ref=e79]: "1024"
+      - img [ref=e81]
+      - link "SVG" [ref=e84] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e85]:
+      - generic [ref=e86]:
+        - generic [ref=e87]: LIGHT-BG
+        - generic [ref=e88]: "180"
+      - img [ref=e90]
+      - link "SVG" [ref=e93] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - heading "02 · Monogram — NG" [level=2] [ref=e94]
+  - generic [ref=e95]:
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e98]: MONOGRAM
+        - generic [ref=e99]: "64"
+      - img [ref=e101]:
+        - generic [ref=e103]: NG
+      - link "SVG" [ref=e104] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - generic [ref=e107]: MONOGRAM
+        - generic [ref=e108]: "128"
+      - img [ref=e110]:
+        - generic [ref=e112]: NG
+      - link "SVG" [ref=e113] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]: MONOGRAM · BOXED
+        - generic [ref=e117]: "256"
+      - img [ref=e119]:
+        - generic [ref=e121]: NG
+        - generic [ref=e122]: // STORE
+      - link "SVG" [ref=e123] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - generic [ref=e126]: MONOGRAM · LIGHT
+        - generic [ref=e127]: "128"
+      - img [ref=e129]:
+        - generic [ref=e131]: NG
+      - link "SVG" [ref=e132] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - heading "03 · Wordmark — NEOGEN" [level=2] [ref=e133]
+  - generic [ref=e134]:
+    - generic [ref=e135]:
+      - generic [ref=e136]:
+        - generic [ref=e137]: WORDMARK · SM
+        - generic [ref=e138]: 24px
+      - generic [ref=e140]:
+        - text: NEO
+        - generic [ref=e141]: GEN
+      - link "SVG" [ref=e142] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - generic [ref=e145]: WORDMARK · MD
+        - generic [ref=e146]: 40px
+      - generic [ref=e148]:
+        - text: NEO
+        - generic [ref=e149]: GEN
+      - link "SVG" [ref=e150] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e151]:
+      - generic [ref=e152]:
+        - generic [ref=e153]: WORDMARK · LG w/ TAIL
+        - generic [ref=e154]: 56px
+      - generic [ref=e156]:
+        - text: NEO
+        - generic [ref=e157]: GEN
+        - generic [ref=e158]: // STORE
+      - link "SVG" [ref=e159] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - generic [ref=e162]: WORDMARK · LIGHT
+        - generic [ref=e163]: 56px
+      - generic [ref=e165]:
+        - text: NEO
+        - generic [ref=e166]: GEN
+        - generic [ref=e167]: // STORE
+      - link "SVG" [ref=e168] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - heading "04 · Full lockup — Symbol + Wordmark" [level=2] [ref=e169]
+  - generic [ref=e170]:
+    - generic [ref=e171]:
+      - generic [ref=e172]:
+        - generic [ref=e173]: LOCKUP · HORIZONTAL
+        - generic [ref=e174]: —
+      - generic [ref=e175]:
+        - img [ref=e176]
+        - generic [ref=e179]:
+          - text: NEO
+          - generic [ref=e180]: GEN
+      - link "SVG" [ref=e181] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e182]:
+      - generic [ref=e183]:
+        - generic [ref=e184]: LOCKUP · VERTICAL
+        - generic [ref=e185]: —
+      - generic [ref=e186]:
+        - img [ref=e187]
+        - generic [ref=e189]:
+          - text: NEO
+          - generic [ref=e190]: GEN
+        - generic [ref=e191]: // STORE
+      - link "SVG" [ref=e192] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e193]:
+      - generic [ref=e194]:
+        - generic [ref=e195]: LOCKUP · LIGHT
+        - generic [ref=e196]: —
+      - generic [ref=e197]:
+        - img [ref=e198]
+        - generic [ref=e201]:
+          - text: NEO
+          - generic [ref=e202]: GEN
+      - link "SVG" [ref=e203] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - heading "05 · Social avatars — 400×400 circular safe area" [level=2] [ref=e204]
+  - generic [ref=e205]:
+    - generic [ref=e206]:
+      - generic [ref=e207]:
+        - generic [ref=e208]: AVATAR · STAR
+        - generic [ref=e209]: 400²
+      - img [ref=e211]
+      - link "SVG" [ref=e214] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e215]:
+      - generic [ref=e216]:
+        - generic [ref=e217]: AVATAR · NG
+        - generic [ref=e218]: 400²
+      - img [ref=e220]:
+        - generic [ref=e222]: NG
+      - link "SVG" [ref=e223] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e224]:
+      - generic [ref=e225]:
+        - generic [ref=e226]: AVATAR · GRADIENT
+        - generic [ref=e227]: 400²
+      - img [ref=e229]
+      - link "SVG" [ref=e232] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+    - generic [ref=e233]:
+      - generic [ref=e234]:
+        - generic [ref=e235]: AVATAR · LIGHT
+        - generic [ref=e236]: 400²
+      - img [ref=e238]
+      - link "SVG" [ref=e241] [cursor=pointer]:
+        - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - heading "06 · Open Graph card — 1200×630" [level=2] [ref=e242]
+  - generic [ref=e243]:
+    - generic:
+      - generic:
+        - text: NEOGEN // BRAND
+        - text: STORE.NEOGEN.SA
+      - generic:
+        - text: JIL AT-TAQNIYAH
+        - text: // جيل التقنية القادم
+      - generic:
+        - text: SAUDI TECH STORE
+        - text: CR 7053130576
+      - generic:
+        - text: "ACCENT // #00D1FF"
+        - text: BUILD 2026.04.20
+    - generic [ref=e244]:
+      - generic [ref=e245]:
+        - text: NEO
+        - generic [ref=e246]: GEN
+      - generic [ref=e247]: NEXT-GEN TECH GENERATION
+  - link "DOWNLOAD OG · SVG" [ref=e248] [cursor=pointer]:
+    - /url: file:///private/tmp/neogen_logo_sizes.html#
+  - generic [ref=e249]:
+    - text: "// ALL SVGS ARE HAND-AUTHORED. COLORS USE BRAND TOKENS (#00D1FF · #050505 · #1A2B4B)."
+    - text: "// TO GET PNG FROM SVG: open .svg in browser → right-click → \"Save as PNG\" (Chrome/Firefox) · or use `rsvg-convert file.svg -w 512 -o file.png`."
+    - text: "// FOR iOS/ANDROID: use 180 (apple-touch-icon) and 192/512 (PWA) — standalone files already saved to /tmp/."
+    - text: // MASKABLE VARIANT HAS 20% SAFE-AREA PADDING FOR ADAPTIVE ICONS (Android).

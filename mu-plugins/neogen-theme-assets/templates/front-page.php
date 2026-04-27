@@ -95,6 +95,15 @@ $rack_letter = function ($i) {
      HERO
      ============================================================ -->
 <header class="ng-hero">
+  <?php if ( $ng_hero_id = (int) get_option('ng_hero_image_id') ) : ?>
+    <div class="ng-hero-photo" aria-hidden="true">
+      <?php echo wp_get_attachment_image( $ng_hero_id, 'full', false, [
+          'loading'       => 'eager',
+          'fetchpriority' => 'high',
+          'decoding'      => 'async',
+      ] ); ?>
+    </div>
+  <?php endif; ?>
   <div class="ng-hero-backdrop" aria-hidden="true">
     <svg viewBox="-50 -50 100 100">
       <circle r="48"></circle>
@@ -133,7 +142,7 @@ $rack_letter = function ($i) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </a>
         <a class="btn btn-ghost" href="#ng-service">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v4h8V4m-8 16v-4h8v4M4 8h16v8H4z"/></svg>
+          <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/build-rig.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           BUILD A RIG
         </a>
       </div>
@@ -390,11 +399,11 @@ $rack_letter = function ($i) {
       </div>
       <div class="ng-service-cta">
         <a class="btn btn-primary" href="<?php echo esc_url( $contact_url ); ?>">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4zM4 6l8 7 8-7"/></svg>
+          <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/spec-brief.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           SEND SPEC BRIEF
         </a>
         <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.5 3.5 3.5 11l7 2.5L13 20.5z"/></svg>
+          <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/whatsapp.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           WHATSAPP
         </a>
       </div>
@@ -412,15 +421,25 @@ $rack_letter = function ($i) {
     </svg>
   </div>
   <div class="ng-voice-inner">
-    <div class="ng-voice-kicker">// 04 · BRAND VOICE</div>
-    <div class="ng-voice-ar">التقنية.<br>كما <span class="accent">يجب</span> أن تكون.</div>
-    <div class="ng-voice-en">
-      TECHNOLOGY
-      <span class="sep"></span>
-      AS IT SHOULD BE
-      <span class="sep"></span>
-      SHIPPED FROM KSA
+    <div class="ng-voice-text">
+      <div class="ng-voice-kicker">// 04 · BRAND VOICE</div>
+      <div class="ng-voice-ar">التقنية.<br>كما <span class="accent">يجب</span> أن تكون.</div>
+      <div class="ng-voice-en">
+        TECHNOLOGY
+        <span class="sep"></span>
+        AS IT SHOULD BE
+        <span class="sep"></span>
+        SHIPPED FROM KSA
+      </div>
     </div>
+    <?php if ( $ng_voice_id = (int) get_option('ng_voice_image_id') ) : ?>
+      <div class="ng-voice-photo">
+        <?php echo wp_get_attachment_image( $ng_voice_id, 'large', false, [
+            'loading'  => 'lazy',
+            'decoding' => 'async',
+        ] ); ?>
+      </div>
+    <?php endif; ?>
   </div>
 </section>
 

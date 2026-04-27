@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: neogen-custom-ngs
+created: 2026-04-23T01:12:45+03:00

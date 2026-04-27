@@ -1,0 +1,362 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: NEOGEN // BRAND KIT v1.0 // LOCKED
+    - generic [ref=e5]:
+      - generic [ref=e6]: "MG: mono-ultra"
+      - generic [ref=e7]: "WM: neo-light"
+      - generic [ref=e8]: "ACCENT: #00D1FF"
+      - generic [ref=e9]: "BUILD: 2026.04.20"
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - text: BRAND KIT // 01
+        - text: COVER
+      - generic [ref=e13]:
+        - text: NEOGEN // STORE
+        - text: CR 7053130576
+      - generic [ref=e14]:
+        - text: FAHAD ALMANSOUR
+        - text: // FOUNDER
+      - generic [ref=e15]:
+        - text: LOCALE // AR · EN
+        - text: SA · ISO 8601
+      - generic:
+        - img
+      - generic [ref=e16]:
+        - generic [ref=e17]: // SELECTION LOCKED
+        - generic [ref=e18]: NG
+        - generic [ref=e19]: NEOGEN
+        - generic [ref=e20]:
+          - text: جيل التقنية
+          - emphasis [ref=e21]: القادم
+        - generic [ref=e22]:
+          - generic [ref=e23]: MONOGRAM · MONO-ULTRA
+          - generic [ref=e24]: WORDMARK · NEO-LIGHT
+          - generic [ref=e25]: ELECTRIC BLUE
+          - generic [ref=e26]: MAJOR MONO + CHAKRA PETCH
+    - generic [ref=e28]:
+      - generic [ref=e29]: 02 // LOCKED MARKS
+      - heading "Your selection" [level=2] [ref=e30]
+      - paragraph [ref=e31]: The monogram and wordmark below are the only approved marks. All other variations from the exploration phase are deprecated as of this build.
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: "MONOGRAM · ID: mono-ultra"
+          - generic [ref=e36]: NG
+          - generic [ref=e37]: Ultra Mono · NG
+          - generic [ref=e38]:
+            - generic [ref=e39]: Major Mono Display
+            - generic [ref=e40]: "400"
+            - generic [ref=e41]: +0.08em
+            - generic [ref=e42]: "N: #CFC9BB"
+            - generic [ref=e43]: "G: #00D1FF"
+        - generic [ref=e44]:
+          - generic [ref=e45]: "WORDMARK · ID: neo-light"
+          - generic [ref=e47]: NEOGEN
+          - generic [ref=e48]: Weight Contrast
+          - generic [ref=e49]:
+            - generic [ref=e50]: Chakra Petch
+            - generic [ref=e51]: 300 / 700
+            - generic [ref=e52]: "-0.01em"
+            - generic [ref=e53]: "NEO: #CFC9BB"
+            - generic [ref=e54]: "GEN: #00D1FF"
+    - generic [ref=e56]:
+      - generic [ref=e57]: 03 // PRODUCTION ASSETS
+      - heading "File bundle" [level=2] [ref=e58]
+      - paragraph [ref=e59]: 11 PNG files + 8 SVG files. All assets uploaded to WP media library and wired to their respective settings. Download links hit local previews of the final renders.
+      - heading "Icons · dark" [level=3] [ref=e60]
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]: 01 · 16×16
+          - img "16" [ref=e65]
+          - generic [ref=e66]:
+            - strong [ref=e67]: Favicon SM
+            - text: Browser tab · 1×
+          - link "PNG" [ref=e68] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/favicon-16.png
+        - generic [ref=e69]:
+          - generic [ref=e70]: 02 · 32×32
+          - img "32" [ref=e72]
+          - generic [ref=e73]:
+            - strong [ref=e74]: Favicon
+            - text: Browser tab · retina
+          - link "PNG" [ref=e75] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/favicon-32.png
+        - generic [ref=e76]:
+          - generic [ref=e77]: 03 · 180×180
+          - img "180" [ref=e79]
+          - generic [ref=e80]:
+            - strong [ref=e81]: Apple Touch
+            - text: iOS home screen
+          - link "PNG" [ref=e82] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/apple-touch-icon.png
+        - generic [ref=e83]:
+          - generic [ref=e84]: 04 · 192×192
+          - img "192" [ref=e86]
+          - generic [ref=e87]:
+            - strong [ref=e88]: PWA · any
+            - text: Android adaptive
+          - link "PNG" [ref=e89] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/icon-192.png
+        - generic [ref=e90]:
+          - generic [ref=e91]: 05 · 512×512
+          - img "512" [ref=e93]
+          - generic [ref=e94]:
+            - strong [ref=e95]: PWA · any
+            - text: Store listing · splash
+          - link "PNG" [ref=e96] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/icon-512.png
+        - generic [ref=e97]:
+          - generic [ref=e98]: 06 · 192×192
+          - img "192-mask" [ref=e100]
+          - generic [ref=e101]:
+            - strong [ref=e102]: PWA · maskable
+            - text: Android circle/squircle
+          - link "PNG" [ref=e103] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/icon-192-maskable.png
+        - generic [ref=e104]:
+          - generic [ref=e105]: 07 · 512×512
+          - img "512-mask" [ref=e107]
+          - generic [ref=e108]:
+            - strong [ref=e109]: PWA · maskable
+            - text: High-res adaptive
+          - link "PNG" [ref=e110] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/icon-512-maskable.png
+      - heading "Wordmark · horizontal" [level=3] [ref=e111]
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]: 08 · DARK
+          - img "WM dark" [ref=e116]
+          - generic [ref=e117]:
+            - strong [ref=e118]: Wordmark · dark bg
+            - text: Header · invoice · social
+          - link "PNG" [ref=e119] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/wordmark.png
+        - generic [ref=e120]:
+          - generic [ref=e121]: 09 · LIGHT
+          - img "WM light" [ref=e123]
+          - generic [ref=e124]:
+            - strong [ref=e125]: Wordmark · light bg
+            - text: Print · letterhead
+          - link "PNG" [ref=e126] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/wordmark-light.png
+        - generic [ref=e127]:
+          - generic [ref=e128]: 10 · EMAIL
+          - img "Email" [ref=e130]
+          - generic [ref=e131]:
+            - strong [ref=e132]: WC Email header
+            - text: 600×140 · white bg
+          - link "PNG" [ref=e133] [cursor=pointer]:
+            - /url: ./NeoGen Store · Brand Kit v1.0_files/email-header.png
+      - heading "Social / Open Graph" [level=3] [ref=e134]
+      - generic [ref=e136]:
+        - generic [ref=e137]: 11 · 1200×630
+        - img "OG" [ref=e139]
+        - generic [ref=e140]:
+          - strong [ref=e141]: OG / Twitter Card
+          - text: Social share preview · auto-selected by Rank Math
+        - link "PNG" [ref=e142] [cursor=pointer]:
+          - /url: ./NeoGen Store · Brand Kit v1.0_files/og-image.png
+    - generic [ref=e144]:
+      - generic [ref=e145]: 04 // COLOR SYSTEM
+      - heading "Palette" [level=2] [ref=e146]
+      - heading "Dark mode (primary)" [level=3] [ref=e147]
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]: Warm Black
+          - generic [ref=e151]:
+            - generic [ref=e152]: "#050505"
+            - generic [ref=e153]: Canvas
+        - generic [ref=e154]:
+          - generic [ref=e155]: Surface
+          - generic [ref=e156]:
+            - generic [ref=e157]: "#0F0E0C"
+            - generic [ref=e158]: Card / raised
+        - generic [ref=e159]:
+          - generic [ref=e160]: Electric Blue
+          - generic [ref=e161]:
+            - generic [ref=e162]: "#00D1FF"
+            - generic [ref=e163]: Accent · CTA · Signal
+        - generic [ref=e164]:
+          - generic [ref=e165]: Ice Blue
+          - generic [ref=e166]:
+            - generic [ref=e167]: "#66E4FF"
+            - generic [ref=e168]: Hover state
+        - generic [ref=e169]:
+          - generic [ref=e170]: Deep Blue
+          - generic [ref=e171]:
+            - generic [ref=e172]: "#0099CC"
+            - generic [ref=e173]: Gradient floor
+        - generic [ref=e174]:
+          - generic [ref=e175]: Signal Green
+          - generic [ref=e176]:
+            - generic [ref=e177]: "#3FE88F"
+            - generic [ref=e178]: Live / success
+        - generic [ref=e179]:
+          - generic [ref=e180]: Alert Amber
+          - generic [ref=e181]:
+            - generic [ref=e182]: "#E8734A"
+            - generic [ref=e183]: Warn / error
+      - heading "Light mode (secondary)" [level=3] [ref=e184]
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - generic [ref=e187]: Ice White
+          - generic [ref=e188]:
+            - generic [ref=e189]: "#F5F6FA"
+            - generic [ref=e190]: Canvas (light)
+        - generic [ref=e191]:
+          - generic [ref=e192]: Pure White
+          - generic [ref=e193]:
+            - generic [ref=e194]: "#FFFFFF"
+            - generic [ref=e195]: Surface (light)
+        - generic [ref=e196]:
+          - generic [ref=e197]: Deep Indigo
+          - generic [ref=e198]:
+            - generic [ref=e199]: "#1A2B4B"
+            - generic [ref=e200]: Type (light) · AAA 12.2:1
+        - generic [ref=e201]:
+          - generic [ref=e202]: Night Indigo
+          - generic [ref=e203]:
+            - generic [ref=e204]: "#0F1A2E"
+            - generic [ref=e205]: Deepest type (light)
+    - generic [ref=e207]:
+      - generic [ref=e208]: 05 // TYPOGRAPHY
+      - heading "Type system" [level=2] [ref=e209]
+      - generic [ref=e210]:
+        - generic [ref=e211]:
+          - generic [ref=e212]: MONOGRAM · MAJOR MONO DISPLAY 400
+          - generic [ref=e213]: Icon / favicon
+        - generic [ref=e214]: NG
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - generic [ref=e217]: EN DISPLAY · CHAKRA PETCH 300 + 700
+          - generic [ref=e218]: Wordmark
+        - generic [ref=e219]: NEOGEN
+      - generic [ref=e220]:
+        - generic [ref=e221]:
+          - generic [ref=e222]: EN DISPLAY · CHAKRA PETCH 700
+          - generic [ref=e223]: H1 · SECTION HEAD
+        - generic [ref=e224]: Built For Operators
+      - generic [ref=e225]:
+        - generic [ref=e226]:
+          - generic [ref=e227]: AR DISPLAY · RAKKAS
+          - generic [ref=e228]: Hero tagline · H1
+        - generic [ref=e229]: جيل التقنية القادم
+      - generic [ref=e230]:
+        - generic [ref=e231]:
+          - generic [ref=e232]: AR KUFI · REEM KUFI 600
+          - generic [ref=e233]: H2 · H3
+        - generic [ref=e234]: متجرك التقني المتخصص
+      - generic [ref=e235]:
+        - generic [ref=e236]:
+          - generic [ref=e237]: AR BODY · TAJAWAL 400
+          - generic [ref=e238]: Paragraph
+        - generic [ref=e239]: NeoGen Store هو وجهتك الأولى للتقنية المتخصصة في المملكة العربية السعودية. نختار كل منتج بعناية لمحترفي الشبكات والهوم لاب واللاعبين.
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - generic [ref=e242]: MONO · JETBRAINS MONO 500
+          - generic [ref=e243]: SKU · Readouts · Price
+        - generic [ref=e244]: "[SKU-UBQ-U7P-AP] UniFi U7 Pro · 6GHz · 1,149 SAR · IN STOCK"
+    - generic [ref=e246]:
+      - generic [ref=e247]: 06 // BRAND VOICE
+      - heading "Voice matrix" [level=2] [ref=e248]
+      - paragraph [ref=e249]: Technical · precise · direct. If a line could appear on any generic e-commerce site, rewrite it.
+      - generic [ref=e250]:
+        - generic [ref=e251]:
+          - generic [ref=e252]: Primary tagline
+          - generic [ref=e253]: جيل التقنية القادم.
+          - generic [ref=e254]: The Next-Gen Generation.
+        - generic [ref=e255]:
+          - generic [ref=e256]: Sub-tagline
+          - generic [ref=e257]: أجهزة تستحق مكانها في الرف.
+          - generic [ref=e258]: Hardware that earns its rack space.
+        - generic [ref=e259]:
+          - generic [ref=e260]: Order confirm
+          - generic [ref=e261]: تم استلام طلبك. الرف ينتظرك.
+          - generic [ref=e262]: Order received. Your rack is waiting.
+        - generic [ref=e263]:
+          - generic [ref=e264]: "404"
+          - generic [ref=e265]: لم نجد هذا المسار في الشبكة.
+          - generic [ref=e266]: No route to this endpoint.
+        - generic [ref=e267]:
+          - generic [ref=e268]: Low-stock chip
+          - generic [ref=e269]: آخر قطعتين — الآن أو لا شيء.
+          - generic [ref=e270]: Last two units — now or never.
+        - generic [ref=e271]:
+          - generic [ref=e272]: Footer trust
+          - generic [ref=e273]: شبكة سعودية، معايير عالمية.
+          - generic [ref=e274]: Saudi network, global standards.
+    - generic [ref=e276]:
+      - generic [ref=e277]: 07 // USAGE RULES
+      - heading "Do / Don't" [level=2] [ref=e278]
+      - generic [ref=e279]:
+        - generic [ref=e280]:
+          - heading "// DO" [level=4] [ref=e281]
+          - list [ref=e282]:
+            - listitem [ref=e283]: ✓ Use on Warm Black (#050505) or Ice White (#F5F6FA) backgrounds only.
+            - listitem [ref=e284]: ✓ Maintain minimum clear space = 1× cap-height of the wordmark on all sides.
+            - listitem [ref=e285]: "✓ Favicon minimum size: 16×16 px. Smaller = render blur — use monogram only."
+            - listitem [ref=e286]: ✓ Always pair the EN wordmark with AR tagline in bilingual contexts.
+            - listitem [ref=e287]: ✓ Keep "GEN" in Electric Blue (#00D1FF). Never recolor the accent.
+            - listitem [ref=e288]: ✓ Use Major Mono Display ONLY for the "NG" monogram. Not for body or headings.
+        - generic [ref=e289]:
+          - heading "// DON'T" [level=4] [ref=e290]
+          - list [ref=e291]:
+            - listitem [ref=e292]: × Don't rotate the wordmark or monogram.
+            - listitem [ref=e293]: × Don't apply drop shadows, outlines, or gradient overlays to the marks.
+            - listitem [ref=e294]: × Don't change the weight contrast — "NEO" stays 300, "GEN" stays 700.
+            - listitem [ref=e295]: × Don't place on busy photos without a solid plate behind the mark.
+            - listitem [ref=e296]: × Don't translate the wordmark into Arabic characters — "NEOGEN" is the trademark.
+            - listitem [ref=e297]: × Don't use brass/gold tokens anywhere. That era is deprecated.
+      - heading "Clear space" [level=3] [ref=e298]
+      - generic [ref=e299]:
+        - generic [ref=e301]: NG
+        - generic [ref=e302]:
+          - text: // minimum clear space = 1× cap-height of the monogram on all sides.
+          - text: // inner dashed frame = mark bounding box · outer dashed frame = required margin.
+    - generic [ref=e304]:
+      - generic [ref=e305]: 08 // IN CONTEXT
+      - heading "Applied" [level=2] [ref=e306]
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - generic [ref=e309]: // SITE HEADER
+          - generic [ref=e310]:
+            - generic [ref=e311]: NG
+            - generic [ref=e313]: NEOGEN
+          - generic [ref=e314]:
+            - strong [ref=e315]: Header lockup
+            - text: Desktop nav · primary
+        - generic [ref=e316]:
+          - generic [ref=e317]: // MOBILE NAV
+          - generic [ref=e319]: NG
+          - generic [ref=e320]:
+            - strong [ref=e321]: Monogram only
+            - text: Mobile · <768px
+        - generic [ref=e322]:
+          - generic [ref=e323]: // FAVICON
+          - img [ref=e325]
+          - generic [ref=e326]:
+            - strong [ref=e327]: Tab favicon
+            - text: 32×32 · browser chrome
+        - generic [ref=e328]:
+          - generic [ref=e329]: // iOS HOME
+          - img [ref=e332]
+          - generic [ref=e333]:
+            - strong [ref=e334]: iOS touch icon
+            - text: 180² · rounded by OS
+        - generic [ref=e335]:
+          - generic [ref=e336]: // EMAIL
+          - img [ref=e338]
+          - generic [ref=e339]:
+            - strong [ref=e340]: Transactional email
+            - text: Orders · receipts
+        - generic [ref=e341]:
+          - generic [ref=e342]: // OG CARD
+          - img [ref=e344]
+          - generic [ref=e345]:
+            - strong [ref=e346]: Social share preview
+            - text: WhatsApp · Twitter · LinkedIn
+  - contentinfo [ref=e347]:
+    - generic [ref=e348]: NEOGEN STORE // BRAND KIT v1.0
+    - generic [ref=e349]: GENERATED 2026.04.20
+    - generic [ref=e350]: FILES IN /tmp/neogen-final/
+    - generic [ref=e351]: © 2026 · CR 7053130576

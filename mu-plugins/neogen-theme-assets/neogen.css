@@ -1449,6 +1449,132 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-foot-bottom b { color: var(--accent); font-weight: 500; }
 
 /* ==========================================================
+   HERO PHOTO — admin-curated background image
+   ========================================================== */
+.ng-hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ng-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ng-hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(225, 232, 237, 0.55) 0%, rgba(225, 232, 237, 0.92) 100%);
+  pointer-events: none;
+}
+
+/* ==========================================================
+   SERVICE STRIP / CTA monoline icons
+   ========================================================== */
+.ng-icon-mono {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+.btn-primary .ng-icon-mono {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+/* ==========================================================
+   VOICE BAND — 2-up when photo present
+   ========================================================== */
+.ng-voice-inner:has(.ng-voice-photo) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  justify-items: stretch;
+  text-align: start;
+}
+.ng-voice-text {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+}
+.ng-voice-inner:has(.ng-voice-photo) .ng-voice-text {
+  justify-items: start;
+  text-align: start;
+}
+.ng-voice-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.25s var(--ease);
+}
+.ng-voice-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ng-voice-photo:hover {
+  box-shadow: 0 0 0 1px rgba(0, 153, 204, 0.5), 0 18px 38px -22px rgba(0, 153, 204, 0.45);
+}
+@media (max-width: 720px) {
+  .ng-voice-inner:has(.ng-voice-photo) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ==========================================================
+   FOOTER — payment + shipping logo row
+   ========================================================== */
+.ng-foot-pay {
+  width: min(var(--container), 100%);
+  margin: 28px auto 0;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  direction: ltr;
+}
+.ng-foot-pay-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.ng-foot-pay-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.ng-foot-pay-row img {
+  height: 22px;
+  width: auto;
+  opacity: 0.72;
+  color: var(--text);
+  transition: opacity 0.2s var(--ease);
+}
+.ng-foot-pay-row img:hover {
+  opacity: 1;
+}
+.ng-foot-pay-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--line-strong);
+  display: inline-block;
+}
+
+/* ==========================================================
    UTILITY ANIMATIONS
    ========================================================== */
 @keyframes ng-rise {

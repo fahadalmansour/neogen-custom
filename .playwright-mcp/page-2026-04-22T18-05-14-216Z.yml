@@ -1,0 +1,689 @@
+- generic [active] [ref=e1]:
+  - link "التجاوز إلى المحتوى" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e7]:
+        - link "NeoGen Store" [ref=e13] [cursor=pointer]:
+          - /url: https://neogen.store/
+          - generic "NeoGen Store" [ref=e14]:
+            - generic [ref=e15]: NG
+            - generic [ref=e17]:
+              - generic [ref=e18]: NEO
+              - generic [ref=e19]: GEN
+        - navigation "Main Menu" [ref=e22]:
+          - list [ref=e23]:
+            - listitem [ref=e24]:
+              - link "الرئيسية" [ref=e25] [cursor=pointer]:
+                - /url: https://neogen.store/
+            - listitem [ref=e26]:
+              - link "المنتجات" [ref=e27] [cursor=pointer]:
+                - /url: https://neogen.store/shop/
+                - text: المنتجات
+                - img [ref=e29]
+              - button "Expand dropdown menu"
+        - generic [ref=e32]:
+          - button "بحث" [ref=e33] [cursor=pointer]:
+            - img [ref=e34]
+          - link "عربة التسوق" [ref=e37] [cursor=pointer]:
+            - /url: /cart/
+            - generic [ref=e38]: عربة التسوق
+            - img [ref=e40]
+    - main [ref=e42]:
+      - article [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - generic [ref=e48]: SYSTEM ONLINE
+              - generic [ref=e50]: UPTIME 99.98%
+              - generic [ref=e51]: KSA · GCC
+            - generic [ref=e52]:
+              - generic [ref=e53]: SHIP · 2–5D
+              - generic [ref=e54]: WARRANTY · 12MO
+              - generic [ref=e55]: SUPPORT · 24/7
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - generic [ref=e58]: SERIAL №
+              - generic [ref=e59]: NG-2026-Q2-001
+            - generic [ref=e60]:
+              - generic [ref=e61]: MISSION CONTROL — RIYADH · 24.71°N 46.67°E
+              - generic [ref=e62]: BROADCASTING · 210 PRODUCTS
+            - generic [ref=e64]:
+              - generic [ref=e65]: REV
+              - generic [ref=e66]: v6.0 / APR 2026
+            - generic [ref=e67]:
+              - img [ref=e69]
+              - generic [ref=e85]: جيل
+            - generic [ref=e86]:
+              - paragraph [ref=e87]:
+                - text: التقنية.
+                - emphasis [ref=e88]: كما يجب أن تكون.
+                - text: متجر مختص للهوم لاب، الشبكات، البيوت الذكية، والألعاب.
+              - generic [ref=e89]:
+                - generic [ref=e90]: NEO
+                - generic [ref=e92]: GEN
+                - generic [ref=e94]: STORE
+              - generic [ref=e95]:
+                - link "shop –all" [ref=e96] [cursor=pointer]:
+                  - /url: /shop/
+                - link "man categories" [ref=e97] [cursor=pointer]:
+                  - /url: "#categories"
+          - generic [ref=e99]:
+            - generic [ref=e100]: PRODUCTS 210
+            - generic [ref=e101]: ◆
+            - generic [ref=e102]: BRANDS 12
+            - generic [ref=e103]: ◆
+            - generic [ref=e104]: FREE-SHIP 200 SAR
+            - generic [ref=e105]: ◆
+            - generic [ref=e106]: VAT 15%
+            - generic [ref=e107]: ◆
+            - generic [ref=e108]: AVG-REPLY 00:03:14
+            - generic [ref=e109]: ◆
+            - generic [ref=e110]: PAYMENTS MADA · VISA · MC · APPLE
+            - generic [ref=e111]: ◆
+            - generic [ref=e112]: WARRANTY 12 MO
+            - generic [ref=e113]: ◆
+            - generic [ref=e114]: PRODUCTS 210
+            - generic [ref=e115]: ◆
+            - generic [ref=e116]: BRANDS 12
+            - generic [ref=e117]: ◆
+            - generic [ref=e118]: FREE-SHIP 200 SAR
+            - generic [ref=e119]: ◆
+            - generic [ref=e120]: VAT 15%
+            - generic [ref=e121]: ◆
+            - generic [ref=e122]: AVG-REPLY 00:03:14
+            - generic [ref=e123]: ◆
+            - generic [ref=e124]: PAYMENTS MADA · VISA · MC · APPLE
+            - generic [ref=e125]: ◆
+            - generic [ref=e126]: WARRANTY 12 MO
+            - generic [ref=e127]: ◆
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - generic [ref=e132]: CATALOG · 06 UNITS
+                - heading "تصفّح حسب القسم" [level=2] [ref=e133]
+                - paragraph [ref=e134]: ستة أقسام رئيسية — كل منتج مختار بعناية من أفضل العلامات التجارية العالمية.
+              - generic [ref=e135]:
+                - strong [ref=e136]: Inventory
+                - text: 210 products · 12 brands
+                - text: Updated 17 Apr 2026
+            - generic [ref=e137]:
+              - link "[01] SH · SMART_HOME · 50 UNITS البيت الذكي Aqara · SwitchBot · Philips Hue" [ref=e138] [cursor=pointer]:
+                - /url: /product-category/smart-home/
+                - generic [ref=e139]: "[01] SH · SMART_HOME · 50 UNITS"
+                - generic [ref=e140]:
+                  - heading "البيت الذكي" [level=3] [ref=e141]
+                  - paragraph [ref=e142]: Aqara · SwitchBot · Philips Hue
+              - link "[02] NT · 26 UNITS الشبكات UniFi · MikroTik" [ref=e143] [cursor=pointer]:
+                - /url: /product-category/networking/
+                - generic [ref=e144]: "[02] NT · 26 UNITS"
+                - generic [ref=e145]:
+                  - heading "الشبكات" [level=3] [ref=e146]
+                  - paragraph [ref=e147]: UniFi · MikroTik
+              - link "[03] GM · 39 UNITS الألعاب" [ref=e148] [cursor=pointer]:
+                - /url: /product-category/gaming-2/
+                - generic [ref=e149]: "[03] GM · 39 UNITS"
+                - heading "الألعاب" [level=3] [ref=e151]
+              - link "[04] HL · 29 UNITS هوم لاب" [ref=e152] [cursor=pointer]:
+                - /url: /product-category/homelab/
+                - generic [ref=e153]: "[04] HL · 29 UNITS"
+                - heading "هوم لاب" [level=3] [ref=e155]
+              - link "[05] HW · HARDWARE · 12 UNITS أجهزة PC RTX · Raspberry Pi · NAS · SBCs" [ref=e156] [cursor=pointer]:
+                - /url: /product-category/hardware/
+                - generic [ref=e157]: "[05] HW · HARDWARE · 12 UNITS"
+                - generic [ref=e158]:
+                  - heading "أجهزة PC" [level=3] [ref=e159]
+                  - paragraph [ref=e160]: RTX · Raspberry Pi · NAS · SBCs
+              - link "[06] GC · DIGITAL · 10 UNITS · ⚡ INSTANT بطاقات رقمية Windows · Office · PSN · Steam · Netflix · Adobe" [ref=e161] [cursor=pointer]:
+                - /url: /product-category/gift-cards/
+                - generic [ref=e162]: "[06] GC · DIGITAL · 10 UNITS · ⚡ INSTANT"
+                - generic [ref=e163]:
+                  - heading "بطاقات رقمية" [level=3] [ref=e164]
+                  - paragraph [ref=e165]: Windows · Office · PSN · Steam · Netflix · Adobe
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: TOP_PICKS
+                - heading "الأكثر مبيعاً." [level=2] [ref=e171]
+              - link "view_all →" [ref=e172] [cursor=pointer]:
+                - /url: /shop/?orderby=popularity
+            - list [ref=e174]:
+              - listitem [ref=e175]:
+                - figure [ref=e176]:
+                  - link "ASUS ROG Rapture GT-BE19000AI (WiFi 7)" [ref=e177] [cursor=pointer]:
+                    - /url: https://neogen.store/product/asus-rog-rapture-gt-be19000ai-wifi-7/
+                    - img "ASUS ROG Rapture GT-BE19000AI (WiFi 7)" [ref=e178]
+                - heading "ASUS ROG Rapture GT-BE19000AI (WiFi 7)" [level=2] [ref=e179]:
+                  - link "ASUS ROG Rapture GT-BE19000AI (WiFi 7)" [ref=e180] [cursor=pointer]:
+                    - /url: https://neogen.store/product/asus-rog-rapture-gt-be19000ai-wifi-7/
+                - generic [ref=e181]:
+                  - generic [ref=e183]: 4,799 ر.س
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e184]:
+                  - listitem [ref=e185]:
+                    - link "Gaming | ألعاب" [ref=e186] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gaming-2/
+                - 'button "إضافة إلى عربة التسوق: \"ASUS ROG Rapture GT-BE19000AI (WiFi 7)\"" [ref=e188] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e190]:
+                - figure [ref=e191]:
+                  - generic [ref=e192]: تخفيض
+                  - link "JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)" [ref=e193] [cursor=pointer]:
+                    - /url: https://neogen.store/product/jsaux-6-in-1-dock-steam-deck-rog-ally/
+                    - img "JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)" [ref=e194]
+                - heading "JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)" [level=2] [ref=e195]:
+                  - link "JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)" [ref=e196] [cursor=pointer]:
+                    - /url: https://neogen.store/product/jsaux-6-in-1-dock-steam-deck-rog-ally/
+                - generic [ref=e197]:
+                  - generic [ref=e198]:
+                    - deletion [ref=e199]:
+                      - generic [ref=e201]: 529 ر.س
+                    - generic [ref=e202]: "السعر الأصلي هو: 529 ر.س."
+                    - insertion [ref=e203]:
+                      - generic [ref=e205]: 459 ر.س
+                    - generic [ref=e206]: "السعر الحالي هو: 459 ر.س."
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e207]:
+                  - listitem [ref=e208]:
+                    - link "Gaming | ألعاب" [ref=e209] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gaming-2/
+                - 'button "إضافة إلى عربة التسوق: \"JSAUX 6-in-1 Dock (Steam Deck/ROG Ally)\"" [ref=e211] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e213]:
+                - figure [ref=e214]:
+                  - link "NZXT H9 Elite Mid-Tower ATX Case" [ref=e215] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nzxt-h9-elite-mid-tower-atx-case/
+                    - img "NZXT H9 Elite Mid-Tower ATX Case" [ref=e216]
+                - heading "NZXT H9 Elite Mid-Tower ATX Case" [level=2] [ref=e217]:
+                  - link "NZXT H9 Elite Mid-Tower ATX Case" [ref=e218] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nzxt-h9-elite-mid-tower-atx-case/
+                - generic [ref=e219]:
+                  - generic [ref=e221]: 1,349 ر.س
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e222]:
+                  - listitem [ref=e223]:
+                    - link "Hardware | أجهزة PC" [ref=e224] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/hardware/
+                - 'button "إضافة إلى عربة التسوق: \"NZXT H9 Elite Mid-Tower ATX Case\"" [ref=e226] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e228]:
+                - figure [ref=e229]:
+                  - link "Corsair iCUE H150i RGB Elite (360mm AIO)" [ref=e230] [cursor=pointer]:
+                    - /url: https://neogen.store/product/corsair-icue-h150i-rgb-elite-360mm-aio/
+                    - img "Corsair iCUE H150i RGB Elite (360mm AIO)" [ref=e231]
+                - heading "Corsair iCUE H150i RGB Elite (360mm AIO)" [level=2] [ref=e232]:
+                  - link "Corsair iCUE H150i RGB Elite (360mm AIO)" [ref=e233] [cursor=pointer]:
+                    - /url: https://neogen.store/product/corsair-icue-h150i-rgb-elite-360mm-aio/
+                - generic [ref=e234]:
+                  - generic [ref=e236]: 1,149 ر.س
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e237]:
+                  - listitem [ref=e238]:
+                    - link "Hardware | أجهزة PC" [ref=e239] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/hardware/
+                - 'button "إضافة إلى عربة التسوق: \"Corsair iCUE H150i RGB Elite (360mm AIO)\"" [ref=e241] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e243]:
+                - figure [ref=e244]:
+                  - link "Gigabyte AORUS RTX 5090 Master 32GB" [ref=e245] [cursor=pointer]:
+                    - /url: https://neogen.store/product/gigabyte-aorus-rtx-5090-master-32gb/
+                    - img "Gigabyte AORUS RTX 5090 Master 32GB" [ref=e246]
+                - heading "Gigabyte AORUS RTX 5090 Master 32GB" [level=2] [ref=e247]:
+                  - link "Gigabyte AORUS RTX 5090 Master 32GB" [ref=e248] [cursor=pointer]:
+                    - /url: https://neogen.store/product/gigabyte-aorus-rtx-5090-master-32gb/
+                - generic [ref=e249]:
+                  - generic [ref=e251]: 27,999 ر.س
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e252]:
+                  - listitem [ref=e253]:
+                    - link "Hardware | أجهزة PC" [ref=e254] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/hardware/
+                - 'button "إضافة إلى عربة التسوق: \"Gigabyte AORUS RTX 5090 Master 32GB\"" [ref=e256] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e258]:
+                - figure [ref=e259]:
+                  - link "NVIDIA RTX 5080 Founders Edition (16GB)" [ref=e260] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nvidia-rtx-5080-founders-edition-16gb/
+                    - img "NVIDIA RTX 5080 Founders Edition (16GB)" [ref=e261]
+                - heading "NVIDIA RTX 5080 Founders Edition (16GB)" [level=2] [ref=e262]:
+                  - link "NVIDIA RTX 5080 Founders Edition (16GB)" [ref=e263] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nvidia-rtx-5080-founders-edition-16gb/
+                - generic [ref=e264]:
+                  - generic [ref=e266]: 6,499 ر.س
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e267]:
+                  - listitem [ref=e268]:
+                    - link "Hardware | أجهزة PC" [ref=e269] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/hardware/
+                - 'button "إضافة إلى عربة التسوق: \"NVIDIA RTX 5080 Founders Edition (16GB)\"" [ref=e271] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e273]:
+                - figure [ref=e274]:
+                  - generic [ref=e275]: تخفيض
+                  - link "NVIDIA RTX 5090 Founders Edition (32GB)" [ref=e276] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nvidia-rtx-5090-founders-edition-32gb/
+                    - img "NVIDIA RTX 5090 Founders Edition (32GB)" [ref=e277]
+                - heading "NVIDIA RTX 5090 Founders Edition (32GB)" [level=2] [ref=e278]:
+                  - link "NVIDIA RTX 5090 Founders Edition (32GB)" [ref=e279] [cursor=pointer]:
+                    - /url: https://neogen.store/product/nvidia-rtx-5090-founders-edition-32gb/
+                - generic [ref=e280]:
+                  - generic [ref=e281]:
+                    - deletion [ref=e282]:
+                      - generic [ref=e284]: 26,449 ر.س
+                    - generic [ref=e285]: "السعر الأصلي هو: 26,449 ر.س."
+                    - insertion [ref=e286]:
+                      - generic [ref=e288]: 22,999 ر.س
+                    - generic [ref=e289]: "السعر الحالي هو: 22,999 ر.س."
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e290]:
+                  - listitem [ref=e291]:
+                    - link "Hardware | أجهزة PC" [ref=e292] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/hardware/
+                - 'button "إضافة إلى عربة التسوق: \"NVIDIA RTX 5090 Founders Edition (32GB)\"" [ref=e294] [cursor=pointer]': إضافة إلى السلة
+              - listitem [ref=e296]:
+                - figure [ref=e297]:
+                  - generic [ref=e298]: تخفيض
+                  - link "HyperX QuadCast S USB Microphone" [ref=e299] [cursor=pointer]:
+                    - /url: https://neogen.store/product/hyperx-quadcast-s-usb-microphone/
+                    - img "HyperX QuadCast S USB Microphone" [ref=e300]
+                - heading "HyperX QuadCast S USB Microphone" [level=2] [ref=e301]:
+                  - link "HyperX QuadCast S USB Microphone" [ref=e302] [cursor=pointer]:
+                    - /url: https://neogen.store/product/hyperx-quadcast-s-usb-microphone/
+                - generic [ref=e303]:
+                  - generic [ref=e304]:
+                    - deletion [ref=e305]:
+                      - generic [ref=e307]: 1,099 ر.س
+                    - generic [ref=e308]: "السعر الأصلي هو: 1,099 ر.س."
+                    - insertion [ref=e309]:
+                      - generic [ref=e311]: 949 ر.س
+                    - generic [ref=e312]: "السعر الحالي هو: 949 ر.س."
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e313]:
+                  - listitem [ref=e314]:
+                    - link "Gaming | ألعاب" [ref=e315] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gaming-2/
+                - 'button "إضافة إلى عربة التسوق: \"HyperX QuadCast S USB Microphone\"" [ref=e317] [cursor=pointer]': إضافة إلى السلة
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - generic [ref=e323]: ⚡ NEW · WIFI 7
+              - heading "Ubiquiti UniFi U7 Pro" [level=2] [ref=e324]
+              - paragraph [ref=e325]: الجيل القادم من WiFi. سرعات تصل إلى 5.7 جيجابت، تغطية استثنائية، وإعداد سهل عبر تطبيق UniFi — في جهاز واحد أنيق.
+              - generic [ref=e326]:
+                - generic [ref=e327]: WIFI_7
+                - generic [ref=e328]: 5.7_GBPS
+                - generic [ref=e329]: POE+
+                - generic [ref=e330]: 6_GHZ
+                - generic [ref=e331]: MLO
+              - generic [ref=e332]:
+                - link "order –now" [ref=e333] [cursor=pointer]:
+                  - /url: /shop/
+                - link "man networking" [ref=e334] [cursor=pointer]:
+                  - /url: /product-category/networking/
+            - img "UniFi U7 Pro" [ref=e337]
+          - generic [ref=e339]:
+            - generic [ref=e340]:
+              - generic [ref=e341]: ⚡ SERVICES · PRECONFIGURED
+              - heading "خدمات التهيئة المسبقة." [level=2] [ref=e342]
+              - paragraph [ref=e343]:
+                - text: نركّب النظام ونجهّزه لك مسبقاً — تصل عندك جاهز للتشغيل. وإذا ما لقيت اللي تبيه،
+                - strong [ref=e344]: اكتب لنا وصف اللي تحتاجه
+                - text: وراح نجهّزه لك.
+            - generic [ref=e345]:
+              - generic [ref=e346]:
+                - text: ⚡ POPULAR
+                - heading "Home Assistant على Raspberry Pi" [level=4] [ref=e348]
+                - paragraph [ref=e349]: نثبّت HA OS على Pi 5 8GB — يوصل لك جاهز، فقط اوصله بالكهرباء والشبكة. Zigbee2MQTT، HACS، Add-ons، SSL.
+                - generic [ref=e350]:
+                  - generic [ref=e351]: Pi 5 8GB
+                  - generic [ref=e352]: HA OS
+                  - generic [ref=e353]: Z2M
+                  - generic [ref=e354]: SSL
+                - generic [ref=e355]:
+                  - generic [ref=e356]:
+                    - text: من
+                    - strong [ref=e357]: 899 SAR
+                  - link "REQUEST →" [ref=e358] [cursor=pointer]:
+                    - /url: "#service-request"
+              - generic [ref=e359]:
+                - text: ⚡ NETWORK
+                - heading "pfSense على Netgate" [level=4] [ref=e361]
+                - paragraph [ref=e362]: جدار ناري إنتربرايز بإعداد كامل — VLANs، OpenVPN، Adblock، Suricata IDS، تحديثات آلية.
+                - generic [ref=e363]:
+                  - generic [ref=e364]: pfSense+
+                  - generic [ref=e365]: OpenVPN
+                  - generic [ref=e366]: Suricata
+                  - generic [ref=e367]: VLAN
+                - generic [ref=e368]:
+                  - generic [ref=e369]:
+                    - text: من
+                    - strong [ref=e370]: 1,799 SAR
+                  - link "REQUEST →" [ref=e371] [cursor=pointer]:
+                    - /url: "#service-request"
+              - generic [ref=e372]:
+                - text: ⚡ UNIFI
+                - heading "UniFi Controller جاهز" [level=4] [ref=e374]
+                - paragraph [ref=e375]: Cloud Gateway Ultra بإعداد كامل — Adopted APs، Firewall، Guest Network، VLANs. تجي جاهزة بـ SSID.
+                - generic [ref=e376]:
+                  - generic [ref=e377]: UCG Ultra
+                  - generic [ref=e378]: Adopt
+                  - generic [ref=e379]: Guest
+                  - generic [ref=e380]: WPA3
+                - generic [ref=e381]:
+                  - generic [ref=e382]:
+                    - text: من
+                    - strong [ref=e383]: 1,499 SAR
+                  - link "REQUEST →" [ref=e384] [cursor=pointer]:
+                    - /url: "#service-request"
+              - generic [ref=e385]:
+                - text: ⚡ STORAGE
+                - heading "TrueNAS على Mini PC" [level=4] [ref=e387]
+                - paragraph [ref=e388]: MinisForum MS-01 + TrueNAS SCALE — RAID مُهيأ، SMB/NFS، Nextcloud، Plex، Docker Compose، Tailscale.
+                - generic [ref=e389]:
+                  - generic [ref=e390]: TrueNAS
+                  - generic [ref=e391]: ZFS
+                  - generic [ref=e392]: Plex
+                  - generic [ref=e393]: Docker
+                - generic [ref=e394]:
+                  - generic [ref=e395]:
+                    - text: من
+                    - strong [ref=e396]: 3,499 SAR
+                  - link "REQUEST →" [ref=e397] [cursor=pointer]:
+                    - /url: "#service-request"
+            - generic [ref=e398]:
+              - generic [ref=e400]: ⚡ CUSTOM_REQUEST
+              - heading "احكي لنا وش تحتاج." [level=3] [ref=e401]
+              - paragraph [ref=e402]: سواء كان سيرفر، جدار ناري، أتمتة منزلية كاملة، ولا مشروع شبكة لمكتب — اكتب طلبك ونرجع لك خلال ساعة على واتساب.
+              - generic [ref=e403]:
+                - textbox "الاسم" [ref=e404]
+                - textbox "0570 131 122" [ref=e405]
+                - combobox [ref=e406]:
+                  - option "— نوع الخدمة —" [selected]
+                  - option "Home Assistant على Pi"
+                  - option "pfSense / Firewall"
+                  - option "UniFi Controller + Network"
+                  - option "TrueNAS / NAS Storage"
+                  - option "Plex / Jellyfin Media Server"
+                  - option "Docker / Portainer Host"
+                  - option "Proxmox VE"
+                  - option "Kubernetes / k3s"
+                  - option "أخرى — اكتب في الوصف"
+                - textbox "اشرح احتياجك بالتفصيل..." [ref=e407]
+                - generic [ref=e408]:
+                  - generic [ref=e409]: → SEND_VIA_WHATSAPP · REPLY_IN_1H
+                  - button "SEND →" [ref=e410] [cursor=pointer]
+          - generic [ref=e412]:
+            - generic [ref=e413]:
+              - generic [ref=e414]:
+                - generic [ref=e415]: JUST_IN
+                - heading "وصل حديثاً." [level=2] [ref=e416]
+              - link "view_all →" [ref=e417] [cursor=pointer]:
+                - /url: /shop/?orderby=date
+            - list [ref=e419]:
+              - listitem [ref=e420]:
+                - figure [ref=e421]:
+                  - link "Amazon Prime | أمازون برايم" [ref=e422] [cursor=pointer]:
+                    - /url: https://neogen.store/product/amazon-prime/
+                    - img "Amazon Prime | أمازون برايم" [ref=e423]
+                - heading "Amazon Prime | أمازون برايم" [level=2] [ref=e424]:
+                  - link "Amazon Prime | أمازون برايم" [ref=e425] [cursor=pointer]:
+                    - /url: https://neogen.store/product/amazon-prime/
+                - generic [ref=e426]:
+                  - generic [ref=e428]: 19 ر.س
+                  - text: –
+                  - generic [ref=e430]: 175 ر.س
+                  - generic [ref=e431]: "نطاق السعر: من ⁦19 ر.س⁩ خلال ⁦175 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e432]:
+                  - listitem [ref=e433]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e434] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e435]:
+                  - link "تحديد الخيارات لـ \"Amazon Prime | أمازون برايم\"" [ref=e436] [cursor=pointer]:
+                    - /url: https://neogen.store/product/amazon-prime/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e437]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e438]:
+                - figure [ref=e439]:
+                  - link "YouTube Premium | يوتيوب بريميوم" [ref=e440] [cursor=pointer]:
+                    - /url: https://neogen.store/product/youtube-premium/
+                    - img "YouTube Premium | يوتيوب بريميوم" [ref=e441]
+                - heading "YouTube Premium | يوتيوب بريميوم" [level=2] [ref=e442]:
+                  - link "YouTube Premium | يوتيوب بريميوم" [ref=e443] [cursor=pointer]:
+                    - /url: https://neogen.store/product/youtube-premium/
+                - generic [ref=e444]:
+                  - generic [ref=e446]: 29 ر.س
+                  - text: –
+                  - generic [ref=e448]: 279 ر.س
+                  - generic [ref=e449]: "نطاق السعر: من ⁦29 ر.س⁩ خلال ⁦279 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e450]:
+                  - listitem [ref=e451]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e452] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e453]:
+                  - link "تحديد الخيارات لـ \"YouTube Premium | يوتيوب بريميوم\"" [ref=e454] [cursor=pointer]:
+                    - /url: https://neogen.store/product/youtube-premium/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e455]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e456]:
+                - figure [ref=e457]:
+                  - link "Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود" [ref=e458] [cursor=pointer]:
+                    - /url: https://neogen.store/product/adobe-creative-cloud-1-year-%d8%a3%d8%af%d9%88%d8%a8%d9%8a-%d9%83%d8%b1%d9%8a%d9%8a%d8%aa%d9%81-%d9%83%d9%84%d8%a7%d9%88%d8%af/
+                    - img "Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود" [ref=e459]
+                - heading "Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود" [level=2] [ref=e460]:
+                  - link "Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود" [ref=e461] [cursor=pointer]:
+                    - /url: https://neogen.store/product/adobe-creative-cloud-1-year-%d8%a3%d8%af%d9%88%d8%a8%d9%8a-%d9%83%d8%b1%d9%8a%d9%8a%d8%aa%d9%81-%d9%83%d9%84%d8%a7%d9%88%d8%af/
+                - generic [ref=e462]:
+                  - generic [ref=e464]: 229 ر.س
+                  - text: –
+                  - generic [ref=e466]: 2,289 ر.س
+                  - generic [ref=e467]: "نطاق السعر: من ⁦229 ر.س⁩ خلال ⁦2,289 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e468]:
+                  - listitem [ref=e469]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e470] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e471]:
+                  - link "تحديد الخيارات لـ \"Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود\"" [ref=e472] [cursor=pointer]:
+                    - /url: https://neogen.store/product/adobe-creative-cloud-1-year-%d8%a3%d8%af%d9%88%d8%a8%d9%8a-%d9%83%d8%b1%d9%8a%d9%8a%d8%aa%d9%81-%d9%83%d9%84%d8%a7%d9%88%d8%af/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e473]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e474]:
+                - figure [ref=e475]:
+                  - link "Kaspersky Total Security 1 Year | كاسبرسكي" [ref=e476] [cursor=pointer]:
+                    - /url: https://neogen.store/product/kaspersky-total-security-1-year-%d9%83%d8%a7%d8%b3%d8%a8%d8%b1%d8%b3%d9%83%d9%8a/
+                    - img "Kaspersky Total Security 1 Year | كاسبرسكي" [ref=e477]
+                - heading "Kaspersky Total Security 1 Year | كاسبرسكي" [level=2] [ref=e478]:
+                  - link "Kaspersky Total Security 1 Year | كاسبرسكي" [ref=e479] [cursor=pointer]:
+                    - /url: https://neogen.store/product/kaspersky-total-security-1-year-%d9%83%d8%a7%d8%b3%d8%a8%d8%b1%d8%b3%d9%83%d9%8a/
+                - generic [ref=e480]:
+                  - generic [ref=e482]: 229 ر.س
+                  - text: –
+                  - generic [ref=e484]: 569 ر.س
+                  - generic [ref=e485]: "نطاق السعر: من ⁦229 ر.س⁩ خلال ⁦569 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e486]:
+                  - listitem [ref=e487]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e488] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e489]:
+                  - link "تحديد الخيارات لـ \"Kaspersky Total Security 1 Year | كاسبرسكي\"" [ref=e490] [cursor=pointer]:
+                    - /url: https://neogen.store/product/kaspersky-total-security-1-year-%d9%83%d8%a7%d8%b3%d8%a8%d8%b1%d8%b3%d9%83%d9%8a/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e491]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e492]:
+                - figure [ref=e493]:
+                  - link "Apple Gift Card $100 | بطاقة آبل" [ref=e494] [cursor=pointer]:
+                    - /url: https://neogen.store/product/apple-gift-card-100-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%a2%d8%a8%d9%84/
+                    - img "Apple Gift Card 0 | بطاقة آبل" [ref=e495]
+                - heading "Apple Gift Card $100 | بطاقة آبل" [level=2] [ref=e496]:
+                  - link "Apple Gift Card $100 | بطاقة آبل" [ref=e497] [cursor=pointer]:
+                    - /url: https://neogen.store/product/apple-gift-card-100-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%a2%d8%a8%d9%84/
+                - generic [ref=e498]:
+                  - generic [ref=e500]: 109 ر.س
+                  - text: –
+                  - generic [ref=e502]: 1,975 ر.س
+                  - generic [ref=e503]: "نطاق السعر: من ⁦109 ر.س⁩ خلال ⁦1,975 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e504]:
+                  - listitem [ref=e505]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e506] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e507]:
+                  - link "تحديد الخيارات لـ \"Apple Gift Card $100 | بطاقة آبل\"" [ref=e508] [cursor=pointer]:
+                    - /url: https://neogen.store/product/apple-gift-card-100-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%a2%d8%a8%d9%84/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e509]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e510]:
+                - figure [ref=e511]:
+                  - link "Google Play $50 Gift Card | بطاقة قوقل بلاي" [ref=e512] [cursor=pointer]:
+                    - /url: https://neogen.store/product/google-play-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d9%82%d9%88%d9%82%d9%84-%d8%a8%d9%84%d8%a7%d9%8a/
+                    - img "Google Play Gift Card | بطاقة قوقل بلاي" [ref=e513]
+                - heading "Google Play $50 Gift Card | بطاقة قوقل بلاي" [level=2] [ref=e514]:
+                  - link "Google Play $50 Gift Card | بطاقة قوقل بلاي" [ref=e515] [cursor=pointer]:
+                    - /url: https://neogen.store/product/google-play-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d9%82%d9%88%d9%82%d9%84-%d8%a8%d9%84%d8%a7%d9%8a/
+                - generic [ref=e516]:
+                  - generic [ref=e518]: 45 ر.س
+                  - text: –
+                  - generic [ref=e520]: 399 ر.س
+                  - generic [ref=e521]: "نطاق السعر: من ⁦45 ر.س⁩ خلال ⁦399 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e522]:
+                  - listitem [ref=e523]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e524] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e525]:
+                  - link "تحديد الخيارات لـ \"Google Play $50 Gift Card | بطاقة قوقل بلاي\"" [ref=e526] [cursor=pointer]:
+                    - /url: https://neogen.store/product/google-play-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d9%82%d9%88%d9%82%d9%84-%d8%a8%d9%84%d8%a7%d9%8a/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e527]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e528]:
+                - figure [ref=e529]:
+                  - link "Xbox Game Pass Ultimate 3 Months | قيم باس" [ref=e530] [cursor=pointer]:
+                    - /url: https://neogen.store/product/xbox-game-pass-ultimate-3-months-%d9%82%d9%8a%d9%85-%d8%a8%d8%a7%d8%b3/
+                    - img "Xbox Game Pass Ultimate 3 Months | قيم باس" [ref=e531]
+                - heading "Xbox Game Pass Ultimate 3 Months | قيم باس" [level=2] [ref=e532]:
+                  - link "Xbox Game Pass Ultimate 3 Months | قيم باس" [ref=e533] [cursor=pointer]:
+                    - /url: https://neogen.store/product/xbox-game-pass-ultimate-3-months-%d9%82%d9%8a%d9%85-%d8%a8%d8%a7%d8%b3/
+                - generic [ref=e534]:
+                  - generic [ref=e536]: 75 ر.س
+                  - text: –
+                  - generic [ref=e538]: 749 ر.س
+                  - generic [ref=e539]: "نطاق السعر: من ⁦75 ر.س⁩ خلال ⁦749 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e540]:
+                  - listitem [ref=e541]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e542] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e543]:
+                  - link "تحديد الخيارات لـ \"Xbox Game Pass Ultimate 3 Months | قيم باس\"" [ref=e544] [cursor=pointer]:
+                    - /url: https://neogen.store/product/xbox-game-pass-ultimate-3-months-%d9%82%d9%8a%d9%85-%d8%a8%d8%a7%d8%b3/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e545]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+              - listitem [ref=e546]:
+                - figure [ref=e547]:
+                  - link "Steam Wallet $50 Gift Card | بطاقة ستيم" [ref=e548] [cursor=pointer]:
+                    - /url: https://neogen.store/product/steam-wallet-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%b3%d8%aa%d9%8a%d9%85/
+                    - img "Steam Wallet Gift Card | بطاقة ستيم" [ref=e549]
+                - heading "Steam Wallet $50 Gift Card | بطاقة ستيم" [level=2] [ref=e550]:
+                  - link "Steam Wallet $50 Gift Card | بطاقة ستيم" [ref=e551] [cursor=pointer]:
+                    - /url: https://neogen.store/product/steam-wallet-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%b3%d8%aa%d9%8a%d9%85/
+                - generic [ref=e552]:
+                  - generic [ref=e554]: 45 ر.س
+                  - text: –
+                  - generic [ref=e556]: 399 ر.س
+                  - generic [ref=e557]: "نطاق السعر: من ⁦45 ر.س⁩ خلال ⁦399 ر.س⁩"
+                  - text: شامل ضريبة القيمة المضافة
+                - list [ref=e558]:
+                  - listitem [ref=e559]:
+                    - link "Gift Cards & Software Keys | بطاقات رقمية ومفاتيح" [ref=e560] [cursor=pointer]:
+                      - /url: https://neogen.store/product-category/gift-cards/
+                - generic [ref=e561]:
+                  - link "تحديد الخيارات لـ \"Steam Wallet $50 Gift Card | بطاقة ستيم\"" [ref=e562] [cursor=pointer]:
+                    - /url: https://neogen.store/product/steam-wallet-50-gift-card-%d8%a8%d8%b7%d8%a7%d9%82%d8%a9-%d8%b3%d8%aa%d9%8a%d9%85/
+                    - text: تحديد أحد الخيارات
+                  - generic [ref=e563]: هناك العديد من الأشكال المختلفة لهذا المنتج. يمكن اختيار الخيارات على صفحة المنتج
+          - generic [ref=e565]:
+            - generic [ref=e566]:
+              - generic [ref=e567]: WHY_US
+              - heading "لماذا NeoGen؟" [level=2] [ref=e568]
+            - generic [ref=e569]:
+              - generic [ref=e570]:
+                - generic [ref=e573]: LIVE · SUPPORT
+                - heading "دعم خبراء · عربي · 24/7" [level=3] [ref=e574]
+                - paragraph [ref=e575]: "واتساب مباشر مع تقنيين يفهمون الهوم لاب والشبكات. متوسط زمن الرد: 3 دقائق."
+                - generic [ref=e576]: "avg_reply_time: 00:03:14"
+              - generic [ref=e577]:
+                - generic [ref=e580]: WARRANTY · 12MO
+                - heading "ضمان NeoGen الذهبي" [level=3] [ref=e581]
+                - paragraph [ref=e582]: كل منتج مختبر قبل الشحن. استبدال فوري أو استرداد كامل — لا أسئلة لمدة 12 شهر.
+                - generic [ref=e583]: tested · shipped · guaranteed
+              - generic [ref=e584]:
+                - generic [ref=e587]: SHIPPING · FREE_200+
+                - heading "شحن سريع · كل المملكة" [level=3] [ref=e588]
+                - paragraph [ref=e589]: شحن مجاني فوق 200 ر.س. التوصيل 2-5 أيام. دول الخليج متاحة.
+                - generic [ref=e590]: ksa · uae · kwt · bhr · qat · omn
+          - generic [ref=e591]:
+            - generic [ref=e592]: // TRUSTED_BRANDS
+            - generic [ref=e594]:
+              - img "Ubiquiti" [ref=e595]
+              - img "MikroTik" [ref=e596]
+              - img "Aqara" [ref=e597]
+              - img "Synology" [ref=e598]
+              - img "Razer" [ref=e599]
+              - img "ASUS" [ref=e600]
+              - img "TP-Link" [ref=e601]
+              - img "Corsair" [ref=e602]
+              - img "NVIDIA" [ref=e603]
+              - img "Samsung" [ref=e604]
+              - img "Google" [ref=e605]
+              - img "DJI" [ref=e606]
+          - generic [ref=e608]:
+            - generic [ref=e609]: GET_STARTED
+            - heading "جاهز تبدأ؟" [level=2] [ref=e610]
+            - paragraph [ref=e611]: تصفّح +200 منتج أو اطلب تهيئة مخصصة — نوصلها لك جاهزة.
+            - generic [ref=e612]:
+              - link "shop –all" [ref=e613] [cursor=pointer]:
+                - /url: /shop/
+              - link "request service" [ref=e614] [cursor=pointer]:
+                - /url: "#services"
+    - contentinfo [ref=e615]:
+      - generic [ref=e617]:
+        - generic [ref=e620]:
+          - paragraph [ref=e621]:
+            - strong [ref=e622]: إلكترونيات بلازر
+          - paragraph [ref=e623]: متجر متخصص في بيع الإلكترونيات بأسعار منافسة
+          - generic [ref=e626]:
+            - link "Facebook" [ref=e627] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e629]
+            - link "X (Twitter)" [ref=e631] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e633]
+            - link "LinkedIn" [ref=e635] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e637]
+            - link "Medium" [ref=e639] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e641]
+          - heading [level=2]
+        - navigation "footer" [ref=e644]:
+          - list [ref=e645]:
+            - listitem [ref=e646]:
+              - link "سياسة الخصوصية | Privacy Policy" [ref=e647] [cursor=pointer]:
+                - /url: https://neogen.store/privacy-policy/
+            - listitem [ref=e648]:
+              - link "من نحن" [ref=e649] [cursor=pointer]:
+                - /url: https://ngs1.blazr.net/about-us/
+            - listitem [ref=e650]:
+              - link "شروط الاستخدام | Terms of Service" [ref=e651] [cursor=pointer]:
+                - /url: https://neogen.store/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9-%d8%a7%d9%84%d8%a7%d8%b3%d8%aa%d8%ae%d8%af%d8%a7%d9%85/
+            - listitem [ref=e652]:
+              - link "سياسة الاسترجاع والاستبدال | Return Policy" [ref=e653] [cursor=pointer]:
+                - /url: https://neogen.store/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9-%d8%a7%d9%84%d8%a7%d8%b3%d8%aa%d8%b1%d8%ac%d8%a7%d8%b9/
+            - listitem [ref=e654]:
+              - link "تواصل معنا" [ref=e655] [cursor=pointer]:
+                - /url: https://neogen.store/contact-us/
+      - generic [ref=e659]: © 2026 NEOGEN.STORE · CR 7053130576 · BUILT IN RIYADH 🇸🇦 · v6.0
+  - generic [ref=e660]:
+    - button "Dark" [ref=e661] [cursor=pointer]:
+      - img [ref=e662]
+    - button "Light" [ref=e664] [cursor=pointer]:
+      - img [ref=e665]
+    - button "ع" [ref=e669] [cursor=pointer]
+    - button "EN" [ref=e670] [cursor=pointer]
+  - status [ref=e671]

@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<!-- saved from url=(0097)file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html# -->
+<html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
+  <title>NEOGEN STORE — جيل التقنية القادم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./NEOGEN STORE — جيل التقنية القادم_files/css2" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-alt: #0b0a08;
+      --surface: #0f0e0c;
+      --surface-2: #16140f;
+      --raised: #1f1c15;
+      --line: rgba(0, 209, 255, 0.14);
+      --line-strong: rgba(0, 209, 255, 0.34);
+      --line-warm: rgba(229, 227, 221, 0.08);
+      --accent: #00d1ff;
+      --accent-soft: #66e4ff;
+      --accent-deep: #0099cc;
+      --accent-wash: rgba(0, 209, 255, 0.06);
+      --signal: #3fe88f;
+      --alert: #e8734a;
+      --indigo: #1a2b4b;
+      --indigo-deep: #0f1a2e;
+      --ice: #f5f6fa;
+      --white: #ffffff;
+      --text: #e5e3dd;
+      --warm: #cfc9bb;
+      --muted: #8f8a7e;
+      --dim: #4f4a40;
+
+      --font-wordmark: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+      --font-ultra: "Major Mono Display", monospace;
+      --font-sans: "Manrope", "IBM Plex Sans", system-ui, sans-serif;
+      --font-ar-display: "Rakkas", serif;
+      --font-ar-ui: "Reem Kufi", "Tajawal", system-ui, sans-serif;
+      --font-ar-body: "Tajawal", "Reem Kufi", system-ui, sans-serif;
+
+      --container: 1240px;
+      --radius: 4px;
+      --radius-lg: 6px;
+      --ease: cubic-bezier(0.2, 0, 0.2, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+      --mx: 50%;
+      --my: 50%;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(600px circle at var(--mx) var(--my), rgba(0, 209, 255, 0.045), transparent 60%),
+        linear-gradient(rgba(0, 209, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 209, 255, 0.022) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 48px 48px, 48px 48px, auto;
+      color: var(--warm);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    button { font: inherit; background: none; border: 0; color: inherit; cursor: pointer; padding: 0; }
+    h1, h2, h3, h4, p, ul { margin: 0; padding: 0; }
+    ul { list-style: none; }
+
+    ::selection { background: var(--accent); color: #04121a; }
+
+    /* ==========================================================
+       STATUS BAR — persistent operator telemetry
+       ========================================================== */
+    .sysbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 5, 5, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-transform: uppercase;
+      direction: ltr;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .sysbar .led {
+      width: 7px;
+      height: 7px;
+      background: var(--signal);
+      box-shadow: 0 0 12px var(--signal);
+      flex-shrink: 0;
+      animation: pulse 1.8s var(--ease) infinite;
+    }
+
+    .sysbar b { color: var(--text); font-weight: 500; }
+    .sysbar .sep { width: 1px; height: 12px; background: var(--line); flex-shrink: 0; }
+    .sysbar .spacer { flex: 1; }
+    .sysbar .cyan { color: var(--accent); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.82); }
+    }
+
+    /* ==========================================================
+       NAV — NG lockup + categories + tools
+       ========================================================== */
+    .topnav {
+      position: relative;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 40px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 5, 5, 0.72);
+      backdrop-filter: blur(8px);
+      direction: ltr;
+    }
+
+    .lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1;
+    }
+
+    .lockup .mono {
+      font-family: var(--font-ultra);
+      font-size: 28px;
+      color: var(--warm);
+      letter-spacing: 0.06em;
+    }
+
+    .lockup .mono .g { color: var(--accent); }
+
+    .lockup .sep {
+      width: 1px;
+      height: 24px;
+      background: var(--accent);
+      opacity: 0.55;
+    }
+
+    .lockup .wordmark {
+      font-family: var(--font-wordmark);
+      font-size: 30px;
+      letter-spacing: 0.02em;
+      color: var(--warm);
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .lockup .wordmark .neo { color: var(--warm); font-weight: 300; }
+    .lockup .wordmark .gen { color: var(--accent); font-weight: 700; }
+
+    .nav-cats {
+      display: flex;
+      gap: 4px;
+      justify-self: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .nav-cats a {
+      padding: 10px 14px;
+      color: var(--warm);
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-cats a:hover {
+      color: var(--accent);
+      border-color: var(--line);
+      background: var(--accent-wash);
+    }
+
+    .nav-cats a .dot {
+      width: 5px;
+      height: 5px;
+      background: var(--dim);
+      border-radius: 50%;
+      transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+
+    .nav-cats a:hover .dot {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tool {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--warm);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+    }
+
+    .nav-tool:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-tool svg { width: 14px; height: 14px; }
+
+    .nav-tool .count {
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #04121a;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    /* ==========================================================
+       HERO — bilingual split, systems-brief aside
+       ========================================================== */
+    .hero {
+      position: relative;
+      padding: 92px 24px 72px;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .hero-backdrop {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-backdrop svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(920px, 92vw);
+      height: auto;
+      color: var(--accent);
+      opacity: 0.14;
+    }
+
+    .hero-backdrop svg path,
+    .hero-backdrop svg circle {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 0.7;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .hero-scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 140px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 209, 255, 0.07) 50%, transparent 100%);
+      animation: scan 6.4s var(--ease) infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes scan {
+      0% { top: -140px; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(var(--container), 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: start;
+    }
+
+    .hero-main { direction: rtl; }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      direction: ltr;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rise 0.7s var(--ease-out) 0.1s forwards;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: var(--signal);
+      box-shadow: 0 0 14px var(--signal);
+      animation: pulse 1.8s var(--ease) infinite;
+    }
+
+    .kicker::after {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      align-self: center;
+    }
+
+    .hero-h1 {
+      margin-top: 28px;
+      font-family: var(--font-ar-display);
+      font-size: clamp(64px, 8.4vw, 128px);
+      line-height: 0.95;
+      color: var(--text);
+      font-weight: 400;
+      direction: rtl;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.9s var(--ease-out) 0.3s forwards;
+    }
+
+    .hero-h1 .accent { color: var(--accent); }
+
+    .hero-wordmark {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      direction: ltr;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.7s var(--ease-out) 0.55s forwards;
+    }
+
+    .hero-wordmark .mono {
+      font-family: var(--font-ultra);
+      font-size: 36px;
+      color: var(--warm);
+      letter-spacing: 0.06em;
+    }
+
+    .hero-wordmark .mono .g { color: var(--accent); }
+
+    .hero-wordmark .sep {
+      width: 1px;
+      height: 28px;
+      background: var(--accent);
+      opacity: 0.6;
+    }
+
+    .hero-wordmark .wordmark {
+      font-family: var(--font-wordmark);
+      font-size: 38px;
+      letter-spacing: 0.02em;
+      color: var(--warm);
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .hero-wordmark .neo { font-weight: 300; color: var(--warm); }
+    .hero-wordmark .gen { font-weight: 700; color: var(--accent); }
+
+    .hero-copy {
+      margin-top: 28px;
+      max-width: 620px;
+      font-family: var(--font-ar-ui);
+      font-size: 22px;
+      line-height: 1.5;
+      color: var(--warm);
+      direction: rtl;
+      font-weight: 400;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: rise 0.7s var(--ease-out) 0.7s forwards;
+    }
+
+    .hero-sub {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      direction: ltr;
+      opacity: 0;
+      animation: fade 0.7s var(--ease-out) 0.85s forwards;
+    }
+
+    .hero-ctas {
+      margin-top: 36px;
+      display: inline-flex;
+      gap: 12px;
+      direction: ltr;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rise 0.7s var(--ease-out) 0.95s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--accent);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn svg { width: 14px; height: 14px; }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+      color: #04121a;
+      box-shadow: 0 12px 32px -16px rgba(0, 209, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px -18px rgba(0, 209, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+      border-color: var(--line-strong);
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent-wash);
+      border-color: var(--accent);
+    }
+
+    /* --- systems-brief aside --- */
+    .hero-brief {
+      position: relative;
+      padding: 26px;
+      background: linear-gradient(180deg, rgba(15, 14, 12, 0.92), rgba(11, 10, 8, 0.72));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      direction: ltr;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--warm);
+      opacity: 0;
+      transform: translateY(24px);
+      animation: rise 0.9s var(--ease-out) 0.45s forwards;
+    }
+
+    .hero-brief::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.8;
+    }
+
+    .brief-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px dashed var(--line);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .brief-head span:last-child { color: var(--muted); }
+
+    .brief-row {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 14px;
+      padding: 9px 0;
+      align-items: center;
+      border-bottom: 1px solid var(--line-warm);
+    }
+
+    .brief-row:last-of-type { border-bottom: 0; }
+
+    .brief-row .k {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 10px;
+    }
+
+    .brief-row .v { color: var(--text); }
+    .brief-row .t { color: var(--signal); font-size: 11px; }
+    .brief-row .t.warn { color: var(--alert); }
+
+    .brief-cta {
+      margin-top: 18px;
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      background: transparent;
+      color: var(--accent);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+
+    .brief-cta:hover {
+      background: var(--accent-wash);
+      border-color: var(--accent);
+      border-style: solid;
+    }
+
+    .hero-meta {
+      position: relative;
+      z-index: 2;
+      width: min(var(--container), 100%);
+      margin: 48px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      direction: ltr;
+      opacity: 0;
+      animation: fade 0.7s var(--ease-out) 1.05s forwards;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      background: rgba(15, 14, 12, 0.75);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+    }
+
+    .chip strong { color: var(--accent); font-weight: 700; }
+
+    .chip .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--signal);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--signal);
+    }
+
+    /* ==========================================================
+       TICKER — running SKU stream
+       ========================================================== */
+    .ticker {
+      position: relative;
+      padding: 14px 0;
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      direction: ltr;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 48px;
+      animation: ticker 38s linear infinite;
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ticker-track > span { display: inline-flex; align-items: center; gap: 10px; }
+    .ticker-track .sku { color: var(--accent); }
+    .ticker-track .dot { color: var(--dim); }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ==========================================================
+       CATEGORIES — rack-unit panels
+       ========================================================== */
+    .section {
+      padding: 96px 24px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .section > .container {
+      width: min(var(--container), 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: end;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px dashed var(--line);
+      direction: ltr;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .section-label b { color: var(--text); font-weight: 500; }
+
+    .section-h {
+      margin-top: 10px;
+      font-family: var(--font-wordmark);
+      font-size: clamp(36px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-h .accent { color: var(--accent); }
+
+    .section-ar {
+      margin-top: 14px;
+      font-family: var(--font-ar-display);
+      font-size: clamp(28px, 3.6vw, 40px);
+      color: var(--warm);
+      direction: rtl;
+      line-height: 1.2;
+    }
+
+    .section-note {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      max-width: 460px;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .rack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rack-unit {
+      position: relative;
+      display: grid;
+      grid-template-columns: 64px 56px minmax(0, 1fr) minmax(0, 1.1fr) auto 160px;
+      align-items: center;
+      gap: 24px;
+      padding: 22px 24px;
+      background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+      direction: ltr;
+    }
+
+    .rack-unit:hover {
+      border-color: var(--line-strong);
+      background: linear-gradient(180deg, var(--surface-2), var(--surface));
+      transform: translateX(-2px);
+    }
+
+    .rack-unit::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.25s var(--ease);
+    }
+
+    .rack-unit:hover::before { opacity: 1; }
+
+    .rack-id {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .rack-led {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .rack-led .l {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dim);
+    }
+
+    .rack-led .l.on { background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.2s var(--ease) infinite; }
+    .rack-led .l.cyan { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+    .rack-led .l.warn { background: var(--alert); box-shadow: 0 0 10px var(--alert); }
+
+    .rack-icon {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      background: rgba(0, 209, 255, 0.04);
+    }
+
+    .rack-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+    .rack-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .rack-title .en {
+      font-family: var(--font-wordmark);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .rack-title .ar {
+      font-family: var(--font-ar-ui);
+      font-size: 16px;
+      color: var(--warm);
+      direction: rtl;
+    }
+
+    .rack-desc {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      letter-spacing: 0.03em;
+    }
+
+    .rack-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .rack-count b {
+      display: block;
+      font-family: var(--font-ultra);
+      font-size: 28px;
+      color: var(--accent);
+      font-weight: 400;
+      margin-bottom: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .rack-link {
+      justify-self: end;
+      padding: 12px 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+
+    .rack-link:hover { background: var(--accent-wash); border-color: var(--accent); }
+    .rack-link svg { width: 12px; height: 12px; transition: transform 0.2s var(--ease); }
+    .rack-link:hover svg { transform: translateX(3px); }
+
+    /* ==========================================================
+       PRODUCTS — diagnostic panels
+       ========================================================== */
+    .band-dark {
+      background:
+        linear-gradient(rgba(0, 209, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 209, 255, 0.018) 1px, transparent 1px),
+        var(--bg-alt);
+      background-size: 64px 64px, 64px 64px, auto;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      direction: ltr;
+    }
+
+    .product {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto auto;
+      gap: 14px;
+      background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+      overflow: hidden;
+    }
+
+    .product::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      border: 1px solid transparent;
+      pointer-events: none;
+      transition: border-color 0.25s var(--ease);
+    }
+
+    .product:hover { transform: translateY(-3px); }
+    .product:hover::after { border-color: var(--line-strong); }
+
+    .product-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .product-head .sku { color: var(--accent); }
+    .product-head .tag {
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--warm);
+      background: var(--surface);
+    }
+    .product-head .tag.hot { color: var(--alert); border-color: rgba(232, 115, 74, 0.35); }
+    .product-head .tag.new { color: var(--signal); border-color: rgba(63, 232, 143, 0.35); }
+
+    .product-media {
+      position: relative;
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 55%, rgba(0, 209, 255, 0.18), transparent 55%),
+        var(--bg);
+      border: 1px solid rgba(0, 209, 255, 0.12);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .product-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0, 209, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 209, 255, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px;
+      opacity: 0.8;
+    }
+
+    .product-media svg { position: relative; width: 62%; color: var(--accent); }
+
+    .device-ap {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 14px solid var(--ice);
+      box-shadow: inset 0 0 0 1px rgba(0, 209, 255, 0.3), 0 0 34px rgba(0, 209, 255, 0.22);
+      position: relative;
+    }
+
+    .device-ap::after {
+      content: "";
+      position: absolute;
+      inset: 42%;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 14px var(--accent);
+    }
+
+    .product-title {
+      display: grid;
+      gap: 3px;
+    }
+
+    .product-title .ar {
+      font-family: var(--font-ar-ui);
+      font-size: 19px;
+      color: var(--text);
+      direction: rtl;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    .product-title .en {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .product-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .product-specs .s {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm);
+      padding: 4px 8px;
+      background: rgba(0, 209, 255, 0.05);
+      border: 1px solid rgba(0, 209, 255, 0.16);
+      border-radius: var(--radius);
+    }
+
+    .product-foot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .product-price {
+      display: grid;
+      gap: 2px;
+    }
+
+    .product-price .amount {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .product-price .amount small { font-size: 12px; color: var(--warm); font-weight: 500; letter-spacing: 0.12em; }
+    .product-price .inc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 16px;
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
+      color: #04121a;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
+    }
+
+    .product-cta:hover {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 209, 255, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .product-cta svg { width: 13px; height: 13px; }
+
+    /* ==========================================================
+       SERVICE STRIP — build-a-rig offer
+       ========================================================== */
+    .service-strip {
+      position: relative;
+      width: min(var(--container), 100%);
+      margin: 0 auto;
+      padding: 48px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(1200px circle at 90% 50%, rgba(0, 209, 255, 0.08), transparent 60%),
+        linear-gradient(180deg, var(--surface), var(--bg-alt));
+      overflow: hidden;
+    }
+
+    .service-strip::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .service-strip::after {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 340px;
+      height: 340px;
+      color: var(--accent);
+      opacity: 0.08;
+      background: conic-gradient(from 0deg, transparent, currentColor, transparent);
+      border-radius: 50%;
+      filter: blur(20px);
+    }
+
+    .service-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) auto;
+      gap: 40px;
+      align-items: center;
+      direction: ltr;
+    }
+
+    .service-text .kicker-s {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 18px;
+    }
+
+    .service-text .ar {
+      font-family: var(--font-ar-display);
+      font-size: clamp(34px, 4.4vw, 52px);
+      color: var(--text);
+      direction: rtl;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .service-text .en {
+      font-family: var(--font-wordmark);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--warm);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .service-text p {
+      font-family: var(--font-ar-body);
+      font-size: 18px;
+      color: var(--warm);
+      direction: rtl;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .service-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ==========================================================
+       VOICE BAND — brand statement
+       ========================================================== */
+    .voice {
+      position: relative;
+      padding: 132px 24px;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .voice-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      opacity: 0.08;
+    }
+
+    .voice-bg svg { width: min(780px, 88vw); color: var(--accent); }
+    .voice-bg svg path { fill: currentColor; }
+
+    .voice-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 24px;
+      justify-items: center;
+    }
+
+    .voice-kicker {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .voice-ar {
+      font-family: var(--font-ar-display);
+      font-size: clamp(56px, 9vw, 128px);
+      color: var(--text);
+      direction: rtl;
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+    }
+
+    .voice-ar .accent { color: var(--accent); }
+
+    .voice-en {
+      font-family: var(--font-wordmark);
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--warm);
+    }
+
+    .voice-en .sep {
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      vertical-align: middle;
+      background: var(--accent);
+      margin: 0 14px;
+      opacity: 0.6;
+    }
+
+    /* ==========================================================
+       FOOTER
+       ========================================================== */
+    footer {
+      padding: 56px 24px 36px;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+
+    .foot-inner {
+      width: min(var(--container), 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+      gap: 40px;
+      direction: ltr;
+    }
+
+    .foot-col h4 {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .foot-col ul { display: grid; gap: 10px; }
+
+    .foot-col li {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--warm);
+      letter-spacing: 0.04em;
+    }
+
+    .foot-col li a:hover { color: var(--accent); }
+
+    .foot-brand p {
+      font-family: var(--font-ar-body);
+      font-size: 14px;
+      color: var(--muted);
+      direction: rtl;
+      margin-top: 18px;
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    .foot-bottom {
+      width: min(var(--container), 100%);
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px dashed var(--line);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      direction: ltr;
+    }
+
+    .foot-bottom b { color: var(--accent); font-weight: 500; }
+
+    /* ==========================================================
+       UTILITY ANIMATIONS
+       ========================================================== */
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade {
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .hero-scan, .ticker-track { display: none !important; }
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (max-width: 1180px) {
+      .rack-unit { grid-template-columns: 56px 48px minmax(0, 1fr) minmax(0, 1fr) auto 140px; gap: 18px; padding: 20px; }
+      .rack-desc { display: none; }
+    }
+
+    @media (max-width: 1024px) {
+      .topnav { grid-template-columns: auto auto; gap: 20px; }
+      .nav-cats { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .section-head { grid-template-columns: 1fr; gap: 20px; }
+      .section-note { text-align: left; justify-self: start; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-inner { grid-template-columns: 1fr; }
+      .foot-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .sysbar { gap: 14px; padding: 9px 16px; font-size: 10px; }
+      .sysbar .sep, .sysbar .hide-sm { display: none; }
+      .topnav { padding: 14px 16px; gap: 14px; }
+      .lockup .mono { font-size: 24px; }
+      .lockup .wordmark { font-size: 24px; }
+      .nav-tools { gap: 6px; }
+      .nav-tool { padding: 8px 10px; font-size: 10px; }
+      .nav-tool .tool-label { display: none; }
+      .hero { padding: 56px 16px 48px; }
+      .section { padding: 64px 16px; }
+      .rack-unit {
+        grid-template-columns: auto 1fr auto;
+        grid-auto-rows: auto;
+      }
+      .rack-unit .rack-led, .rack-unit .rack-desc { grid-column: 1 / -1; }
+      .rack-unit .rack-count { grid-column: 2 / 3; text-align: left; }
+      .rack-link { grid-column: 1 / -1; justify-self: stretch; text-align: center; justify-content: center; }
+      .product-grid { grid-template-columns: 1fr; }
+      .service-strip { padding: 32px 22px; }
+      .hero-meta { gap: 8px; }
+      .chip { padding: 7px 10px; font-size: 10px; }
+      .foot-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SYSTEM STATUS BAR
+       ============================================================ -->
+  <div class="sysbar" aria-label="System status">
+    <span class="led" aria-hidden="true"></span>
+    <span>SYS <b id="clock">19:46:16</b> UTC</span>
+    <span class="sep"></span>
+    <span>STOCK SYNC <b class="cyan">LIVE</b></span>
+    <span class="sep hide-sm"></span>
+    <span class="hide-sm">QUEUE <b id="queue">22</b> ORDERS</span>
+    <span class="sep hide-sm"></span>
+    <span class="hide-sm">SHIP 2-5D / RIYADH · JEDDAH · DAMMAM</span>
+    <span class="spacer"></span>
+    <span>VAT <b>15%</b> INCLUDED</span>
+    <span class="sep hide-sm"></span>
+    <span class="hide-sm">AR · EN</span>
+  </div>
+
+  <!-- ============================================================
+       TOP NAV
+       ============================================================ -->
+  <nav class="topnav" aria-label="Primary">
+    <a class="lockup" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" aria-label="NeoGen Store home">
+      <span class="mono">N<span class="g">G</span></span>
+      <span class="sep"></span>
+      <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
+    </a>
+    <div class="nav-cats">
+      <a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat"><span class="dot"></span>Network</a>
+      <a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat"><span class="dot"></span>Homelab</a>
+      <a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat"><span class="dot"></span>Smart Home</a>
+      <a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat"><span class="dot"></span>Gaming</a>
+      <a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat"><span class="dot"></span>Services</a>
+    </div>
+    <div class="nav-tools">
+      <a class="nav-tool" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <span class="tool-label">Search</span>
+      </a>
+      <a class="nav-tool" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"></path></svg>
+        <span class="tool-label">Account</span>
+      </a>
+      <a class="nav-tool" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h3l2 12h10l2-8H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="17" cy="20" r="1.2"></circle></svg>
+        <span class="tool-label">Cart</span>
+        <span class="count">3</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero">
+    <div class="hero-backdrop" aria-hidden="true">
+      <svg viewBox="-50 -50 100 100">
+        <circle r="48"></circle>
+        <circle r="40"></circle>
+        <circle r="32"></circle>
+        <path d="M0 -44 L9 -26 L35 -35 L26 -9 L44 0 L26 9 L35 35 L9 26 L0 44 L-9 26 L-35 35 L-26 9 L-44 0 L-26 -9 L-35 -35 L-9 -26 Z"></path>
+      </svg>
+    </div>
+    <div class="hero-scan" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="hero-main">
+        <div class="kicker">
+          <span></span>
+          SELECTION LOCKED / Q2 2026 DROP
+        </div>
+        <h1 class="hero-h1">جيل التقنية<br><span class="accent">القادم</span>.</h1>
+
+        <div class="hero-wordmark" aria-hidden="true">
+          <span class="mono">N<span class="g">G</span></span>
+          <span class="sep"></span>
+          <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
+          <span style="font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:0.18em; margin-right:4px;">STORE</span>
+        </div>
+
+        <p class="hero-copy">
+          متجر تقني سعودي لمحترفي الشبكات، الهوم لاب، البيوت الذكية، والألعاب.
+          منتجات مختارة، مواصفات بدون مبالغة، شحن من داخل المملكة.
+        </p>
+
+        <div class="hero-sub">// SPECIALIZED TECH · ASSEMBLED FOR OPERATORS · SHIPPED FROM KSA //</div>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#cat">
+            تصفح المتجر
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+          </a>
+          <a class="btn btn-ghost" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4v4h8V4m-8 16v-4h8v4M4 8h16v8H4z"></path></svg>
+            BUILD A RIG
+          </a>
+        </div>
+      </div>
+
+      <aside class="hero-brief" aria-label="Systems brief">
+        <div class="brief-head">
+          <span>// SYSTEMS BRIEF</span>
+          <span>APR 2026</span>
+        </div>
+
+        <div class="brief-row">
+          <span class="k">Catalog</span>
+          <span class="v">428 active SKUs</span>
+          <span class="t">LIVE</span>
+        </div>
+        <div class="brief-row">
+          <span class="k">Fulfilment</span>
+          <span class="v">Riyadh · Jeddah · Dammam</span>
+          <span class="t">2-5D</span>
+        </div>
+        <div class="brief-row">
+          <span class="k">Support</span>
+          <span class="v">12-month warranty · AR</span>
+          <span class="t">24/7</span>
+        </div>
+        <div class="brief-row">
+          <span class="k">Payment</span>
+          <span class="v">Mada · Apple Pay · STC · Tabby</span>
+          <span class="t">PCI</span>
+        </div>
+        <div class="brief-row">
+          <span class="k">Low stock</span>
+          <span class="v">UniFi U7 Pro · 2 units</span>
+          <span class="t warn">VERIFY</span>
+        </div>
+
+        <a class="brief-cta" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">OPEN STATUS CONSOLE →</a>
+      </aside>
+    </div>
+
+    <div class="hero-meta" aria-hidden="true">
+      <span class="chip"><span class="dot"></span><strong>CR</strong> 7053130576</span>
+      <span class="chip"><strong>VAT</strong> 15% INCLUDED</span>
+      <span class="chip"><strong>SHIP</strong> 2-5 BUSINESS DAYS</span>
+      <span class="chip"><strong>RETURNS</strong> 14 DAYS</span>
+      <span class="chip"><strong>WARRANTY</strong> 12 MONTHS</span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       SKU TICKER
+       ============================================================ -->
+  <section class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="sku">NT-WAP-UBQ-002</span><span>UBIQUITI UNIFI U7 PRO</span><span>STOCK 2</span><span class="dot">·</span>
+      <span class="sku">NT-SWH-UBQ-010</span><span>USW PRO MAX 24 POE</span><span>STOCK 6</span><span class="dot">·</span>
+      <span class="sku">HL-NAS-SYN-405</span><span>SYNOLOGY DS1522+</span><span>STOCK 4</span><span class="dot">·</span>
+      <span class="sku">SH-HUB-AQR-001</span><span>AQARA HUB M3</span><span>STOCK 12</span><span class="dot">·</span>
+      <span class="sku">GM-KBD-WTN-60</span><span>WOOTING 60HE</span><span>STOCK 3</span><span class="dot">·</span>
+      <span class="sku">HL-DSK-SEG-18</span><span>SEAGATE EXOS 18TB</span><span>STOCK 9</span><span class="dot">·</span>
+      <span class="sku">NT-RTR-MTK-CCR</span><span>MIKROTIK CCR2004</span><span>STOCK 5</span><span class="dot">·</span>
+      <!-- duplicate for seamless loop -->
+      <span class="sku">NT-WAP-UBQ-002</span><span>UBIQUITI UNIFI U7 PRO</span><span>STOCK 2</span><span class="dot">·</span>
+      <span class="sku">NT-SWH-UBQ-010</span><span>USW PRO MAX 24 POE</span><span>STOCK 6</span><span class="dot">·</span>
+      <span class="sku">HL-NAS-SYN-405</span><span>SYNOLOGY DS1522+</span><span>STOCK 4</span><span class="dot">·</span>
+      <span class="sku">SH-HUB-AQR-001</span><span>AQARA HUB M3</span><span>STOCK 12</span><span class="dot">·</span>
+      <span class="sku">GM-KBD-WTN-60</span><span>WOOTING 60HE</span><span>STOCK 3</span><span class="dot">·</span>
+      <span class="sku">HL-DSK-SEG-18</span><span>SEAGATE EXOS 18TB</span><span>STOCK 9</span><span class="dot">·</span>
+      <span class="sku">NT-RTR-MTK-CCR</span><span>MIKROTIK CCR2004</span><span>STOCK 5</span><span class="dot">·</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CATEGORIES — RACK UNITS
+       ============================================================ -->
+  <section class="section" id="cat">
+    <div class="container">
+      <div class="section-head reveal in" style="transition-delay: 0ms;">
+        <div>
+          <div class="section-label">01 / <b>CATEGORIES</b></div>
+          <h2 class="section-h">The <span class="accent">5 Racks</span><br>We Stock</h2>
+          <div class="section-ar">خمس فئات. كل فئة لعمل تقني واضح.</div>
+        </div>
+        <p class="section-note">
+          Each rack is curated for a specific operator profile. We do not stock commodity noise — if it is not useful on a serious network, homelab, smart home, gaming setup, or service engagement, we do not carry it.
+        </p>
+      </div>
+
+      <div class="rack">
+        <!-- RACK 01 · NETWORK -->
+        <a class="rack-unit reveal in" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="transition-delay: 0ms;">
+          <span class="rack-id">01 · RACK A</span>
+          <span class="rack-led" aria-hidden="true"><span class="l on"></span><span class="l cyan"></span><span class="l"></span></span>
+          <span class="rack-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="3"></circle><path d="M16 13V5M16 19v8M13 16H5M19 16h8M10 10l-4-4M22 22l4 4M10 22l-4 4M22 10l4-4"></path></svg>
+          </span>
+          <span class="rack-title">
+            <span class="en">NETWORKING / WI-FI 7</span>
+            <span class="ar">الشبكات وأجهزة التوصيل</span>
+          </span>
+          <span class="rack-desc">Ubiquiti, MikroTik, TP-Link Omada. Routers, PoE switches, access points, SFP+ modules, fiber patch.</span>
+          <span class="rack-count"><b>118</b>SKUs</span>
+          <span class="rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+        </a>
+
+        <!-- RACK 02 · HOMELAB -->
+        <a class="rack-unit reveal in" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="transition-delay: 0ms;">
+          <span class="rack-id">02 · RACK B</span>
+          <span class="rack-led" aria-hidden="true"><span class="l on"></span><span class="l"></span><span class="l"></span></span>
+          <span class="rack-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="6" rx="1"></rect><rect x="5" y="14" width="22" height="6" rx="1"></rect><rect x="5" y="22" width="22" height="4" rx="1"></rect><circle cx="9" cy="9" r="0.8" fill="currentColor"></circle><circle cx="9" cy="17" r="0.8" fill="currentColor"></circle></svg>
+          </span>
+          <span class="rack-title">
+            <span class="en">HOMELAB / STORAGE</span>
+            <span class="ar">الهوم لاب والتخزين</span>
+          </span>
+          <span class="rack-desc">NAS, rack-mount mini-PCs, enterprise HDDs &amp; SSDs, UPS units, rack accessories, cable management.</span>
+          <span class="rack-count"><b>94</b>SKUs</span>
+          <span class="rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+        </a>
+
+        <!-- RACK 03 · SMART HOME -->
+        <a class="rack-unit reveal in" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="transition-delay: 0ms;">
+          <span class="rack-id">03 · RACK C</span>
+          <span class="rack-led" aria-hidden="true"><span class="l on"></span><span class="l"></span><span class="l warn"></span></span>
+          <span class="rack-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M4 15 16 5l12 10M7 13v14h18V13"></path><path d="M13 27v-7h6v7"></path></svg>
+          </span>
+          <span class="rack-title">
+            <span class="en">SMART HOME / MATTER</span>
+            <span class="ar">البيوت الذكية</span>
+          </span>
+          <span class="rack-desc">Aqara, Shelly, Sonoff. Hubs, sensors, relays, door locks, lighting, Matter-over-Thread bridges.</span>
+          <span class="rack-count"><b>142</b>SKUs</span>
+          <span class="rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+        </a>
+
+        <!-- RACK 04 · GAMING -->
+        <a class="rack-unit reveal in" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="transition-delay: 0ms;">
+          <span class="rack-id">04 · RACK D</span>
+          <span class="rack-led" aria-hidden="true"><span class="l on"></span><span class="l cyan"></span><span class="l"></span></span>
+          <span class="rack-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><rect x="3" y="10" width="26" height="14" rx="7"></rect><path d="M10 17h4M12 15v4"></path><circle cx="22" cy="17" r="1.2" fill="currentColor"></circle><circle cx="20" cy="19" r="1.2" fill="currentColor"></circle></svg>
+          </span>
+          <span class="rack-title">
+            <span class="en">GAMING / COMPETITIVE</span>
+            <span class="ar">عتاد الألعاب التنافسية</span>
+          </span>
+          <span class="rack-desc">HE switches, low-latency monitors, studio audio, DAC/AMP, mechanical keyboards, custom cables.</span>
+          <span class="rack-count"><b>57</b>SKUs</span>
+          <span class="rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+        </a>
+
+        <!-- RACK 05 · SERVICES -->
+        <a class="rack-unit reveal in" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="transition-delay: 0ms;">
+          <span class="rack-id">05 · RACK E</span>
+          <span class="rack-led" aria-hidden="true"><span class="l cyan"></span><span class="l"></span><span class="l"></span></span>
+          <span class="rack-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10"></circle><path d="M16 10v6l4 2"></path></svg>
+          </span>
+          <span class="rack-title">
+            <span class="en">SERVICES / BUILDS</span>
+            <span class="ar">خدمات التركيب والاستشارة</span>
+          </span>
+          <span class="rack-desc">Network design, rack builds, smart-home commissioning, on-site setup inside KSA metros.</span>
+          <span class="rack-count"><b>17</b>PLANS</span>
+          <span class="rack-link">Brief us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED PRODUCTS — DIAGNOSTIC PANELS
+       ============================================================ -->
+  <section class="section band-dark">
+    <div class="container">
+      <div class="section-head reveal in" style="transition-delay: 0ms;">
+        <div>
+          <div class="section-label">02 / <b>OPERATOR PICKS</b></div>
+          <h2 class="section-h">Stocked. <span class="accent">Specced.</span><br>Ready to ship.</h2>
+          <div class="section-ar">مختارات المشغّلين. جاهزة للشحن.</div>
+        </div>
+        <p class="section-note">
+          Four units we keep moving — chosen for reliability, repairability, and parts availability inside the Kingdom. Every card shows SKU, live spec, and one primary action. No decoy buttons.
+        </p>
+      </div>
+
+      <div class="product-grid">
+        <!-- PRODUCT 1 — UniFi U7 Pro -->
+        <article class="product reveal in" style="transition-delay: 0ms;">
+          <div class="product-head">
+            <span class="sku">NT-WAP-UBQ-002</span>
+            <span class="tag hot">LOW STOCK · 2</span>
+          </div>
+          <div class="product-media" aria-hidden="true">
+            <div class="device-ap"></div>
+          </div>
+          <div class="product-title">
+            <div class="ar">نقطة وصول UniFi U7 Pro</div>
+            <div class="en">Ubiquiti UniFi U7 Pro · Wi-Fi 7 AP</div>
+          </div>
+          <div class="product-specs">
+            <span class="s">Wi-Fi 7</span>
+            <span class="s">6 GHz</span>
+            <span class="s">PoE+</span>
+            <span class="s">2.5 GbE</span>
+          </div>
+          <div class="product-foot">
+            <div class="product-price">
+              <div class="amount">1,149 <small>SAR</small></div>
+              <div class="inc">VAT INC / SHIP 2-5D</div>
+            </div>
+            <a class="product-cta" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+              ADD
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"></path></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- PRODUCT 2 — USW Pro Max 24 PoE -->
+        <article class="product reveal in" style="transition-delay: 60ms;">
+          <div class="product-head">
+            <span class="sku">NT-SWH-UBQ-010</span>
+            <span class="tag new">NEW</span>
+          </div>
+          <div class="product-media" aria-hidden="true">
+            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.4">
+              <rect x="10" y="30" width="180" height="60" rx="4"></rect>
+              <rect x="22" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="40" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="58" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="76" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="94" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="112" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <rect x="130" y="48" width="14" height="24" rx="2" fill="currentColor" opacity="0.12"></rect>
+              <circle cx="165" cy="60" r="2.4" fill="currentColor"></circle>
+              <circle cx="175" cy="60" r="2.4" fill="currentColor" opacity="0.4"></circle>
+            </svg>
+          </div>
+          <div class="product-title">
+            <div class="ar">سويتش UniFi USW Pro Max 24 PoE</div>
+            <div class="en">Ubiquiti USW Pro Max 24 PoE+ · 2.5GbE</div>
+          </div>
+          <div class="product-specs">
+            <span class="s">24-Port</span>
+            <span class="s">PoE+ 400W</span>
+            <span class="s">2× SFP+</span>
+            <span class="s">L3</span>
+          </div>
+          <div class="product-foot">
+            <div class="product-price">
+              <div class="amount">3,799 <small>SAR</small></div>
+              <div class="inc">VAT INC / SHIP 2-5D</div>
+            </div>
+            <a class="product-cta" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+              ADD
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"></path></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- PRODUCT 3 — Synology DS1522+ -->
+        <article class="product reveal in" style="transition-delay: 120ms;">
+          <div class="product-head">
+            <span class="sku">HL-NAS-SYN-405</span>
+            <span class="tag">IN STOCK · 4</span>
+          </div>
+          <div class="product-media" aria-hidden="true">
+            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.4">
+              <rect x="50" y="16" width="100" height="88" rx="4"></rect>
+              <rect x="60" y="24" width="80" height="16" rx="2" fill="currentColor" opacity="0.1"></rect>
+              <rect x="60" y="44" width="80" height="16" rx="2" fill="currentColor" opacity="0.1"></rect>
+              <rect x="60" y="64" width="80" height="16" rx="2" fill="currentColor" opacity="0.1"></rect>
+              <rect x="60" y="84" width="80" height="16" rx="2" fill="currentColor" opacity="0.1"></rect>
+              <circle cx="135" cy="32" r="1.6" fill="currentColor"></circle>
+              <circle cx="135" cy="52" r="1.6" fill="currentColor"></circle>
+              <circle cx="135" cy="72" r="1.6" fill="currentColor" opacity="0.35"></circle>
+              <circle cx="135" cy="92" r="1.6" fill="currentColor"></circle>
+            </svg>
+          </div>
+          <div class="product-title">
+            <div class="ar">جهاز التخزين Synology DS1522+</div>
+            <div class="en">Synology DS1522+ · 5-Bay NAS</div>
+          </div>
+          <div class="product-specs">
+            <span class="s">5-Bay</span>
+            <span class="s">AMD R1600</span>
+            <span class="s">8GB ECC</span>
+            <span class="s">2× M.2</span>
+          </div>
+          <div class="product-foot">
+            <div class="product-price">
+              <div class="amount">4,299 <small>SAR</small></div>
+              <div class="inc">VAT INC / SHIP 2-5D</div>
+            </div>
+            <a class="product-cta" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+              ADD
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"></path></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- PRODUCT 4 — Wooting 60HE -->
+        <article class="product reveal in" style="transition-delay: 180ms;">
+          <div class="product-head">
+            <span class="sku">GM-KBD-WTN-60</span>
+            <span class="tag hot">LOW STOCK · 3</span>
+          </div>
+          <div class="product-media" aria-hidden="true">
+            <svg viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="18" y="38" width="164" height="52" rx="6"></rect>
+              <g opacity="0.5">
+                <rect x="26" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="42" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="58" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="74" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="90" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="106" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="122" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="138" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="154" y="46" width="12" height="12" rx="2"></rect>
+                <rect x="26" y="62" width="148" height="10" rx="2"></rect>
+                <rect x="26" y="76" width="100" height="8" rx="2"></rect>
+              </g>
+              <rect x="26" y="46" width="12" height="12" rx="2" fill="currentColor" opacity="0.25"></rect>
+              <rect x="90" y="46" width="12" height="12" rx="2" fill="currentColor" opacity="0.25"></rect>
+            </svg>
+          </div>
+          <div class="product-title">
+            <div class="ar">لوحة مفاتيح Wooting 60HE</div>
+            <div class="en">Wooting 60HE · Hall-Effect Gaming KB</div>
+          </div>
+          <div class="product-specs">
+            <span class="s">Hall-Effect</span>
+            <span class="s">Rapid Trigger</span>
+            <span class="s">8 kHz</span>
+            <span class="s">Arabic ISO</span>
+          </div>
+          <div class="product-foot">
+            <div class="product-price">
+              <div class="amount">899 <small>SAR</small></div>
+              <div class="inc">VAT INC / SHIP 2-5D</div>
+            </div>
+            <a class="product-cta" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+              ADD
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"></path></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICE STRIP — "اكتب لنا مواصفاتك"
+       ============================================================ -->
+  <section class="section" id="service">
+    <div class="service-strip reveal in" style="transition-delay: 0ms;">
+      <div class="service-inner">
+        <div class="service-text">
+          <div class="kicker-s"><span style="width:7px;height:7px;background:var(--signal);display:inline-block;box-shadow:0 0 12px var(--signal);"></span>BESPOKE / 03 · SERVICE DESK</div>
+          <div class="en">TELL US THE SHAPE OF THE PROBLEM.</div>
+          <div class="ar">اكتب لنا مواصفاتك. نرجع لك بخطة واضحة.</div>
+          <p>
+            شبكة لمكتب، تركيبة هوم لاب، بيت ذكي كامل، أو محطة ألعاب تنافسية — اشرح لنا الاحتياج، ونرد عليك بمخطط تنفيذ مفصّل، قائمة مكوّنات، وتقدير زمن الشحن والتركيب.
+          </p>
+        </div>
+        <div class="service-cta">
+          <a class="btn btn-primary" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4zM4 6l8 7 8-7"></path></svg>
+            SEND SPEC BRIEF
+          </a>
+          <a class="btn btn-ghost" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.5 3.5 3.5 11l7 2.5L13 20.5z"></path></svg>
+            WHATSAPP
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VOICE BAND
+       ============================================================ -->
+  <section class="voice">
+    <div class="voice-bg" aria-hidden="true">
+      <svg viewBox="-50 -50 100 100">
+        <path d="M0 -44 L9 -26 L35 -35 L26 -9 L44 0 L26 9 L35 35 L9 26 L0 44 L-9 26 L-35 35 L-26 9 L-44 0 L-26 -9 L-35 -35 L-9 -26 Z"></path>
+      </svg>
+    </div>
+    <div class="voice-inner">
+      <div class="voice-kicker">// 04 · BRAND VOICE</div>
+      <div class="voice-ar">التقنية.<br>كما <span class="accent">يجب</span> أن تكون.</div>
+      <div class="voice-en">
+        TECHNOLOGY
+        <span class="sep"></span>
+        AS IT SHOULD BE
+        <span class="sep"></span>
+        SHIPPED FROM KSA
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="foot-inner">
+      <div class="foot-col foot-brand">
+        <a class="lockup" href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#" style="margin-bottom:4px;">
+          <span class="mono" style="font-size:24px;">N<span class="g">G</span></span>
+          <span class="sep" style="height:20px;"></span>
+          <span class="wordmark" style="font-size:24px;"><span class="neo">NEO</span><span class="gen">GEN</span></span>
+        </a>
+        <p>متجر تقني سعودي. نختار المنتجات بعناية، نوضح المواصفات بدون مبالغة، ونبني تجربة شراء تناسب المستخدم التقني الذي يعرف ما يحتاجه.</p>
+      </div>
+      <div class="foot-col">
+        <h4>// CATALOG</h4>
+        <ul>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Networking</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Homelab · Storage</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Smart Home</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Gaming</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Services</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>// SUPPORT</h4>
+        <ul>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Order tracking</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Returns · 14 days</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Warranty · 12 months</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Shipping · 2-5D</a></li>
+          <li><a href="file:///Users/fahadalmansour/ngs/neogen-custom/NeoGen%20Store%20-%20Homepage%20Preview%20v1.html#">Contact · WhatsApp</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>// STORE</h4>
+        <ul>
+          <li>CR · 7053130576</li>
+          <li>VAT · 15% INCLUDED</li>
+          <li>RIYADH · JEDDAH · DAMMAM</li>
+          <li>MADA · APPLE PAY · STC · TABBY</li>
+          <li>AR · EN</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 <b>NEOGEN STORE</b> · ALL RIGHTS RESERVED</span>
+      <span>BRAND KIT v1.1 · APPLIED</span>
+      <span>NEOGEN.STORE</span>
+    </div>
+  </footer>
+
+  <script>
+    // Live UTC clock in the status bar
+    (function () {
+      const el = document.getElementById('clock');
+      const queue = document.getElementById('queue');
+      if (!el) return;
+      const pad = (n) => String(n).padStart(2, '0');
+      function tick() {
+        const d = new Date();
+        el.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // subtle queue drift so the bar feels live, not static
+      if (queue) {
+        let n = 14;
+        setInterval(() => {
+          const delta = Math.random() < 0.5 ? -1 : 1;
+          n = Math.max(8, Math.min(22, n + delta));
+          queue.textContent = n;
+        }, 4200);
+      }
+    })();
+
+    // Cursor-reactive hero glow (maps mouse position to CSS vars)
+    (function () {
+      const mm = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mm.matches) return;
+      const root = document.documentElement;
+      let raf = 0;
+      let tx = 50, ty = 50, cx = 50, cy = 50;
+      window.addEventListener('mousemove', (e) => {
+        tx = (e.clientX / window.innerWidth) * 100;
+        ty = (e.clientY / window.innerHeight) * 100;
+        if (!raf) raf = requestAnimationFrame(update);
+      }, { passive: true });
+      function update() {
+        cx += (tx - cx) * 0.12;
+        cy += (ty - cy) * 0.12;
+        root.style.setProperty('--mx', cx.toFixed(2) + '%');
+        root.style.setProperty('--my', cy.toFixed(2) + '%');
+        raf = Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1 ? requestAnimationFrame(update) : 0;
+      }
+    })();
+
+    // Scroll reveal using IntersectionObserver
+    (function () {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(e => e.classList.add('in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            entry.target.style.transitionDelay = (i % 5) * 60 + 'ms';
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.14, rootMargin: '0px 0px -80px 0px' });
+      els.forEach(e => io.observe(e));
+    })();
+  </script>
+
+
+</body></html>

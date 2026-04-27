@@ -1065,9 +1065,20 @@ add_action('wp_footer', function () {
         <?php endforeach; ?>
         <li>VAT · 15% INCLUDED</li>
         <li>RIYADH · JEDDAH · DAMMAM</li>
-        <li>MADA · APPLE PAY · STC · TABBY</li>
         <li>AR · EN</li>
       </ul>
+    </div>
+  </div>
+  <div class="ng-foot-pay" aria-label="Payment & shipping">
+    <span class="ng-foot-pay-label">// PAY · SHIP</span>
+    <div class="ng-foot-pay-row">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/mada.svg' ); ?>"      width="42" height="18" alt="Mada"      loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/apple-pay.svg' ); ?>" width="42" height="18" alt="Apple Pay" loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/stcpay.svg' ); ?>"    width="42" height="18" alt="STC Pay"   loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/tabby.svg' ); ?>"     width="42" height="18" alt="Tabby"     loading="lazy">
+      <span class="ng-foot-pay-sep"></span>
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/ship/smsa.svg' ); ?>"     width="46" height="18" alt="SMSA"      loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/ship/aramex.svg' ); ?>"   width="46" height="18" alt="Aramex"    loading="lazy">
     </div>
   </div>
   <?php $cr = ng_cr(); ?>
