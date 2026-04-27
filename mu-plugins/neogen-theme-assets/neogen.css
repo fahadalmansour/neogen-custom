@@ -74,27 +74,38 @@ footer.site-footer,
    GLOBAL RESET / BODY
    ========================================================== */
 html {
-  background: var(--bg);
+  background: var(--bg) !important;
   color: var(--text);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+body,
+body.wp-singular,
+body.home,
+body.page,
+body.archive,
+body.woocommerce,
+body.woocommerce-page {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(600px circle at var(--mx) var(--my), rgba(0, 209, 255, 0.045), transparent 60%),
-    linear-gradient(rgba(0, 209, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 209, 255, 0.022) 1px, transparent 1px),
-    var(--bg);
-  background-size: auto, 48px 48px, 48px 48px, auto;
-  color: var(--warm);
+    radial-gradient(600px circle at var(--mx) var(--my), rgba(0, 153, 204, 0.05), transparent 60%),
+    linear-gradient(rgba(10, 10, 10, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.04) 1px, transparent 1px),
+    var(--bg) !important;
+  background-size: auto, 48px 48px, 48px 48px, auto !important;
+  color: var(--warm) !important;
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+#main, #content, .ct-main, .ct-container, .ct-container-x, [class*="ct-site-main"], main, .site-main {
+  background: transparent !important;
+  color: var(--text);
 }
 
 body[dir="rtl"],
