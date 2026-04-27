@@ -47,6 +47,44 @@
     }
   })();
 
+  // --- Strip stale brand-version stamps -------------------------------
+  // "v6.0", "إصدار مقفل", "دليل العلامة 1.1 · مطبَّق" — none of these are
+  // emitted by this codebase any more, but they still surface on live
+  // HTML, injected by an upstream layer (Blocksy / a stale block /
+  // a saved widget). Scrub them at runtime so shoppers don't see
+  // implementation noise. Belt-and-suspenders: rip this out once the
+  // upstream emitter is located.
+  (function scrubVersionLabels() {
+    var BLACKLIST = [/\bv6\.0\b/i, /إصدار\s+مقفل/, /دليل\s+العلامة/];
+    function scrub(root) {
+      if (!root) return;
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+      var hits = [];
+      while (w.nextNode()) {
+        var t = w.currentNode.textContent || '';
+        for (var i = 0; i < BLACKLIST.length; i++) {
+          if (BLACKLIST[i].test(t)) { hits.push(w.currentNode); break; }
+        }
+      }
+      hits.forEach(function (n) {
+        var p = n.parentElement;
+        if (p && p.children.length === 0) {
+          p.style.display = 'none';
+        } else {
+          n.textContent = '';
+        }
+      });
+    }
+    function run() { scrub(document.body); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+    // One late re-scan covers content that hydrates after first paint.
+    setTimeout(run, 1500);
+  })();
+
   // --- Demote cart/offcanvas H1 → H2 ------------------------------------
   // Blocksy renders the empty-cart heading as <h1>السلة فارغة</h1> inside
   // the offcanvas panel. Even when the panel is closed it sits in the DOM

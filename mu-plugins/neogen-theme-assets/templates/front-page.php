@@ -48,8 +48,13 @@ $picks         = [];
 $picks_cats    = [];   // primary category slugs we've already used
 $picks_added   = [];   // product IDs added (dedup)
 
+// Primary-cat resolver — Rank Math → Yoast → first term (alphabetical).
+// Defined in mu-plugins/neogen-theme.php as ng_primary_product_cat_slug().
 $primary_cat_slug = function ($product) {
     if (!$product instanceof WC_Product) return '';
+    if (function_exists('ng_primary_product_cat_slug')) {
+        return ng_primary_product_cat_slug($product);
+    }
     $terms = get_the_terms($product->get_id(), 'product_cat');
     if (is_wp_error($terms) || empty($terms)) return '';
     return (string) $terms[0]->slug;

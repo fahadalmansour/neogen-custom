@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen Theme
  * Description: Sitewide visual skin for neogen.store. Tokens + logo system follow Brand Kit v1.1; layout follows Homepage Preview v1. Includes header/footer, front-page template, Woo archive/single overrides, /legal route with MOC identity readout, and Schema.org Store JSON-LD.
- * Version: 1.5.8
+ * Version: 1.20.3
  * Author: Fahad Almansour
  */
 
@@ -182,6 +182,40 @@ $ng_bust_cats = function () {
 add_action('edited_product_cat',  $ng_bust_cats);
 add_action('created_product_cat', $ng_bust_cats);
 add_action('delete_product_cat',  $ng_bust_cats);
+
+/**
+ * Resolve a product's primary-category slug, honoring Rank Math then
+ * Yoast SEO before falling back to the alphabetical-first term. Used
+ * by the homepage picker (templates/front-page.php) so the
+ * "diversify across categories" rule respects the editor's intent
+ * instead of WP's default term ordering.
+ */
+function ng_primary_product_cat_slug($product) {
+    if ( ! is_object($product) || ! method_exists($product, 'get_id') ) return '';
+    $id = (int) $product->get_id();
+    if ($id <= 0) return '';
+
+    // Rank Math primary cat
+    $rm_id = (int) get_post_meta($id, 'rank_math_primary_product_cat', true);
+    if ($rm_id > 0) {
+        $term = get_term($rm_id, 'product_cat');
+        if ($term && ! is_wp_error($term)) return (string) $term->slug;
+    }
+
+    // Yoast SEO primary cat
+    $yo_id = (int) get_post_meta($id, '_yoast_wpseo_primary_product_cat', true);
+    if ($yo_id > 0) {
+        $term = get_term($yo_id, 'product_cat');
+        if ($term && ! is_wp_error($term)) return (string) $term->slug;
+    }
+
+    // Fallback — first attached product_cat (alphabetical)
+    $terms = get_the_terms($id, 'product_cat');
+    if ( ! is_wp_error($terms) && ! empty($terms) ) {
+        return (string) $terms[0]->slug;
+    }
+    return '';
+}
 
 /**
  * Inject a category tiles strip at the top of the WooCommerce shop

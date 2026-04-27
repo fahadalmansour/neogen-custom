@@ -78,3 +78,19 @@ add_filter('ng_gift_card_asset_map', function ($map) {
 Order matters: high-specificity keys (e.g. `stc-pay`) must come BEFORE
 more general ones (e.g. `stc`) so the generic key doesn't shadow the
 specific one. The matcher returns first-hit.
+
+## Smoke test
+
+After editing `ng_gift_card_asset_map()` (adding slots, reordering,
+renaming the schema) run the smoke test from the repo root:
+
+```bash
+php tests/test-gift-card-matcher.php
+```
+
+Expected: `OK — 14 passed, 0 failed` and exit 0. The harness stubs
+WP/WC functions and exercises spelling + ordering edge cases
+(`stc-pay` beating `stc`, AR transliterations for PUBG / Free Fire /
+Netflix, schema-shape `'files'` array). Keyword changes that break
+existing matches will fail loudly here instead of silently in
+production.
