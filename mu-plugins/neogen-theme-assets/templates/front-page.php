@@ -136,7 +136,7 @@ $rack_letter = function ($i) {
       <h1 class="ng-hero-h1">جيل التقنية <br> <span class="accent">القادم</span>.</h1>
 
       <div class="ng-hero-wordmark" aria-hidden="true">
-        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark-source.png' ); ?>" alt="" width="80" height="62" decoding="async">
+        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="80" height="62" decoding="async">
         <span class="sep"></span>
         <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
         <span class="store">STORE</span>

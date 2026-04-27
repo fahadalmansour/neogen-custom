@@ -1153,7 +1153,7 @@ add_action('wp_body_open', function () {
 
 <nav class="ng-topnav" aria-label="القائمة الرئيسية">
   <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" aria-label="الصفحة الرئيسية NeoGen Store">
-    <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark-source.png' ); ?>" alt="" width="64" height="50" decoding="async">
+    <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="64" height="50" decoding="async">
     <span class="sep"></span>
     <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
   </a>
@@ -1209,7 +1209,7 @@ add_action('wp_footer', function () {
   <div class="ng-foot-inner">
     <div class="ng-foot-col ng-foot-brand">
       <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" style="margin-bottom:4px;">
-        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark-source.png' ); ?>" alt="" width="48" height="37" decoding="async">
+        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="48" height="37" decoding="async">
         <span class="sep" style="height:20px;"></span>
         <span class="wordmark" style="font-size:24px;"><span class="neo">NEO</span><span class="gen">GEN</span></span>
       </a>

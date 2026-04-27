@@ -1,22 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 240" width="1200" height="240">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 240" width="1200" height="240">
   <rect width="1200" height="240" fill="#ffffff"/>
 
-  <!-- NG mark on the left, scaled to ~180px wide -->
-  <g transform="translate(40 40) scale(0.8)">
-    <g fill="#0b0b0b">
-      <rect x="10" y="10" width="26" height="80"/>
-      <polygon points="36,10 56,10 90,90 70,90"/>
-    </g>
-    <g fill="none" stroke="#0099cc" stroke-width="6" stroke-linejoin="miter">
-      <path d="M 190 22 L 132 22 Q 122 22 122 32 L 122 68 Q 122 78 132 78 L 180 78 Q 190 78 190 68 L 190 52 L 158 52" />
-    </g>
-  </g>
+  <!-- NG monogram — source PNG, left side (preserves 108:84 aspect → height 160 / width 206) -->
+  <image xlink:href="ng-mark.png" x="40" y="40" width="206" height="160"/>
 
   <!-- vertical divider -->
-  <line x1="220" y1="60" x2="220" y2="180" stroke="#0099cc" stroke-width="3"/>
+  <line x1="280" y1="60" x2="280" y2="180" stroke="#0099cc" stroke-width="3"/>
 
   <!-- NEOGEN wordmark -->
-  <text x="260" y="150"
+  <text x="320" y="150"
         font-family="'Chakra Petch','IBM Plex Sans',sans-serif"
         font-size="118"
         letter-spacing="6"

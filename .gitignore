@@ -23,7 +23,10 @@ wp-config.php
 # Official certificates / PII documents — never stage
 *.pdf
 
-.claude/settings.local.json
+.claude/
+.playwright-mcp/
+.stfolder/
+.stignore
 
 # Personal productivity overlay (added by productivity:start, 2026-04-23)
 # These are not deployable code — keep them local.
@@ -31,3 +34,17 @@ TASKS.md
 CLAUDE-personal.md
 dashboard.html
 memory/
+
+# Static brand-kit HTML exports + their _files/ — design references, not deployable code
+NeoGen*.html
+NEOGEN*.html
+*_files/
+الرئيسية*.html
+
+# Local audit / screenshot artefacts
+audit/
+neogen-*.png
+neogen-store-*.png
+
+# But the brand kit PNGs in mu-plugins/.../img/logo/ are deployable assets — not screenshots
+!mu-plugins/neogen-theme-assets/img/logo/*.png

@@ -247,16 +247,14 @@ label {
 
 .ng-lockup .mono .g { color: var(--accent); }
 
-/* PNG monogram from ng-mark-source.png. Source PNG ships with a
-   cream background; mix-blend-mode: multiply blends the lighter
-   cream into whatever surface the lockup sits on, so only the dark
-   N and the cyan G outline remain visible. */
+/* PNG monogram — ng-mark.png is the upscaled, transparent version
+   of ng-mark-source.png (cream background removed, 6× upscale via
+   LANCZOS for sharper edges at any display size). */
 .ng-lockup-mark {
   display: inline-block;
   height: auto;
   vertical-align: middle;
   flex-shrink: 0;
-  mix-blend-mode: multiply;
 }
 
 .ng-lockup .sep {
