@@ -218,6 +218,58 @@ function ng_primary_product_cat_slug($product) {
 }
 
 /**
+ * Code-level fallback image for a product_cat slug. Resolves in this
+ * order:
+ *   1. neogen_theme_category_image_fallbacks filter map (slug → URL)
+ *   2. brands/{slug}/_default.webp if file exists on disk
+ *   3. null — caller falls back to SVG icon
+ *
+ * Admin uploads via Products → Categories → Thumbnail always win
+ * over this; the helper is only consulted when no thumbnail_id is
+ * set in term-meta. Filter the map from any mu-plugin to extend.
+ *
+ * Bundled defaults shipped with the repo:
+ *   - gift-cards → playstation.webp (most-recognized of the 11 brand
+ *     cards we ship; admin can override per-category later)
+ *
+ * @param string $slug product_cat term slug
+ * @return string|null image URL or null if none available
+ */
+function ng_category_image_fallback( $slug ) {
+    static $resolved = [];
+    if ( array_key_exists($slug, $resolved) ) return $resolved[$slug];
+
+    $base = defined('NG_THEME_ASSET_URL') ? NG_THEME_ASSET_URL : '';
+    $defaults = [
+        'gift-cards' => $base . '/img/gift-cards/playstation.webp',
+    ];
+
+    /**
+     * Filter the slug → image-URL fallback map. Only consulted when
+     * the category has no admin-uploaded thumbnail.
+     *
+     * @param array  $defaults Default map (slug => URL).
+     * @param string $slug     The slug being resolved.
+     */
+    $map = apply_filters( 'neogen_theme_category_image_fallbacks', $defaults, $slug );
+
+    $url = isset($map[$slug]) ? (string) $map[$slug] : '';
+
+    // Auto-discover a brands/{slug}/_default.* file as a secondary path.
+    if ( $url === '' && defined('NG_THEME_ASSET_DIR') ) {
+        foreach ( ['webp','jpg','png'] as $ext ) {
+            $disk = NG_THEME_ASSET_DIR . '/img/brands/' . $slug . '/_default.' . $ext;
+            if ( is_readable($disk) ) {
+                $url = $base . '/img/brands/' . $slug . '/_default.' . $ext;
+                break;
+            }
+        }
+    }
+
+    return $resolved[$slug] = ( $url !== '' ? $url : null );
+}
+
+/**
  * Inject a category tiles strip at the top of the WooCommerce shop
  * and product-category archives. Reuses the homepage `.ng-rack-*`
  * markup so the existing CSS picks it up site-wide. Only fires on
@@ -266,9 +318,18 @@ function ng_shop_category_tiles() {
         echo '<a class="' . esc_attr($cls) . '" href="' . esc_url($link) . '">';
         echo   '<span class="ng-rack-id">' . esc_html($rack_id) . '</span>';
         echo   '<span class="ng-rack-led" aria-hidden="true">' . $led . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+        $fallback_url = ng_category_image_fallback( $slug );
+
         if ( $thumb_id ) {
+            // Admin-uploaded term thumbnail wins over everything.
             echo '<span class="ng-rack-photo" aria-hidden="true">';
             echo wp_get_attachment_image( $thumb_id, 'medium', false, [ 'loading' => 'lazy', 'decoding' => 'async', 'alt' => '' ] );
+            echo '</span>';
+        } elseif ( $fallback_url ) {
+            // Code-level fallback for categories without a manual upload.
+            echo '<span class="ng-rack-photo" aria-hidden="true">';
+            echo '<img src="' . esc_url($fallback_url) . '" alt="" loading="lazy" decoding="async" width="240" height="240">';
             echo '</span>';
         } else {
             $icon = isset($icons[$slug]) ? $icons[$slug] : $fallback;
