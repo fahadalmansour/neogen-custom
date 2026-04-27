@@ -54,6 +54,21 @@ function ng_deploy_tools_render() {
         <?php submit_button('Clear rate-limit transients', 'primary'); ?>
       </form>
       <hr>
+      <h2>Throttle inspector (read-only)</h2>
+      <p>
+        Dumps every <code>wp_options</code> / <code>wp_usermeta</code> row whose
+        key matches likely throttle keywords, and grep-scans the upstream
+        <code>neogen-deploy</code> plugin source for storage calls. Use this
+        when the <em>Clear</em> button above does nothing — the upstream
+        rate-limit key is named something we are not matching.
+      </p>
+      <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+        <?php wp_nonce_field('ng_deploy_throttle_inspect'); ?>
+        <input type="hidden" name="action" value="ng_deploy_throttle_inspect">
+        <?php submit_button('Run throttle inspector', 'secondary'); ?>
+      </form>
+      <?php if (!empty($_GET['inspected'])) : ng_deploy_tools_render_inspection(); endif; ?>
+      <hr>
       <h2>Current raised-cap override</h2>
       <p>
         This plugin attempts to raise the cap to <b>200/hr</b> by filtering
@@ -66,6 +81,76 @@ function ng_deploy_tools_render() {
     </div>
     <?php
 }
+
+function ng_deploy_tools_render_inspection() {
+    if (!current_user_can('manage_options')) return;
+    global $wpdb;
+
+    $needles = ['neogen','deploy','ratelimit','rate_limit','throttle','pull_lock','last_pull','deploys_per_hour','deploy_count','ngdeploy','ng_deploy'];
+    $or = implode(' OR ', array_map(function($n) {
+        return "option_name LIKE '%" . esc_sql($n) . "%'";
+    }, $needles));
+    $rows = $wpdb->get_results("SELECT option_name, LEFT(option_value,180) AS preview, autoload FROM {$wpdb->options} WHERE $or ORDER BY option_name", ARRAY_A);
+
+    $mor = implode(' OR ', array_map(function($n) {
+        return "meta_key LIKE '%" . esc_sql($n) . "%'";
+    }, ['neogen','deploy','ngdeploy','ng_deploy']));
+    $mrows = $wpdb->get_results("SELECT user_id, meta_key, LEFT(meta_value,180) AS preview FROM {$wpdb->usermeta} WHERE $mor", ARRAY_A);
+
+    echo '<pre style="background:#0c0c0c;color:#0f0;padding:14px;white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;border-radius:4px">';
+    echo "wp_options matches: " . count($rows) . "\n\n";
+    foreach ($rows as $r) {
+        printf("%-60s [%s]\n  %s\n\n",
+            esc_html($r['option_name']),
+            esc_html($r['autoload']),
+            esc_html($r['preview'])
+        );
+    }
+    echo "wp_usermeta matches: " . count($mrows) . "\n\n";
+    foreach ($mrows as $r) {
+        printf("u#%d %-50s\n  %s\n\n",
+            (int) $r['user_id'],
+            esc_html($r['meta_key']),
+            esc_html($r['preview'])
+        );
+    }
+
+    $candidates = [
+        WP_PLUGIN_DIR . '/neogen-deploy',
+        WP_PLUGIN_DIR . '/ngs-deploy',
+        WP_PLUGIN_DIR . '/ng-deploy',
+    ];
+    foreach ($candidates as $plug) {
+        if (!is_dir($plug)) continue;
+        echo "neogen-deploy plugin path: " . esc_html($plug) . "\n";
+        foreach (glob("$plug/*.php") ?: [] as $f) {
+            echo "\n=== " . esc_html(basename($f)) . " ===\n";
+            $src = @file_get_contents($f);
+            if ($src === false) continue;
+            if (preg_match_all('/(set_transient|update_option|update_user_meta|set_site_transient)\s*\(\s*[\'"]([^\'"]+)[\'"]/i', $src, $m, PREG_SET_ORDER)) {
+                foreach ($m as $hit) printf("  %-22s -> %s\n", esc_html($hit[1]), esc_html($hit[2]));
+            }
+            if (preg_match_all('/Rate\s*limit|deploys?\s*\/\s*hour|too\s+many|max[_\s]?per[_\s]?hour/i', $src, $m2)) {
+                echo "  matched throttle copy: " . count($m2[0]) . "x\n";
+            }
+        }
+        break;
+    }
+    echo '</pre>';
+}
+
+add_action('admin_post_ng_deploy_throttle_inspect', function () {
+    if (!current_user_can('manage_options')) {
+        wp_die('Insufficient permissions.');
+    }
+    check_admin_referer('ng_deploy_throttle_inspect');
+    wp_safe_redirect(add_query_arg(
+        'inspected',
+        '1',
+        admin_url('tools.php?page=neogen-deploy-tools')
+    ));
+    exit;
+});
 
 /**
  * admin-post handler. Nonce + manage_options gated. Aggressively
