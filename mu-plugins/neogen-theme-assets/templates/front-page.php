@@ -131,7 +131,7 @@ $rack_letter = function ($i) {
     <div class="ng-hero-main">
       <div class="ng-kicker">
         <span></span>
-        <?php echo esc_html( sprintf( __( 'SELECTION LOCKED / %s DROP', 'neogen' ), date_i18n( 'F Y' ) ) ); ?>
+        <?php echo esc_html( sprintf( __( 'إصدار مقفل / %s', 'neogen' ), date_i18n( 'F Y' ) ) ); ?>
       </div>
       <h1 class="ng-hero-h1">جيل التقنية <br> <span class="accent">القادم</span>.</h1>
 
@@ -147,7 +147,7 @@ $rack_letter = function ($i) {
         منتجات مختارة، مواصفات بدون مبالغة، شحن من داخل المملكة.
       </p>
 
-      <div class="ng-hero-sub">// SPECIALIZED TECH · ASSEMBLED FOR OPERATORS · SHIPPED FROM KSA //</div>
+      <div class="ng-hero-sub">// تقنية متخصصة · مهيّأة للمشغّلين · شحن من المملكة //</div>
 
       <div class="ng-hero-ctas">
         <a class="btn btn-primary" href="<?php echo esc_url( $shop_url ); ?>">
@@ -156,7 +156,7 @@ $rack_letter = function ($i) {
         </a>
         <a class="btn btn-ghost" href="#ng-service">
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/build-rig.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
-          BUILD A RIG
+          ابنِ جهازك
         </a>
       </div>
     </div>
@@ -173,11 +173,11 @@ $rack_letter = function ($i) {
   </div>
 
   <div class="ng-hero-meta" aria-hidden="true">
-    <span class="ng-chip"><span class="dot"></span><strong>CR</strong> 7053130576</span>
-    <span class="ng-chip"><strong>VAT</strong> 15% INCLUDED</span>
-    <span class="ng-chip"><strong>SHIP</strong> 2-5 BUSINESS DAYS</span>
-    <span class="ng-chip"><strong>RETURNS</strong> 14 DAYS</span>
-    <span class="ng-chip"><strong>WARRANTY</strong> 12 MONTHS</span>
+    <span class="ng-chip"><span class="dot"></span><strong>سجل تجاري</strong> 7053130576</span>
+    <span class="ng-chip"><strong>الضريبة</strong> 15% شاملة</span>
+    <span class="ng-chip"><strong>الشحن</strong> 2-5 أيام عمل</span>
+    <span class="ng-chip"><strong>الإرجاع</strong> 14 يوم</span>
+    <span class="ng-chip"><strong>الضمان</strong> 12 شهر</span>
   </div>
 </header>
 
@@ -217,12 +217,12 @@ $rack_letter = function ($i) {
   <div class="ng-container">
     <div class="ng-section-head reveal">
       <div>
-        <div class="ng-section-label">01 / <b>CATEGORIES</b></div>
-        <h2 class="ng-section-h">The <span class="accent"><?php echo esc_html( count( $top_categories ) ); ?> Racks</span><br>We Stock</h2>
+        <div class="ng-section-label">01 · <b>الفئات</b></div>
+        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>المختارة.</h2>
         <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
       </div>
       <p class="ng-section-note">
-        Each rack is curated for a specific operator profile. Live category counts are pulled from the catalog — if an SKU is not useful on a serious network, homelab, smart home, gaming setup, or service engagement, we do not carry it.
+        كل فئة مهيّأة لنوع مشغّل محدّد. أعداد المنتجات تُسحب مباشرةً من الكتالوج — إذا لم يكن المنتج نافعًا في شبكة جادة، أو هوم لاب، أو بيت ذكي، أو إعداد ألعاب، أو خدمة تنفيذ — فلا نحمله.
       </p>
     </div>
 
@@ -235,7 +235,7 @@ $rack_letter = function ($i) {
           $link     = get_term_link($term);
           $link     = is_wp_error($link) ? '#' : $link;
           $led      = $led_patterns[$i % count($led_patterns)];
-          $rack_id  = sprintf('%02d · RACK %s', $i + 1, $rack_letter($i));
+          $rack_id  = sprintf('%02d · رف %s', $i + 1, $rack_letter($i));
       ?>
       <a class="ng-rack-unit reveal" href="<?php echo esc_url( $link ); ?>">
         <span class="ng-rack-id"><?php echo esc_html( $rack_id ); ?></span>
@@ -257,19 +257,18 @@ $rack_letter = function ($i) {
         <?php endif; ?>
         <span class="ng-rack-title">
           <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
-          <span class="en"><?php echo esc_html( strtoupper( $term->name ) ); ?></span>
         </span>
         <span class="ng-rack-desc">
           <?php
           if ( $term->description && $term->description !== $ar_name ) {
               echo esc_html( $term->description );
           } else {
-              echo esc_html( sprintf( __( 'Curated %s selection — shipped from KSA, 12-month warranty.', 'neogen' ), strtolower( $term->name ) ) );
+              echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $term->name ) );
           }
           ?>
         </span>
-        <span class="ng-rack-count"><b><?php echo esc_html( (int) $term->count ); ?></b>SKUs</span>
-        <span class="ng-rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        <span class="ng-rack-count"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
+        <span class="ng-rack-link">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
       </a>
       <?php endforeach; ?>
     </div>
@@ -285,12 +284,12 @@ $rack_letter = function ($i) {
   <div class="ng-container">
     <div class="ng-section-head reveal">
       <div>
-        <div class="ng-section-label">02 / <b>OPERATOR PICKS</b></div>
-        <h2 class="ng-section-h">Stocked. <span class="accent">Specced.</span><br>Ready to ship.</h2>
+        <div class="ng-section-label">02 · <b>المختارات</b></div>
+        <h2 class="ng-section-h">متوفّرة. <span class="accent">بمواصفات.</span><br>جاهزة للشحن.</h2>
         <div class="ng-section-ar">مختارات المشغّلين. جاهزة للشحن.</div>
       </div>
       <p class="ng-section-note">
-        Featured units we keep moving — chosen for reliability, repairability, and parts availability inside the Kingdom. Every card shows SKU, live spec, and one primary action. No decoy buttons.
+        وحدات مختارة من الكتالوج — اخترناها للموثوقية، وقابلية الإصلاح، وتوفّر القطع داخل المملكة. كل بطاقة تعرض الرمز، والمواصفات، وفعلًا واحدًا أساسيًا. لا أزرار خادعة.
       </p>
     </div>
 
@@ -313,19 +312,19 @@ $rack_letter = function ($i) {
           $is_new    = $created_ts && (time() - $created_ts) < 30 * DAY_IN_SECONDS;
           if (is_numeric($stock_qty) && $stock_qty !== null && (int) $stock_qty > 0 && (int) $stock_qty < 5) {
               $tag_class = 'hot';
-              $tag_label = 'LOW STOCK · ' . (int) $stock_qty;
+              $tag_label = 'مخزون منخفض · ' . (int) $stock_qty;
           } elseif ($is_new) {
               $tag_class = 'new';
-              $tag_label = 'NEW';
+              $tag_label = 'جديد';
           } elseif (is_numeric($stock_qty) && (int) $stock_qty >= 5) {
               $tag_class = '';
-              $tag_label = 'IN STOCK · ' . (int) $stock_qty;
+              $tag_label = 'متوفّر · ' . (int) $stock_qty;
           } elseif ($product->is_in_stock()) {
               $tag_class = '';
-              $tag_label = 'IN STOCK';
+              $tag_label = 'متوفّر';
           } else {
               $tag_class = 'hot';
-              $tag_label = 'OUT';
+              $tag_label = 'نفد';
           }
 
           // Image — real product featured image, or fallback SVG
@@ -380,7 +379,7 @@ $rack_letter = function ($i) {
           $cta_url = $product->is_type('simple') && $product->is_in_stock()
               ? esc_url( $product->add_to_cart_url() )
               : esc_url( $perm );
-          $cta_label = $product->is_type('simple') && $product->is_in_stock() ? 'ADD' : 'VIEW';
+          $cta_label = $product->is_type('simple') && $product->is_in_stock() ? 'أضف للسلة' : 'عرض';
       ?>
       <article class="ng-product reveal">
         <div class="ng-product-head">
@@ -407,7 +406,6 @@ $rack_letter = function ($i) {
 
         <div class="ng-product-title">
           <div class="ar"><?php echo esc_html( $name_ar ); ?></div>
-          <div class="en"><?php echo esc_html( $name_en ); ?></div>
         </div>
 
         <?php if ( !empty( $specs ) ) : ?>
@@ -425,7 +423,7 @@ $rack_letter = function ($i) {
             <?php else : ?>
               <div class="amount"><?php echo wp_kses_post( $price_html ); ?></div>
             <?php endif; ?>
-            <div class="inc">VAT INC / SHIP 2-5D</div>
+            <div class="inc">شامل الضريبة · شحن 2-5 أيام</div>
           </div>
           <a class="ng-product-cta" href="<?php echo esc_url( $cta_url ); ?>"<?php echo $product->is_type('simple') && $product->is_in_stock() ? ' data-product_id="' . esc_attr($id) . '"' : ''; ?>>
             <?php echo esc_html( $cta_label ); ?>
@@ -452,10 +450,10 @@ if ( ! empty( $ng_brand_ids ) ) :
     <div class="ng-section-head">
       <div class="ng-section-kicker">
         <span></span>
-        02·B / <b>VERIFIED VENDORS</b>
+        02·ب · <b>علامات موثّقة</b>
       </div>
       <div class="ng-section-titles">
-        <h2 class="ng-section-en">CARRIED. SHIPPED. SUPPORTED.</h2>
+        <h2 class="ng-section-en">محمولة. مشحونة. مدعومة.</h2>
         <div class="ng-section-ar">العلامات التي نحملها — كل واحدة بمواصفات نعرفها.</div>
       </div>
     </div>
@@ -481,8 +479,7 @@ if ( ! empty( $ng_brand_ids ) ) :
   <div class="ng-service-strip reveal">
     <div class="ng-service-inner">
       <div class="ng-service-text">
-        <div class="kicker-s"><span style="width:7px;height:7px;background:var(--signal);display:inline-block;box-shadow:0 0 12px var(--signal);"></span>BESPOKE / 03 · SERVICE DESK</div>
-        <div class="en">TELL US THE SHAPE OF THE PROBLEM.</div>
+        <div class="kicker-s"><span style="width:7px;height:7px;background:var(--signal);display:inline-block;box-shadow:0 0 12px var(--signal);"></span>تنفيذ مخصّص · 03 · مكتب الخدمة</div>
         <div class="ar">اكتب لنا مواصفاتك. نرجع لك بخطة واضحة.</div>
         <p>
           شبكة لمكتب، تركيبة هوم لاب، بيت ذكي كامل، أو محطة ألعاب تنافسية — اشرح لنا الاحتياج، ونرد عليك بمخطط تنفيذ مفصّل، قائمة مكوّنات، وتقدير زمن الشحن والتركيب.
@@ -491,11 +488,11 @@ if ( ! empty( $ng_brand_ids ) ) :
       <div class="ng-service-cta">
         <a class="btn btn-primary" href="<?php echo esc_url( $contact_url ); ?>">
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/spec-brief.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
-          SEND SPEC BRIEF
+          أرسل المواصفات
         </a>
         <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank">
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/whatsapp.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
-          WHATSAPP
+          واتساب
         </a>
       </div>
     </div>
@@ -513,14 +510,14 @@ if ( ! empty( $ng_brand_ids ) ) :
   </div>
   <div class="ng-voice-inner">
     <div class="ng-voice-text">
-      <div class="ng-voice-kicker">// 04 · BRAND VOICE</div>
+      <div class="ng-voice-kicker">// 04 · صوت العلامة</div>
       <div class="ng-voice-ar">التقنية.<br>كما <span class="accent">يجب</span> أن تكون.</div>
       <div class="ng-voice-en">
-        TECHNOLOGY
+        تقنية
         <span class="sep"></span>
-        AS IT SHOULD BE
+        كما يجب
         <span class="sep"></span>
-        SHIPPED FROM KSA
+        شحن من المملكة
       </div>
     </div>
     <?php if ( $ng_voice_id = (int) get_option('ng_voice_image_id') ) : ?>

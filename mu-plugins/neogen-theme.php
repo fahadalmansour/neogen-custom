@@ -156,9 +156,9 @@ function ng_shop_category_tiles() {
     echo '<section class="ng-section ng-shop-cats">';
     echo '<div class="ng-container">';
     echo '<div class="ng-section-head">';
-    echo   '<div class="ng-section-kicker"><span></span>SHOP / <b>BY CATEGORY</b></div>';
+    echo   '<div class="ng-section-kicker"><span></span>المتجر · <b>حسب الفئة</b></div>';
     echo   '<div class="ng-section-titles">';
-    echo     '<h2 class="ng-section-en">PICK A RACK.</h2>';
+    echo     '<h2 class="ng-section-en">اختر فئة.</h2>';
     echo     '<div class="ng-section-ar">اختر فئة لبدء التصفّح.</div>';
     echo   '</div>';
     echo '</div>';
@@ -172,7 +172,7 @@ function ng_shop_category_tiles() {
         $ar_name   = trim((string) $term->description);
         if ( $ar_name === '' ) { $ar_name = $term->name; }
         $led       = $led_patterns[$i % count($led_patterns)];
-        $rack_id   = sprintf('%02d · RACK %s', $i + 1, chr(65 + $i));
+        $rack_id   = sprintf('%02d · رف %s', $i + 1, chr(65 + $i));
         $cls       = 'ng-rack-unit reveal' . ( $is_curr ? ' is-current' : '' );
 
         echo '<a class="' . esc_attr($cls) . '" href="' . esc_url($link) . '">';
@@ -188,10 +188,9 @@ function ng_shop_category_tiles() {
         }
         echo   '<span class="ng-rack-title">';
         echo     '<span class="ar">' . esc_html($ar_name) . '</span>';
-        echo     '<span class="en">' . esc_html(strtoupper($term->name)) . '</span>';
         echo   '</span>';
-        echo   '<span class="ng-rack-count"><b>' . (int) $term->count . '</b>SKUs</span>';
-        echo   '<span class="ng-rack-link">Browse <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>';
+        echo   '<span class="ng-rack-count"><b>' . (int) $term->count . '</b> منتج</span>';
+        echo   '<span class="ng-rack-link">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>';
         echo '</a>';
     }
     echo '</div></div></section>';
@@ -344,7 +343,7 @@ function ng_info_pages() {
                     'h_en' => 'NeoGen Store extensions.',
                     'h_ar' => 'تمديدات متجر نيوجين.',
                     'body' => [
-                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
                         'The store currently advertises a 14-day return window in its footer chips. Specific eligibility conditions, restocking fees, and refund timelines are being finalized by legal counsel and will be published here.',
                         'In the interim, please contact us before returning any item so we can confirm eligibility and arrange the return.',
                     ],
@@ -382,7 +381,7 @@ function ng_info_pages() {
                     'h_en' => 'How to open a warranty claim.',
                     'h_ar' => 'كيفية فتح طلب ضمان.',
                     'body' => [
-                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
                         'Detailed claim procedures, RMA timelines, and replacement-vs-refund rules are being finalized.',
                         sprintf('In the meantime, contact: %s · %s.', $cr['phone_mobile'], $cr['email']),
                     ],
@@ -402,43 +401,43 @@ function ng_info_pages() {
                     'kicker_en' => '01 · ACCEPTANCE',
                     'h_en'      => 'Acceptance of terms.',
                     'h_ar'      => 'قبول الشروط.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'By accessing or using neogen.store, you agree to be bound by these terms. Specific binding language is being drafted by legal counsel.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'By accessing or using neogen.store, you agree to be bound by these terms. Specific binding language is being drafted by legal counsel.'],
                 ],
                 [
                     'kicker_en' => '02 · ACCOUNTS',
                     'h_en'      => 'Customer accounts.',
                     'h_ar'      => 'حسابات العملاء.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Account creation requirements, security obligations, and termination conditions will appear here.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Account creation requirements, security obligations, and termination conditions will appear here.'],
                 ],
                 [
                     'kicker_en' => '03 · ORDERS · PRICING',
                     'h_en'      => 'Orders, pricing, and payment.',
                     'h_ar'      => 'الطلبات والأسعار والدفع.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Order acceptance, price changes, currency, payment processors, and tax handling will be specified here. Note: VAT 15% is included in displayed prices.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Order acceptance, price changes, currency, payment processors, and tax handling will be specified here. Note: VAT 15% is included in displayed prices.'],
                 ],
                 [
                     'kicker_en' => '04 · IP',
                     'h_en'      => 'Intellectual property.',
                     'h_ar'      => 'الملكية الفكرية.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Trademarks, brand assets, and content ownership clauses will appear here.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Trademarks, brand assets, and content ownership clauses will appear here.'],
                 ],
                 [
                     'kicker_en' => '05 · LIABILITY',
                     'h_en'      => 'Limitation of liability.',
                     'h_ar'      => 'تحديد المسؤولية.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Liability caps and exclusions, subject to mandatory consumer-protection rules, will appear here.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Liability caps and exclusions, subject to mandatory consumer-protection rules, will appear here.'],
                 ],
                 [
                     'kicker_en' => '06 · GOVERNING LAW',
                     'h_en'      => 'Governing law and disputes.',
                     'h_ar'      => 'القانون الواجب التطبيق وفض النزاعات.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'These terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes are subject to the competent commercial courts in KSA and the e-commerce dispute mechanism, as applicable.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'These terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes are subject to the competent commercial courts in KSA and the e-commerce dispute mechanism, as applicable.'],
                 ],
                 [
                     'kicker_en' => '07 · CHANGES',
                     'h_en'      => 'Changes to these terms.',
                     'h_ar'      => 'تعديل الشروط.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Modification rights, notice mechanisms, and effective-date rules will appear here.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Modification rights, notice mechanisms, and effective-date rules will appear here.'],
                 ],
             ],
         ],
@@ -464,49 +463,49 @@ function ng_info_pages() {
                     'kicker_en' => '02 · DATA WE COLLECT',
                     'h_en'      => 'Categories of personal data.',
                     'h_ar'      => 'فئات البيانات الشخصية.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Identity (name), contact (email, phone, shipping address), order history, payment metadata (handled by the payment gateway, not stored by us in raw form), device and usage data (IP, browser, cookies). The full enumeration will be confirmed by counsel.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Identity (name), contact (email, phone, shipping address), order history, payment metadata (handled by the payment gateway, not stored by us in raw form), device and usage data (IP, browser, cookies). The full enumeration will be confirmed by counsel.'],
                 ],
                 [
                     'kicker_en' => '03 · PURPOSES',
                     'h_en'      => 'Why we process it.',
                     'h_ar'      => 'أغراض المعالجة.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Order fulfillment, customer support, fraud prevention, regulatory compliance (CR / ZATCA), and (with consent) marketing communications.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Order fulfillment, customer support, fraud prevention, regulatory compliance (CR / ZATCA), and (with consent) marketing communications.'],
                 ],
                 [
                     'kicker_en' => '04 · LEGAL BASES',
                     'h_en'      => 'Lawful grounds under PDPL.',
                     'h_ar'      => 'الأسس النظامية بموجب PDPL.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Contract performance (orders), legal obligation (tax/CR), legitimate interest (fraud prevention), and explicit consent (marketing).'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Contract performance (orders), legal obligation (tax/CR), legitimate interest (fraud prevention), and explicit consent (marketing).'],
                 ],
                 [
                     'kicker_en' => '05 · SHARING',
                     'h_en'      => 'Who we share with.',
                     'h_ar'      => 'الجهات التي نشارك معها.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Payment processors (Mada / Apple Pay / STC / Tabby / card gateway), shipping couriers, Saudi tax/regulatory authorities when legally required.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Payment processors (Mada / Apple Pay / STC / Tabby / card gateway), shipping couriers, Saudi tax/regulatory authorities when legally required.'],
                 ],
                 [
                     'kicker_en' => '06 · RETENTION',
                     'h_en'      => 'How long we keep data.',
                     'h_ar'      => 'مدة الاحتفاظ.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Retention periods will be specified by category (e.g., order records for tax-law-mandated minimum, marketing data until consent withdrawal).'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Retention periods will be specified by category (e.g., order records for tax-law-mandated minimum, marketing data until consent withdrawal).'],
                 ],
                 [
                     'kicker_en' => '07 · YOUR RIGHTS',
                     'h_en'      => 'Data subject rights under PDPL.',
                     'h_ar'      => 'حقوقك بموجب PDPL.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Right to be informed, right of access, right of correction, right of deletion, right to data portability, right to object to processing, right to withdraw consent. Exercise via the controller contact above.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Right to be informed, right of access, right of correction, right of deletion, right to data portability, right to object to processing, right to withdraw consent. Exercise via the controller contact above.'],
                 ],
                 [
                     'kicker_en' => '08 · COOKIES',
                     'h_en'      => 'Cookies and tracking.',
                     'h_ar'      => 'ملفات الارتباط والتتبع.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Strictly-necessary cookies (cart, session, security) plus optional analytics. A consent banner will be wired in a follow-up commit when the cookie inventory is finalized.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Strictly-necessary cookies (cart, session, security) plus optional analytics. A consent banner will be wired in a follow-up commit when the cookie inventory is finalized.'],
                 ],
                 [
                     'kicker_en' => '09 · CROSS-BORDER',
                     'h_en'      => 'International data transfers.',
                     'h_ar'      => 'نقل البيانات خارج المملكة.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Cross-border transfer disclosures (e.g., to payment gateway processors hosted outside KSA) and the safeguards relied upon will be specified.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Cross-border transfer disclosures (e.g., to payment gateway processors hosted outside KSA) and the safeguards relied upon will be specified.'],
                 ],
             ],
         ],
@@ -523,14 +522,14 @@ function ng_info_pages() {
                     'kicker_en' => '01 · ACCEPTANCE',
                     'h_en'      => 'Using the site means accepting this policy.',
                     'h_ar'      => 'استخدام الموقع يعني قبول هذه السياسة.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'By accessing, browsing, registering, or transacting on neogen.store you agree to this Acceptable Use Policy in addition to the Terms &amp; Conditions. Specific binding language is being drafted by counsel.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'By accessing, browsing, registering, or transacting on neogen.store you agree to this Acceptable Use Policy in addition to the Terms &amp; Conditions. Specific binding language is being drafted by counsel.'],
                 ],
                 [
                     'kicker_en' => '02 · PROHIBITED USES',
                     'h_en'      => 'What you must not do.',
                     'h_ar'      => 'ممنوعات الاستخدام.',
                     'body'      => [
-                        '<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>',
+                        '<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>',
                         'Indicative non-exhaustive list, subject to final wording: automated scraping or harvesting; placing fraudulent or fictitious orders; impersonating another person or entity; circumventing security or rate-limiting; uploading or transmitting malware; infringing intellectual-property rights; using the site to violate any KSA law including the Anti-Cybercrime Law (نظام مكافحة جرائم المعلوماتية).',
                     ],
                 ],
@@ -538,19 +537,19 @@ function ng_info_pages() {
                     'kicker_en' => '03 · ACCOUNT CONDUCT',
                     'h_en'      => 'Your account, your responsibility.',
                     'h_ar'      => 'الحساب على مسؤوليتك.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'You are responsible for keeping your credentials confidential, for the accuracy of the information you supply (delivery address, contact details, payment data), and for any activity that occurs under your account.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'You are responsible for keeping your credentials confidential, for the accuracy of the information you supply (delivery address, contact details, payment data), and for any activity that occurs under your account.'],
                 ],
                 [
                     'kicker_en' => '04 · USER CONTENT',
                     'h_en'      => 'Reviews, comments, and other submissions.',
                     'h_ar'      => 'التقييمات والتعليقات.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'Where the site allows you to submit content (e.g., product reviews), you grant us a non-exclusive licence to display it and undertake that the content is lawful, accurate, and non-infringing. We may moderate, edit, or remove submissions at our discretion. Final terms pending counsel.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'Where the site allows you to submit content (e.g., product reviews), you grant us a non-exclusive licence to display it and undertake that the content is lawful, accurate, and non-infringing. We may moderate, edit, or remove submissions at our discretion. Final terms pending counsel.'],
                 ],
                 [
                     'kicker_en' => '05 · ENFORCEMENT',
                     'h_en'      => 'Suspension and termination.',
                     'h_ar'      => 'الإيقاف وإنهاء الحساب.',
-                    'body'      => ['<span class="ng-pending">DRAFT — PENDING LEGAL REVIEW</span>', 'We may suspend or terminate access for violations of this policy, with or without prior notice depending on severity, and we may seek to recover any losses caused. Specific enforcement procedures are being finalized.'],
+                    'body'      => ['<span class="ng-pending">مسودة — بانتظار المراجعة القانونية</span>', 'We may suspend or terminate access for violations of this policy, with or without prior notice depending on severity, and we may seek to recover any losses caused. Specific enforcement procedures are being finalized.'],
                 ],
                 [
                     'kicker_en' => '06 · REPORTING ABUSE',
@@ -957,7 +956,7 @@ add_action('woocommerce_archive_description', function () {
     <header class="ng-cat-header">
       <div class="ng-cat-kicker">
         <span class="led on"></span>
-        <span>CATEGORY / <?php echo esc_html(strtoupper($term->taxonomy === 'product_cat' ? 'RACK' : 'TAG')); ?></span>
+        <span>الفئة / <?php echo esc_html( $term->taxonomy === 'product_cat' ? 'رف' : 'وسم' ); ?></span>
         <span class="sep"></span>
         <span><?php echo esc_html(sprintf(_n('%d SKU', '%d SKUs', $count, 'neogen'), $count)); ?></span>
       </div>
@@ -1037,23 +1036,23 @@ add_action('wp_body_open', function () {
     // Queue seed — a plausible in-range number; nudged by JS client-side.
     $queue_seed = 14;
     ?>
-<div class="ng-sysbar" aria-label="System status">
+<div class="ng-sysbar" aria-label="حالة النظام">
   <span class="led" aria-hidden="true"></span>
-  <span>SYS <b id="ng-clock">00:00:00</b> UTC</span>
+  <span>الساعة <b id="ng-clock">00:00:00</b> UTC</span>
   <span class="sep"></span>
-  <span>STOCK SYNC <b class="cyan">LIVE</b></span>
+  <span>المخزون <b class="cyan">مباشر</b></span>
   <span class="sep hide-sm"></span>
-  <span class="hide-sm">QUEUE <b id="ng-queue"><?php echo esc_html( $queue_seed ); ?></b> ORDERS</span>
+  <span class="hide-sm">في الانتظار <b id="ng-queue"><?php echo esc_html( $queue_seed ); ?></b> طلب</span>
   <span class="sep hide-sm"></span>
-  <span class="hide-sm">SHIP 2-5D / RIYADH · JEDDAH · DAMMAM</span>
+  <span class="hide-sm">شحن 2-5 أيام · الرياض · جدة · الدمام</span>
   <span class="spacer"></span>
-  <span>VAT <b>15%</b> INCLUDED</span>
+  <span>الضريبة <b>15%</b> شاملة</span>
   <span class="sep hide-sm"></span>
-  <span class="hide-sm">AR · EN</span>
+  <span class="hide-sm">عربي</span>
 </div>
 
-<nav class="ng-topnav" aria-label="Primary">
-  <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" aria-label="NeoGen Store home">
+<nav class="ng-topnav" aria-label="القائمة الرئيسية">
+  <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" aria-label="الصفحة الرئيسية NeoGen Store">
     <span class="mono">N<span class="g">G</span></span>
     <span class="sep"></span>
     <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
@@ -1067,17 +1066,17 @@ add_action('wp_body_open', function () {
     <?php endforeach; ?>
   </div>
   <div class="ng-nav-tools">
-    <a class="ng-nav-tool" href="<?php echo esc_url( $shop ); ?>" aria-label="Search">
+    <a class="ng-nav-tool" href="<?php echo esc_url( $shop ); ?>" aria-label="البحث">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <span class="tool-label">Search</span>
+      <span class="tool-label">البحث</span>
     </a>
-    <a class="ng-nav-tool" href="<?php echo esc_url( $acct ); ?>" aria-label="Account">
+    <a class="ng-nav-tool" href="<?php echo esc_url( $acct ); ?>" aria-label="الحساب">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>
-      <span class="tool-label">Account</span>
+      <span class="tool-label">الحساب</span>
     </a>
-    <a class="ng-nav-tool" href="<?php echo esc_url( $cart ); ?>" aria-label="Cart">
+    <a class="ng-nav-tool" href="<?php echo esc_url( $cart ); ?>" aria-label="السلة">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h3l2 12h10l2-8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg>
-      <span class="tool-label">Cart</span>
+      <span class="tool-label">السلة</span>
       <span class="count<?php echo $cart_count > 0 ? '' : ' is-empty'; ?>"><?php echo esc_html( $cart_count ); ?></span>
     </a>
   </div>
@@ -1091,7 +1090,7 @@ add_action('wp_body_open', function () {
 add_filter('woocommerce_add_to_cart_fragments', function ($fragments) {
     if (!function_exists('WC') || !WC() || !WC()->cart) { return $fragments; }
     $count = (int) WC()->cart->get_cart_contents_count();
-    $fragments['.ng-nav-tools a[aria-label="Cart"] .count'] =
+    $fragments['.ng-nav-tools a[aria-label="السلة"] .count'] =
         '<span class="count' . ($count > 0 ? '' : ' is-empty') . '">' . esc_html($count) . '</span>';
     return $fragments;
 });
@@ -1117,7 +1116,7 @@ add_action('wp_footer', function () {
       <p>متجر تقني سعودي. نختار المنتجات بعناية، نوضح المواصفات بدون مبالغة، ونبني تجربة شراء تناسب المستخدم التقني الذي يعرف ما يحتاجه.</p>
     </div>
     <div class="ng-foot-col">
-      <h4>// CATALOG</h4>
+      <h4>// الكتالوج</h4>
       <ul>
         <?php if ( !empty( $cats ) ) :
             foreach ( $cats as $term ) :
@@ -1127,50 +1126,50 @@ add_action('wp_footer', function () {
           <li><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $term->name ); ?></a></li>
         <?php   endforeach;
         else : ?>
-          <li><a href="<?php echo esc_url( $shop ); ?>">Browse shop</a></li>
+          <li><a href="<?php echo esc_url( $shop ); ?>">تصفّح المتجر</a></li>
         <?php endif; ?>
       </ul>
     </div>
     <div class="ng-foot-col">
-      <h4>// SUPPORT</h4>
+      <h4>// الدعم</h4>
       <ul>
-        <li><a href="<?php echo esc_url( home_url( '/my-account/orders/' ) ); ?>">Order tracking</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">Returns · 14 days</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">Warranty · 12 months</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">Shipping · 2-5D</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/my-account/orders/' ) ); ?>">تتبّع الطلب</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">الإرجاع · 14 يوم</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">الضمان · 12 شهر</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">الشحن · 2-5 أيام</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تواصل معنا</a></li>
       </ul>
     </div>
     <div class="ng-foot-col">
-      <h4>// INFO</h4>
+      <h4>// معلومات</h4>
       <ul>
-        <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">من نحن · About</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">سياسة الشحن · Shipping Policy</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">سياسة الاسترجاع · Returns &amp; Refunds</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">سياسة الضمان · Warranty Policy</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">الشروط والأحكام · Terms &amp; Conditions</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/usage/' ) ); ?>">سياسة الاستخدام · Acceptable Use</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">سياسة الخصوصية · Privacy Policy</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تواصل معنا · Contact</a></li>
-        <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">هوية المنشأة · Legal disclosure</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">من نحن</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>">سياسة الشحن</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/returns/' ) ); ?>">سياسة الاسترجاع</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/warranty/' ) ); ?>">سياسة الضمان</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">الشروط والأحكام</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/usage/' ) ); ?>">سياسة الاستخدام</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">سياسة الخصوصية</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">تواصل معنا</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/legal/' ) ); ?>">هوية المنشأة</a></li>
       </ul>
     </div>
     <?php $cr_foot = ng_cr(); ?>
     <div class="ng-foot-col">
-      <h4>// STORE</h4>
+      <h4>// المتجر</h4>
       <ul>
-        <li>CR · <?php echo esc_html( $cr_foot['cr'] ); ?></li>
+        <li>سجل تجاري · <?php echo esc_html( $cr_foot['cr'] ); ?></li>
         <?php foreach ( $cr_foot['regulatory'] as $r ) : ?>
-          <li><?php echo esc_html( strtoupper( $r['key'] ) ); ?> · <?php echo esc_html( $r['number'] ); ?></li>
+          <li><?php echo esc_html( $r['authority_ar'] ?? strtoupper( $r['key'] ) ); ?> · <?php echo esc_html( $r['number'] ); ?></li>
         <?php endforeach; ?>
-        <li>VAT · 15% INCLUDED</li>
-        <li>RIYADH · JEDDAH · DAMMAM</li>
-        <li>AR · EN</li>
+        <li>الضريبة · 15% شاملة</li>
+        <li>الرياض · جدة · الدمام</li>
+        <li>عربي</li>
       </ul>
     </div>
   </div>
-  <div class="ng-foot-pay" aria-label="Payment & shipping">
-    <span class="ng-foot-pay-label">// PAY · SHIP</span>
+  <div class="ng-foot-pay" aria-label="الدفع والشحن">
+    <span class="ng-foot-pay-label">// الدفع · الشحن</span>
     <div class="ng-foot-pay-row">
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/mada.svg' ); ?>"      width="42" height="18" alt="Mada"      loading="lazy">
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/apple-pay.svg' ); ?>" width="42" height="18" alt="Apple Pay" loading="lazy">
@@ -1182,26 +1181,26 @@ add_action('wp_footer', function () {
     </div>
   </div>
   <?php $cr = ng_cr(); ?>
-  <div class="ng-disclosure" role="complementary" aria-label="Legal disclosure">
+  <div class="ng-disclosure" role="complementary" aria-label="هوية المنشأة">
     <div class="ng-disclosure-en">
-      <span><?php echo esc_html(strtoupper($cr['entity_type'])); ?></span>
+      <span><?php echo esc_html( $cr['entity_type_ar'] ?? $cr['entity_type'] ); ?></span>
       <span class="sep"></span>
       <span><?php echo esc_html($cr['owner']); ?></span>
       <span class="sep"></span>
-      <span>CR <b><?php echo esc_html($cr['cr']); ?></b></span>
+      <span>سجل تجاري <b><?php echo esc_html($cr['cr']); ?></b></span>
       <span class="sep"></span>
-      <span class="ok"><?php echo esc_html(strtoupper($cr['status'])); ?></span>
+      <span class="ok"><?php echo esc_html( $cr['status_ar'] ?? $cr['status'] ); ?></span>
       <span class="sep"></span>
       <span><?php echo esc_html($cr['phone_mobile']); ?></span>
     </div>
     <a class="ng-disclosure-link" href="<?php echo esc_url( home_url('/legal/') ); ?>">
-      LEGAL DISCLOSURE
+      هوية المنشأة
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
     </a>
   </div>
   <div class="ng-foot-bottom">
-    <span>© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b> · ALL RIGHTS RESERVED</span>
-    <span>BRAND KIT v1.1 · APPLIED</span>
+    <span>© <?php echo esc_html( $year ); ?> <b><?php echo esc_html($cr['brand_en']); ?></b> · جميع الحقوق محفوظة</span>
+    <span>دليل العلامة 1.1 · مطبَّق</span>
     <span>NEOGEN.STORE</span>
   </div>
 </footer>
