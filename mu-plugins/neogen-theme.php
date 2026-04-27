@@ -101,15 +101,27 @@ function ng_top_product_cats($limit = 6) {
     $cached = get_transient($key);
     if (is_array($cached)) { return $cached; }
 
+    // Slugs to hide from public top-cats lists (rack, topnav, footer).
+    // Filterable so individual snippets can override per-surface later.
+    $exclude_slugs = apply_filters( 'neogen_top_cats_exclude_slugs', [ 'homelab', 'uncategorized' ] );
+
+    // Pull a few extra so we still get $limit results after filtering.
     $terms = get_terms([
         'taxonomy'   => 'product_cat',
         'hide_empty' => true,
         'parent'     => 0,
         'orderby'    => 'count',
         'order'      => 'DESC',
-        'number'     => $limit,
+        'number'     => $limit + count($exclude_slugs),
     ]);
     if (is_wp_error($terms)) { return []; }
+
+    if ( ! empty( $exclude_slugs ) ) {
+        $terms = array_values( array_filter( $terms, function ( $t ) use ( $exclude_slugs ) {
+            return ! in_array( $t->slug, $exclude_slugs, true );
+        } ) );
+    }
+    $terms = array_slice( $terms, 0, $limit );
 
     set_transient($key, $terms, HOUR_IN_SECONDS);
     return $terms;
