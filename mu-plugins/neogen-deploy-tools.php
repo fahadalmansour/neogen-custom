@@ -68,8 +68,11 @@ function ng_deploy_tools_render() {
 }
 
 /**
- * admin-post handler. Nonce + manage_options gated. Deletes transient
- * rows matching the neogen-deploy naming pattern, then redirects back.
+ * admin-post handler. Nonce + manage_options gated. Aggressively
+ * nukes anything in wp_options whose key contains both "neogen"
+ * and either "deploy" or "rate" or "limit" or "throttle". Also
+ * walks site_transient + user_meta for the same patterns. The
+ * upstream rate-limit storage key is unknown so we cast wide.
  */
 add_action('admin_post_ng_deploy_reset_ratelimit', function () {
     if (!current_user_can('manage_options')) {
@@ -78,16 +81,31 @@ add_action('admin_post_ng_deploy_reset_ratelimit', function () {
     check_admin_referer('ng_deploy_reset_ratelimit');
 
     global $wpdb;
-    $like         = $wpdb->esc_like('_transient_') . '%neogen%deploy%';
-    $like_timeout = $wpdb->esc_like('_transient_timeout_') . '%neogen%deploy%';
 
-    $n  = (int) $wpdb->query($wpdb->prepare(
-        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
-        $like
+    $option_patterns = [
+        '%neogen%deploy%',
+        '%neogen%rate%',
+        '%neogen%limit%',
+        '%neogen%throttle%',
+        '%ng_deploy%',
+        '%ngdeploy%',
+    ];
+
+    $n = 0;
+    foreach ($option_patterns as $p) {
+        $n += (int) $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+            $p
+        ));
+    }
+
+    $n += (int) $wpdb->query($wpdb->prepare(
+        "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s",
+        '%neogen%deploy%'
     ));
     $n += (int) $wpdb->query($wpdb->prepare(
-        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
-        $like_timeout
+        "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s",
+        '%ng_deploy%'
     ));
 
     wp_safe_redirect(add_query_arg(
