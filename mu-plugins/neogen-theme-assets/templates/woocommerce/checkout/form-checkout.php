@@ -34,12 +34,18 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
   <header class="ng-checkout-head">
     <div class="ng-checkout-kicker">
       <span class="led on" aria-hidden="true"></span>
-      <span>02 · CHECKOUT · COMMIT ORDER</span>
+      <span>02 · إتمام الطلب · تأكيد</span>
     </div>
     <h1 class="ng-checkout-h1">
       <span class="ar">إتمام الطلب</span>
-      <span class="en">CHECKOUT</span>
     </h1>
+    <div class="ng-checkout-pay-strip" aria-label="طرق الدفع المتاحة">
+      <span class="ng-checkout-pay-label">// طرق الدفع</span>
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/mada.svg' ); ?>"      width="42" height="18" alt="مدى" loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/apple-pay.svg' ); ?>" width="42" height="18" alt="Apple Pay" loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/stcpay.svg' ); ?>"    width="42" height="18" alt="STC Pay" loading="lazy">
+      <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/tabby.svg' ); ?>"     width="42" height="18" alt="Tabby" loading="lazy">
+    </div>
   </header>
 
   <form name="checkout" method="post" class="checkout woocommerce-checkout ng-checkout-form" action="<?php echo esc_url(wc_get_checkout_url()); ?>" enctype="multipart/form-data" aria-label="<?php esc_attr_e('Checkout', 'woocommerce'); ?>">
@@ -67,8 +73,8 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
         <?php do_action('woocommerce_checkout_before_order_review_heading'); ?>
 
         <div class="ng-checkout-review-head">
-          <span>// ORDER LEDGER</span>
-          <span><?php esc_html_e('Review', 'woocommerce'); ?></span>
+          <span>// سجل الطلب</span>
+          <span>مراجعة</span>
         </div>
 
         <h3 id="order_review_heading" class="screen-reader-text"><?php esc_html_e('Your order', 'woocommerce'); ?></h3>

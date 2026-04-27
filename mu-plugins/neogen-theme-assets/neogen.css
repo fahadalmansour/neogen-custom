@@ -5457,6 +5457,33 @@ body.woocommerce-checkout main {
   color: var(--muted);
 }
 
+.ng-checkout-pay-strip {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  direction: ltr;
+}
+.ng-checkout-pay-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-inline-end: 6px;
+}
+.ng-checkout-pay-strip img {
+  height: 22px;
+  width: auto;
+  opacity: 0.85;
+  color: var(--text);
+}
+
 .ng-checkout-body {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
