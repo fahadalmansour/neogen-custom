@@ -161,6 +161,15 @@ $rack_letter = function ($i) {
       </div>
     </div>
 
+    <?php if ( $ng_hero_side_id = (int) get_option('ng_hero_side_image_id') ) : ?>
+      <aside class="ng-hero-side" aria-hidden="true">
+        <?php echo wp_get_attachment_image( $ng_hero_side_id, 'large', false, [
+            'loading'       => 'eager',
+            'fetchpriority' => 'high',
+            'decoding'      => 'async',
+        ] ); ?>
+      </aside>
+    <?php endif; ?>
   </div>
 
   <div class="ng-hero-meta" aria-hidden="true">
@@ -320,8 +329,25 @@ $rack_letter = function ($i) {
           }
 
           // Image — real product featured image, or fallback SVG
-          $img_id = $product->get_image_id();
-          $img    = $img_id ? wp_get_attachment_image($img_id, 'medium_large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
+          $img_id  = $product->get_image_id();
+          $img     = $img_id ? wp_get_attachment_image($img_id, 'medium_large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
+
+          // Hover image — first gallery image (if any)
+          $gallery_ids = $product->get_gallery_image_ids();
+          $img_alt_html = '';
+          if ( ! empty( $gallery_ids ) ) {
+              $img_alt_html = wp_get_attachment_image(
+                  (int) $gallery_ids[0],
+                  'medium_large',
+                  false,
+                  [
+                      'class'    => 'ng-product-img-alt',
+                      'alt'      => '',
+                      'loading'  => 'lazy',
+                      'decoding' => 'async',
+                  ]
+              );
+          }
 
           // Specs — up to 4 attributes / tags
           $specs = [];
@@ -364,7 +390,10 @@ $rack_letter = function ($i) {
           <?php endif; ?>
         </div>
 
-        <a class="ng-product-media" href="<?php echo esc_url( $perm ); ?>" aria-label="<?php echo esc_attr( $name_en ); ?>">
+        <a class="ng-product-media<?php echo $img_alt_html ? ' has-alt' : ''; ?>" href="<?php echo esc_url( $perm ); ?>" aria-label="<?php echo esc_attr( $name_en ); ?>">
+          <?php if ( $img_alt_html ) {
+              echo $img_alt_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+          } ?>
           <?php if ( $img ) :
               echo $img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — wp_get_attachment_image returns safe HTML.
           else : ?>
@@ -404,6 +433,41 @@ $rack_letter = function ($i) {
           </a>
         </div>
       </article>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
+<!-- ============================================================
+     BRANDS STRIP — vendors
+     ============================================================ -->
+<?php
+$ng_brand_ids = (array) get_option('ng_brand_logo_ids', []);
+$ng_brand_ids = array_values( array_filter( array_map('intval', $ng_brand_ids) ) );
+if ( ! empty( $ng_brand_ids ) ) :
+?>
+<section class="ng-section ng-brands">
+  <div class="ng-container">
+    <div class="ng-section-head">
+      <div class="ng-section-kicker">
+        <span></span>
+        02·B / <b>VERIFIED VENDORS</b>
+      </div>
+      <div class="ng-section-titles">
+        <h2 class="ng-section-en">CARRIED. SHIPPED. SUPPORTED.</h2>
+        <div class="ng-section-ar">العلامات التي نحملها — كل واحدة بمواصفات نعرفها.</div>
+      </div>
+    </div>
+    <div class="ng-brands-row">
+      <?php foreach ( $ng_brand_ids as $bid ) : ?>
+        <div class="ng-brand-tile">
+          <?php echo wp_get_attachment_image( $bid, 'medium', false, [
+              'loading'  => 'lazy',
+              'decoding' => 'async',
+              'alt'      => '',
+          ] ); ?>
+        </div>
       <?php endforeach; ?>
     </div>
   </div>

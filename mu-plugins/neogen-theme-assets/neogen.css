@@ -477,10 +477,46 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 56px;
-  align-items: start;
+  align-items: center;
+}
+
+.ng-hero-inner:has(.ng-hero-side) {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
 }
 
 .ng-hero-main { direction: rtl; }
+
+.ng-hero-side {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 24px 60px -32px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.ng-hero-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ng-hero-side::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 153, 204, 0.0) 60%, rgba(0, 153, 204, 0.18) 100%);
+  pointer-events: none;
+}
+.ng-hero-side:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 72px -32px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 980px) {
+  .ng-hero-inner:has(.ng-hero-side) { grid-template-columns: 1fr; }
+  .ng-hero-side { max-width: 480px; aspect-ratio: 1 / 1; }
+}
 
 .ng-kicker {
   display: inline-flex;
@@ -1130,6 +1166,22 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .ng-product-media:has(img)::before {
   opacity: 0.06;
+}
+
+/* Hover swap to gallery image — only when .has-alt present */
+.ng-product-media .ng-product-img-alt {
+  position: absolute;
+  z-index: 2;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+.ng-product:hover .ng-product-media.has-alt .ng-product-img-alt {
+  opacity: 1;
 }
 
 /* SVG placeholder path — keep the diagnostic look. */
@@ -5688,4 +5740,54 @@ body.woocommerce-checkout main {
   }
   .woocommerce-checkout .form-row.form-row-first,
   .woocommerce-checkout .form-row.form-row-last { grid-column: 1 / -1; }
+}
+
+/* ==========================================================
+   BRANDS STRIP — vendor logos
+   ========================================================== */
+.ng-brands {
+  padding: 56px 0;
+}
+.ng-brands-row {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+.ng-brand-tile {
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.ng-brand-tile img {
+  max-width: 100%;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.72;
+  transition: filter 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.ng-brand-tile:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -22px rgba(0, 153, 204, 0.4);
+}
+.ng-brand-tile:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+@media (max-width: 1024px) {
+  .ng-brands-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .ng-brands-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .ng-brand-tile { padding: 10px; }
+  .ng-brand-tile img { max-height: 40px; }
 }
