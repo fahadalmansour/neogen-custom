@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO Cutover
  * Description: Phase R4 — admin toggle that activates real SEO emission from the in-house engine AND suppresses Rank Math's frontend output. Default OFF (Rank Math keeps emitting; engine stays in shadow). When ON, only the engine emits and Rank Math becomes a silent ghost ready for deactivation. Toggle at Tools → NeoGen SEO Cutover.
- * Version: 1.22.3
+ * Version: 1.22.4
  * Author: Fahad Almansour
  *
  * Phase R4 contract
@@ -58,6 +58,11 @@ add_action('init', function () {
 
     // 2. Meta tags + canonical + robots + OG + Twitter into <head>.
     add_action( 'wp_head', 'ng_seo_cutover_emit_meta', 2 );
+
+    // 2b. JSON-LD @graph (R5). Late priority so it lands after meta.
+    //     The legacy Store-only emitter in neogen-theme.php short-circuits
+    //     itself via ng_seo_engine_enabled() to avoid dual emission.
+    add_action( 'wp_head', ['NG_SEO_Engine', 'emit_json_ld'], 20 );
 
     // 3. Suppress Rank Math frontend output.
     foreach ( [
@@ -203,7 +208,7 @@ function ng_seo_cutover_render() {
         <label style="display:flex;gap:.6em;align-items:flex-start;max-width:720px;">
           <input type="checkbox" name="ng_seo_cutover_enabled" value="1" <?php checked($on); ?> <?php disabled($forced); ?> style="margin-top:.3em;">
           <span><strong>Activate the in-house SEO engine (Phase R4)</strong><br>
-          <small>When checked: real <code>&lt;title&gt;</code>, <code>&lt;meta&gt;</code>, OG, Twitter, canonical, robots tags emit from <code>NG_SEO_Engine</code>; Rank Math frontend filters all forced to empty.</small></span>
+          <small>When checked: real <code>&lt;title&gt;</code>, <code>&lt;meta&gt;</code>, OG, Twitter, canonical, robots tags AND a full JSON-LD <code>@graph</code> (Store + WebSite + WebPage + per-surface nodes) emit from <code>NG_SEO_Engine</code>; Rank Math frontend filters all forced to empty; legacy Store JSON-LD in <code>neogen-theme.php</code> short-circuits to avoid dual emission.</small></span>
         </label>
         <p style="margin-top:1.5em;"><button class="button button-primary" type="submit" <?php disabled($forced); ?>>Save</button></p>
         <?php if ( $forced ) : ?>

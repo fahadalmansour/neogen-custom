@@ -904,6 +904,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
  * fabricated VAT, address, or contact.
  */
 add_action('wp_head', function () {
+    // R5 cutover: when the engine is ON it emits a complete @graph
+    // (Store + WebSite + WebPage + per-surface nodes) from
+    // mu-plugins/neogen-seo-engine.php. Avoid dual emission here.
+    if ( function_exists('ng_seo_engine_enabled') && ng_seo_engine_enabled() ) return;
+
     $cr       = ng_cr();
     $tel_e164 = preg_replace('/\s+/', '', $cr['phone_mobile']); // +966570131122
     $home     = rtrim(home_url('/'), '/') . '/';

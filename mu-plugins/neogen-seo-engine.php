@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen SEO Engine
  * Description: In-house SEO emission for neogen.store (title, description, canonical, OG, Twitter, JSON-LD). Phase R1 of the Rank Math replacement plan — computes everything per surface but emits ONLY HTML parity comments (gated by NG_SEO_PARITY constant) so the live SEO surface is unchanged. Real emission + Rank Math suppression land in later phases.
- * Version: 1.22.0
+ * Version: 1.22.4
  * Author: Fahad Almansour
  *
  * Phase R1 contract
@@ -38,7 +38,7 @@ if ( ! class_exists('NG_SEO_Engine') ) :
 
 class NG_SEO_Engine {
 
-    const VERSION = '1.22.0';
+    const VERSION = '1.22.4';
     const SITE_NAME = 'NeoGen Store';
     const SITE_NAME_AR = 'نيوجين ستور';
     const TITLE_SEPARATOR = ' | ';
@@ -414,10 +414,12 @@ class NG_SEO_Engine {
     /* =====================================================================
      * JSON-LD GRAPH
      *
-     * R1 emits a complete graph in PARITY comments only. The actual
-     * Store/WebSite/WebPage emission stays in mu-plugins/neogen-theme.php
-     * unchanged. R4 will move that here and add suppression for Rank
-     * Math's emission.
+     * R5 ships the actual graph builder. When the cutover toggle is ON
+     * (see neogen-seo-cutover.php), emit_json_ld() prints a single
+     * <script type="application/ld+json"> with the @graph below, and
+     * the legacy Store emitter in neogen-theme.php is short-circuited
+     * to avoid dual emission. Rank Math's JSON-LD is forced empty by
+     * the cutover plugin's `rank_math/json_ld` filter.
      * ===================================================================== */
 
     public static function json_ld_types() {
@@ -456,6 +458,311 @@ class NG_SEO_Engine {
         return $types;
     }
 
+    /**
+     * Build the full @graph for the current surface.
+     */
+    public static function json_ld_graph() {
+        $home    = trailingslashit( home_url('/') );
+        $surface = self::surface();
+        $graph   = [];
+
+        $store = self::node_store($home);
+        if ( $store ) $graph[] = $store;
+
+        $graph[] = self::node_website($home);
+        $graph[] = self::node_webpage($home, $surface);
+
+        switch ( $surface ) {
+            case 'product':
+                $product = self::node_product($home);
+                if ( $product ) $graph[] = $product;
+                $bc = self::node_breadcrumbs($surface);
+                if ( $bc ) $graph[] = $bc;
+                break;
+            case 'product_category':
+            case 'category':
+            case 'tag':
+            case 'shop':
+                $collection = self::node_collection($home, $surface);
+                if ( $collection ) $graph[] = $collection;
+                $bc = self::node_breadcrumbs($surface);
+                if ( $bc ) $graph[] = $bc;
+                break;
+            case 'post':
+                $article = self::node_article($home);
+                if ( $article ) $graph[] = $article;
+                $bc = self::node_breadcrumbs($surface);
+                if ( $bc ) $graph[] = $bc;
+                break;
+            case 'page':
+                $bc = self::node_breadcrumbs($surface);
+                if ( $bc ) $graph[] = $bc;
+                break;
+        }
+
+        $out = [
+            '@context' => 'https://schema.org',
+            '@graph'   => array_values( array_filter($graph) ),
+        ];
+        return apply_filters('neogen_seo_jsonld_graph', $out, $surface);
+    }
+
+    private static function node_store( $home ) {
+        if ( ! function_exists('ng_cr') ) return null;
+        $cr       = ng_cr();
+        $tel_e164 = preg_replace('/\s+/', '', $cr['phone_mobile']);
+
+        $identifier = [[
+            '@type'      => 'PropertyValue',
+            'propertyID' => 'Saudi Ministry of Commerce Unified CR Number',
+            'value'      => $cr['cr'],
+        ]];
+        if ( ! empty($cr['regulatory']) && is_array($cr['regulatory']) ) {
+            foreach ( $cr['regulatory'] as $r ) {
+                $identifier[] = [
+                    '@type'      => 'PropertyValue',
+                    'propertyID' => $r['authority_en'] . ' Registration',
+                    'value'      => $r['number'],
+                ];
+            }
+        }
+        if ( ! empty($cr['activities']) && is_array($cr['activities']) ) {
+            foreach ( $cr['activities'] as $a ) {
+                $identifier[] = [
+                    '@type'      => 'PropertyValue',
+                    'propertyID' => 'ISIC v4 ' . $a['code'],
+                    'value'      => $a['en'],
+                ];
+            }
+        }
+
+        return [
+            '@type'         => 'Store',
+            '@id'           => $home . '#organization',
+            'name'          => $cr['brand_en'],
+            'alternateName' => [ $cr['brand_ar'], $cr['legal_name_en'] ],
+            'legalName'     => $cr['legal_name_ar'],
+            'url'           => $home,
+            'email'         => $cr['email'],
+            'telephone'     => $tel_e164,
+            'foundingDate'  => $cr['registered_ad'],
+            'founder'       => ['@type' => 'Person', 'name' => $cr['owner']],
+            'address'       => ['@type' => 'PostalAddress', 'addressCountry' => 'SA'],
+            'areaServed'    => ['@type' => 'Country', 'name' => 'Saudi Arabia'],
+            'inLanguage'    => ['ar-SA', 'en'],
+            'identifier'    => $identifier,
+            'knowsAbout'    => [
+                'System integration', 'Network infrastructure', 'Homelab hardware',
+                'Smart home systems', 'Gaming hardware', 'E-commerce',
+            ],
+            'contactPoint'  => [[
+                '@type'             => 'ContactPoint',
+                'telephone'         => $tel_e164,
+                'email'             => $cr['email'],
+                'contactType'       => 'customer support',
+                'availableLanguage' => ['Arabic', 'English'],
+                'areaServed'        => 'SA',
+            ]],
+        ];
+    }
+
+    private static function node_website( $home ) {
+        $name = function_exists('ng_cr') ? ng_cr()['brand_en'] : self::SITE_NAME;
+        return [
+            '@type'      => 'WebSite',
+            '@id'        => $home . '#website',
+            'url'        => $home,
+            'name'       => $name,
+            'inLanguage' => ['ar-SA', 'en'],
+            'publisher'  => ['@id' => $home . '#organization'],
+            'potentialAction' => [
+                '@type'       => 'SearchAction',
+                'target'      => [
+                    '@type'       => 'EntryPoint',
+                    'urlTemplate' => $home . '?s={search_term_string}',
+                ],
+                'query-input' => 'required name=search_term_string',
+            ],
+        ];
+    }
+
+    private static function node_webpage( $home, $surface ) {
+        $canon = self::canonical();
+        $url   = $canon !== '' ? $canon : $home;
+        $id    = trailingslashit($url) . '#webpage';
+
+        return [
+            '@type'      => 'WebPage',
+            '@id'        => $id,
+            'url'        => $url,
+            'name'       => self::title(),
+            'description'=> self::description(),
+            'isPartOf'   => ['@id' => $home . '#website'],
+            'about'      => ['@id' => $home . '#organization'],
+            'inLanguage' => is_rtl() ? 'ar-SA' : 'en',
+        ];
+    }
+
+    private static function node_product( $home ) {
+        if ( ! function_exists('wc_get_product') ) return null;
+        $product = wc_get_product( get_the_ID() );
+        if ( ! $product ) return null;
+
+        $url = get_permalink( $product->get_id() ) ?: $home;
+        $node = [
+            '@type'       => 'Product',
+            '@id'         => trailingslashit($url) . '#product',
+            'name'        => $product->get_name(),
+            'url'         => $url,
+            'description' => self::description(),
+            'sku'         => $product->get_sku() ?: null,
+            'brand'       => ['@type' => 'Brand', 'name' => self::SITE_NAME],
+        ];
+
+        if ( has_post_thumbnail($product->get_id()) ) {
+            $img = wp_get_attachment_image_src( get_post_thumbnail_id($product->get_id()), 'large' );
+            if ( is_array($img) && ! empty($img[0]) ) $node['image'] = $img[0];
+        }
+
+        $price = $product->get_price();
+        if ( $price !== '' ) {
+            $currency = function_exists('get_woocommerce_currency') ? get_woocommerce_currency() : 'SAR';
+            $availability = $product->is_in_stock()
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock';
+            $node['offers'] = [
+                '@type'         => 'Offer',
+                'url'           => $url,
+                'priceCurrency' => $currency,
+                'price'         => (string) $price,
+                'availability'  => $availability,
+                'seller'        => ['@id' => $home . '#organization'],
+            ];
+        }
+
+        return array_filter($node, function ($v) { return $v !== null && $v !== ''; });
+    }
+
+    private static function node_collection( $home, $surface ) {
+        $url  = self::canonical();
+        if ( $url === '' ) $url = $home;
+        $name = self::title();
+
+        return [
+            '@type'      => 'CollectionPage',
+            '@id'        => trailingslashit($url) . '#collection',
+            'url'        => $url,
+            'name'       => $name,
+            'description'=> self::description(),
+            'isPartOf'   => ['@id' => $home . '#website'],
+            'inLanguage' => is_rtl() ? 'ar-SA' : 'en',
+        ];
+    }
+
+    private static function node_article( $home ) {
+        $post_id = get_the_ID();
+        if ( ! $post_id ) return null;
+        $url = get_permalink($post_id) ?: $home;
+
+        $node = [
+            '@type'         => 'Article',
+            '@id'           => trailingslashit($url) . '#article',
+            'headline'      => get_the_title($post_id),
+            'description'   => self::description(),
+            'url'           => $url,
+            'datePublished' => get_the_date('c', $post_id),
+            'dateModified'  => get_the_modified_date('c', $post_id),
+            'mainEntityOfPage' => ['@id' => trailingslashit($url) . '#webpage'],
+            'publisher'     => ['@id' => $home . '#organization'],
+            'inLanguage'    => is_rtl() ? 'ar-SA' : 'en',
+        ];
+
+        if ( has_post_thumbnail($post_id) ) {
+            $img = wp_get_attachment_image_src( get_post_thumbnail_id($post_id), 'large' );
+            if ( is_array($img) && ! empty($img[0]) ) $node['image'] = $img[0];
+        }
+
+        return $node;
+    }
+
+    private static function node_breadcrumbs( $surface ) {
+        $home  = trailingslashit( home_url('/') );
+        $items = [[
+            'name' => is_rtl() ? 'الرئيسية' : 'Home',
+            'item' => $home,
+        ]];
+
+        switch ( $surface ) {
+            case 'product':
+                if ( function_exists('wc_get_page_permalink') ) {
+                    $shop = wc_get_page_permalink('shop');
+                    if ( $shop ) $items[] = ['name' => is_rtl() ? 'المتجر' : 'Shop', 'item' => $shop];
+                }
+                $terms = get_the_terms( get_the_ID(), 'product_cat' );
+                if ( is_array($terms) && ! empty($terms) ) {
+                    $term = $terms[0];
+                    $tlink = get_term_link($term);
+                    if ( ! is_wp_error($tlink) ) $items[] = ['name' => $term->name, 'item' => $tlink];
+                }
+                $items[] = ['name' => get_the_title(), 'item' => get_permalink()];
+                break;
+            case 'product_category':
+            case 'category':
+            case 'tag':
+                $term = get_queried_object();
+                if ( $term && isset($term->name) ) {
+                    $tlink = get_term_link( (int) $term->term_id );
+                    if ( ! is_wp_error($tlink) ) $items[] = ['name' => $term->name, 'item' => $tlink];
+                }
+                break;
+            case 'shop':
+                if ( function_exists('wc_get_page_permalink') ) {
+                    $shop = wc_get_page_permalink('shop');
+                    if ( $shop ) $items[] = ['name' => is_rtl() ? 'المتجر' : 'Shop', 'item' => $shop];
+                }
+                break;
+            case 'post':
+            case 'page':
+                $items[] = ['name' => get_the_title(), 'item' => get_permalink()];
+                break;
+            default:
+                return null;
+        }
+
+        $list = [];
+        foreach ( $items as $i => $row ) {
+            $list[] = [
+                '@type'    => 'ListItem',
+                'position' => $i + 1,
+                'name'     => (string) $row['name'],
+                'item'     => (string) $row['item'],
+            ];
+        }
+        return [
+            '@type'           => 'BreadcrumbList',
+            '@id'             => trailingslashit( self::canonical() ?: $home ) . '#breadcrumbs',
+            'itemListElement' => $list,
+        ];
+    }
+
+    /**
+     * Emit the JSON-LD graph as a <script type="application/ld+json">.
+     * Wired up by the cutover plugin only when the toggle is ON.
+     */
+    public static function emit_json_ld() {
+        if ( is_admin() || is_customize_preview() ) return;
+        try {
+            $graph = self::json_ld_graph();
+        } catch ( Throwable $e ) {
+            echo "\n<!-- NG-SEO JSON-LD ERROR: " . esc_html($e->getMessage()) . " -->\n";
+            return;
+        }
+        $json = wp_json_encode($graph, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        if ( ! $json ) return;
+        echo "\n<!-- NG-SEO json-ld · v" . esc_html(self::VERSION) . " -->\n";
+        echo '<script type="application/ld+json">' . "\n" . $json . "\n" . '</script>' . "\n";
+    }
+
     /* =====================================================================
      * PARITY COMMENT EMITTER (the only thing R1 actually emits)
      * ===================================================================== */
@@ -487,6 +794,9 @@ class NG_SEO_Engine {
                 echo '<!-- NG-SEO tw: ' . esc_html($k) . ' = ' . esc_html((string) $v) . " -->\n";
             }
             echo '<!-- NG-SEO json_ld_types: ' . esc_html(implode(', ', $ld_types)) . " -->\n";
+            $graph = self::json_ld_graph();
+            $count = isset($graph['@graph']) && is_array($graph['@graph']) ? count($graph['@graph']) : 0;
+            echo '<!-- NG-SEO json_ld_nodes: ' . (int) $count . " -->\n";
             echo "<!-- ===== /NG-SEO PARITY ===== -->\n\n";
         } catch ( Throwable $e ) {
             echo "\n<!-- NG-SEO PARITY ERROR: " . esc_html($e->getMessage()) . " -->\n";
