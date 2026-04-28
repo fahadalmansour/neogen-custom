@@ -41,3 +41,5 @@ The admin-bar badge reads `NEOGEN_CUSTOM_VERSION`; if it doesn't update after a 
 ## Brand assets
 
 The `NeoGen Store · Brand Kit v1.0*`, `NeoGen Store — Brand System v1.0*`, `NeoGen — Logo Size Kit*`, and `NeoGen — Monogram + Wordmark Variations*` HTML files + `_files/` folders at the repo root are static brand-spec exports. They are not deployed and are unrelated to the code overlays — ignore them when reasoning about runtime behaviour.
+
+`NeoGen Store — Brand Tokens v2.0.md` (repo root) is the **canonical source of record for colour decisions** as of Phase R6 (2026-04-29). It supersedes the v1.0/v1.1 HTML files for palette / shadow / radius / border choices. Typography + brand voice rules in the v1.1 HTML still apply unchanged. When in doubt about a colour or shadow token, check `mu-plugins/neogen-theme-assets/neogen.css` `:root` block first (deployed source of truth), then v2.0.md for rationale.

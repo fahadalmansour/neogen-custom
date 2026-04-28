@@ -60,3 +60,9 @@ agent-skills/
 !brand/**/*.png
 !brand/**/*.svg
 !brand/**/*.html
+
+# Claude Code plugin packages (user-side authoring, not deploy artefacts)
+*.plugin
+
+# Skill / plan exploration outputs
+outputs/
