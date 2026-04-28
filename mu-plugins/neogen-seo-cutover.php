@@ -65,11 +65,17 @@ add_action('init', function () {
     add_action( 'wp_head', ['NG_SEO_Engine', 'emit_json_ld'], 20 );
 
     // 3. Suppress Rank Math frontend output.
+    //    NOTE — `rank_math/frontend/breadcrumb/items` is INTENTIONALLY in the
+    //    array-returning group below, NOT this string group. It returns the
+    //    crumb array which `Breadcrumbs::get_crumbs()` then `count()`s — a
+    //    string here triggers `count(): Argument #1 must be array, string
+    //    given` and fatals the whole front-end (production incident
+    //    2026-04-28). Same goes for any other RM filter whose return type is
+    //    array — keep them OUT of this loop.
     foreach ( [
         'rank_math/frontend/title',
         'rank_math/frontend/description',
         'rank_math/frontend/canonical',
-        'rank_math/frontend/breadcrumb/items',
         'rank_math/opengraph/facebook/og_title',
         'rank_math/opengraph/facebook/og_description',
         'rank_math/opengraph/facebook/og_url',
@@ -85,6 +91,7 @@ add_action('init', function () {
     ] as $f ) {
         add_filter( $f, '__return_empty_string', 9999 );
     }
+    add_filter( 'rank_math/frontend/breadcrumb/items',  '__return_empty_array',  9999, 2 );
     add_filter( 'rank_math/json_ld',                    '__return_empty_array',  9999, 2 );
     add_filter( 'rank_math/opengraph/disable_facebook', '__return_true',         9999 );
     add_filter( 'rank_math/opengraph/disable_twitter',  '__return_true',         9999 );
