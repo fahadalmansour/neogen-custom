@@ -115,7 +115,8 @@ if (function_exists('wc_get_products')) {
         }
     }
 }
-$picks = array_slice($picks, 0, 4);
+// 3 cards keeps a clean single row in the 3-column grid below.
+$picks = array_slice($picks, 0, 3);
 
 // Ticker — latest 7 with SKUs.
 $ticker_products = [];
@@ -377,10 +378,10 @@ $rack_letter = function ($i) {
 
           // Image — real product featured image, or fallback SVG
           $img_id  = $product->get_image_id();
-          $img     = $img_id ? wp_get_attachment_image($img_id, 'medium_large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
+          $img     = $img_id ? wp_get_attachment_image($img_id, 'large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
           $has_gift_img = false;
           if (function_exists('ng_gift_card_image_html')) {
-              $gift_img = ng_gift_card_image_html($product, 'medium_large', $name_en, null, ['class' => 'ng-product-img']);
+              $gift_img = ng_gift_card_image_html($product, 'large', $name_en, null, ['class' => 'ng-product-img']);
               if ($gift_img) {
                   $img = $gift_img;
                   $has_gift_img = true;
@@ -393,7 +394,7 @@ $rack_letter = function ($i) {
           if ( ! empty( $gallery_ids ) && ! $has_gift_img ) {
               $img_alt_html = wp_get_attachment_image(
                   (int) $gallery_ids[0],
-                  'medium_large',
+                  'large',
                   false,
                   [
                       'class'    => 'ng-product-img-alt',
