@@ -213,7 +213,7 @@ function ng_coming_soon_render() {
 <title>قريبًا · NEOGEN STORE</title>
 <meta name="description" content="<?php echo esc_attr($message); ?>">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0099cc">
+<meta name="theme-color" content="#38BDF8">
 <link rel="icon" href="<?php echo esc_url($favicon_ico); ?>" sizes="any">
 <link rel="icon" type="image/svg+xml" href="<?php echo esc_url($favicon_svg); ?>">
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url($apple_icon); ?>">
@@ -225,24 +225,24 @@ function ng_coming_soon_render() {
   html, body { margin: 0; padding: 0; }
   body {
     min-height: 100vh;
-    background: #faf7f0;
-    color: #0b0b0b;
+    background: #F8FAFC;
+    color: #0F172A;
     font-family: 'Tajawal', system-ui, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
     background-image:
-      radial-gradient(circle at 20% 0%, rgba(0,153,204,0.08), transparent 50%),
-      radial-gradient(circle at 80% 100%, rgba(0,153,204,0.06), transparent 60%);
+      radial-gradient(circle at 20% 0%, rgba(56,189,248,0.08), transparent 50%),
+      radial-gradient(circle at 80% 100%, rgba(56,189,248,0.06), transparent 60%);
   }
   .ng-cs-grid {
     position: fixed;
     inset: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(rgba(0,153,204,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,153,204,0.05) 1px, transparent 1px);
+      linear-gradient(rgba(56,189,248,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     z-index: 0;
   }
@@ -252,10 +252,10 @@ function ng_coming_soon_render() {
     max-width: 720px;
     width: 100%;
     background: #ffffff;
-    border: 1px solid #0099cc;
+    border: 1px solid #38BDF8;
     border-radius: 8px;
     padding: 56px 44px;
-    box-shadow: 0 30px 60px rgba(11,11,11,0.06);
+    box-shadow: 0 30px 60px rgba(15,23,42,0.06);
   }
   .ng-cs-kicker {
     display: inline-flex;
@@ -264,14 +264,14 @@ function ng_coming_soon_render() {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     letter-spacing: 0.18em;
-    color: #0099cc;
+    color: #38BDF8;
     text-transform: uppercase;
     margin-bottom: 22px;
   }
   .ng-cs-kicker .led {
     width: 7px; height: 7px; border-radius: 50%;
-    background: #0099cc;
-    box-shadow: 0 0 10px #0099cc;
+    background: #38BDF8;
+    box-shadow: 0 0 10px #38BDF8;
     animation: ng-cs-pulse 2.4s ease-in-out infinite;
   }
   @keyframes ng-cs-pulse {
@@ -290,23 +290,23 @@ function ng_coming_soon_render() {
     font-weight: 700;
     line-height: 1.2;
     margin: 0 0 8px;
-    color: #0b0b0b;
+    color: #0F172A;
   }
-  .ng-cs-h1 .accent { color: #0099cc; }
+  .ng-cs-h1 .accent { color: #38BDF8; }
   .ng-cs-en {
     font-family: 'Chakra Petch', sans-serif;
     font-size: 14px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: #334155;
     margin-bottom: 22px;
   }
-  .ng-cs-en .neo { color: #0b0b0b; font-weight: 300; }
-  .ng-cs-en .gen { color: #0099cc; font-weight: 700; }
+  .ng-cs-en .neo { color: #0F172A; font-weight: 300; }
+  .ng-cs-en .gen { color: #38BDF8; font-weight: 700; }
   .ng-cs-msg {
     font-size: 18px;
     line-height: 1.7;
-    color: #3a3a3a;
+    color: #334155;
     margin: 0 0 28px;
   }
   .ng-cs-countdown {
@@ -320,8 +320,8 @@ function ng_coming_soon_render() {
     flex: 1;
     min-width: 70px;
     padding: 14px 8px;
-    background: #e1e8ed;
-    border: 1px solid #c5d2db;
+    background: #EEF2F6;
+    border: 1px solid #CBD5E1;
     border-radius: 4px;
     text-align: center;
   }
@@ -329,7 +329,7 @@ function ng_coming_soon_render() {
     font-family: 'Chakra Petch', sans-serif;
     font-size: 32px;
     font-weight: 700;
-    color: #0099cc;
+    color: #38BDF8;
     line-height: 1;
   }
   .ng-cs-lbl {
@@ -337,7 +337,7 @@ function ng_coming_soon_render() {
     font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: #334155;
     margin-top: 6px;
   }
   .ng-cs-cta {
@@ -361,17 +361,17 @@ function ng_coming_soon_render() {
   }
   .ng-cs-btn:hover { transform: translateY(-1px); }
   .ng-cs-btn-pri {
-    background: #0099cc;
+    background: #38BDF8;
     color: #ffffff;
   }
   .ng-cs-btn-ghost {
     background: transparent;
-    color: #0b0b0b;
-    border: 1px solid #0b0b0b;
+    color: #0F172A;
+    border: 1px solid #0F172A;
   }
   .ng-cs-foot {
     padding-top: 24px;
-    border-top: 1px solid #e1e8ed;
+    border-top: 1px solid #EEF2F6;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -381,7 +381,7 @@ function ng_coming_soon_render() {
     text-transform: uppercase;
     color: #6a6a6a;
   }
-  .ng-cs-foot b { color: #0b0b0b; }
+  .ng-cs-foot b { color: #0F172A; }
   @media (max-width: 560px) {
     .ng-cs-card { padding: 36px 24px; }
     .ng-cs-h1 { font-size: 32px; }

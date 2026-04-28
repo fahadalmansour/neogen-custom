@@ -185,9 +185,9 @@ function ng_seo_cutover_render() {
       <h2>Current state</h2>
       <table class="widefat striped" style="max-width:720px;">
         <tbody>
-          <tr><th>Cutover toggle</th><td><strong style="color:<?php echo $on ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $on ? 'ON — engine emits, Rank Math suppressed' : 'OFF — Rank Math emits, engine in shadow'; ?></strong></td></tr>
+          <tr><th>Cutover toggle</th><td><strong style="color:<?php echo $on ? '#22C55E' : '#EF4444'; ?>;"><?php echo $on ? 'ON — engine emits, Rank Math suppressed' : 'OFF — Rank Math emits, engine in shadow'; ?></strong></td></tr>
           <tr><th>Source</th><td><?php echo $forced ? 'wp-config <code>NG_SEO_ENGINE_ENABLED</code> (overrides UI)' : 'admin option <code>' . esc_html(NG_SEO_CUTOVER_OPTION) . '</code>'; ?></td></tr>
-          <tr><th>Engine class loaded</th><td><?php echo class_exists('NG_SEO_Engine') ? '<strong style="color:#1f9d57;">yes</strong>' : '<strong style="color:#c14a1a;">no — neogen-seo-engine.php not loaded</strong>'; ?></td></tr>
+          <tr><th>Engine class loaded</th><td><?php echo class_exists('NG_SEO_Engine') ? '<strong style="color:#22C55E;">yes</strong>' : '<strong style="color:#EF4444;">no — neogen-seo-engine.php not loaded</strong>'; ?></td></tr>
           <tr><th>Rank Math active</th><td><?php
             if ( ! function_exists('is_plugin_active') ) require_once ABSPATH . 'wp-admin/includes/plugin.php';
             echo is_plugin_active('seo-by-rank-math/rank-math.php') ? 'yes' : 'no';
@@ -246,7 +246,7 @@ add_action('admin_notices', function () {
 
     $on  = ng_seo_engine_enabled();
     $url = admin_url('tools.php?page=neogen-seo-cutover');
-    $color = $on ? '#1f9d57' : '#c14a1a';
+    $color = $on ? '#22C55E' : '#EF4444';
     $label = $on ? 'engine ON · Rank Math suppressed' : 'engine OFF · Rank Math emits';
     echo '<div class="notice notice-info"><p><strong>SEO emission:</strong> '
         . '<span style="color:' . esc_attr($color) . ';">' . esc_html($label) . '</span>'

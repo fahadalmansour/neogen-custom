@@ -83,8 +83,8 @@ function ng_seo_metabox_render( $post ) {
         }
         .ng-seo-row textarea { min-height: 64px; resize: vertical; }
         .ng-seo-counter { font-size: 12px; color: #555; }
-        .ng-seo-counter.warn { color: #c14a1a; }
-        .ng-seo-counter.ok { color: #1f9d57; }
+        .ng-seo-counter.warn { color: #EF4444; }
+        .ng-seo-counter.ok { color: #22C55E; }
         .ng-seo-help { font-size: 12px; color: #6a6a6a; }
         .ng-seo-fallback { font-size: 12px; color: #6a6a6a; padding: 6px 8px; background: #f6f7f7; border-left: 3px solid #ccc; margin-top: 4px; }
     </style>

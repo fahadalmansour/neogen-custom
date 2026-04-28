@@ -18,35 +18,37 @@
 
 defined('ABSPATH') || exit;
 ?>
-/* NeoGen email — operator-console aesthetic. */
+/* NeoGen email — Sky + Cool White (R6). Brand bar at top of
+   template_header keeps the locked dark logo environment; the
+   rest of the email is now light. */
 
-#wrapper, body { background-color: #050505 !important; }
+#wrapper, body { background-color: #F8FAFC !important; }
 
-#template_container, #template_body, #body_content, #template_header {
-  background-color: #0b0a08 !important;
-  border-color: rgba(0, 209, 255, 0.16) !important;
-  border-radius: 6px;
+#template_container, #template_body, #body_content {
+  background-color: #FFFFFF !important;
+  border-color: rgba(56, 189, 248, 0.16) !important;
+  border-radius: 14px;
 }
 
-#body_content_inner { color: #cfc9bb !important; }
+#body_content_inner { color: #334155 !important; }
 
 #body_content table, #body_content td {
-  background-color: #0b0a08 !important;
-  color: #cfc9bb !important;
-  border-color: rgba(229, 227, 221, 0.08) !important;
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
 }
 
 #body_content h1, #body_content h2, #body_content h3 {
-  color: #e5e3dd !important;
+  color: #0F172A !important;
   font-family: 'Chakra Petch', 'IBM Plex Sans', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   margin: 0 0 12px 0;
 }
 
 #body_content h2 { font-size: 18px; }
-#body_content h3 { font-size: 14px; color: #00d1ff; letter-spacing: 0.12em; }
+#body_content h3 { font-size: 14px; color: #38BDF8; letter-spacing: 0.12em; }
 
 #body_content p { margin: 0 0 12px 0; line-height: 1.65; font-family: 'Tajawal','Arial',sans-serif; font-size: 14px; }
 
@@ -54,7 +56,7 @@ defined('ABSPATH') || exit;
 #body_content table.td {
   border-collapse: collapse !important;
   width: 100% !important;
-  border: 1px solid rgba(0, 209, 255, 0.16) !important;
+  border: 1px solid rgba(56, 189, 248, 0.16) !important;
   font-family: 'IBM Plex Mono', 'Courier New', monospace !important;
   font-size: 12px !important;
 }
@@ -65,27 +67,27 @@ defined('ABSPATH') || exit;
   font-size: 10px !important;
   letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
-  color: #8f8a7e !important;
-  background-color: #050505 !important;
-  border-bottom: 1px solid rgba(0, 209, 255, 0.16) !important;
+  color: #64748B !important;
+  background-color: #F1F5F9 !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.16) !important;
 }
 
 #body_content table.td td {
   padding: 12px 14px !important;
   vertical-align: top;
-  color: #e5e3dd !important;
-  border-bottom: 1px solid rgba(229, 227, 221, 0.08) !important;
+  color: #0F172A !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
   font-family: 'IBM Plex Mono', 'Courier New', monospace !important;
   font-size: 13px !important;
 }
 
 #body_content table.td tfoot th {
-  background-color: #050505 !important;
-  color: #8f8a7e !important;
+  background-color: #F8FAFC !important;
+  color: #64748B !important;
 }
 
 #body_content table.td tfoot td {
-  background-color: #050505 !important;
+  background-color: #F8FAFC !important;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -93,15 +95,15 @@ defined('ABSPATH') || exit;
 #body_content table.td tr.order-total td,
 #body_content table.td tr.order-total th {
   font-size: 14px !important;
-  color: #00d1ff !important;
+  color: #38BDF8 !important;
   font-weight: 700 !important;
 }
 
 /* Address columns */
 #addresses {
-  background-color: #050505 !important;
-  border: 1px solid rgba(0, 209, 255, 0.16) !important;
-  border-radius: 4px;
+  background-color: #F1F5F9 !important;
+  border: 1px solid rgba(56, 189, 248, 0.16) !important;
+  border-radius: 8px;
   padding: 18px !important;
   margin: 20px 0 !important;
   width: 100% !important;
@@ -115,7 +117,7 @@ defined('ABSPATH') || exit;
 }
 
 #addresses h2 {
-  color: #00d1ff !important;
+  color: #38BDF8 !important;
   font-family: 'IBM Plex Mono', 'Courier New', monospace !important;
   font-size: 10px !important;
   letter-spacing: 0.22em !important;
@@ -125,7 +127,7 @@ defined('ABSPATH') || exit;
 
 #addresses address {
   font-style: normal;
-  color: #cfc9bb !important;
+  color: #334155 !important;
   font-family: 'Tajawal', 'Arial', sans-serif !important;
   font-size: 13px !important;
   line-height: 1.55;
@@ -133,9 +135,9 @@ defined('ABSPATH') || exit;
 
 /* Buttons / links inside email body */
 #body_content a {
-  color: #00d1ff !important;
+  color: #38BDF8 !important;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 209, 255, 0.34);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.34);
 }
 
 /* Woo notices (rare in customer emails but present in admin) */

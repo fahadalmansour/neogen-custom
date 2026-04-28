@@ -810,8 +810,8 @@ add_action('wp_enqueue_scripts', function () {
 add_action('wp_head', function () {
     echo "\n" . '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-    // Match the manifest theme_color (#0099cc) + light operator-console aesthetic.
-    echo '<meta name="theme-color" content="#0099cc">' . "\n";
+    // Match the manifest theme_color (#38BDF8 — R6 Sky + Cool White) + light operator-console aesthetic.
+    echo '<meta name="theme-color" content="#38BDF8">' . "\n";
     echo '<meta name="color-scheme" content="light only">' . "\n";
 }, 2);
 
@@ -857,7 +857,7 @@ add_action('wp_head', function () {
     echo '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url($base . '/icon-16.png') . '">' . "\n";
     echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url($base . '/icon-32.png') . '">' . "\n";
     echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url($base . '/apple-touch-icon.png') . '">' . "\n";
-    echo '<link rel="mask-icon" href="' . esc_url($base . '/safari-pinned-tab.svg') . '" color="#0099cc">' . "\n";
+    echo '<link rel="mask-icon" href="' . esc_url($base . '/safari-pinned-tab.svg') . '" color="#38BDF8">' . "\n";
     echo '<link rel="manifest" href="' . esc_url($base . '/site.webmanifest') . '">' . "\n";
 }, 1);
 

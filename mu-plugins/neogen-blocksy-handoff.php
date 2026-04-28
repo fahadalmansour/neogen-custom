@@ -134,8 +134,8 @@ function ng_blocksy_handoff_render() {
       <h2>Current state</h2>
       <table class="widefat striped" style="max-width:720px;">
         <tbody>
-          <tr><th>Chrome handoff (Phase 2b)</th><td><strong style="color:<?php echo $on ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $on ? 'ON — Blocksy header/footer' : 'OFF — mu-plugin header/footer'; ?></strong> · source: <?php echo $forced_chrome ? 'wp-config <code>NG_BLOCKSY_CHROME_HANDOFF</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_HANDOFF_OPTION) . '</code>'; ?></td></tr>
-          <tr><th>Dark mode allowed (Phase 2c)</th><td><strong style="color:<?php echo $dark ? '#1f9d57' : '#c14a1a'; ?>;"><?php echo $dark ? 'ON — Blocksy color-scheme picker' : 'OFF — site locked to light'; ?></strong> · source: <?php echo $forced_dark ? 'wp-config <code>NG_BLOCKSY_DARK_MODE_ALLOWED</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_DARK_MODE_OPTION) . '</code>'; ?></td></tr>
+          <tr><th>Chrome handoff (Phase 2b)</th><td><strong style="color:<?php echo $on ? '#22C55E' : '#EF4444'; ?>;"><?php echo $on ? 'ON — Blocksy header/footer' : 'OFF — mu-plugin header/footer'; ?></strong> · source: <?php echo $forced_chrome ? 'wp-config <code>NG_BLOCKSY_CHROME_HANDOFF</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_HANDOFF_OPTION) . '</code>'; ?></td></tr>
+          <tr><th>Dark mode allowed (Phase 2c)</th><td><strong style="color:<?php echo $dark ? '#22C55E' : '#EF4444'; ?>;"><?php echo $dark ? 'ON — Blocksy color-scheme picker' : 'OFF — site locked to light'; ?></strong> · source: <?php echo $forced_dark ? 'wp-config <code>NG_BLOCKSY_DARK_MODE_ALLOWED</code>' : 'admin option <code>' . esc_html(NG_BLOCKSY_DARK_MODE_OPTION) . '</code>'; ?></td></tr>
           <tr><th>Body classes when OFF</th><td><code>ng-mu-chrome</code> (chrome OFF), <code>ng-light-only</code> (dark mode OFF) — both consumed by <code>neogen.css</code></td></tr>
         </tbody>
       </table>
@@ -197,8 +197,8 @@ add_action('admin_notices', function () {
     $on   = ng_blocksy_chrome_handoff();
     $dark = ng_blocksy_dark_mode_allowed();
     $url  = admin_url('tools.php?page=neogen-blocksy-handoff');
-    $chrome_color = $on   ? '#1f9d57' : '#c14a1a';
-    $dark_color   = $dark ? '#1f9d57' : '#c14a1a';
+    $chrome_color = $on   ? '#22C55E' : '#EF4444';
+    $dark_color   = $dark ? '#22C55E' : '#EF4444';
     $chrome_label = $on   ? 'Blocksy chrome' : 'mu-plugin chrome';
     $dark_label   = $dark ? 'dark mode allowed' : 'light only';
     echo '<div class="notice notice-info"><p><strong>Storefront:</strong> '

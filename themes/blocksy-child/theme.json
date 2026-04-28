@@ -9,20 +9,23 @@
       "defaultDuotone": false,
       "defaultGradients": false,
       "palette": [
-        { "slug": "accent",      "name": "Accent",       "color": "#0099cc" },
-        { "slug": "accent-soft", "name": "Accent Soft",  "color": "#00b8e6" },
-        { "slug": "accent-deep", "name": "Accent Deep",  "color": "#006c91" },
-        { "slug": "signal",      "name": "Signal",       "color": "#1f9d57" },
-        { "slug": "alert",       "name": "Alert",        "color": "#c14a1a" },
-        { "slug": "indigo",      "name": "Indigo",       "color": "#1a2b4b" },
-        { "slug": "indigo-deep", "name": "Indigo Deep",  "color": "#0f1a2e" },
-        { "slug": "bg",          "name": "Background",   "color": "#e1e8ed" },
-        { "slug": "bg-alt",      "name": "Surface Alt",  "color": "#d6dee4" },
-        { "slug": "text",        "name": "Text",         "color": "#0b0b0b" },
-        { "slug": "warm",        "name": "Warm",         "color": "#3a3a3a" },
-        { "slug": "muted",       "name": "Muted",        "color": "#6a6a6a" },
-        { "slug": "dim",         "name": "Dim",          "color": "#9a9a9a" },
-        { "slug": "white",       "name": "White (Warm)", "color": "#0c0c0c" }
+        { "slug": "accent",      "name": "Accent",        "color": "#38BDF8" },
+        { "slug": "accent-soft", "name": "Accent Soft",   "color": "#BAE6FD" },
+        { "slug": "accent-deep", "name": "Accent Deep",   "color": "#0284C7" },
+        { "slug": "signal",      "name": "Signal",        "color": "#22C55E" },
+        { "slug": "alert",       "name": "Alert",         "color": "#EF4444" },
+        { "slug": "warn",        "name": "Warn",          "color": "#F59E0B" },
+        { "slug": "indigo",      "name": "Indigo",        "color": "#1A2B4B" },
+        { "slug": "indigo-deep", "name": "Indigo Deep",   "color": "#0F1A2E" },
+        { "slug": "bg",          "name": "Background",    "color": "#F8FAFC" },
+        { "slug": "bg-alt",      "name": "Surface Alt",   "color": "#EEF2F6" },
+        { "slug": "surface",     "name": "Surface",       "color": "#FFFFFF" },
+        { "slug": "surface-2",   "name": "Surface Raised","color": "#F1F5F9" },
+        { "slug": "text",        "name": "Text",          "color": "#0F172A" },
+        { "slug": "warm",        "name": "Warm",          "color": "#334155" },
+        { "slug": "muted",       "name": "Muted",         "color": "#64748B" },
+        { "slug": "dim",         "name": "Dim",           "color": "#94A3B8" },
+        { "slug": "white",       "name": "Ice",           "color": "#0F172A" }
       ]
     },
     "typography": {
@@ -41,10 +44,12 @@
       "units": ["px", "rem", "em", "%", "vw", "vh"],
       "spacingScale": { "steps": 0 },
       "spacingSizes": [
-        { "slug": "10", "name": "Tiny",   "size": "4px" },
-        { "slug": "20", "name": "Small",  "size": "8px" },
+        { "slug": "10", "name": "Tiny",   "size": "4px"  },
+        { "slug": "20", "name": "Small",  "size": "8px"  },
+        { "slug": "25", "name": "S+",     "size": "12px" },
         { "slug": "30", "name": "Medium", "size": "16px" },
         { "slug": "40", "name": "Large",  "size": "24px" },
+        { "slug": "45", "name": "L+",     "size": "32px" },
         { "slug": "50", "name": "XL",     "size": "40px" },
         { "slug": "60", "name": "2XL",    "size": "64px" }
       ]

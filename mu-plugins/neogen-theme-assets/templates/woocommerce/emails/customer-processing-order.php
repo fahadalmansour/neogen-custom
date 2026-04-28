@@ -22,19 +22,19 @@ defined('ABSPATH') || exit;
 
 do_action('woocommerce_email_header', $email_heading, $email); ?>
 
-<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#e5e3dd;line-height:1.7;margin:0 0 16px 0;">
+<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#0F172A;line-height:1.7;margin:0 0 16px 0;">
   <?php
   /* translators: %s: Customer first name */
   printf(esc_html__('Hi %s,', 'woocommerce'), esc_html($order->get_billing_first_name()));
   ?>
 </p>
 
-<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#cfc9bb;line-height:1.7;margin:0 0 8px 0;">
-  <span style="display:inline-block;width:8px;height:8px;background-color:#3fe88f;border-radius:50%;vertical-align:middle;margin-right:8px;"></span>
+<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#334155;line-height:1.7;margin:0 0 8px 0;">
+  <span style="display:inline-block;width:8px;height:8px;background-color:#22C55E;border-radius:50%;vertical-align:middle;margin-right:8px;"></span>
   <?php esc_html_e('Thanks for your order — we received it and it\'s now being processed.', 'woocommerce'); ?>
 </p>
 
-<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#cfc9bb;line-height:1.7;direction:rtl;text-align:right;margin:0 0 24px 0;">
+<p style="font-family:'Tajawal','Arial',sans-serif;font-size:15px;color:#334155;line-height:1.7;direction:rtl;text-align:right;margin:0 0 24px 0;">
   استلمنا طلبك بنجاح وجاري تجهيزه. سنرسل لك إشعاراً آخر عند الشحن.
 </p>
 
@@ -59,18 +59,18 @@ do_action('woocommerce_email_customer_details', $order, $sent_to_admin, $plain_t
 ?>
 
 <?php if ($additional_content) : ?>
-<div style="margin-top:24px;padding-top:18px;border-top:1px dashed rgba(0,209,255,0.16);font-family:'Tajawal','Arial',sans-serif;font-size:14px;color:#cfc9bb;line-height:1.65;">
+<div style="margin-top:24px;padding-top:18px;border-top:1px dashed rgba(56,189,248,0.16);font-family:'Tajawal','Arial',sans-serif;font-size:14px;color:#334155;line-height:1.65;">
   <?php echo wp_kses_post(wpautop(wptexturize($additional_content))); ?>
 </div>
 <?php endif; ?>
 
-<p style="margin-top:28px;padding-top:18px;border-top:1px dashed rgba(0,209,255,0.16);font-family:'IBM Plex Mono','Courier New',monospace;font-size:11px;letter-spacing:0.12em;color:#8f8a7e;text-transform:uppercase;">
+<p style="margin-top:28px;padding-top:18px;border-top:1px dashed rgba(56,189,248,0.16);font-family:'IBM Plex Mono','Courier New',monospace;font-size:11px;letter-spacing:0.12em;color:#64748B;text-transform:uppercase;">
   <?php
   $cr = function_exists('ng_cr') ? ng_cr() : ['email' => 'support@neogen.store'];
   printf(
     /* translators: %s — support email link */
     esc_html__('Questions about this order? Reply to this email or write to %s.', 'neogen'),
-    '<a href="mailto:' . esc_attr($cr['email']) . '" style="color:#00d1ff;text-decoration:none;border-bottom:1px solid rgba(0,209,255,0.34);">' . esc_html($cr['email']) . '</a>'
+    '<a href="mailto:' . esc_attr($cr['email']) . '" style="color:#38BDF8;text-decoration:none;border-bottom:1px solid rgba(56,189,248,0.34);">' . esc_html($cr['email']) . '</a>'
   );
   ?>
 </p>

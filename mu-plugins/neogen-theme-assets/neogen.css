@@ -5,28 +5,31 @@
    ========================================================== */
 
 :root {
-  --bg: #e1e8ed;
-  --bg-alt: #d6dee4;
-  --surface: #e1e8ed;
-  --surface-2: #d6dee4;
-  --raised: #e1e8ed;
-  --line: rgba(10, 10, 10, 0.14);
-  --line-strong: rgba(10, 10, 10, 0.32);
-  --line-warm: rgba(10, 10, 10, 0.08);
-  --accent: #0099cc;
-  --accent-soft: #00b8e6;
-  --accent-deep: #006c91;
-  --accent-wash: rgba(0, 153, 204, 0.06);
-  --signal: #1f9d57;
-  --alert: #c14a1a;
-  --indigo: #1a2b4b;
-  --indigo-deep: #0f1a2e;
-  --ice: #0c0c0c;
-  --white: #0c0c0c;
-  --text: #0b0b0b;
-  --warm: #3a3a3a;
-  --muted: #6a6a6a;
-  --dim: #9a9a9a;
+  /* v1.23.0 — Phase R6: Sky + Cool White visual tokens. Slugs unchanged
+     so the theme.json bridge keeps mapping; only hex values shifted. */
+  --bg: #F8FAFC;
+  --bg-alt: #EEF2F6;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --raised: #FFFFFF;
+  --line: rgba(15, 23, 42, 0.10);
+  --line-strong: rgba(15, 23, 42, 0.24);
+  --line-warm: rgba(15, 23, 42, 0.06);
+  --accent: #38BDF8;
+  --accent-soft: #BAE6FD;
+  --accent-deep: #0284C7;
+  --accent-wash: rgba(56, 189, 248, 0.06);
+  --signal: #22C55E;
+  --alert: #EF4444;
+  --warn: #F59E0B;
+  --indigo: #1A2B4B;
+  --indigo-deep: #0F1A2E;
+  --ice: #0F172A;
+  --white: #0F172A;
+  --text: #0F172A;
+  --warm: #334155;
+  --muted: #64748B;
+  --dim: #94A3B8;
 
   --font-wordmark: "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
@@ -37,10 +40,21 @@
   --font-ar-body: "Tajawal", "Reem Kufi", system-ui, sans-serif;
 
   --container: 1240px;
-  --radius: 4px;
-  --radius-lg: 6px;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
   --ease: cubic-bezier(0.2, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadow tokens (R6). Replace the 7 hand-rolled shadow rules
+     scattered through this file so future tweaks land in one place. */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 16px 40px -16px rgba(15, 23, 42, 0.18), 0 4px 8px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 32px 72px -32px rgba(15, 23, 42, 0.28), 0 8px 16px rgba(15, 23, 42, 0.06);
+  --shadow-accent: 0 12px 32px -16px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  --shadow-accent-hover: 0 18px 40px -18px rgba(56, 189, 248, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.40);
+  --shadow-focus: 0 0 0 3px rgba(56, 189, 248, 0.18);
 
   --mx: 50%;
   --my: 50%;
@@ -57,19 +71,22 @@
    change unless someone actually edits a value.
    ========================================================== */
 body {
-  --accent:      var(--wp--preset--color--accent,      #0099cc);
-  --accent-soft: var(--wp--preset--color--accent-soft, #00b8e6);
-  --accent-deep: var(--wp--preset--color--accent-deep, #006c91);
-  --signal:      var(--wp--preset--color--signal,      #1f9d57);
-  --alert:       var(--wp--preset--color--alert,       #c14a1a);
-  --indigo:      var(--wp--preset--color--indigo,      #1a2b4b);
-  --indigo-deep: var(--wp--preset--color--indigo-deep, #0f1a2e);
-  --bg:          var(--wp--preset--color--bg,          #e1e8ed);
-  --bg-alt:      var(--wp--preset--color--bg-alt,      #d6dee4);
-  --text:        var(--wp--preset--color--text,        #0b0b0b);
-  --warm:        var(--wp--preset--color--warm,        #3a3a3a);
-  --muted:       var(--wp--preset--color--muted,       #6a6a6a);
-  --dim:         var(--wp--preset--color--dim,         #9a9a9a);
+  --accent:      var(--wp--preset--color--accent,      #38BDF8);
+  --accent-soft: var(--wp--preset--color--accent-soft, #BAE6FD);
+  --accent-deep: var(--wp--preset--color--accent-deep, #0284C7);
+  --signal:      var(--wp--preset--color--signal,      #22C55E);
+  --alert:       var(--wp--preset--color--alert,       #EF4444);
+  --warn:        var(--wp--preset--color--warn,        #F59E0B);
+  --indigo:      var(--wp--preset--color--indigo,      #1A2B4B);
+  --indigo-deep: var(--wp--preset--color--indigo-deep, #0F1A2E);
+  --bg:          var(--wp--preset--color--bg,          #F8FAFC);
+  --bg-alt:      var(--wp--preset--color--bg-alt,      #EEF2F6);
+  --surface:     var(--wp--preset--color--surface,     #FFFFFF);
+  --surface-2:   var(--wp--preset--color--surface-2,   #F1F5F9);
+  --text:        var(--wp--preset--color--text,        #0F172A);
+  --warm:        var(--wp--preset--color--warm,        #334155);
+  --muted:       var(--wp--preset--color--muted,       #64748B);
+  --dim:         var(--wp--preset--color--dim,         #94A3B8);
 
   --font-wordmark:   var(--wp--preset--font-family--wordmark,   "Chakra Petch", "IBM Plex Sans", system-ui, sans-serif);
   --font-sans:       var(--wp--preset--font-family--sans,       "Manrope", "IBM Plex Sans", system-ui, sans-serif);
@@ -127,15 +144,15 @@ body.woocommerce-page {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(600px circle at var(--mx) var(--my), rgba(0, 153, 204, 0.05), transparent 60%),
+    radial-gradient(600px circle at var(--mx) var(--my), rgba(56, 189, 248, 0.05), transparent 60%),
     linear-gradient(rgba(10, 10, 10, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(10, 10, 10, 0.04) 1px, transparent 1px),
     var(--bg) !important;
   background-size: auto, 48px 48px, 48px 48px, auto !important;
   color: var(--warm) !important;
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   overflow-x: hidden;
 }
 
@@ -154,7 +171,7 @@ a:hover { color: var(--accent); }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; background: none; border: 0; color: inherit; cursor: pointer; padding: 0; }
 
-::selection { background: var(--accent); color: #04121a; }
+::selection { background: var(--accent); color: var(--text); }
 
 /* ==========================================================
    FORM FIELDS (global)
@@ -190,7 +207,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.12);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
 }
 
 label {
@@ -399,7 +416,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   align-items: center;
   justify-content: center;
   background: var(--accent);
-  color: #04121a;
+  color: var(--text);
   border-radius: 9px;
   font-weight: 700;
   font-size: 10px;
@@ -437,15 +454,15 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .btn-primary,
 .ng-btn-primary {
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
-  box-shadow: 0 12px 32px -16px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: var(--text);
+  box-shadow: 0 12px 32px -16px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .btn-primary:hover,
 .ng-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 40px -18px rgba(0, 153, 204, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
-  color: #04121a;
+  box-shadow: 0 18px 40px -18px rgba(56, 189, 248, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  color: var(--text);
 }
 
 .btn-ghost,
@@ -502,7 +519,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   left: 0;
   right: 0;
   height: 140px;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 153, 204, 0.07) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.07) 50%, transparent 100%);
   animation: ng-scan 6.4s var(--ease) infinite;
   pointer-events: none;
   z-index: 1;
@@ -538,7 +555,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 24px 60px -32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
   transform: translateY(0);
   transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
@@ -552,12 +569,12 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 153, 204, 0.0) 60%, rgba(0, 153, 204, 0.18) 100%);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.0) 60%, rgba(56, 189, 248, 0.18) 100%);
   pointer-events: none;
 }
 .ng-hero-side:hover {
   transform: translateY(-4px);
-  box-shadow: 0 32px 72px -32px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-xl);
 }
 @media (max-width: 980px) {
   .ng-hero-inner:has(.ng-hero-side) { grid-template-columns: 1fr; }
@@ -700,7 +717,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-hero-brief {
   position: relative;
   padding: 26px;
-  background: #e1e8ed;
+  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   direction: ltr;
@@ -998,7 +1015,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   place-items: center;
   color: var(--accent);
-  background: rgba(0, 153, 204, 0.04);
+  background: rgba(56, 189, 248, 0.04);
 }
 
 .ng-rack-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
@@ -1008,7 +1025,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   height: 64px;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #ffffff;
+  background: var(--surface);
   border: 1px solid var(--line);
   display: block;
   flex-shrink: 0;
@@ -1097,8 +1114,8 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
    ========================================================== */
 .ng-band-dark {
   background:
-    linear-gradient(rgba(0, 153, 204, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 153, 204, 0.018) 1px, transparent 1px),
+    linear-gradient(rgba(56, 189, 248, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.018) 1px, transparent 1px),
     var(--bg-alt);
   background-size: 64px 64px, 64px 64px, auto;
 }
@@ -1115,7 +1132,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   grid-template-rows: auto auto 1fr auto auto;
   gap: 14px;
-  background: #e1e8ed;
+  background: var(--bg);
   border: 1px solid rgba(10, 10, 10, 0.18);
   border-radius: var(--radius-lg);
   padding: 16px;
@@ -1136,9 +1153,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .ng-product:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 38px -22px rgba(0, 153, 204, 0.55), 0 2px 0 rgba(10, 10, 10, 0.06);
+  box-shadow: 0 18px 38px -22px rgba(56, 189, 248, 0.55), 0 2px 0 rgba(10, 10, 10, 0.06);
 }
-.ng-product:hover::after { border-color: rgba(0, 153, 204, 0.55); }
+.ng-product:hover::after { border-color: rgba(56, 189, 248, 0.55); }
 
 .ng-product-head {
   display: flex;
@@ -1173,9 +1190,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.18), transparent 55%),
+    radial-gradient(circle at 50% 55%, rgba(56, 189, 248, 0.18), transparent 55%),
     var(--bg);
-  border: 1px solid rgba(0, 153, 204, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.12);
   border-radius: var(--radius);
   overflow: hidden;
   isolation: isolate;
@@ -1187,8 +1204,8 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(rgba(0, 153, 204, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 153, 204, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
   background-size: 24px 24px, 24px 24px;
   opacity: 0.8;
   pointer-events: none;
@@ -1208,11 +1225,11 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .ng-product-media .ng-gift-card-img {
   object-fit: contain;
   padding: 10px;
-  background: #ffffff;
+  background: var(--surface);
 }
 
 .ng-product-media:has(img) {
-  background: #ffffff;
+  background: var(--surface);
   border-color: rgba(10, 10, 10, 0.12);
 }
 
@@ -1322,7 +1339,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   min-height: 40px;
   padding: 0 16px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border-radius: var(--radius);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -1334,9 +1351,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 }
 
 .ng-product-cta:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 153, 204, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(56, 189, 248, 0.7);
   transform: translateY(-1px);
-  color: #04121a;
+  color: var(--text);
 }
 
 .ng-product-cta svg { width: 13px; height: 13px; }
@@ -1352,7 +1369,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(1200px circle at 90% 50%, rgba(0, 153, 204, 0.08), transparent 60%),
+    radial-gradient(1200px circle at 90% 50%, rgba(56, 189, 248, 0.08), transparent 60%),
     linear-gradient(180deg, var(--surface), var(--bg-alt));
   overflow: hidden;
 }
@@ -1643,7 +1660,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   display: block;
 }
 .ng-voice-photo:hover {
-  box-shadow: 0 0 0 1px rgba(0, 153, 204, 0.5), 0 18px 38px -22px rgba(0, 153, 204, 0.45);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5), 0 18px 38px -22px rgba(56, 189, 248, 0.45);
 }
 @media (max-width: 720px) {
   .ng-voice-inner:has(.ng-voice-photo) {
@@ -1837,14 +1854,14 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   padding: 18px 14px;
   margin: 0 !important;
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.18), transparent 55%),
-    linear-gradient(rgba(0, 153, 204, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 153, 204, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 50% 55%, rgba(56, 189, 248, 0.18), transparent 55%),
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
     var(--bg);
   background-size: auto, 24px 24px, 24px 24px, auto;
-  border: 1px solid rgba(0, 153, 204, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.12);
   border-radius: var(--radius);
-  filter: drop-shadow(0 8px 24px rgba(0, 153, 204, 0.18));
+  filter: drop-shadow(0 8px 24px rgba(56, 189, 248, 0.18));
   box-shadow: none !important;
 }
 
@@ -1896,7 +1913,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   padding: 0 16px !important;
   margin-top: 8px !important;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%) !important;
-  color: #04121a !important;
+  color: var(--text) !important;
   border: 0 !important;
   border-radius: var(--radius) !important;
   font-family: var(--font-mono) !important;
@@ -1910,9 +1927,9 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .woocommerce ul.products li.product .button:hover,
 .woocommerce ul.products li.product a.add_to_cart_button:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(0, 153, 204, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 10px 24px -14px rgba(56, 189, 248, 0.7);
   transform: translateY(-1px);
-  color: #04121a !important;
+  color: var(--text) !important;
 }
 
 /* Sale badge */
@@ -1964,7 +1981,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 .woocommerce nav.woocommerce-pagination ul li span.current,
 .woocommerce nav.woocommerce-pagination ul li a:hover {
   background: var(--accent) !important;
-  color: #04121a !important;
+  color: var(--text) !important;
 }
 
 /* Result count / orderby */
@@ -2028,7 +2045,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 
 .woocommerce div.product .woocommerce-product-gallery img {
   background:
-    radial-gradient(circle at 50% 55%, rgba(0, 153, 204, 0.14), transparent 55%),
+    radial-gradient(circle at 50% 55%, rgba(56, 189, 248, 0.14), transparent 55%),
     var(--bg);
   border-radius: var(--radius);
 }
@@ -2042,7 +2059,7 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   min-height: 48px;
   padding: 0 24px !important;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%) !important;
-  color: #04121a !important;
+  color: var(--text) !important;
   border: 0 !important;
   border-radius: var(--radius) !important;
   font-family: var(--font-mono) !important;
@@ -2050,15 +2067,15 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   font-weight: 600 !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 12px 32px -16px rgba(0, 153, 204, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 12px 32px -16px rgba(56, 189, 248, 0.6);
   transition: box-shadow 0.2s var(--ease), transform 0.15s var(--ease);
 }
 
 .woocommerce div.product form.cart .button:hover,
 .woocommerce div.product .single_add_to_cart_button:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 18px 40px -18px rgba(0, 153, 204, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 18px 40px -18px rgba(56, 189, 248, 0.9);
   transform: translateY(-1px);
-  color: #04121a !important;
+  color: var(--text) !important;
 }
 
 .woocommerce div.product form.cart .quantity input {
@@ -2472,7 +2489,7 @@ body.single-product main {
 
 .ng-single-gallery .woocommerce-product-gallery__image .ng-gift-card-img {
   padding: 18px;
-  background: #ffffff;
+  background: var(--surface);
   object-fit: contain;
 }
 
@@ -2616,7 +2633,7 @@ body.single-product main {
   background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  box-shadow: 0 18px 38px -28px rgba(0, 153, 204, 0.45);
+  box-shadow: 0 18px 38px -28px rgba(56, 189, 248, 0.45);
 }
 
 /* --- Spec attributes table (2-col definition list) --- */
@@ -2697,7 +2714,7 @@ body.single-product main {
   min-height: 52px;
   padding: 0 24px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -2706,13 +2723,13 @@ body.single-product main {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-single-cart form.cart button.single_add_to_cart_button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(56, 189, 248, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 .ng-single-cart form.cart button.single_add_to_cart_button:disabled {
@@ -2770,7 +2787,7 @@ body.single-product main {
 /* --- Brief aside inside the summary (reuses .ng-brief-* tokens) --- */
 .ng-single-brief {
   padding: 20px;
-  background: #e1e8ed;
+  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   font-family: var(--font-mono);
@@ -2897,7 +2914,7 @@ body.woocommerce-page.page-template-default main {
   border-bottom: 1px solid var(--line);
   background:
     radial-gradient(900px circle at 75% 20%, rgba(63, 232, 143, 0.08), transparent 60%),
-    radial-gradient(700px circle at 20% 80%, rgba(0, 153, 204, 0.06), transparent 55%),
+    radial-gradient(700px circle at 20% 80%, rgba(56, 189, 248, 0.06), transparent 55%),
     var(--bg);
 }
 
@@ -3246,7 +3263,7 @@ body.woocommerce-page.page-template-default main {
 /* --- BRIEF ASIDE --- */
 .ng-thankyou-brief {
   padding: 22px;
-  background: #e1e8ed;
+  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   font-family: var(--font-mono);
@@ -3419,7 +3436,7 @@ body.woocommerce-page.page-template-default main {
   border-bottom: 1px solid var(--line);
   overflow: hidden;
   background:
-    radial-gradient(800px circle at 80% 20%, rgba(0, 153, 204, 0.06), transparent 60%),
+    radial-gradient(800px circle at 80% 20%, rgba(56, 189, 248, 0.06), transparent 60%),
     radial-gradient(600px circle at 10% 90%, rgba(63, 232, 143, 0.04), transparent 55%),
     var(--bg);
 }
@@ -4017,7 +4034,7 @@ body.woocommerce-page.page-template-default main {
   margin-top: 48px;
   padding: 40px 24px;
   background:
-    radial-gradient(600px circle at 80% 50%, rgba(0, 153, 204, 0.08), transparent 60%),
+    radial-gradient(600px circle at 80% 50%, rgba(56, 189, 248, 0.08), transparent 60%),
     var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-lg);
@@ -4531,7 +4548,7 @@ body.woocommerce-page main:has(.ng-cart) {
   min-height: 52px;
   padding: 0 22px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -4541,14 +4558,14 @@ body.woocommerce-page main:has(.ng-cart) {
   text-transform: uppercase;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-cart-checkout .checkout-button:hover,
 .ng-cart-checkout a.button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(56, 189, 248, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 /* --- EMPTY STATE ---------------------------------------------- */
@@ -4683,7 +4700,7 @@ body.woocommerce-page main:has(.ng-cart) {
 .ng-search-empty-h1 .en code {
   font-family: var(--font-mono);
   font-size: 0.85em;
-  background: rgba(0, 153, 204, 0.08);
+  background: rgba(56, 189, 248, 0.08);
   border: 1px solid var(--line-strong);
   padding: 2px 8px;
   border-radius: var(--radius);
@@ -4730,7 +4747,7 @@ body.woocommerce-page main:has(.ng-cart) {
   gap: 8px;
   padding: 0 20px;
   background: var(--accent);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   font-family: var(--font-mono);
@@ -4912,7 +4929,7 @@ body.woocommerce-page main:has(.ng-cart) {
   height: 44px;
   padding: 0 18px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -5460,7 +5477,7 @@ body.woocommerce-account:not(.logged-in) .woocommerce {
   padding: 0 22px;
   margin-top: 8px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -5469,13 +5486,13 @@ body.woocommerce-account:not(.logged-in) .woocommerce {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .ng-auth-submit:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(56, 189, 248, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 .ng-account-auth .lost_password a {
@@ -5882,7 +5899,7 @@ body.woocommerce-checkout main {
   margin-top: 14px;
   padding: 0 22px;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%);
-  color: #04121a;
+  color: var(--text);
   border: 1px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-mono);
@@ -5891,13 +5908,13 @@ body.woocommerce-checkout main {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 12px 28px -14px rgba(0, 153, 204, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 28px -14px rgba(56, 189, 248, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .woocommerce-checkout #payment #place_order:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 38px -16px rgba(0, 153, 204, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 18px 38px -16px rgba(56, 189, 248, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 }
 
 /* --- COUPON + LOGIN slide-down notices at top --- */
@@ -5981,7 +5998,7 @@ body.woocommerce-checkout main {
 .ng-brand-tile:hover {
   border-color: var(--line-strong);
   transform: translateY(-2px);
-  box-shadow: 0 14px 28px -22px rgba(0, 153, 204, 0.4);
+  box-shadow: 0 14px 28px -22px rgba(56, 189, 248, 0.4);
 }
 .ng-brand-tile:hover img {
   filter: grayscale(0);
@@ -6159,8 +6176,8 @@ body.woocommerce-checkout main {
 .ng-product-video-wrap {
     margin: 0 0 24px;
     padding: 8px;
-    background: var(--surface, #e1e8ed);
-    border: 1px solid var(--accent, #0099cc);
+    background: var(--surface, #FFFFFF);
+    border: 1px solid var(--accent, #38BDF8);
     border-radius: 4px;
 }
 .ng-product-video {
@@ -6320,8 +6337,8 @@ h4.wp-block-heading:empty,
 .ng-hero-collage .ng-hero-tile {
     position: relative;
     display: block;
-    background: var(--surface, #e1e8ed);
-    border: 1px solid var(--accent, #0099cc);
+    background: var(--surface, #FFFFFF);
+    border: 1px solid var(--accent, #38BDF8);
     border-radius: 6px;
     overflow: hidden;
     aspect-ratio: 1 / 1;
@@ -6337,7 +6354,7 @@ h4.wp-block-heading:empty,
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0, 153, 204, 0.08), rgba(255, 255, 255, 0.0));
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(255, 255, 255, 0.0));
     pointer-events: none;
 }
 
@@ -6398,11 +6415,11 @@ h4.wp-block-heading:empty,
     --theme-form-field-background-focus-color:   #1a1a1a;
     --theme-form-field-border-width: 1px;
     --theme-form-field-border-initial-color: rgba(255, 255, 255, 0.18);
-    --theme-form-field-border-focus-color:   var(--accent, #0099cc);
+    --theme-form-field-border-focus-color:   var(--accent, #38BDF8);
     --theme-text-color: #f5f5f5;
 
     --theme-button-min-height: 60px;
-    --theme-button-background-initial-color: var(--theme-palette-color-1, var(--accent, #0099cc));
+    --theme-button-background-initial-color: var(--theme-palette-color-1, var(--accent, #38BDF8));
     --theme-button-text-initial-color: #fff;
 }
 
@@ -6424,7 +6441,7 @@ h4.wp-block-heading:empty,
 .ct-mainbox:focus-within h6,
 .ct-mainbox:hover p,
 .ct-mainbox:focus-within p {
-    color: var(--theme-palette-color-1, var(--accent, #0099cc));
+    color: var(--theme-palette-color-1, var(--accent, #38BDF8));
 }
 
 .elementor-shortcode [data-products] figure {

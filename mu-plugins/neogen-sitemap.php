@@ -133,7 +133,7 @@ function ng_seo_sitemap_render() {
       <table class="widefat striped" style="max-width:720px;">
         <tbody>
           <tr><th>Index URL</th><td><a href="<?php echo esc_url($core_url); ?>" target="_blank"><code><?php echo esc_html($core_url); ?></code></a></td></tr>
-          <tr><th><code>wp_sitemaps_enabled</code></th><td><?php echo wp_sitemaps_get_server() ? '<strong style="color:#1f9d57;">enabled</strong>' : '<strong style="color:#c14a1a;">disabled</strong>'; ?></td></tr>
+          <tr><th><code>wp_sitemaps_enabled</code></th><td><?php echo wp_sitemaps_get_server() ? '<strong style="color:#22C55E;">enabled</strong>' : '<strong style="color:#EF4444;">disabled</strong>'; ?></td></tr>
           <tr><th>Public post types</th><td><?php
             $pts = get_post_types(['public' => true], 'names');
             echo esc_html( implode(', ', $pts) );
