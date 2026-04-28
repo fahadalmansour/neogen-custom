@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: NeoGen Launch Cleanup
- * Description: One-shot admin tool to clean up demo content + duplicate stubs before public launch. Trashes Hello-World posts, WC sample products, and the duplicate page stubs left over from theme template imports. Idempotent — re-running skips already-trashed items.
- * Version: 1.0.0
+ * Description: Admin tool to clean up demo content + duplicate products + duplicate page stubs before public launch. Trashes Hello-World posts, WC sample products, the duplicate page stubs left over from theme template imports, and 6 duplicate-product pairs from the 2026-04-28 audit. Surfaces a separate informational list for products with shared images that need manual re-imaging. Idempotent — re-running skips already-trashed items.
+ * Version: 1.1.0
  * Author: Fahad Almansour
  *
  * Why this exists
@@ -71,6 +71,36 @@ function ng_launch_cleanup_targets() {
                 ['id' => 6467, 'expect_slug' => 'home-3'],
             ],
         ],
+        'dup_products' => [
+            'label'         => 'Duplicate products (same product, two SKU schemes)',
+            'sub'           => 'Audit on 2026-04-28 found 6 product pairs with byte-identical featured images and matching names. The newer SKU scheme (SH-/NT-/GM-XXX, higher IDs) appears to be a second-pass import that re-created products that already existed under the older NG-XXX scheme. Default: trash the duplicate (newer-SKU) row, keep the canonical (older-SKU) row. Untick any row you want to preserve instead.',
+            'expected_type' => 'product',
+            'items'         => [
+                ['id' => 3228, 'expect_title_starts' => 'Elgato Stream Deck',  'note' => 'kept: id=3051 NG-MKR-005'],
+                ['id' => 3218, 'expect_title_starts' => 'SteelSeries Arctis',  'note' => 'kept: id=3089 NG-GAM-006'],
+                ['id' => 3164, 'expect_title_starts' => 'SwitchBot Curtain',   'note' => 'kept: id=3063 NG-SH-007'],
+                ['id' => 3176, 'expect_title_starts' => 'Ubiquiti USW-Pro',    'note' => 'kept: id=3061 NG-ENT-010'],
+                ['id' => 3173, 'expect_title_starts' => 'MikroTik CRS326',     'note' => 'kept: id=3058 NG-ENT-007'],
+                ['id' => 3172, 'expect_title_starts' => 'MikroTik CRS305',     'note' => 'kept: id=3075 NG-NET-004'],
+            ],
+        ],
+    ];
+}
+
+/**
+ * Different products that mistakenly share an image. Surfaced as
+ * a flagged list (NOT auto-trashed) — owner uploads a unique image
+ * per row via the regular Products → Edit screen.
+ */
+function ng_launch_cleanup_shared_image_groups() {
+    return [
+        ['label' => '3-way Aqara group',           'ids' => [3166, 3144, 3042], 'note' => 'Hub M3 / Smart Lock U200 / Door Lock A100 — different devices, same packaging photo'],
+        ['label' => 'Synology NAS (DS925+ vs DS225+)', 'ids' => [3182, 3181], 'note' => 'different bay counts, same photo'],
+        ['label' => 'Ubiquiti UDM-Pro vs Cloud Gateway Ultra', 'ids' => [3083, 3039], 'note' => 'completely different routers, same photo'],
+        ['label' => 'UniFi 6 Lite vs Long-Range', 'ids' => [3076, 3040], 'note' => 'two different APs, same photo'],
+        ['label' => 'Razer mouse vs keyboard',     'ids' => [3091, 3087], 'note' => 'Basilisk V3 X (mouse) vs BlackWidow V4 75% (keyboard) — clearly wrong'],
+        ['label' => 'Raspberry Pi 5 kit vs board', 'ids' => [3048, 3047], 'note' => 'Ultimate Starter Kit vs 8GB board — kit has more parts'],
+        ['label' => 'Netgate 2100 MAX vs 4200 MAX', 'ids' => [3195, 3194], 'note' => 'different model tiers, same photo'],
     ];
 }
 
@@ -295,7 +325,11 @@ function ng_launch_cleanup_render() {
                 <td><?php echo esc_html( $probe['title'] ); ?></td>
                 <td><code><?php echo esc_html( $probe['slug'] ); ?></code></td>
                 <td><?php echo esc_html( $probe['status'] ); ?></td>
-                <td><?php echo $probe_label; // safe: hard-coded HTML map ?></td>
+                <td><?php echo $probe_label; // safe: hard-coded HTML map ?>
+                  <?php if ( ! empty( $item['note'] ) ) : ?>
+                    <br><small style="color:#64748B;"><?php echo esc_html( $item['note'] ); ?></small>
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endforeach; ?>
             </tbody>
@@ -321,6 +355,31 @@ function ng_launch_cleanup_render() {
           <span style="margin-inline-start:.8em;color:#64748B;">Idempotent · trashing is reversible · re-runnable.</span>
         </p>
       </form>
+
+      <h2 style="margin-top:2em;">Different products that share an image (manual fix)</h2>
+      <p style="color:#475569;margin-top:0;max-width:760px;">These groups are <em>different products</em> whose featured images happen to be byte-identical (the previous import pulled the same source file for related rows). Each row needs its own image — open the edit screen and upload a unique photo. Not auto-trashable.</p>
+      <table class="widefat striped" style="max-width:1080px;">
+        <thead><tr><th>Group</th><th>Product IDs</th><th>Why</th></tr></thead>
+        <tbody>
+        <?php foreach ( ng_launch_cleanup_shared_image_groups() as $g ) : ?>
+          <tr>
+            <td><strong><?php echo esc_html( $g['label'] ); ?></strong></td>
+            <td>
+              <?php foreach ( $g['ids'] as $pid ) :
+                $p = get_post( (int) $pid );
+                if ( ! $p ) { echo '<div><code>' . (int) $pid . '</code> · missing</div>'; continue; }
+                $title = $p->post_title;
+              ?>
+                <div>
+                  <a href="<?php echo esc_url( admin_url('post.php?post=' . $pid . '&action=edit') ); ?>" target="_blank">#<?php echo (int) $pid; ?> · <?php echo esc_html( mb_substr( $title, 0, 60 ) ); ?></a>
+                </div>
+              <?php endforeach; ?>
+            </td>
+            <td><?php echo esc_html( $g['note'] ); ?></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
 
       <h2 style="margin-top:2em;">After running</h2>
       <ol style="max-width:760px;">
