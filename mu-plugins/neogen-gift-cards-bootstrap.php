@@ -210,6 +210,17 @@ function ng_gift_card_bootstrap_run() {
 
             update_post_meta($product_id, '_ng_gift_card_brand', $slot);
 
+            // Seed default region list for slots whose store splits by
+            // country. Apple is the canonical case: GCC + US + UK.
+            // Idempotent — never overwrites if meta already exists.
+            $region_seeds = [
+                'apple' => ['SA','AE','BH','OM','QA','KW','US','GB'],
+            ];
+            if (isset($region_seeds[$slot])
+                && get_post_meta($product_id, '_ng_gc_regions', true) === '') {
+                update_post_meta($product_id, '_ng_gc_regions', $region_seeds[$slot]);
+            }
+
             $report['created'][] = compact('slot', 'sku') + [
                 'product_id' => $product_id,
                 'attach_id'  => (int) $attach_id,

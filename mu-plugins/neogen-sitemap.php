@@ -52,6 +52,34 @@ defined('ABSPATH') || exit;
 add_filter('wp_sitemaps_enabled', '__return_true', PHP_INT_MAX);
 
 /* =====================================================================
+ * 1b. Suppress Rank Math's sitemap module entirely.
+ *
+ * Production audit (2026-04-28) found Rank Math's sitemap module
+ * was redirecting /wp-sitemap.xml → /sitemap_index.xml, while step
+ * 2 below redirects the reverse direction. Combined, the two
+ * 301s ping-ponged forever (50+ hops observed in curl -L), so
+ * search engines could not index the catalogue.
+ *
+ * Rank Math stores its active modules in option `rank_math_modules`.
+ * Filtering both `option_*` and `default_option_*` strips 'sitemap'
+ * from the list before Rank Math's bootstrap reads it, so the module
+ * never registers its rewrite rules or template_redirect handlers.
+ *
+ * This is independent of the R4 cutover toggle — the SEO cutover
+ * flips meta-tag emission, but R3 has already taken over sitemap
+ * responsibilities, and the two RM behaviours are unrelated.
+ * ===================================================================== */
+
+if ( ! function_exists('ng_sitemap_strip_rank_math_module') ) {
+    function ng_sitemap_strip_rank_math_module( $modules ) {
+        if ( ! is_array($modules) ) return $modules;
+        return array_values( array_diff($modules, ['sitemap']) );
+    }
+}
+add_filter( 'option_rank_math_modules',         'ng_sitemap_strip_rank_math_module' );
+add_filter( 'default_option_rank_math_modules', 'ng_sitemap_strip_rank_math_module' );
+
+/* =====================================================================
  * 2. 301 redirects from Rank Math sitemap URLs → WP core equivalents.
  *    Hooks `init` priority 0 so we preempt Rank Math's own handlers.
  * ===================================================================== */
