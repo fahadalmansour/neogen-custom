@@ -321,101 +321,6 @@ $rack_letter = function ($i) {
 <?php endif; ?>
 
 <!-- ============================================================
-     CATEGORIES — RACK UNITS
-     ============================================================ -->
-<?php if (!empty($top_categories)) : ?>
-<section class="ng-section" id="ng-cat">
-  <div class="ng-container">
-    <div class="ng-section-head reveal">
-      <div>
-        <div class="ng-section-label">01 · <b>الفئات</b></div>
-        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>&#160;المختارة.</h2>
-        <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
-      </div>
-      <p class="ng-section-note">
-        كل فئة مهيّأة لنوع مشغّل محدّد. أعداد المنتجات تُسحب مباشرةً من الكتالوج — إذا لم يكن المنتج نافعًا في شبكة جادة، أو هوم لاب، أو بيت ذكي، أو إعداد ألعاب، أو خدمة تنفيذ — فلا نحمله.
-      </p>
-    </div>
-
-    <div class="ng-rack">
-      <?php foreach ($top_categories as $i => $term) :
-          $slug     = $term->slug;
-          $icon     = isset($category_icons[$slug]) ? $category_icons[$slug] : $fallback_icon;
-          $ar_name  = trim((string) $term->description);
-          if ($ar_name === '') { $ar_name = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name; }
-          $link     = get_term_link($term);
-          $link     = is_wp_error($link) ? '#' : $link;
-          $led      = $led_patterns[$i % count($led_patterns)];
-          $rack_id  = sprintf('%02d · رف %s', $i + 1, $rack_letter($i));
-      ?>
-      <a class="ng-rack-unit reveal" href="<?php echo esc_url( $link ); ?>">
-        <span class="ng-rack-id"><?php echo esc_html( $rack_id ); ?></span>
-        <span class="ng-rack-led" aria-hidden="true"><?php echo $led; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <?php
-            $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
-            $thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';
-            if ( $thumb_url ) :
-        ?>
-          <span class="ng-rack-photo">
-            <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
-                'loading'  => 'lazy',
-                'decoding' => 'async',
-                'alt'      => esc_attr( sprintf( __( '%s category', 'neogen' ), $term->name ) ),
-            ] ); ?>
-          </span>
-        <?php else : ?>
-          <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <?php endif; ?>
-        <span class="ng-rack-title">
-          <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
-        </span>
-        <span class="ng-rack-desc">
-          <?php
-          /*
-           * AR-first card description. Three sources, in priority order:
-           *   1. Manual override map (slug → short Arabic line) — keeps
-           *      the homepage tight regardless of what's in the term
-           *      description in WP admin.
-           *   2. The term description itself, but only if it's Arabic
-           *      AND under 100 chars.
-           *   3. Generic Arabic fallback line.
-           */
-          $copy_map = apply_filters('neogen_homepage_cat_copy', [
-              'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
-              'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
-              'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
-              'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
-              'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-              'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-              'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
-              'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
-          ]);
-
-          $ar_label = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
-          if ( isset( $copy_map[ $slug ] ) ) {
-              echo esc_html( $copy_map[ $slug ] );
-          } else {
-              $desc_raw    = trim( (string) $term->description );
-              $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
-              $is_too_long = mb_strlen($desc_raw) > 100;
-              if ( $desc_raw === '' || $desc_raw === $ar_name || $is_english || $is_too_long ) {
-                  echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $ar_label ) );
-              } else {
-                  echo esc_html( $desc_raw );
-              }
-          }
-          ?>
-        </span>
-        <span class="ng-rack-count"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
-        <span class="ng-rack-link">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-      </a>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-<?php endif; ?>
-
-<!-- ============================================================
      OPERATOR PICKS — real products, real images
      ============================================================ -->
 <?php if (!empty($picks)) : ?>
@@ -423,7 +328,7 @@ $rack_letter = function ($i) {
   <div class="ng-container">
     <div class="ng-section-head reveal">
       <div>
-        <div class="ng-section-label">02 · <b>المختارات</b></div>
+        <div class="ng-section-label">01 · <b>المختارات</b></div>
         <h2 class="ng-section-h">متوفّرة. <span class="accent">بمواصفات.</span><br>&#160;جاهزة للشحن.</h2>
         <div class="ng-section-ar">مختارات المشغّلين. جاهزة للشحن.</div>
       </div>
@@ -538,6 +443,101 @@ $rack_letter = function ($i) {
           <?php if ( $tag_label ) : ?>
             <span class="tag <?php echo esc_attr( $tag_class ); ?>"><?php echo esc_html( $tag_label ); ?></span>
           <?php endif; ?>
+<!-- ============================================================
+     CATEGORIES — RACK UNITS
+     ============================================================ -->
+<?php if (!empty($top_categories)) : ?>
+<section class="ng-section" id="ng-cat">
+  <div class="ng-container">
+    <div class="ng-section-head reveal">
+      <div>
+        <div class="ng-section-label">02 · <b>الفئات</b></div>
+        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>&#160;المختارة.</h2>
+        <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
+      </div>
+      <p class="ng-section-note">
+        كل فئة مهيّأة لنوع مشغّل محدّد. أعداد المنتجات تُسحب مباشرةً من الكتالوج — إذا لم يكن المنتج نافعًا في شبكة جادة، أو هوم لاب، أو بيت ذكي، أو إعداد ألعاب، أو خدمة تنفيذ — فلا نحمله.
+      </p>
+    </div>
+
+    <div class="ng-rack">
+      <?php foreach ($top_categories as $i => $term) :
+          $slug     = $term->slug;
+          $icon     = isset($category_icons[$slug]) ? $category_icons[$slug] : $fallback_icon;
+          $ar_name  = trim((string) $term->description);
+          if ($ar_name === '') { $ar_name = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name; }
+          $link     = get_term_link($term);
+          $link     = is_wp_error($link) ? '#' : $link;
+          $led      = $led_patterns[$i % count($led_patterns)];
+          $rack_id  = sprintf('%02d · رف %s', $i + 1, $rack_letter($i));
+      ?>
+      <a class="ng-rack-unit reveal" href="<?php echo esc_url( $link ); ?>">
+        <span class="ng-rack-id"><?php echo esc_html( $rack_id ); ?></span>
+        <span class="ng-rack-led" aria-hidden="true"><?php echo $led; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <?php
+            $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+            $thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';
+            if ( $thumb_url ) :
+        ?>
+          <span class="ng-rack-photo">
+            <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
+                'loading'  => 'lazy',
+                'decoding' => 'async',
+                'alt'      => esc_attr( sprintf( __( '%s category', 'neogen' ), $term->name ) ),
+            ] ); ?>
+          </span>
+        <?php else : ?>
+          <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+        <?php endif; ?>
+        <span class="ng-rack-title">
+          <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
+        </span>
+        <span class="ng-rack-desc">
+          <?php
+          /*
+           * AR-first card description. Three sources, in priority order:
+           *   1. Manual override map (slug → short Arabic line) — keeps
+           *      the homepage tight regardless of what's in the term
+           *      description in WP admin.
+           *   2. The term description itself, but only if it's Arabic
+           *      AND under 100 chars.
+           *   3. Generic Arabic fallback line.
+           */
+          $copy_map = apply_filters('neogen_homepage_cat_copy', [
+              'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
+              'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
+              'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
+              'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
+              'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+              'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+              'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
+              'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
+          ]);
+
+          $ar_label = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
+          if ( isset( $copy_map[ $slug ] ) ) {
+              echo esc_html( $copy_map[ $slug ] );
+          } else {
+              $desc_raw    = trim( (string) $term->description );
+              $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
+              $is_too_long = mb_strlen($desc_raw) > 100;
+              if ( $desc_raw === '' || $desc_raw === $ar_name || $is_english || $is_too_long ) {
+                  echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $ar_label ) );
+              } else {
+                  echo esc_html( $desc_raw );
+              }
+          }
+          ?>
+        </span>
+        <span class="ng-rack-count"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
+        <span class="ng-rack-link">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+      </a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
         </div>
 
         <a class="ng-product-media<?php echo $img_alt_html ? ' has-alt' : ''; ?>" href="<?php echo esc_url( $perm ); ?>" aria-label="<?php echo esc_attr( $name_en ); ?>">
@@ -649,38 +649,6 @@ if ( ! empty( $ng_brand_ids ) ) :
         <?php endif; ?>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     VOICE BAND
-     ============================================================ -->
-<section class="ng-voice">
-  <div class="ng-voice-bg" aria-hidden="true">
-    <svg viewBox="-50 -50 100 100">
-      <path d="M0 -44 L9 -26 L35 -35 L26 -9 L44 0 L26 9 L35 35 L9 26 L0 44 L-9 26 L-35 35 L-26 9 L-44 0 L-26 -9 L-35 -35 L-9 -26 Z"></path>
-    </svg>
-  </div>
-  <div class="ng-voice-inner">
-    <div class="ng-voice-text">
-      <div class="ng-voice-kicker">// 04 · صوت العلامة</div>
-      <div class="ng-voice-ar">التقنية.<br>&#160;كما <span class="accent">يجب</span> أن تكون.</div>
-      <div class="ng-voice-en">
-        تقنية
-        <span class="sep"></span>
-        كما يجب
-        <span class="sep"></span>
-        شحن من المملكة
-      </div>
-    </div>
-    <?php if ( $ng_voice_id = (int) get_option('ng_voice_image_id') ) : ?>
-      <div class="ng-voice-photo">
-        <?php echo wp_get_attachment_image( $ng_voice_id, 'large', false, [
-            'loading'  => 'lazy',
-            'decoding' => 'async',
-        ] ); ?>
-      </div>
-    <?php endif; ?>
   </div>
 </section>
 
