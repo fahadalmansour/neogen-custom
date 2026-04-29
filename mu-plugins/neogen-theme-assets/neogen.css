@@ -7968,3 +7968,223 @@ body.tax-product_cat.term-gift-cards .woocommerce ul.products li.product:hover {
 @media (max-width: 1100px) { .ng-gc-brands-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (max-width: 760px)  { .ng-gc-brands-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 480px)  { .ng-gc-brands-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ────────────────────────────────────────────────────────
+ * Brand grid v1.35.1 — themed lanes redesign.
+ * Replaces flat 14-up grid with three categorised strips
+ * (game cards / app stores / subscriptions).
+ * ──────────────────────────────────────────────────────── */
+.ng-gc-brands--lanes .ng-gc-brands-head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.ng-gc-brands-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ng-gc-brands-kicker > span {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: var(--accent);
+}
+.ng-gc-brands-kicker b { color: var(--text); font-weight: 600; }
+.ng-gc-brands--lanes .ng-gc-brands-h {
+  font-size: clamp(22px, 2.6vw, 30px);
+}
+
+.ng-gc-lane {
+  margin: 0 0 32px;
+}
+.ng-gc-lane:last-child { margin-bottom: 8px; }
+
+.ng-gc-lane-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 6px 16px;
+  margin-bottom: 12px;
+}
+.ng-gc-lane-kicker {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.ng-gc-lane-titles {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.ng-gc-lane-h {
+  font-family: var(--font-ar-display, var(--font-wordmark));
+  font-size: clamp(17px, 1.9vw, 21px);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.1;
+}
+.ng-gc-lane-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.ng-gc-lane-all {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  transition: color 0.2s var(--ease);
+  white-space: nowrap;
+}
+.ng-gc-lane-all:hover { color: var(--accent); }
+.ng-gc-lane-all svg { width: 12px; height: 12px; }
+[dir="rtl"] .ng-gc-lane-all svg { transform: scaleX(-1); }
+
+.ng-gc-lane-strip {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Tile redesign — square logo well + chip overlay + CTA */
+.ng-gc-brands--lanes .ng-gc-brand-tile {
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 12px 12px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.ng-gc-brands--lanes .ng-gc-brand-tile::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent 0%, rgba(56, 189, 248, 0) 60%, rgba(56, 189, 248, 0.25) 100%);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+.ng-gc-brands--lanes .ng-gc-brand-tile:hover::before { opacity: 1; }
+.ng-gc-brands--lanes .ng-gc-brand-tile.is-lead {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 14px 28px -22px rgba(56, 189, 248, 0.45);
+}
+
+.ng-gc-brands--lanes .ng-gc-brand-img {
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(241, 245, 249, 0.85) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  display: grid;
+  place-items: center;
+  padding: 12%;
+}
+.ng-gc-brands--lanes .ng-gc-brand-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ng-gc-brand-chip {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 999px;
+  padding: 3px 8px;
+  z-index: 2;
+  min-width: 22px;
+  text-align: center;
+}
+
+.ng-gc-brand-pill {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  font-family: var(--font-ar-display, var(--font-wordmark));
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #0b1220;
+  border-radius: 999px;
+  padding: 3px 9px;
+  z-index: 2;
+  letter-spacing: 0;
+  box-shadow: 0 6px 14px -8px rgba(56, 189, 248, 0.55);
+}
+
+.ng-gc-brands--lanes .ng-gc-brand-name {
+  font-size: 14px;
+  text-align: start;
+  margin-top: 0;
+}
+
+.ng-gc-brand-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s var(--ease), gap 0.2s var(--ease);
+}
+.ng-gc-brand-cta svg { width: 11px; height: 11px; }
+[dir="rtl"] .ng-gc-brand-cta svg { transform: scaleX(-1); }
+.ng-gc-brands--lanes .ng-gc-brand-tile:hover .ng-gc-brand-cta {
+  color: var(--accent);
+  gap: 7px;
+}
+
+@media (max-width: 1100px) {
+  .ng-gc-lane-strip { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .ng-gc-lane-strip {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 38%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    margin-inline: -16px;
+    padding-inline: 16px;
+  }
+  .ng-gc-brands--lanes .ng-gc-brand-tile {
+    scroll-snap-align: start;
+  }
+}
+@media (max-width: 480px) {
+  .ng-gc-lane-strip { grid-auto-columns: 46%; }
+  .ng-gc-brands--lanes .ng-gc-brand-name { font-size: 13px; }
+}

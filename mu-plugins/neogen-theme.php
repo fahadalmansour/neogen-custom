@@ -494,22 +494,25 @@ function ng_gift_cards_archive_extras() {
 }
 
 /**
- * Brand grid above the gift-cards product loop (v1.34.0).
+ * Brand grid above the gift-cards product loop.
  *
- * Renders a grid of brand tiles (PlayStation, Xbox, Apple, Steam, etc.)
- * above the WC loop. Click → goes to the brand sub-category page if it
- * exists (Phase C creates these), otherwise falls back to a ?brand=
- * query filter on the current archive.
+ * v1.34.0 — flat 14-up grid.
+ * v1.35.1 — REDESIGN: three themed lanes (Game Cards / App Stores /
+ * Subscriptions) instead of one flat row. Each lane has its own
+ * kicker, brands ranked by variant count inside the lane, and a
+ * "الأكثر تنوّعاً" pill on the lane leader. Tiles use a clean square
+ * logo well + AR name + count chip top-corner — easier to scan than
+ * the v1.34.0 image-stack layout.
  *
- * Only fires on /product-category/gift-cards/ when no brand filter is
- * active (so the grid disappears once you've drilled into a brand).
+ * Click → brand sub-category URL when it exists, otherwise ?brand=
+ * filter fallback. Only fires on /product-category/gift-cards/ when
+ * no brand filter is active.
  */
 add_action('woocommerce_before_shop_loop', 'ng_gift_cards_brand_grid', 9);
 function ng_gift_cards_brand_grid() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
     if ( ! empty( $_GET['brand'] ) ) { return; }
 
-    // Pull all brand slugs that exist in the catalogue (from meta).
     global $wpdb;
     $rows = $wpdb->get_results(
         "SELECT pm.meta_value AS brand_slug, MIN(p.ID) AS sample_pid, COUNT(*) AS variant_count
@@ -523,55 +526,110 @@ function ng_gift_cards_brand_grid() {
     );
     if ( empty( $rows ) ) { return; }
 
-    // Brand AR labels — keep in sync with scripts/neogen-gift-cards-bulk.php.
-    $brand_ar = array(
-        'playstation'      => 'بلايستيشن',
-        'xbox'             => 'إكس بوكس',
-        'steam'            => 'ستيم',
-        'razer-gold'       => 'رازر قولد',
-        'roblox'           => 'روبلكس',
-        'pubg-mobile'      => 'ببجي موبايل',
-        'free-fire'        => 'فري فاير',
-        'mobile-legends'   => 'موبايل ليجندز',
-        'apple-itunes'     => 'آبل أيتونز',
-        'google-play'      => 'قوقل بلاي',
-        'netflix'          => 'نتفلكس',
-        'spotify'          => 'سبوتيفاي',
-        'disney-plus'      => 'ديزني بلس',
-        'playstation-plus' => 'بلايستيشن بلس',
+    // Brand → AR label + parent lane. Keep in sync with
+    // scripts/neogen-gift-cards-bulk.php and -brand-cats.php.
+    $brand_meta = array(
+        'playstation'      => array( 'ar' => 'بلايستيشن',     'lane' => 'game-cards'    ),
+        'xbox'             => array( 'ar' => 'إكس بوكس',     'lane' => 'game-cards'    ),
+        'steam'            => array( 'ar' => 'ستيم',         'lane' => 'game-cards'    ),
+        'razer-gold'       => array( 'ar' => 'رازر قولد',    'lane' => 'game-cards'    ),
+        'roblox'           => array( 'ar' => 'روبلكس',       'lane' => 'game-cards'    ),
+        'pubg-mobile'      => array( 'ar' => 'ببجي موبايل',  'lane' => 'game-cards'    ),
+        'free-fire'        => array( 'ar' => 'فري فاير',     'lane' => 'game-cards'    ),
+        'mobile-legends'   => array( 'ar' => 'موبايل ليجندز','lane' => 'game-cards'    ),
+        'apple-itunes'     => array( 'ar' => 'آبل أيتونز',   'lane' => 'app-stores'    ),
+        'google-play'      => array( 'ar' => 'قوقل بلاي',    'lane' => 'app-stores'    ),
+        'netflix'          => array( 'ar' => 'نتفلكس',       'lane' => 'subscriptions' ),
+        'spotify'          => array( 'ar' => 'سبوتيفاي',      'lane' => 'subscriptions' ),
+        'disney-plus'      => array( 'ar' => 'ديزني بلس',    'lane' => 'subscriptions' ),
+        'playstation-plus' => array( 'ar' => 'بلايستيشن بلس','lane' => 'subscriptions' ),
     );
 
-    echo '<section class="ng-gc-brands-grid-wrap">';
-    echo   '<div class="ng-gc-brands-head">';
-    echo     '<h2 class="ng-gc-brands-h">العلامات التجارية</h2>';
-    echo     '<div class="ng-gc-brands-sub">' . count( $rows ) . ' علامة · ' . array_sum( array_map( fn( $r ) => (int) $r->variant_count, $rows ) ) . ' بطاقة</div>';
-    echo   '</div>';
-    echo   '<div class="ng-gc-brands-grid">';
+    $lanes = array(
+        'game-cards'    => array( 'ar' => 'بطاقات الألعاب',     'kicker' => 'العاب · GAMING',        'brands' => array() ),
+        'app-stores'    => array( 'ar' => 'متاجر التطبيقات',    'kicker' => 'تطبيقات · APP STORES',  'brands' => array() ),
+        'subscriptions' => array( 'ar' => 'الاشتراكات الترفيهية', 'kicker' => 'ترفيه · STREAMING',   'brands' => array() ),
+    );
+
     foreach ( $rows as $row ) {
-        $slug    = $row->brand_slug;
-        $sample  = wc_get_product( (int) $row->sample_pid );
-        $img_id  = $sample instanceof WC_Product ? (int) $sample->get_image_id() : 0;
-        $img     = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
-        $label   = $brand_ar[ $slug ] ?? ucwords( str_replace( '-', ' ', $slug ) );
-
-        // Prefer brand sub-category URL when one exists; fall back to ?brand= filter.
-        $term = get_term_by( 'slug', $slug, 'product_cat' );
-        $url  = ( $term && ! is_wp_error( $term ) )
-            ? get_term_link( $term )
-            : add_query_arg( 'brand', $slug, get_term_link( get_queried_object() ) );
-        $url = is_wp_error( $url ) ? '#' : $url;
-
-        echo '<a class="ng-gc-brand-tile" href="' . esc_url( $url ) . '">';
-        if ( $img ) {
-            echo '<span class="ng-gc-brand-img"><img src="' . esc_url( $img ) . '" alt="" loading="lazy" decoding="async"></span>';
-        } else {
-            echo '<span class="ng-gc-brand-img ng-gc-brand-img--placeholder" aria-hidden="true"></span>';
-        }
-        echo   '<span class="ng-gc-brand-name">' . esc_html( $label ) . '</span>';
-        echo   '<span class="ng-gc-brand-count" dir="ltr">' . (int) $row->variant_count . ' variants</span>';
-        echo '</a>';
+        $slug = $row->brand_slug;
+        $meta = $brand_meta[ $slug ] ?? null;
+        if ( ! $meta ) { continue; }
+        $lanes[ $meta['lane'] ]['brands'][] = array(
+            'slug'    => $slug,
+            'ar'      => $meta['ar'],
+            'pid'     => (int) $row->sample_pid,
+            'variants'=> (int) $row->variant_count,
+        );
     }
+
+    $total_brands = count( $rows );
+    $total_cards  = (int) array_sum( array_map( fn( $r ) => (int) $r->variant_count, $rows ) );
+
+    echo '<section class="ng-gc-brands-grid-wrap ng-gc-brands--lanes">';
+    echo   '<div class="ng-gc-brands-head">';
+    echo     '<div class="ng-gc-brands-kicker"><span></span>المتجر · <b>بطاقات رقمية</b></div>';
+    echo     '<h2 class="ng-gc-brands-h">العلامات التجارية</h2>';
+    echo     '<div class="ng-gc-brands-sub">' . (int) $total_brands . ' علامة · ' . (int) $total_cards . ' بطاقة · ' . count( $lanes ) . ' فئات</div>';
     echo   '</div>';
+
+    foreach ( $lanes as $lane_key => $lane ) {
+        if ( empty( $lane['brands'] ) ) { continue; }
+
+        $lane_term = get_term_by( 'slug', $lane_key, 'product_cat' );
+        $lane_url  = ( $lane_term && ! is_wp_error( $lane_term ) ) ? get_term_link( $lane_term ) : '';
+        $lane_url  = is_wp_error( $lane_url ) ? '' : $lane_url;
+        $lane_total = array_sum( array_map( fn( $b ) => $b['variants'], $lane['brands'] ) );
+
+        echo '<div class="ng-gc-lane" data-lane="' . esc_attr( $lane_key ) . '">';
+        echo   '<header class="ng-gc-lane-head">';
+        echo     '<div class="ng-gc-lane-kicker">' . esc_html( $lane['kicker'] ) . '</div>';
+        echo     '<div class="ng-gc-lane-titles">';
+        echo       '<h3 class="ng-gc-lane-h">' . esc_html( $lane['ar'] ) . '</h3>';
+        echo       '<span class="ng-gc-lane-count">' . count( $lane['brands'] ) . ' علامة · ' . (int) $lane_total . ' بطاقة</span>';
+        echo     '</div>';
+        if ( $lane_url ) {
+            echo   '<a class="ng-gc-lane-all" href="' . esc_url( $lane_url ) . '">عرض الكل <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>';
+        }
+        echo   '</header>';
+        echo   '<div class="ng-gc-lane-strip">';
+
+        $is_first = true;
+        foreach ( $lane['brands'] as $b ) {
+            $sample = wc_get_product( $b['pid'] );
+            $img_id = $sample instanceof WC_Product ? (int) $sample->get_image_id() : 0;
+            $img    = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
+
+            $term = get_term_by( 'slug', $b['slug'], 'product_cat' );
+            $url  = ( $term && ! is_wp_error( $term ) )
+                ? get_term_link( $term )
+                : add_query_arg( 'brand', $b['slug'], get_term_link( get_queried_object() ) );
+            $url  = is_wp_error( $url ) ? '#' : $url;
+
+            $cls = 'ng-gc-brand-tile';
+            if ( $is_first ) { $cls .= ' is-lead'; }
+
+            echo '<a class="' . esc_attr( $cls ) . '" href="' . esc_url( $url ) . '" data-brand="' . esc_attr( $b['slug'] ) . '">';
+            echo   '<span class="ng-gc-brand-chip" dir="ltr">' . (int) $b['variants'] . '</span>';
+            if ( $is_first ) {
+                echo '<span class="ng-gc-brand-pill">الأكثر تنوّعاً</span>';
+            }
+            if ( $img ) {
+                echo '<span class="ng-gc-brand-img"><img src="' . esc_url( $img ) . '" alt="" loading="lazy" decoding="async"></span>';
+            } else {
+                echo '<span class="ng-gc-brand-img ng-gc-brand-img--placeholder" aria-hidden="true"></span>';
+            }
+            echo   '<span class="ng-gc-brand-name">' . esc_html( $b['ar'] ) . '</span>';
+            echo   '<span class="ng-gc-brand-cta">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>';
+            echo '</a>';
+
+            $is_first = false;
+        }
+
+        echo   '</div>';
+        echo '</div>';
+    }
+
     echo '</section>';
 }
 
