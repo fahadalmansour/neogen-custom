@@ -355,6 +355,69 @@ function ng_shop_category_tiles() {
 }
 
 /**
+ * Gift-cards category-archive extras (v1.32.0).
+ *
+ * On /product-category/gift-cards/ only, inject a region-tab row + a
+ * trust strip ABOVE the product grid — LikeCard-style intent. Region
+ * tabs are placeholder UI for now (link to anchor); when products get
+ * a `_ng_gift_card_region` meta later, the tabs become live filters.
+ *
+ * Hooks `woocommerce_before_shop_loop` at priority 8 — after
+ * ng_shop_category_tiles (prio 5) which renders the cross-nav, before
+ * the WC sort row (prio 10).
+ */
+add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
+function ng_gift_cards_archive_extras() {
+    if ( ! is_product_category( 'gift-cards' ) ) { return; }
+
+    // Region tabs (cosmetic until products are tagged).
+    $regions = array(
+        ''     => 'الكل',
+        'ksa'  => 'السعودية',
+        'gcc'  => 'دول الخليج',
+        'us'   => 'الولايات المتحدة',
+        'uk'   => 'المملكة المتحدة',
+    );
+    $current = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
+
+    echo '<section class="ng-gc-extras">';
+    echo   '<div class="ng-gc-trust" aria-label="ضمانات بطاقات الهدايا">';
+    echo     '<div class="ng-gc-trust-item">';
+    echo       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>';
+    echo       '<div><div class="ng-gc-trust-label">تسليم فوري</div><div class="ng-gc-trust-sub">رمز التفعيل خلال دقيقة</div></div>';
+    echo     '</div>';
+    echo     '<div class="ng-gc-trust-item">';
+    echo       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="m9 12 2 2 4-4"/></svg>';
+    echo       '<div><div class="ng-gc-trust-label">تفعيل آمن</div><div class="ng-gc-trust-sub">مفاتيح أصلية مضمونة</div></div>';
+    echo     '</div>';
+    echo     '<div class="ng-gc-trust-item">';
+    echo       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+    echo       '<div><div class="ng-gc-trust-label">دعم سريع</div><div class="ng-gc-trust-sub">واتساب · يوم عمل</div></div>';
+    echo     '</div>';
+    echo     '<div class="ng-gc-trust-item">';
+    echo       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg>';
+    echo       '<div><div class="ng-gc-trust-label">دفع موثوق</div><div class="ng-gc-trust-sub">Mada · Apple Pay · STC Pay</div></div>';
+    echo     '</div>';
+    echo   '</div>';
+
+    echo   '<div class="ng-gc-regions" role="tablist" aria-label="فلتر المنطقة">';
+    echo     '<div class="ng-gc-regions-label">المنطقة:</div>';
+    echo     '<div class="ng-gc-regions-tabs">';
+    foreach ( $regions as $key => $label ) {
+        $is_current = ( $current === $key );
+        $url = $key === ''
+            ? esc_url( get_term_link( get_queried_object() ) )
+            : esc_url( add_query_arg( 'region', $key, get_term_link( get_queried_object() ) ) );
+        echo '<a class="ng-gc-region-tab' . ( $is_current ? ' is-current' : '' ) . '" href="' . $url . '" role="tab" aria-selected="' . ( $is_current ? 'true' : 'false' ) . '">';
+        echo   esc_html( $label );
+        echo '</a>';
+    }
+    echo     '</div>';
+    echo   '</div>';
+    echo '</section>';
+}
+
+/**
  * Info-page registry — drives every /about/, /terms/, /privacy/,
  * /returns/, /warranty/, /shipping/, /contact/ route through one
  * shared template. Pages marked draft=true render a "PENDING LEGAL
