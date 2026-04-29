@@ -39,8 +39,28 @@ $shop_url     = function_exists('wc_get_page_permalink') ? wc_get_page_permalink
 $product_counts     = function_exists('wc_get_page_permalink') ? wp_count_posts('product') : null;
 $published_products = ( is_object($product_counts) && isset($product_counts->publish) ) ? (int) $product_counts->publish : 0;
 
-// Top 5 product categories — transient-cached helper from neogen-theme.php.
-$top_categories = function_exists('ng_top_product_cats') ? ng_top_product_cats(5) : [];
+// Top 6 product categories for the photo-led mosaic. Bypasses the
+// neogen_top_cats_exclude_slugs filter (which hides homelab from
+// top-cat lists by default) so the rack matches the front-page
+// $copy_map keys exactly: smart-home, gaming, homelab, networking,
+// hardware, gift-cards.
+$top_categories = array();
+if ( taxonomy_exists( 'product_cat' ) ) {
+    $rack_terms = get_terms( array(
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => true,
+        'parent'     => 0,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'number'     => 7,
+    ) );
+    if ( ! is_wp_error( $rack_terms ) ) {
+        $rack_terms = array_values( array_filter( $rack_terms, function ( $t ) {
+            return $t->slug !== 'uncategorized';
+        } ) );
+        $top_categories = array_slice( $rack_terms, 0, 6 );
+    }
+}
 
 // Operator Picks — diversified across distinct top-level categories so
 // gift-cards don't monopolize the row. Strategy:
@@ -475,77 +495,80 @@ $rack_letter = function ($i) {
       </p>
     </div>
 
-    <div class="ng-rack">
+    <?php
+    // AR copy per slug (also used by the categories rack v1.26.0 below).
+    $copy_map = apply_filters('neogen_homepage_cat_copy', [
+        'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
+        'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
+        'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
+        'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
+        'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+        'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+        'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
+        'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
+    ]);
+    ?>
+    <div class="ng-rack ng-rack--mosaic">
       <?php foreach ($top_categories as $i => $term) :
           $slug     = $term->slug;
-          $icon     = isset($category_icons[$slug]) ? $category_icons[$slug] : $fallback_icon;
-          $ar_name  = trim((string) $term->description);
-          if ($ar_name === '') { $ar_name = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name; }
+          $ar_name  = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
           $link     = get_term_link($term);
           $link     = is_wp_error($link) ? '#' : $link;
-          $led      = $led_patterns[$i % count($led_patterns)];
-          $rack_id  = sprintf('%02d · رف %s', $i + 1, $rack_letter($i));
-      ?>
-      <a class="ng-rack-unit reveal" href="<?php echo esc_url( $link ); ?>">
-        <span class="ng-rack-id"><?php echo esc_html( $rack_id ); ?></span>
-        <span class="ng-rack-led" aria-hidden="true"><?php echo $led; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <?php
-            $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
-            $thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'medium' ) : '';
-            if ( $thumb_url ) :
-        ?>
-          <span class="ng-rack-photo">
-            <?php echo wp_get_attachment_image( $thumb_id, 'medium', false, [
-                'loading'  => 'lazy',
-                'decoding' => 'async',
-                'alt'      => esc_attr( sprintf( __( '%s category', 'neogen' ), $term->name ) ),
-            ] ); ?>
-          </span>
-        <?php else : ?>
-          <span class="ng-rack-icon" aria-hidden="true"><?php echo $icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <?php endif; ?>
-        <span class="ng-rack-title">
-          <span class="ar"><?php echo esc_html( $ar_name ); ?></span>
-        </span>
-        <span class="ng-rack-desc">
-          <?php
-          /*
-           * AR-first card description. Three sources, in priority order:
-           *   1. Manual override map (slug → short Arabic line) — keeps
-           *      the homepage tight regardless of what's in the term
-           *      description in WP admin.
-           *   2. The term description itself, but only if it's Arabic
-           *      AND under 100 chars.
-           *   3. Generic Arabic fallback line.
-           */
-          $copy_map = apply_filters('neogen_homepage_cat_copy', [
-              'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
-              'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
-              'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
-              'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
-              'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-              'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-              'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
-              'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
-          ]);
 
-          $ar_label = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
+          // Photo: prefer category thumbnail, fall back to first product
+          // image in this category so every card has imagery without
+          // manual setup. Cached per request via $cat_photo_cache.
+          static $cat_photo_cache = [];
+          if ( ! isset( $cat_photo_cache[ $term->term_id ] ) ) {
+              $thumb_id = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+              if ( ! $thumb_id && function_exists( 'wc_get_products' ) ) {
+                  $first = wc_get_products( [
+                      'category' => [ $term->slug ],
+                      'limit'    => 1,
+                      'status'   => 'publish',
+                      'orderby'  => 'date',
+                      'order'    => 'DESC',
+                  ] );
+                  if ( ! empty( $first ) && $first[0] instanceof WC_Product ) {
+                      $thumb_id = (int) $first[0]->get_image_id();
+                  }
+              }
+              $cat_photo_cache[ $term->term_id ] = $thumb_id;
+          }
+          $thumb_id = (int) $cat_photo_cache[ $term->term_id ];
+
+          // AR description: copy_map override → Arabic term description (≤100 chars) → generic fallback.
           if ( isset( $copy_map[ $slug ] ) ) {
-              echo esc_html( $copy_map[ $slug ] );
+              $desc = $copy_map[ $slug ];
           } else {
               $desc_raw    = trim( (string) $term->description );
               $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
               $is_too_long = mb_strlen($desc_raw) > 100;
-              if ( $desc_raw === '' || $desc_raw === $ar_name || $is_english || $is_too_long ) {
-                  echo esc_html( sprintf( __( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', 'neogen' ), $ar_label ) );
+              if ( $desc_raw === '' || $is_english || $is_too_long ) {
+                  $desc = sprintf( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', $ar_name );
               } else {
-                  echo esc_html( $desc_raw );
+                  $desc = $desc_raw;
               }
           }
-          ?>
+      ?>
+      <a class="ng-cat-card reveal" href="<?php echo esc_url( $link ); ?>" aria-label="<?php echo esc_attr( $ar_name ); ?>">
+        <span class="ng-cat-photo" aria-hidden="true">
+          <?php if ( $thumb_id ) : ?>
+            <?php echo wp_get_attachment_image( $thumb_id, 'medium_large', false, [
+                'loading'  => 'lazy',
+                'decoding' => 'async',
+                'alt'      => '',
+                'class'    => 'ng-cat-img',
+            ] ); ?>
+          <?php endif; ?>
         </span>
-        <span class="ng-rack-count"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
-        <span class="ng-rack-link">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        <span class="ng-cat-overlay" aria-hidden="true"></span>
+        <span class="ng-cat-count" dir="ltr"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
+        <span class="ng-cat-body">
+          <span class="ng-cat-title"><?php echo esc_html( $ar_name ); ?></span>
+          <span class="ng-cat-desc"><?php echo esc_html( $desc ); ?></span>
+          <span class="ng-cat-cta">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        </span>
       </a>
       <?php endforeach; ?>
     </div>
