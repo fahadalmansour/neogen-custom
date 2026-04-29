@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen REST Content
  * Description: REST surface for n8n + Ollama-driven AR content backfill (titles, descriptions, imperial→metric). Auth: WP application password tied to a dedicated 'n8n-bot' user with shop_manager role.
- * Version: 1.37.0
+ * Version: 1.37.1
  *
  * v1.37.0 — first cut. Routes:
  *   GET  /wp-json/neogen/v1/products?missing=ar_title&limit=20
@@ -164,6 +164,17 @@ function ng_rest_set_ar_field( $request, $field_name, $meta_key, $source_key ) {
     $product = get_post( $id );
     if ( ! $product || $product->post_type !== 'product' ) {
         return new WP_Error( 'not_found', 'Product not found.', array( 'status' => 404 ) );
+    }
+
+    // v1.37.1 — respect manual edits. If the existing source is 'manual',
+    // refuse to overwrite from an LLM source. Manual edits are sacred.
+    $existing_source = (string) get_post_meta( $id, $source_key, true );
+    if ( $existing_source === 'manual' && strpos( $source, 'ollama-' ) === 0 ) {
+        return new WP_Error(
+            'manual_lock',
+            "Field $field_name is locked to a manual edit; LLM source rejected. Use source=manual to override deliberately.",
+            array( 'status' => 409 )
+        );
     }
 
     // Backup current value once so rollback is possible.
