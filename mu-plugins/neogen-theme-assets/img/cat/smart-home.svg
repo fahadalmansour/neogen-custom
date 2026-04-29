@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="أتمتة المنزل">
+  <defs>
+    <linearGradient id="bg-smart-home" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <pattern id="dots-smart-home" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#CBD5E1" opacity="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bg-smart-home)"/>
+  <rect width="200" height="200" rx="16" fill="url(#dots-smart-home)"/>
+  <rect x="8" y="8" width="184" height="184" rx="12" fill="none" stroke="#0F172A" stroke-width="0.6" opacity="0.08"/>
+  <g transform="translate(100 92)">
+    <g stroke="#0F172A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-32 -4 L0 -32 L32 -4" />
+      <path d="M-24 -4 V28 H24 V-4" />
+      <circle cx="0" cy="14" r="6" fill="#38BDF8" stroke="#38BDF8"/>
+      <path d="M0 4 v-6 M-9 14 h-6 M9 14 h6" stroke="#0F172A"/>
+    </g></g>
+  <g transform="translate(100 168)">
+    <text x="0" y="0" font-family="'Rakkas','Tajawal',sans-serif" font-size="14" font-weight="600" fill="#0F172A" text-anchor="middle">أتمتة المنزل</text>
+  </g>
+  <text x="14" y="24" font-family="'IBM Plex Mono','Courier New',monospace" font-size="7" fill="#0F172A" opacity="0.45" letter-spacing="1.5">NG · SMART-HOME</text>
+</svg>

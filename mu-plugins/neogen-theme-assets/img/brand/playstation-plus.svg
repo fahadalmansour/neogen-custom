@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="PlayStation Plus">
+  <defs>
+    <linearGradient id="g-playstation-plus" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#003791"/>
+      <stop offset="100%" stop-color="#003791" stop-opacity="0.85"/>
+    </linearGradient>
+    <pattern id="p-playstation-plus" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.7" fill="#FFD700" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#g-playstation-plus)"/>
+  <rect width="200" height="200" rx="16" fill="url(#p-playstation-plus)"/>
+  <rect x="8" y="8" width="184" height="184" rx="12" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.18"/>
+  <g transform="translate(100 96)">
+    <g fill="#FFFFFF" stroke="none">
+      <path d="M-22 -32 v54 l-10 -3 v-54 z" opacity="0.9"/>
+      <path d="M-12 -26 v32 l24 5 v-10 l-16 -3 v-22 z" opacity="0.65"/>
+    </g>
+    <g transform="translate(20 16)">
+      <circle cx="0" cy="0" r="14" fill="#FFD700"/>
+      <path d="M-7 0 h14 M0 -7 v14" stroke="#003791" stroke-width="3" stroke-linecap="round"/>
+    </g></g>
+  <g transform="translate(0 200)">
+    <rect x="0" y="-32" width="200" height="32" fill="#FFD700" opacity="0.06"/>
+    <text x="14" y="-12" font-family="'IBM Plex Mono','Courier New',monospace" font-size="9" fill="#FFD700" opacity="0.85" letter-spacing="2">PLAYSTATION PLUS</text>
+    <text x="186" y="-12" font-family="'Tajawal','Helvetica',sans-serif" font-size="11" font-weight="600" fill="#FFD700" opacity="0.95" text-anchor="end">بلايستيشن بلس</text>
+  </g>
+  <text x="14" y="22" font-family="'IBM Plex Mono','Courier New',monospace" font-size="7" fill="#FFFFFF" opacity="0.75" letter-spacing="1.5">NG · GIFT</text>
+</svg>

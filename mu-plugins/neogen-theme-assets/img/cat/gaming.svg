@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="ألعاب">
+  <defs>
+    <linearGradient id="bg-gaming" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <pattern id="dots-gaming" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#CBD5E1" opacity="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bg-gaming)"/>
+  <rect width="200" height="200" rx="16" fill="url(#dots-gaming)"/>
+  <rect x="8" y="8" width="184" height="184" rx="12" fill="none" stroke="#0F172A" stroke-width="0.6" opacity="0.08"/>
+  <g transform="translate(100 92)">
+    <g stroke="#0F172A" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M-30 -6 q-12 6 -12 22 q0 12 10 12 q6 0 10 -8 h44 q4 8 10 8 q10 0 10 -12 q0 -16 -12 -22 z" fill="#F1F5F9"/>
+      <path d="M-22 6 v8 M-26 10 h8" />
+      <circle cx="20" cy="6"  r="2.5" fill="#38BDF8" stroke="#38BDF8"/>
+      <circle cx="28" cy="12" r="2.5" fill="#38BDF8" stroke="#38BDF8"/>
+    </g></g>
+  <g transform="translate(100 168)">
+    <text x="0" y="0" font-family="'Rakkas','Tajawal',sans-serif" font-size="14" font-weight="600" fill="#0F172A" text-anchor="middle">ألعاب</text>
+  </g>
+  <text x="14" y="24" font-family="'IBM Plex Mono','Courier New',monospace" font-size="7" fill="#0F172A" opacity="0.45" letter-spacing="1.5">NG · GAMING</text>
+</svg>

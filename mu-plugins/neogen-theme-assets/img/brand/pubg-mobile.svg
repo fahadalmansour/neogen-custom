@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="PUBG Mobile">
+  <defs>
+    <linearGradient id="g-pubg-mobile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F2A900"/>
+      <stop offset="100%" stop-color="#F2A900" stop-opacity="0.85"/>
+    </linearGradient>
+    <pattern id="p-pubg-mobile" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.7" fill="#0F172A" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#g-pubg-mobile)"/>
+  <rect width="200" height="200" rx="16" fill="url(#p-pubg-mobile)"/>
+  <rect x="8" y="8" width="184" height="184" rx="12" fill="none" stroke="#0F172A" stroke-width="0.5" opacity="0.18"/>
+  <g transform="translate(100 96)">
+    <g fill="#0F172A" stroke="none">
+      <path d="M-30 -8 h60 l-6 22 h-48 z"/>
+      <rect x="-24" y="-24" width="14" height="14" rx="1" fill="#FFFFFF"/>
+      <rect x="-7" y="-24" width="14" height="14" rx="1" fill="#FFFFFF"/>
+      <rect x="10" y="-24" width="14" height="14" rx="1" fill="#FFFFFF"/>
+    </g>
+    <text x="0" y="32" font-family="'Chakra Petch','Helvetica',sans-serif" font-size="14" font-weight="700" fill="#0F172A" text-anchor="middle" letter-spacing="4">PUBG</text></g>
+  <g transform="translate(0 200)">
+    <rect x="0" y="-32" width="200" height="32" fill="#0F172A" opacity="0.06"/>
+    <text x="14" y="-12" font-family="'IBM Plex Mono','Courier New',monospace" font-size="9" fill="#0F172A" opacity="0.85" letter-spacing="2">PUBG MOBILE</text>
+    <text x="186" y="-12" font-family="'Tajawal','Helvetica',sans-serif" font-size="11" font-weight="600" fill="#0F172A" opacity="0.95" text-anchor="end">ببجي موبايل</text>
+  </g>
+  <text x="14" y="22" font-family="'IBM Plex Mono','Courier New',monospace" font-size="7" fill="#FFFFFF" opacity="0.75" letter-spacing="1.5">NG · GIFT</text>
+</svg>

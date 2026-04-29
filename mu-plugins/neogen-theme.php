@@ -255,6 +255,14 @@ function ng_category_image_fallback( $slug ) {
 
     $url = isset($map[$slug]) ? (string) $map[$slug] : '';
 
+    // v1.36.0: prefer a designed cover at img/cat/<slug>.svg if shipped.
+    if ( $url === '' && defined('NG_THEME_ASSET_DIR') ) {
+        $disk = NG_THEME_ASSET_DIR . '/img/cat/' . $slug . '.svg';
+        if ( is_readable($disk) ) {
+            $url = $base . '/img/cat/' . $slug . '.svg';
+        }
+    }
+
     // Auto-discover a brands/{slug}/_default.* file as a secondary path.
     if ( $url === '' && defined('NG_THEME_ASSET_DIR') ) {
         foreach ( ['webp','jpg','png'] as $ext ) {
@@ -263,6 +271,14 @@ function ng_category_image_fallback( $slug ) {
                 $url = $base . '/img/brands/' . $slug . '/_default.' . $ext;
                 break;
             }
+        }
+    }
+
+    // v1.36.0: final tier — designed _default cover.
+    if ( $url === '' && defined('NG_THEME_ASSET_DIR') ) {
+        $disk = NG_THEME_ASSET_DIR . '/img/cat/_default.svg';
+        if ( is_readable($disk) ) {
+            $url = $base . '/img/cat/_default.svg';
         }
     }
 
@@ -570,6 +586,15 @@ function ng_gift_cards_brand_grid() {
     $total_cards  = (int) array_sum( array_map( fn( $r ) => (int) $r->variant_count, $rows ) );
 
     echo '<section class="ng-gc-brands-grid-wrap ng-gc-brands--lanes">';
+
+    // v1.36.0 — designed hero banner above the brands head.
+    if ( defined( 'NG_THEME_ASSET_DIR' ) && is_readable( NG_THEME_ASSET_DIR . '/img/hero/gift-cards.svg' ) ) {
+        $hero_url = ( defined( 'NG_THEME_ASSET_URL' ) ? NG_THEME_ASSET_URL : '' ) . '/img/hero/gift-cards.svg';
+        echo '<figure class="ng-gc-hero">';
+        echo   '<img src="' . esc_url( $hero_url ) . '" alt="بطاقات رقمية · NeoGen" loading="lazy" decoding="async">';
+        echo '</figure>';
+    }
+
     echo   '<div class="ng-gc-brands-head">';
     echo     '<div class="ng-gc-brands-kicker"><span></span>المتجر · <b>بطاقات رقمية</b></div>';
     echo     '<h2 class="ng-gc-brands-h">العلامات التجارية</h2>';
@@ -599,9 +624,19 @@ function ng_gift_cards_brand_grid() {
 
         $is_first = true;
         foreach ( $lane['brands'] as $b ) {
-            $sample = wc_get_product( $b['pid'] );
-            $img_id = $sample instanceof WC_Product ? (int) $sample->get_image_id() : 0;
-            $img    = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
+            // v1.36.0: prefer designed brand SVG (img/brand/<slug>.svg)
+            // over the sample product's tiny featured thumbnail.
+            $img       = '';
+            $is_designed = false;
+            if ( defined( 'NG_THEME_ASSET_DIR' )
+                 && is_readable( NG_THEME_ASSET_DIR . '/img/brand/' . $b['slug'] . '.svg' ) ) {
+                $img = ( defined( 'NG_THEME_ASSET_URL' ) ? NG_THEME_ASSET_URL : '' ) . '/img/brand/' . $b['slug'] . '.svg';
+                $is_designed = true;
+            } else {
+                $sample = wc_get_product( $b['pid'] );
+                $img_id = $sample instanceof WC_Product ? (int) $sample->get_image_id() : 0;
+                $img    = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
+            }
 
             $term = get_term_by( 'slug', $b['slug'], 'product_cat' );
             $url  = ( $term && ! is_wp_error( $term ) )
@@ -611,8 +646,9 @@ function ng_gift_cards_brand_grid() {
 
             $cls = 'ng-gc-brand-tile';
             if ( $is_first ) { $cls .= ' is-lead'; }
+            if ( $is_designed ) { $cls .= ' is-designed'; }
 
-            echo '<a class="' . esc_attr( $cls ) . '" href="' . esc_url( $url ) . '" data-brand="' . esc_attr( $b['slug'] ) . '">';
+            echo '<a class="' . esc_attr( $cls ) . '" href="' . esc_url( $url ) . '" data-brand="' . esc_attr( $b['slug'] ) . '"' . ( $is_designed ? ' data-asset="svg"' : '' ) . '>';
             echo   '<span class="ng-gc-brand-chip" dir="ltr">' . (int) $b['variants'] . '</span>';
             if ( $is_first ) {
                 echo '<span class="ng-gc-brand-pill">الأكثر تنوّعاً</span>';

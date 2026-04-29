@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="فئة">
+  <defs>
+    <linearGradient id="bg-_default" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <pattern id="dots-_default" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#CBD5E1" opacity="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" rx="16" fill="url(#bg-_default)"/>
+  <rect width="200" height="200" rx="16" fill="url(#dots-_default)"/>
+  <rect x="8" y="8" width="184" height="184" rx="12" fill="none" stroke="#0F172A" stroke-width="0.6" opacity="0.08"/>
+  <g transform="translate(100 92)">
+    <g stroke="#0F172A" stroke-width="2" fill="none" stroke-linejoin="round">
+      <rect x="-26" y="-26" width="52" height="52" rx="6" fill="#F1F5F9"/>
+      <line x1="-26" y1="-8" x2="26" y2="-8"/>
+      <line x1="0" y1="-26" x2="0" y2="-8"/>
+      <circle cx="0" cy="9" r="6" fill="#38BDF8" stroke="#38BDF8"/>
+    </g></g>
+  <g transform="translate(100 168)">
+    <text x="0" y="0" font-family="'Rakkas','Tajawal',sans-serif" font-size="14" font-weight="600" fill="#0F172A" text-anchor="middle">فئة</text>
+  </g>
+  <text x="14" y="24" font-family="'IBM Plex Mono','Courier New',monospace" font-size="7" fill="#0F172A" opacity="0.45" letter-spacing="1.5">NG · _DEFAULT</text>
+</svg>
