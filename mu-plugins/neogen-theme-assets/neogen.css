@@ -8188,3 +8188,210 @@ body.tax-product_cat.term-gift-cards .woocommerce ul.products li.product:hover {
   .ng-gc-lane-strip { grid-auto-columns: 46%; }
   .ng-gc-brands--lanes .ng-gc-brand-name { font-size: 13px; }
 }
+
+/* ────────────────────────────────────────────────────────
+ * Footer cross-nav rack v1.35.2 — compact variant rendered
+ * AT THE BOTTOM of category archives (not on bare /shop/).
+ * Replaces the heavy 6-column .ng-rack-unit strip with a
+ * tight chip-card lane: square photo, AR title, count chip,
+ * arrow CTA. Visually closer to the gift-cards brand tiles
+ * for system cohesion.
+ * ──────────────────────────────────────────────────────── */
+.ng-shop-cats--footer {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.ng-shop-cats--footer .ng-section-head {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ng-shop-cats--footer .ng-section-en {
+  font-size: clamp(20px, 2.2vw, 26px);
+  margin: 0;
+}
+.ng-shop-cats--footer .ng-section-ar {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.ng-rack--footer {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  direction: rtl;
+}
+
+/* Reset the heavy default .ng-rack-unit treatment — only inside the footer rack. */
+.ng-rack--footer .ng-rack-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  position: relative;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  grid-template-columns: none;
+  gap: 10px !important;
+}
+.ng-rack--footer .ng-rack-unit:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 26px -22px rgba(56, 189, 248, 0.4);
+}
+.ng-rack--footer .ng-rack-unit.is-current {
+  border-color: rgba(56, 189, 248, 0.6);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), var(--surface));
+}
+.ng-rack--footer .ng-rack-unit.is-current::after {
+  content: 'أنت هنا';
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  font-family: var(--font-ar-display, var(--font-wordmark));
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #0b1220;
+  border-radius: 999px;
+  padding: 3px 9px;
+  z-index: 2;
+}
+
+/* Hide the heavy rack-id + LED stack inside the footer variant. */
+.ng-rack--footer .ng-rack-id,
+.ng-rack--footer .ng-rack-led { display: none; }
+
+/* Photo well — square, contained logo style matching brand tiles. */
+.ng-rack--footer .ng-rack-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(241, 245, 249, 0.85) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  display: grid;
+  place-items: center;
+  padding: 12%;
+}
+.ng-rack--footer .ng-rack-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.ng-rack--footer .ng-rack-icon {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 55%, rgba(56, 189, 248, 0.16), transparent 55%),
+    var(--bg-alt);
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.ng-rack--footer .ng-rack-icon svg { width: 32px; height: 32px; }
+
+/* Title — single AR line, start-aligned. */
+.ng-rack--footer .ng-rack-title {
+  display: block;
+  text-align: start;
+  margin: 0;
+}
+.ng-rack--footer .ng-rack-title .ar {
+  font-family: var(--font-ar-display, var(--font-wordmark));
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+  line-height: 1.25;
+  text-align: start;
+}
+.ng-rack--footer .ng-rack-title .en { display: none; }
+
+/* Count chip top-corner + CTA bottom row. */
+.ng-rack--footer .ng-rack-count {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 999px;
+  padding: 3px 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.ng-rack--footer .ng-rack-count b { color: inherit; font-weight: 700; }
+.ng-rack--footer .ng-rack-count::after { content: ''; }
+
+.ng-rack--footer .ng-rack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s var(--ease), gap 0.2s var(--ease);
+}
+.ng-rack--footer .ng-rack-link svg { width: 11px; height: 11px; }
+[dir="rtl"] .ng-rack--footer .ng-rack-link svg { transform: scaleX(-1); }
+.ng-rack--footer .ng-rack-unit:hover .ng-rack-link {
+  color: var(--accent);
+  gap: 7px;
+}
+
+/* Hover gradient sheen — same trick as brand tiles. */
+.ng-rack--footer .ng-rack-unit::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(135deg, transparent 0%, rgba(56, 189, 248, 0) 60%, rgba(56, 189, 248, 0.22) 100%);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+.ng-rack--footer .ng-rack-unit:hover::before { opacity: 1; }
+
+@media (max-width: 1100px) {
+  .ng-rack--footer { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .ng-rack--footer {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 38%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: -16px;
+    padding-inline: 16px 16px;
+    padding-bottom: 6px;
+  }
+  .ng-rack--footer .ng-rack-unit { scroll-snap-align: start; }
+}
+@media (max-width: 480px) {
+  .ng-rack--footer { grid-auto-columns: 46%; }
+}

@@ -319,12 +319,15 @@ function ng_shop_category_tiles() {
         '<span class="l"></span><span class="l cyan"></span><span class="l on"></span>',
     ];
 
-    echo '<section class="ng-section ng-shop-cats">';
-    echo '<div class="ng-container">';
-    // v1.31.0: contextualize the heading.
-    // - Bare Shop archive (no category selected): "اختر فئة" prompt.
-    // - Inside a category archive: cross-nav "تصفّح فئات أخرى".
+    // v1.35.2: when the rack appears at the bottom of a category page
+    // (cross-nav, not primary entry), render a compact "footer rack"
+    // variant — chip-card lane instead of the heavy 6-column rack-id
+    // strip used on bare Shop. Same data, lighter visual weight.
     $is_inside_cat = is_product_category();
+    $section_cls   = 'ng-section ng-shop-cats' . ( $is_inside_cat ? ' ng-shop-cats--footer' : '' );
+
+    echo '<section class="' . esc_attr( $section_cls ) . '">';
+    echo '<div class="ng-container">';
     echo '<div class="ng-section-head">';
     echo   '<div class="ng-section-kicker"><span></span>المتجر · <b>حسب الفئة</b></div>';
     echo   '<div class="ng-section-titles">';
@@ -337,7 +340,7 @@ function ng_shop_category_tiles() {
     }
     echo   '</div>';
     echo '</div>';
-    echo '<div class="ng-rack">';
+    echo '<div class="ng-rack' . ( $is_inside_cat ? ' ng-rack--footer' : '' ) . '">';
     foreach ( $cats as $i => $term ) {
         $slug      = $term->slug;
         $thumb_id  = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
