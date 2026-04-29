@@ -1127,6 +1127,78 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   direction: ltr;
 }
 
+/* Operator Picks — horizontal scroll deck (v1.25.0) ─────────────────── */
+.ng-deck-wrap {
+  position: relative;
+  margin: 0 -8px;
+}
+
+.ng-product-grid--deck {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 320px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 8px;
+  padding: 4px 8px 22px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-soft) transparent;
+}
+
+.ng-product-grid--deck .ng-product { scroll-snap-align: start; }
+
+.ng-product-grid--deck::-webkit-scrollbar { height: 6px; }
+.ng-product-grid--deck::-webkit-scrollbar-track { background: transparent; }
+.ng-product-grid--deck::-webkit-scrollbar-thumb {
+  background: var(--accent-soft);
+  border-radius: 3px;
+}
+.ng-product-grid--deck::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+.ng-deck-arrow {
+  position: absolute;
+  top: 42%;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.ng-deck-arrow:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+.ng-deck-arrow:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-color: var(--accent);
+}
+.ng-deck-arrow svg { width: 22px; height: 22px; }
+.ng-deck-arrow--prev { left: -22px; }
+.ng-deck-arrow--next { right: -22px; }
+.ng-deck-arrow[data-disabled="true"] {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .ng-product-grid--deck { grid-auto-columns: 78vw; }
+  .ng-deck-arrow { display: none; }
+}
+
 .ng-product {
   position: relative;
   display: grid;

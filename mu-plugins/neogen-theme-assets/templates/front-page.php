@@ -75,7 +75,7 @@ if (function_exists('wc_get_products')) {
             'limit'   => 24,
         ]);
         foreach ((array) $featured as $p) {
-            if (count($picks) >= 4) break;
+            if (count($picks) >= 12) break;
             $slug = $primary_cat_slug($p);
             if ($slug !== '' && in_array($slug, $picks_cats, true)) continue;
             $picks[] = $p;
@@ -85,7 +85,7 @@ if (function_exists('wc_get_products')) {
     }
 
     // Pass 2 — fill from latest in NEW categories
-    if (count($picks) < 4) {
+    if (count($picks) < 12) {
         $fill = wc_get_products([
             'status'  => 'publish',
             'limit'   => 24,
@@ -94,7 +94,7 @@ if (function_exists('wc_get_products')) {
             'exclude' => $picks_added,
         ]);
         foreach ((array) $fill as $p) {
-            if (count($picks) >= 4) break;
+            if (count($picks) >= 12) break;
             $slug = $primary_cat_slug($p);
             if ($slug !== '' && in_array($slug, $picks_cats, true)) continue;
             $picks[] = $p;
@@ -103,24 +103,27 @@ if (function_exists('wc_get_products')) {
         }
     }
 
-    // Pass 3 — last resort, drop diversity rule and pad to 4
-    if (count($picks) < 4) {
+    // Pass 3 — last resort, drop diversity rule and pad to 12
+    if (count($picks) < 12) {
         $pad = wc_get_products([
             'status'  => 'publish',
-            'limit'   => 4 - count($picks),
+            'limit'   => max(0, 12 - count($picks)),
             'orderby' => 'date',
             'order'   => 'DESC',
             'exclude' => $picks_added,
         ]);
         foreach ((array) $pad as $p) {
-            if (count($picks) >= 4) break;
+            if (count($picks) >= 12) break;
             $picks[] = $p;
             $picks_added[] = $p->get_id();
         }
     }
 }
-// 3 cards keeps a clean single row in the 3-column grid below.
-$picks = array_slice($picks, 0, 3);
+// Horizontal scroll deck — render up to 12 picks; native overflow-scroll
+// lets users swipe / drag, paired with discoverable arrow buttons. Below
+// the inner-break thresholds (count($picks) >= 4) we'd cap fetching too
+// early; bumped to 12 in those branches above as well (v1.25.0).
+$picks = array_slice($picks, 0, 12);
 
 // Ticker — latest 7 with SKUs.
 $ticker_products = [];
@@ -342,7 +345,14 @@ $rack_letter = function ($i) {
       </p>
     </div>
 
-    <div class="ng-product-grid">
+    <div class="ng-deck-wrap">
+      <button class="ng-deck-arrow ng-deck-arrow--prev" type="button" aria-label="<?php echo esc_attr__('السابق', 'neogen'); ?>" data-direction="prev" data-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="ng-deck-arrow ng-deck-arrow--next" type="button" aria-label="<?php echo esc_attr__('التالي', 'neogen'); ?>" data-direction="next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <div class="ng-product-grid ng-product-grid--deck">
       <?php foreach ($picks as $product) :
           if (!$product instanceof WC_Product) { continue; }
           $id        = $product->get_id();
@@ -588,7 +598,8 @@ $rack_letter = function ($i) {
         </div>
       </article>
       <?php endforeach; ?>
-    </div>
+      </div><!-- /.ng-product-grid--deck -->
+    </div><!-- /.ng-deck-wrap -->
   </div>
 </section>
 <?php endif; ?>

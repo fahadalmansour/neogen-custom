@@ -136,4 +136,32 @@
     }, { threshold: 0.14, rootMargin: '0px 0px -80px 0px' });
     els.forEach(function (e) { io.observe(e); });
   })();
+
+  // --- Horizontal product deck — arrow controls (v1.25.0) ----------------
+  // Wires .ng-deck-arrow buttons inside .ng-deck-wrap to scrollBy() on the
+  // sibling .ng-product-grid--deck. Disables the prev arrow at scrollLeft
+  // 0 and the next arrow at scrollEnd, via data-disabled (CSS handles the
+  // visual). Native swipe / drag still works on touch.
+  (function deckArrows() {
+    document.querySelectorAll('.ng-deck-wrap').forEach(function (wrap) {
+      var deck = wrap.querySelector('.ng-product-grid--deck');
+      if (!deck) return;
+      var prev = wrap.querySelector('.ng-deck-arrow--prev');
+      var next = wrap.querySelector('.ng-deck-arrow--next');
+      function step(d) {
+        deck.scrollBy({ left: d * Math.max(280, deck.clientWidth * 0.7), behavior: 'smooth' });
+      }
+      if (prev) prev.addEventListener('click', function () { step(-1); });
+      if (next) next.addEventListener('click', function () { step( 1); });
+      function update() {
+        var atStart = deck.scrollLeft <= 1;
+        var atEnd = deck.scrollLeft >= deck.scrollWidth - deck.clientWidth - 1;
+        if (prev) prev.dataset.disabled = atStart ? 'true' : 'false';
+        if (next) next.dataset.disabled = atEnd ? 'true' : 'false';
+      }
+      deck.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
+  })();
 })();
