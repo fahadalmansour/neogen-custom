@@ -281,6 +281,13 @@ function ng_shop_category_tiles() {
     if ( ! ( is_shop() || is_product_category() ) ) return;
     if ( ! function_exists('ng_top_product_cats') ) return;
 
+    // v1.34.1: skip on gift-cards parent — the brand grid below
+    // (ng_gift_cards_brand_grid, prio 9) is the primary cross-nav
+    // there, so this rack would just stack redundantly. Descendant
+    // pages (game-cards/playstation/) still get the rack so users
+    // can jump back to other top-level cats from a brand drilldown.
+    if ( is_product_category( 'gift-cards' ) ) return;
+
     $current_id = is_product_category() ? get_queried_object_id() : 0;
     $cats = ng_top_product_cats(6);
     if ( empty( $cats ) ) return;
