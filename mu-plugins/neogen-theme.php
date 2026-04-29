@@ -367,22 +367,45 @@ function ng_shop_category_tiles() {
  */
 
 /**
- * Filter the main archive query on /product-category/gift-cards/ when
- * ?region=<slug> is present in the URL. Limits the loop to products
- * whose `_ng_gift_card_region` meta matches (case-insensitive).
+ * Filter the main archive query on /product-category/gift-cards/ (and
+ * its descendants) by ?region=<slug> and/or ?brand=<slug>. Both meta
+ * lookups stack so combinations like ?region=us&brand=playstation work.
  */
 add_action('pre_get_posts', function ($q) {
     if ( is_admin() || ! $q->is_main_query() ) return;
-    if ( ! is_product_category( 'gift-cards' ) ) return;
+    // Apply on /gift-cards/ and any descendant brand sub-cat too.
+    $on_gift_cards = is_product_category( 'gift-cards' );
+    if ( ! $on_gift_cards && function_exists('is_product_category') && is_product_category() ) {
+        $term = get_queried_object();
+        if ( $term && $term->taxonomy === 'product_cat' ) {
+            $ancestors = get_ancestors( $term->term_id, 'product_cat' );
+            $gc        = get_term_by( 'slug', 'gift-cards', 'product_cat' );
+            if ( $gc && in_array( $gc->term_id, $ancestors, true ) ) {
+                $on_gift_cards = true;
+            }
+        }
+    }
+    if ( ! $on_gift_cards ) return;
+
     $region = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
-    if ( $region === '' ) return;
+    $brand  = isset( $_GET['brand'] )  ? sanitize_key( $_GET['brand'] )  : '';
+    if ( $region === '' && $brand === '' ) return;
 
     $existing = (array) $q->get( 'meta_query' );
-    $existing[] = array(
-        'key'     => '_ng_gift_card_region',
-        'value'   => $region,
-        'compare' => '=',
-    );
+    if ( $region !== '' ) {
+        $existing[] = array(
+            'key'     => '_ng_gift_card_region',
+            'value'   => $region,
+            'compare' => '=',
+        );
+    }
+    if ( $brand !== '' ) {
+        $existing[] = array(
+            'key'     => '_ng_gift_card_brand',
+            'value'   => $brand,
+            'compare' => '=',
+        );
+    }
     $q->set( 'meta_query', $existing );
 });
 
@@ -390,13 +413,16 @@ add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
 function ng_gift_cards_archive_extras() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
 
-    // Region tabs (cosmetic until products are tagged).
+    // Region tabs — wired to ?region= via the pre_get_posts hook above.
+    // Each region: [label, flag-glyph]. v1.34.0 adds country-flag emoji
+    // and a "Global" tab (Steam/Razer/Spotify/etc. live under that).
     $regions = array(
-        ''     => 'الكل',
-        'ksa'  => 'السعودية',
-        'gcc'  => 'دول الخليج',
-        'us'   => 'الولايات المتحدة',
-        'uk'   => 'المملكة المتحدة',
+        ''       => array( 'الكل',                '🌐' ),
+        'ksa'    => array( 'السعودية',            '🇸🇦' ),
+        'gcc'    => array( 'دول الخليج',          ''   ),
+        'us'     => array( 'الولايات المتحدة',     '🇺🇸' ),
+        'uk'     => array( 'المملكة المتحدة',      '🇬🇧' ),
+        'global' => array( 'عالمي',               '🌍' ),
     );
     $current = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
 
@@ -423,16 +449,102 @@ function ng_gift_cards_archive_extras() {
     echo   '<div class="ng-gc-regions" role="tablist" aria-label="فلتر المنطقة">';
     echo     '<div class="ng-gc-regions-label">المنطقة:</div>';
     echo     '<div class="ng-gc-regions-tabs">';
-    foreach ( $regions as $key => $label ) {
+    foreach ( $regions as $key => $info ) {
+        list( $label, $flag ) = $info;
         $is_current = ( $current === $key );
         $url = $key === ''
             ? esc_url( get_term_link( get_queried_object() ) )
             : esc_url( add_query_arg( 'region', $key, get_term_link( get_queried_object() ) ) );
         echo '<a class="ng-gc-region-tab' . ( $is_current ? ' is-current' : '' ) . '" href="' . $url . '" role="tab" aria-selected="' . ( $is_current ? 'true' : 'false' ) . '">';
-        echo   esc_html( $label );
+        if ( $flag !== '' ) {
+            echo '<span class="ng-gc-region-flag" aria-hidden="true">' . $flag . '</span>';
+        }
+        echo   '<span class="ng-gc-region-label">' . esc_html( $label ) . '</span>';
         echo '</a>';
     }
     echo     '</div>';
+    echo   '</div>';
+    echo '</section>';
+}
+
+/**
+ * Brand grid above the gift-cards product loop (v1.34.0).
+ *
+ * Renders a grid of brand tiles (PlayStation, Xbox, Apple, Steam, etc.)
+ * above the WC loop. Click → goes to the brand sub-category page if it
+ * exists (Phase C creates these), otherwise falls back to a ?brand=
+ * query filter on the current archive.
+ *
+ * Only fires on /product-category/gift-cards/ when no brand filter is
+ * active (so the grid disappears once you've drilled into a brand).
+ */
+add_action('woocommerce_before_shop_loop', 'ng_gift_cards_brand_grid', 9);
+function ng_gift_cards_brand_grid() {
+    if ( ! is_product_category( 'gift-cards' ) ) { return; }
+    if ( ! empty( $_GET['brand'] ) ) { return; }
+
+    // Pull all brand slugs that exist in the catalogue (from meta).
+    global $wpdb;
+    $rows = $wpdb->get_results(
+        "SELECT pm.meta_value AS brand_slug, MIN(p.ID) AS sample_pid, COUNT(*) AS variant_count
+           FROM {$wpdb->postmeta} pm
+           JOIN {$wpdb->posts}    p  ON p.ID = pm.post_id
+          WHERE pm.meta_key = '_ng_gift_card_brand'
+            AND p.post_type = 'product'
+            AND p.post_status = 'publish'
+          GROUP BY pm.meta_value
+          ORDER BY variant_count DESC"
+    );
+    if ( empty( $rows ) ) { return; }
+
+    // Brand AR labels — keep in sync with scripts/neogen-gift-cards-bulk.php.
+    $brand_ar = array(
+        'playstation'      => 'بلايستيشن',
+        'xbox'             => 'إكس بوكس',
+        'steam'            => 'ستيم',
+        'razer-gold'       => 'رازر قولد',
+        'roblox'           => 'روبلكس',
+        'pubg-mobile'      => 'ببجي موبايل',
+        'free-fire'        => 'فري فاير',
+        'mobile-legends'   => 'موبايل ليجندز',
+        'apple-itunes'     => 'آبل أيتونز',
+        'google-play'      => 'قوقل بلاي',
+        'netflix'          => 'نتفلكس',
+        'spotify'          => 'سبوتيفاي',
+        'disney-plus'      => 'ديزني بلس',
+        'playstation-plus' => 'بلايستيشن بلس',
+    );
+
+    echo '<section class="ng-gc-brands-grid-wrap">';
+    echo   '<div class="ng-gc-brands-head">';
+    echo     '<h2 class="ng-gc-brands-h">العلامات التجارية</h2>';
+    echo     '<div class="ng-gc-brands-sub">' . count( $rows ) . ' علامة · ' . array_sum( array_map( fn( $r ) => (int) $r->variant_count, $rows ) ) . ' بطاقة</div>';
+    echo   '</div>';
+    echo   '<div class="ng-gc-brands-grid">';
+    foreach ( $rows as $row ) {
+        $slug    = $row->brand_slug;
+        $sample  = wc_get_product( (int) $row->sample_pid );
+        $img_id  = $sample instanceof WC_Product ? (int) $sample->get_image_id() : 0;
+        $img     = $img_id ? wp_get_attachment_image_url( $img_id, 'medium' ) : '';
+        $label   = $brand_ar[ $slug ] ?? ucwords( str_replace( '-', ' ', $slug ) );
+
+        // Prefer brand sub-category URL when one exists; fall back to ?brand= filter.
+        $term = get_term_by( 'slug', $slug, 'product_cat' );
+        $url  = ( $term && ! is_wp_error( $term ) )
+            ? get_term_link( $term )
+            : add_query_arg( 'brand', $slug, get_term_link( get_queried_object() ) );
+        $url = is_wp_error( $url ) ? '#' : $url;
+
+        echo '<a class="ng-gc-brand-tile" href="' . esc_url( $url ) . '">';
+        if ( $img ) {
+            echo '<span class="ng-gc-brand-img"><img src="' . esc_url( $img ) . '" alt="" loading="lazy" decoding="async"></span>';
+        } else {
+            echo '<span class="ng-gc-brand-img ng-gc-brand-img--placeholder" aria-hidden="true"></span>';
+        }
+        echo   '<span class="ng-gc-brand-name">' . esc_html( $label ) . '</span>';
+        echo   '<span class="ng-gc-brand-count" dir="ltr">' . (int) $row->variant_count . ' variants</span>';
+        echo '</a>';
+    }
     echo   '</div>';
     echo '</section>';
 }
