@@ -1,0 +1,211 @@
+sku,name,category,current_sale,landed_est,channel,current_margin_pct,new_sale,new_margin_pct,reprice_delta,action
+GM-GPU-GIG-001,Gigabyte AORUS RTX 5090 Master 32GB,Hardware,27999,25948,Amazon.sa,7.3,32440,20.0,4441,RAISE
+GM-GPU-NVD-001,NVIDIA RTX 5090 Founders Edition (32GB),Hardware,22999,20579,Amazon.sa,10.5,25730,20.0,2731,RAISE
+GM-MON-SAM-001,"Samsung Odyssey OLED G8 (34"" UWQHD 175Hz)",Gaming,7799,7410,Amazon.sa,5.0,9270,20.1,1471,RAISE
+NG-DRN-001,DJI Mini 4 Pro - Sub-249g Drone with 4K/60fps Camera,Drones &amp; Robotics,6099,6055,Amazon.sa,0.7,7570,20.0,1471,RAISE
+NG-DRN-007,"Roborock S8 MaxV Ultra - Smart Robot Vacuum with 10,000Pa Su",Drones &amp; Robotics,7699,7299,Noon,5.2,9130,20.1,1431,RAISE
+GM-MON-LGE-001,"LG UltraGear OLED 27GR95QE-B (27"" QHD 240Hz)",Gaming,4899,4754,Noon,3.0,5950,20.1,1051,RAISE
+GM-MON-ASU-001,"ASUS ROG Swift OLED PG27AQDM (27"" QHD 240Hz)",Gaming,5399,5100,Amazon.sa,5.5,6380,20.1,981,RAISE
+GM-CHR-SEC-001,Secretlab Titan Evo,Gaming,3499,3527,Amazon.sa,-0.8,4410,20.0,911,RAISE
+GM-RTR-ASU-001,ASUS ROG Rapture GT-BE19000AI (WiFi 7),Gaming,4799,4485,Noon,6.5,5610,20.1,811,RAISE
+GM-GPU-NVD-002,NVIDIA RTX 5080 Founders Edition (16GB),Hardware,6499,5826,Amazon.sa,10.4,7290,20.1,791,RAISE
+NG-DRN-002,DJI Avata 2 - Immersive FPV Drone with Goggles,Drones &amp; Robotics,4099,3903,Noon,4.8,4880,20.0,781,RAISE
+NG-3DP-003,Creality K1 Max - Large Format 3D Printer at 600mm/s,3D Printing &amp; CNC,4199,3958,Amazon.sa,5.7,4950,20.0,751,RAISE
+NT-NET-UBQ-001,Ubiquiti USW-Pro-24-PoE,Networking,3999,3800,Jarir,5.0,4750,20.0,751,RAISE
+NT-FWL-FTN-001,Fortinet FortiGate 60F,Homelab,5499,4971,Amazon.sa,9.6,6220,20.1,721,RAISE
+GM-MON-SAM-002,"Samsung Odyssey G7 G70D (32"" 4K 144Hz)",Gaming,3499,3375,Jarir,3.5,4220,20.0,721,RAISE
+GM-MON-DEL-001,"Dell Alienware AW2725DF (27"" QD-OLED 360Hz)",Gaming,5599,5024,Amazon.sa,10.3,6280,20.0,681,RAISE
+NG-3DP-005,Elegoo Saturn 3 Ultra - 12K Resin 3D Printer with 10-inch Sc,3D Printing &amp; CNC,3499,3329,Amazon.sa,4.9,4170,20.2,671,RAISE
+NG-DRN-004,DJI RS 4 - 3-Axis Gimbal Stabilizer for Professional Cameras,Drones &amp; Robotics,3099,3009,Amazon.sa,2.9,3770,20.2,671,RAISE
+GC-SW-ACC1,Adobe Creative Cloud 1 Year | أدوبي كرييتف كلاود,Gift Cards &amp; Software Keys,1999,2123,Noon,-6.2,2660,20.2,661,RAISE
+NG-DRN-005,Insta360 X4 - 8K 360-Degree Camera,Drones &amp; Robotics,3499,3288,Amazon.sa,6.0,4120,20.2,621,RAISE
+GM-CHR-RAZ-001,Razer Iskur V2 NewGen,Gaming,3199,3053,Noon,4.6,3820,20.1,621,RAISE
+NG-ACC-004,Seagate IronWolf 18TB NAS Internal Hard Drive - Built for 24,Hardware,2699,2648,Amazon.sa,1.9,3320,20.2,621,RAISE
+NG-ENT-009,HPE ProLiant DL380 Gen10 Server (Refurbished) - Data Center ,Homelab,6499,5662,Amazon.sa,12.9,7080,20.0,581,RAISE
+SH-RVC-DREM-001,Dreame L50 Ultra,Smart Home &amp; IoT,4599,4126,Jarir,10.3,5160,20.0,561,RAISE
+NG-3DP-008,Phrozen Sonic Mini 8K S - 22-Micron Pixel Resin 3D Printer,3D Printing &amp; CNC,2899,2764,Noon,4.7,3460,20.1,561,RAISE
+NG-MKR-010,Elegoo Mars 4 Ultra Resin 3D Printer - 9K Resolution for Stu,Enthusiasts &amp; Gamers,2399,2355,Jarir,1.8,2950,20.2,551,RAISE
+NG-MKR-007,Prusa Mini+ 3D Printer - Professional Precision in a Compact,Enthusiasts &amp; Gamers,3299,3055,Amazon.sa,7.4,3820,20.0,521,RAISE
+NG-DRN-008,DJI Pocket 3 - Pocket-Sized Gimbal Camera with 1-Inch Sensor,Drones &amp; Robotics,2999,2811,Amazon.sa,6.3,3520,20.1,521,RAISE
+NT-NET-MKT-004,MikroTik CRS312-4C+8XG-RM,Networking,2799,2637,Amazon.sa,5.8,3300,20.1,501,RAISE
+NT-NET-MKT-003,MikroTik CRS328-24P-4S+RM (PoE),Networking,2699,2560,Noon,5.2,3200,20.0,501,RAISE
+NG-DRN-003,DJI Osmo Action 5 Pro - 4K/120fps Waterproof Action Camera,Drones &amp; Robotics,2499,2397,Amazon.sa,4.1,3000,20.1,501,RAISE
+NG-ENT-008,APC Smart-UPS 1500VA LCD RM 2U (SMT1500RMI2U) - Pure Sine Wa,Homelab,4899,4308,Amazon.sa,12.1,5390,20.1,491,RAISE
+NT-NAS-SYN-002,Synology DS925+ (4-Bay),Homelab,3499,3182,Amazon.sa,9.1,3980,20.1,481,RAISE
+NG-SH-002,UniFi Protect G4 Pro Camera - 4K Ultra HD Surveillance Excel,Smart Home &amp; IoT,2899,2688,Amazon.sa,7.3,3370,20.2,471,RAISE
+NG-SEC-004,Ubiquiti UniFi Protect G4 Doorbell Pro - 5MP Smart Doorbell ,Security &amp; Surveillance,2299,2213,Amazon.sa,3.7,2770,20.1,471,RAISE
+NT-MPC-MNF-001,MinisForum MS-01 (Homelab Server),Homelab,3999,3554,Amazon.sa,11.1,4450,20.1,451,RAISE
+NG-DRN-006,FIMI X8 Mini V2 - 4K Drone at 245g with Competitive Pricing,Drones &amp; Robotics,2399,2275,Noon,5.2,2850,20.2,451,RAISE
+NG-ENT-003,Ubiquiti UniFi Dream Machine Pro (UDM-Pro) - All-in-One Ente,Homelab,3099,2794,Noon,9.8,3500,20.2,401,RAISE
+NG-ACC-010,WD Red Plus 8TB NAS Hard Drive - Built for Always-On NAS Sys,Hardware,1449,1458,Amazon.sa,-0.6,1830,20.3,381,RAISE
+NT-UPS-APC-001,APC Smart-UPS SMT1500RM2UC (1500VA Rack),Homelab,4899,4203,Amazon.sa,14.2,5260,20.1,361,RAISE
+NT-NAS-QNP-001,QNAP TS-464-8G (4-Bay),Homelab,2799,2525,Amazon.sa,9.8,3160,20.1,361,RAISE
+NG-NET-011,TP-Link Archer AXE75 - AXE5400 Tri-Band WiFi 6E Router,Networking,1299,1291,Amazon.sa,0.6,1620,20.3,321,RAISE
+GM-CMP-NZX-001,NZXT H9 Elite Mid-Tower ATX Case,Hardware,1349,1320,Amazon.sa,2.1,1660,20.5,311,RAISE
+NG-ENT-010,Ubiquiti UniFi Switch Pro 24 PoE (USW-Pro-24-PoE) - Smart Ma,Homelab,4199,3586,Amazon.sa,14.6,4490,20.1,291,RAISE
+NT-NAS-QNP-002,QNAP TS-262-4G (2-Bay),Homelab,1899,1751,Amazon.sa,7.8,2190,20.1,291,RAISE
+NG-SH-001,Aqara Smart Door Lock A100 - Elite Security with Apple HomeK,Smart Home &amp; IoT,1649,1538,Amazon.sa,6.7,1930,20.3,281,RAISE
+NG-SEC-006,Ajax Hub 2 Plus - Professional Wireless Smart Alarm System,Security &amp; Surveillance,2499,2211,Amazon.sa,11.5,2770,20.2,271,RAISE
+NG-GAM-006,SteelSeries Arctis Nova 7 - Multi-Platform Wireless Gaming H,Gaming,1199,1172,Amazon.sa,2.3,1470,20.3,271,RAISE
+GM-KBD-KEY-001,Keychron K10 HE (Arabic Layout),Gaming,999,1012,Amazon.sa,-1.3,1270,20.3,271,RAISE
+GM-KBD-COR-001,Corsair K70 MAX RGB,Gaming,1299,1242,Noon,4.4,1560,20.4,261,RAISE
+GM-MOU-RAZ-001,Razer DeathAdder V4 Pro (57g Wireless),Gaming,1149,1125,Amazon.sa,2.1,1410,20.2,261,RAISE
+NG-3DP-007,Creality Sonic Pad - Klipper Tablet to Supercharge Your 3D P,3D Printing &amp; CNC,1049,1046,Amazon.sa,0.3,1310,20.2,261,RAISE
+NG-ENT-007,MikroTik CRS326-24G-2S+RM 24-Port Managed Gigabit Switch wit,Homelab,1649,1514,Amazon.sa,8.2,1900,20.3,251,RAISE
+NT-NET-MKT-002,MikroTik CRS326-24G-2S+RM,Networking,1199,1154,Jarir,3.7,1450,20.4,251,RAISE
+NT-FWL-NGT-001,Netgate 4200 MAX pfSense+ Gateway,Homelab,3399,2904,Amazon.sa,14.6,3640,20.2,241,RAISE
+NT-UPS-APC-002,APC Back-UPS Pro BX1500M (Tower),Homelab,1599,1469,Amazon.sa,8.1,1840,20.2,241,RAISE
+GM-KBD-RAZ-001,Razer Huntsman V3 Pro TKL,Gaming,1349,1265,Amazon.sa,6.2,1590,20.4,241,RAISE
+NT-NAS-SYN-001,Synology DS225+ (2-Bay),Homelab,2099,1864,Amazon.sa,11.2,2330,20.0,231,RAISE
+NG-GAM-012,Elgato Wave:3 - Premium USB Condenser Microphone for Streami,Gaming,1149,1104,Amazon.sa,3.9,1380,20.0,231,RAISE
+NG-MKR-002,Raspberry Pi 5 Ultimate Starter Kit - Everything You Need in,Hardware,1149,1097,Noon,4.5,1380,20.5,231,RAISE
+NG-GAM-010,BenQ Zowie XL2546K - 240Hz Esports Gaming Monitor,Gaming,2999,2575,Amazon.sa,14.1,3220,20.0,221,RAISE
+NG-ENT-004,UniFi 6 Long-Range (U6-LR) - High-Performance WiFi 6 Access ,Homelab,1649,1490,Noon,9.6,1870,20.3,221,RAISE
+NT-WAP-UBQ-002,Ubiquiti UniFi U7 Pro,Networking,1399,1289,Amazon.sa,7.9,1620,20.4,221,RAISE
+GM-CTR-SON-001,Sony DualSense Edge Controller,Gaming,1349,1255,Amazon.sa,7.0,1570,20.1,221,RAISE
+NG-GAM-005,Elgato HD60 X - External Capture Card for Streaming and Reco,Gaming,1249,1169,Amazon.sa,6.4,1470,20.5,221,RAISE
+NT-POE-UBQ-001,Ubiquiti USW-Lite-8-PoE,Networking,849,854,Noon,-0.6,1070,20.2,221,RAISE
+NG-ENT-005,Asustor Flashstor 6 (FS6706T) - All-NVMe SSD NAS for Extreme,Homelab,3099,2644,Amazon.sa,14.7,3310,20.1,211,RAISE
+GM-HST-HPX-001,HyperX Cloud Alpha Wireless (300hr),Gaming,1199,1125,Amazon.sa,6.1,1410,20.2,211,RAISE
+GM-CAP-ELG-001,Elgato HD60 X Capture Card,Gaming,1099,1048,Amazon.sa,4.7,1310,20.0,211,RAISE
+NT-UPS-CYB-001,CyberPower OR1500LCDRM1U (1500VA 1U),Homelab,2099,1835,Amazon.sa,12.6,2300,20.2,201,RAISE
+NG-MKR-001,Raspberry Pi 5 8GB - The New Standard in Single Board Comput,Hardware,899,879,Amazon.sa,2.2,1100,20.1,201,RAISE
+SH-RVC-RBRC-001,Roborock Qrevo CurvX,Smart Home &amp; IoT,4599,3828,Amazon.sa,16.8,4790,20.1,191,RAISE
+NG-GAM-004,Razer BlackWidow V4 75% - Compact Mechanical Gaming Keyboard,Gaming,1199,1108,Amazon.sa,7.6,1390,20.3,191,RAISE
+GM-HST-STS-001,SteelSeries Arctis Nova 7 Wireless,Gaming,1149,1066,Noon,7.2,1340,20.4,191,RAISE
+NG-MKR-009,ESP32-S3 DevKit 10-Pack - Wi-Fi + Bluetooth 5 Microcontrolle,Hardware,699,707,Noon,-1.2,890,20.5,191,RAISE
+NG-ENT-006,Synology DiskStation DS1621+ 6-Bay NAS - Enterprise Storage ,Homelab,5599,4621,Amazon.sa,17.5,5780,20.0,181,RAISE
+NG-NET-002,TP-Link Deco XE75 (3-Pack) - AXE5400 WiFi 6E Whole-Home Mesh,Networking,2099,1817,Amazon.sa,13.4,2280,20.3,181,RAISE
+NG-NET-003,Ubiquiti UniFi Switch Lite 16 PoE - 16-Port Managed Gigabit ,Networking,1399,1261,Amazon.sa,9.9,1580,20.2,181,RAISE
+NG-ACC-006,"Samsung T7 Shield 2TB Portable SSD - Rugged, Fast, and Secur",Hardware,1299,1182,Amazon.sa,9.0,1480,20.1,181,RAISE
+NG-SEC-002,Reolink Argus 4 Pro - Solar-Powered Wireless 4K Security Cam,Security &amp; Surveillance,1199,1102,Amazon.sa,8.1,1380,20.1,181,RAISE
+GM-STR-HPX-001,HyperX QuadCast S USB Microphone,Gaming,949,900,Amazon.sa,5.1,1130,20.3,181,RAISE
+NT-WAP-TPL-002,TP-Link Omada EAP650,Networking,799,779,Noon,2.5,980,20.5,181,RAISE
+NG-3DP-001,Bambu Lab P1S 3D Printer - Blazing Speed and Pro Quality in ,3D Printing &amp; CNC,5099,4211,Amazon.sa,17.4,5270,20.1,171,RAISE
+GM-CTR-MSF-001,Xbox Elite Controller Series 2 Core,Gaming,1149,1054,Amazon.sa,8.3,1320,20.2,171,RAISE
+GM-HST-RAZ-001,Razer BlackShark V2 Pro 2023,Gaming,999,935,Amazon.sa,6.4,1170,20.1,171,RAISE
+NT-WAP-UBQ-001,Ubiquiti UniFi U6 Pro,Networking,999,931,Amazon.sa,6.8,1170,20.4,171,RAISE
+NT-NET-MKT-001,MikroTik CRS305-1G-4S+IN,Networking,999,935,Noon,6.4,1170,20.1,171,RAISE
+NG-GAM-009,Corsair K70 RGB Pro - Legendary Mechanical Gaming Keyboard,Gaming,999,932,Amazon.sa,6.7,1170,20.3,171,RAISE
+NG-GAM-003,HyperX Cloud III Wireless - Premium Wireless Gaming Headset,Gaming,999,934,Noon,6.5,1170,20.2,171,RAISE
+GM-CMP-COR-001,Corsair iCUE H150i RGB Elite (360mm AIO),Hardware,1149,1043,Amazon.sa,9.2,1310,20.4,161,RAISE
+GM-CAP-AVR-001,AVerMedia Live Gamer Ultra S,Gaming,1049,962,Amazon.sa,8.3,1210,20.5,161,RAISE
+NG-NET-012,Ubiquiti UniFi Cloud Gateway Ultra - All-in-One UniFi Gatewa,Networking,899,848,Noon,5.7,1060,20.0,161,RAISE
+NG-GAM-007,8BitDo Arcade Stick - Authentic Arcade Experience at Home,Gaming,799,762,Noon,4.7,960,20.7,161,RAISE
+GM-KBD-LOG-001,Logitech G Pro X TKL LIGHTSPEED,Gaming,1199,1075,Amazon.sa,10.4,1350,20.4,151,RAISE
+NG-GAM-002,Razer DeathAdder V3 HyperSpeed - Ultra-Light Wireless Gaming,Gaming,849,797,Noon,6.1,1000,20.3,151,RAISE
+NT-CBL-GEN-001,Cat6a Shielded Bulk Cable (305m),Networking,849,789,Noon,7.0,990,20.3,141,RAISE
+NG-MKR-006,Arduino Mega 2560 Rev3 - The Ultimate Microcontroller Board ,Hardware,549,547,Jarir,0.4,690,20.7,141,RAISE
+NG-MKR-008,Creality Ender-3 V3 SE - The Best Entry-Level 3D Printer,Enthusiasts &amp; Gamers,1199,1059,Amazon.sa,11.7,1330,20.4,131,RAISE
+NT-MPC-BLK-002,Beelink EQ12 (Intel N100),Homelab,999,904,Amazon.sa,9.5,1130,20.0,131,RAISE
+GM-STR-ELG-001,Elgato Stream Deck MK.2,Gaming,949,860,Amazon.sa,9.4,1080,20.4,131,RAISE
+GC-NFX-100,Netflix Gift Card $100 | بطاقة نتفلكس,Gift Cards &amp; Software Keys,389,411,Jarir,-5.8,520,20.9,131,RAISE
+NG-MKR-005,Elgato Stream Deck MK.2 - Professional Productivity Console ,Enthusiasts &amp; Gamers,1249,1093,Amazon.sa,12.5,1370,20.2,121,RAISE
+NG-NET-004,MikroTik CRS305-1G-4S+IN - 4-Port 10G SFP+ Desktop Switch,Networking,1149,1016,Amazon.sa,11.6,1270,20.0,121,RAISE
+GC-APL-100,Apple Gift Card $100 | بطاقة آبل,Gift Cards &amp; Software Keys,389,403,Noon,-3.6,510,21.0,121,RAISE
+NG-MKR-004,Meta Quest 3 128GB - The Most Powerful Mixed Reality Headset,Enthusiasts &amp; Gamers,3299,2724,Amazon.sa,17.4,3410,20.1,111,RAISE
+NG-SEC-003,Hikvision DS-2CD2143G2-I - 4MP AcuSense Dome Camera,Security &amp; Surveillance,749,687,Amazon.sa,8.3,860,20.1,111,RAISE
+SH-SPK-APPL-001,Apple HomePod Mini,Smart Home &amp; IoT,699,647,Noon,7.5,810,20.2,111,RAISE
+GC-SW-OFF24,Microsoft Office 2024 Pro Plus | أوفيس 2024 برو,Gift Cards &amp; Software Keys,349,364,Amazon.sa,-4.2,460,21.0,111,RAISE
+SH-LCK-YALE-001,Yale Assure Lock 2 Wi-Fi,Smart Home &amp; IoT,1549,1319,Amazon.sa,14.8,1650,20.1,101,RAISE
+NG-SEC-007,Eufy Video Doorbell S330 - Dual Camera Smart Doorbell (2K + ,Security &amp; Surveillance,1449,1232,Noon,15.0,1550,20.5,101,RAISE
+GM-MOU-LOG-001,Logitech G Pro X Superlight 2 DEX,Gaming,1099,954,Amazon.sa,13.2,1200,20.5,101,RAISE
+NG-NET-005,Ubiquiti UniFi 6 Lite - WiFi 6 Access Point (AX1500),Networking,849,754,Amazon.sa,11.2,950,20.6,101,RAISE
+GM-RGB-GOV-001,Govee DreamView G1 Pro Gaming Light,Gaming,749,674,Amazon.sa,10.0,850,20.7,101,RAISE
+SH-HUB-HASS-001,Home Assistant Green,Smart Home &amp; IoT,699,633,Noon,9.4,800,20.8,101,RAISE
+NG-SEC-001,Reolink RLC-810A - 4K PoE AI Security Camera,Security &amp; Surveillance,549,520,Jarir,5.3,650,20.0,101,RAISE
+GM-PGA-JSA-001,JSAUX 6-in-1 Dock (Steam Deck/ROG Ally),Gaming,459,442,Amazon.sa,3.7,560,21.1,101,RAISE
+NG-ENT-002,Asustor Lockerstor 4 (AS6604T) - Professional 4-Bay NAS for ,Homelab,3099,2548,Amazon.sa,17.8,3190,20.1,91,RAISE
+NG-MKR-003,Keychron Q1 - Premium Full Aluminum Custom Mechanical Keyboa,Enthusiasts &amp; Gamers,1449,1226,Amazon.sa,15.4,1540,20.4,91,RAISE
+GM-MOU-RAZ-002,Razer Viper V3 Pro (54g Wireless),Gaming,1049,910,Amazon.sa,13.3,1140,20.2,91,RAISE
+NG-NET-008,MikroTik hEX S (RB760iGS) - 5-Port Gigabit Router with SFP a,Networking,649,588,Amazon.sa,9.4,740,20.5,91,RAISE
+NT-WAP-TPL-001,TP-Link Omada EAP610,Networking,599,550,Amazon.sa,8.1,690,20.2,91,RAISE
+NG-SH-007,SwitchBot Curtain 3 (W2400000) - Turn Any Curtain Smart in M,Smart Home &amp; IoT,549,505,Amazon.sa,8.0,640,21.1,91,RAISE
+SH-CAM-EUFY-001,Eufy eufyCam 3 (4K + HomeBase 3 Kit),Smart Home &amp; IoT,1649,1383,Noon,16.1,1730,20.1,81,RAISE
+SH-LCK-AQRA-001,Aqara Smart Lock U200,Smart Home &amp; IoT,1249,1060,Amazon.sa,15.1,1330,20.3,81,RAISE
+NG-NET-001,MikroTik hAP ax3 - WiFi 6 Router with RouterOS Power,Networking,799,703,Amazon.sa,12.0,880,20.1,81,RAISE
+NG-SH-006,Aqara Hub M2 (HM2-G01) - Multi-Protocol Smart Home Gateway,Smart Home &amp; IoT,499,463,Noon,7.3,580,20.3,81,RAISE
+NT-POE-TPL-001,TP-Link TL-SG1005P 5-Port PoE,Networking,299,300,Jarir,-0.5,380,20.9,81,RAISE
+NT-FWL-NGT-002,Netgate 2100 MAX pfSense+ Gateway,Homelab,2499,2054,Amazon.sa,17.8,2570,20.1,71,RAISE
+SH-VDB-EUFY-001,Eufy Video Doorbell E340 (Dual Camera),Smart Home &amp; IoT,999,852,Amazon.sa,14.7,1070,20.4,71,RAISE
+NG-3DP-006,BIQU H2 V2S Direct Drive Extruder - Lightweight Upgrade for ,3D Printing &amp; CNC,599,536,Amazon.sa,10.6,670,20.0,71,RAISE
+NG-NET-007,Ubiquiti EdgeRouter X - Advanced Gigabit Router in a Pocket-,Networking,549,489,Amazon.sa,10.9,620,21.1,71,RAISE
+GC-PSN-50,PlayStation Store $50 Gift Card | بطاقة بلايستيشن,Gift Cards &amp; Software Keys,199,209,Amazon.sa,-4.8,270,22.7,71,RAISE
+NG-3DP-002,Bambu Lab AMS - Automatic Material System for Multi-Color 3D,3D Printing &amp; CNC,1949,1602,Amazon.sa,17.8,2010,20.3,61,RAISE
+NT-MPC-DEL-001,Dell OptiPlex 7070 Micro (Refurb),Homelab,1549,1282,Amazon.sa,17.3,1610,20.4,61,RAISE
+SH-CAM-ARLO-001,Arlo Pro 5 2K Spotlight Camera,Smart Home &amp; IoT,1549,1284,Noon,17.1,1610,20.3,61,RAISE
+NT-SRV-STC-001,StarTech RK12WALLOA 12U Wall-Mount Rack,Homelab,1399,1165,Amazon.sa,16.7,1460,20.2,61,RAISE
+NG-GAM-008,Razer Basilisk V3 X HyperSpeed - Versatile Wireless Gaming M,Gaming,649,562,Amazon.sa,13.4,710,20.9,61,RAISE
+NT-KVM-TES-001,TESmart HKS0401A1U 4-Port HDMI KVM,Homelab,599,523,Amazon.sa,12.6,660,20.7,61,RAISE
+GM-RGB-COR-001,Corsair iCUE LC100 Lighting Panels,Gaming,549,481,Amazon.sa,12.3,610,21.1,61,RAISE
+NG-NET-010,Ubiquiti UniFi USW-Flex-Mini - Ultra-Compact 5-Port Managed ,Networking,219,219,Amazon.sa,-0.0,280,21.8,61,RAISE
+GC-STM-50,Steam Wallet $50 Gift Card | بطاقة ستيم,Gift Cards &amp; Software Keys,199,207,Amazon.sa,-3.9,260,20.5,61,RAISE
+GC-SW-WIN11,Windows 11 Pro License Key | مفتاح ويندوز 11 برو,Gift Cards &amp; Software Keys,199,207,Amazon.sa,-4.2,260,20.2,61,RAISE
+NT-KVM-ATN-001,ATEN CS1924M 4-Port DP KVM,Homelab,2399,1958,Amazon.sa,18.4,2450,20.1,51,RAISE
+NG-ACC-005,Flipper Zero - The Ultimate Multi-Tool for Geeks and Cyber-R,Accessories &amp; Lifestyle,1799,1475,Amazon.sa,18.0,1850,20.3,51,RAISE
+NG-GAM-011,SteelSeries QcK Heavy XXL - Extra-Large Gaming Mouse Pad,Gaming,289,268,Noon,7.2,340,21.1,51,RAISE
+NG-NET-009,Netgear GS308E - 8-Port Gigabit Plus Smart Managed Switch,Networking,209,204,Noon,2.5,260,21.6,51,RAISE
+GC-GP-50,Google Play $50 Gift Card | بطاقة قوقل بلاي,Gift Cards &amp; Software Keys,199,199,Amazon.sa,0.1,250,20.5,51,RAISE
+GC-XBX-GPU3,Xbox Game Pass Ultimate 3 Months | قيم باس,Gift Cards &amp; Software Keys,149,154,Noon,-3.1,200,23.2,51,RAISE
+GC-SW-KTS1,Kaspersky Total Security 1 Year | كاسبرسكي,Gift Cards &amp; Software Keys,119,129,Amazon.sa,-8.4,170,24.1,51,RAISE
+NG-3DP-004,eSUN PLA+ Filament 10-Color Pack - 10kg Total for 3D Printin,3D Printing &amp; CNC,1299,1066,Amazon.sa,17.9,1340,20.4,41,RAISE
+SH-SPK-GGLE-001,Google Nest Audio,Smart Home &amp; IoT,699,589,Amazon.sa,15.8,740,20.4,41,RAISE
+SH-BLD-SWBT-001,SwitchBot Curtain 3,Smart Home &amp; IoT,649,549,Noon,15.5,690,20.5,41,RAISE
+SH-LGT-GOVE-001,Govee RGBIC LED Strip M1 (5m),Smart Home &amp; IoT,399,344,Amazon.sa,13.8,440,21.8,41,RAISE
+NG-GAM-001,8BitDo Ultimate C Bluetooth Controller - Multi-Platform Gami,Gaming,309,275,Amazon.sa,11.0,350,21.4,41,RAISE
+NT-SRV-CBM-001,Cable Matters 24-Port Cat6 Patch Panel (1U),Homelab,239,219,Amazon.sa,8.3,280,21.7,41,RAISE
+NG-NET-006,TP-Link TL-SG108E - 8-Port Gigabit Easy Smart Managed Switch,Networking,229,216,Amazon.sa,5.9,270,20.2,41,RAISE
+SH-LGT-GOVE-002,Govee Glide Hexagon Light Panels Ultra (10-pack),Smart Home &amp; IoT,1299,1064,Amazon.sa,18.1,1330,20.0,31,RAISE
+NG-SH-012,Aqara Roller Shade Driver E1 (RSD-M01) - Smart Roller Blind ,Smart Home &amp; IoT,599,497,Noon,17.0,630,21.1,31,RAISE
+NG-SH-004,Aqara Water Leak Sensor - Safeguard Your Home from Water Dam,Smart Home &amp; IoT,219,198,Amazon.sa,9.4,250,20.6,31,RAISE
+NT-CBL-FSC-001,10G SFP+ DAC Twinax Cable (1m),Networking,139,129,Noon,7.5,170,24.4,31,RAISE
+SH-DSP-GGLE-001,Google Nest Hub (2nd Gen),Smart Home &amp; IoT,699,572,Noon,18.2,720,20.6,21,RAISE
+NG-SH-011,SwitchBot Bot (S1) - Robotic Finger That Makes Any Button Sm,Smart Home &amp; IoT,279,239,Amazon.sa,14.5,300,20.5,21,RAISE
+NG-SH-009,Aqara Motion Sensor P1 (MS-S02) - Wide-Angle 170° Smart PIR ,Smart Home &amp; IoT,279,239,Amazon.sa,14.3,300,20.3,21,RAISE
+NG-SH-005,Sonoff TX Ultimate (T5) Smart Wall Switch - Interactive Eleg,Smart Home &amp; IoT,269,227,Amazon.sa,15.5,290,21.6,21,RAISE
+NG-CBL-007,DAC SFP+ 10G Direct Attach Cable (3m) - Direct Switch-to-Swi,Cables &amp; Adapters,229,192,Amazon.sa,16.0,250,23.0,21,RAISE
+SH-PLG-TPLK-001,"TP-Link Tapo P125M Smart Plug (Matter, 2-pack)",Smart Home &amp; IoT,149,131,Noon,11.8,170,22.7,21,RAISE
+NT-SFP-FSC-001,FS.com 10GBASE-SR SFP+ Transceiver,Networking,129,117,Amazon.sa,9.5,150,22.2,21,RAISE
+SH-HUB-HUBI-001,Hubitat Elevation C-8 Pro,Smart Home &amp; IoT,1199,964,Amazon.sa,19.6,1210,20.3,11,RAISE
+SH-SPK-AMZN-001,Amazon Echo (4th Gen),Smart Home &amp; IoT,699,565,Amazon.sa,19.2,710,20.5,11,RAISE
+NT-SRV-NVP-001,NavePoint 1U Cantilever Rack Shelf,Homelab,249,202,Amazon.sa,19.0,260,22.4,11,RAISE
+NG-CBL-006,Ugreen 5-in-1 USB-C Dock - HDMI 4K + Ethernet + USB 3.0,Cables &amp; Adapters,249,205,Amazon.sa,17.6,260,21.1,11,RAISE
+NG-SH-008,Shelly Plus 1PM - Smart Wi-Fi Relay with Power Monitoring,Smart Home &amp; IoT,189,158,Amazon.sa,16.4,200,21.0,11,RAISE
+NG-SH-015,Sonoff SNZB-02D Zigbee Temperature &amp; Humidity Sensor wit,Smart Home &amp; IoT,159,128,Noon,19.5,170,24.7,11,RAISE
+NG-ENT-001,"Dell PowerEdge R730 Refurbished Server - Enterprise Power, S",Homelab,8099,6354,Amazon.sa,21.5,8099.0,21.5,0,KEEP
+SH-RVC-ECVX-001,Ecovacs Deebot X9 Pro Omni,Smart Home &amp; IoT,5699,4314,Amazon.sa,24.3,5699.0,24.3,0,KEEP
+NG-ACC-008,CalDigit TS4 Thunderbolt 4 Dock - 18-Port Professional Docki,Accessories &amp; Lifestyle,2899,1645,Amazon.sa,43.2,2899.0,43.2,0,KEEP
+NT-MPC-BLK-001,Beelink SER7 (Ryzen 7 7735HS),Homelab,2399,1901,Amazon.sa,20.8,2399.0,20.8,0,KEEP
+SH-THR-NEST-001,Google Nest Learning Thermostat (4th Gen),Smart Home &amp; IoT,1699,1295,Amazon.sa,23.8,1699.0,23.8,0,KEEP
+NG-SEC-005,Reolink 16-Channel PoE NVR (RLN16-410) - 4K Network Video Re,Security &amp; Surveillance,1599,1255,Amazon.sa,21.5,1599.0,21.5,0,KEEP
+SH-THR-ECOB-001,Ecobee Smart Thermostat Premium,Smart Home &amp; IoT,1549,1187,Amazon.sa,23.4,1549.0,23.4,0,KEEP
+SH-LCK-AUGS-001,August Wi-Fi Smart Lock (4th Gen),Smart Home &amp; IoT,1299,972,Amazon.sa,25.1,1299.0,25.1,0,KEEP
+SH-LGT-PHUE-002,Philips Hue Gradient Lightstrip (2m),Smart Home &amp; IoT,1149,828,Amazon.sa,28.0,1149.0,28.0,0,KEEP
+SH-VDB-RING-001,Ring Battery Doorbell Plus,Smart Home &amp; IoT,999,752,Amazon.sa,24.7,999.0,24.7,0,KEEP
+SH-DSP-AMZN-001,Amazon Echo Show 8 (3rd Gen),Smart Home &amp; IoT,999,768,Amazon.sa,23.1,999.0,23.1,0,KEEP
+SH-BLD-IKEA-001,IKEA FYRTUR Blackout Smart Roller Blind,Smart Home &amp; IoT,949,710,Amazon.sa,25.2,949.0,25.2,0,KEEP
+SH-HUB-AQRA-001,Aqara Hub M3,Smart Home &amp; IoT,899,678,Amazon.sa,24.6,899.0,24.6,0,KEEP
+SH-CAM-RELK-001,Reolink Argus 4 Pro (4K),Smart Home &amp; IoT,899,693,Amazon.sa,22.9,899.0,22.9,0,KEEP
+SH-LGT-PHUE-001,Philips Hue Starter Kit (3x A19 + Bridge),Smart Home &amp; IoT,899,632,Amazon.sa,29.6,899.0,29.6,0,KEEP
+NG-SH-013,Zemismart Zigbee Smart Tubular Motor (ZM25TQ) - Heavy-Duty R,Smart Home &amp; IoT,699,536,Amazon.sa,23.3,699.0,23.3,0,KEEP
+NG-ACC-007,Anker PowerConf S330 USB Speakerphone - Smart Noise-Cancelin,Accessories &amp; Lifestyle,599,466,Amazon.sa,22.2,599.0,22.2,0,KEEP
+NG-ACC-001,Baseus Blade 100W Power Bank - Ultra-Slim Laptop Portable Ch,Accessories &amp; Lifestyle,499,362,Amazon.sa,27.4,499.0,27.4,0,KEEP
+SH-SWB-SWBT-003,SwitchBot Blind Tilt,Smart Home &amp; IoT,479,377,Amazon.sa,21.4,479.0,21.4,0,KEEP
+SH-SWB-SWBT-001,SwitchBot Hub 2 (Matter Enabled),Smart Home &amp; IoT,479,358,Amazon.sa,25.3,479.0,25.3,0,KEEP
+SH-CAM-RING-001,Ring Indoor Cam (2nd Gen),Smart Home &amp; IoT,479,341,Amazon.sa,28.9,479.0,28.9,0,KEEP
+NG-ACC-009,Ugreen Nexode 100W GaN Charger - 4-Port Gallium Nitride Fast,Accessories &amp; Lifestyle,439,308,Amazon.sa,29.9,439.0,29.9,0,KEEP
+NG-CBL-003,Cable Matters Thunderbolt 4 Cable (2m) - 40Gbps with 100W Ch,Cables &amp; Adapters,419,297,Amazon.sa,29.2,419.0,29.2,0,KEEP
+NG-ACC-003,Mark Ryden Anti-theft Laptop Backpack - Maximum Protection f,Accessories &amp; Lifestyle,409,244,Amazon.sa,40.4,409.0,40.4,0,KEEP
+SH-SPK-AMZN-002,Amazon Echo Dot (5th Gen),Smart Home &amp; IoT,399,311,Amazon.sa,22.1,399.0,22.1,0,KEEP
+NG-SH-010,Eve Energy Smart Plug (Matter/Thread) - Next-Gen Smart Plug ,Smart Home &amp; IoT,399,286,Amazon.sa,28.3,399.0,28.3,0,KEEP
+NG-SH-014,MOES Zigbee Smart Thermostat (BHT-002-GCLZB) - Programmable ,Smart Home &amp; IoT,379,301,Amazon.sa,20.6,379.0,20.6,0,KEEP
+NG-ACC-002,Anker 735 GaN 65W Charger - Compact 3-Port Fast Charger,Accessories &amp; Lifestyle,379,228,Amazon.sa,39.9,379.0,39.9,0,KEEP
+NG-CBL-008,HDMI 2.1 8K Fiber Optic Cable (10m) - Zero Signal Loss,Cables &amp; Adapters,359,285,Noon,20.7,359.0,20.7,0,KEEP
+NG-SH-003,Broadlink RM4 Pro - Universal Smart Remote for IR &amp; RF D,Smart Home &amp; IoT,359,252,Amazon.sa,29.8,359.0,29.8,0,KEEP
+NG-CBL-002,Anker USB-C Hub 7-in-1 - Multi-Port Adapter for Laptops,Cables &amp; Adapters,349,218,Amazon.sa,37.5,349.0,37.5,0,KEEP
+SH-LGT-LIFX-001,LIFX Color A19 1100lm Bulb,Smart Home &amp; IoT,279,215,Amazon.sa,22.8,279.0,22.8,0,KEEP
+SH-SWB-SWBT-002,SwitchBot Bot (Smart Button Pusher),Smart Home &amp; IoT,239,176,Amazon.sa,26.5,239.0,26.5,0,KEEP
+NG-CBL-001,Ugreen USB-C to HDMI 2.1 Cable (2m) - 8K@60Hz Output,Cables &amp; Adapters,219,174,Amazon.sa,20.3,219.0,20.3,0,KEEP
+SH-PLG-MERS-001,Meross Smart Plug Mini MSS110 (HomeKit),Smart Home &amp; IoT,159,116,Amazon.sa,26.9,159.0,26.9,0,KEEP
+NG-CBL-004,Ugreen Cat 8 Ethernet Cable (5m) - 40Gbps Network Cable,Cables &amp; Adapters,149,118,Noon,20.7,149.0,20.7,0,KEEP
+NG-CBL-005,Baseus USB-C 100W Charging Cable (2m) - Fast Charge for Lapt,Cables &amp; Adapters,109,76,Amazon.sa,29.9,109.0,29.9,0,KEEP
