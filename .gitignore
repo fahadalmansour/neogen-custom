@@ -66,3 +66,7 @@ agent-skills/
 
 # Skill / plan exploration outputs
 outputs/
+
+# Distributor auth-bridge session files — literal credentials, never commit.
+*.auth.json
+scripts/_auth/*.json
