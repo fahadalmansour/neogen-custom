@@ -478,104 +478,6 @@ $rack_letter = function ($i) {
           <?php if ( $tag_label ) : ?>
             <span class="tag <?php echo esc_attr( $tag_class ); ?>"><?php echo esc_html( $tag_label ); ?></span>
           <?php endif; ?>
-<!-- ============================================================
-     CATEGORIES — RACK UNITS
-     ============================================================ -->
-<?php if (!empty($top_categories)) : ?>
-<section class="ng-section" id="ng-cat">
-  <div class="ng-container">
-    <div class="ng-section-head reveal">
-      <div>
-        <div class="ng-section-label">02 · <b>الفئات</b></div>
-        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>&#160;المختارة.</h2>
-        <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
-      </div>
-      <p class="ng-section-note">
-        كل فئة مهيّأة لنوع مشغّل محدّد. أعداد المنتجات تُسحب مباشرةً من الكتالوج — إذا لم يكن المنتج نافعًا في شبكة جادة، أو هوم لاب، أو بيت ذكي، أو إعداد ألعاب، أو خدمة تنفيذ — فلا نحمله.
-      </p>
-    </div>
-
-    <?php
-    // AR copy per slug (also used by the categories rack v1.26.0 below).
-    $copy_map = apply_filters('neogen_homepage_cat_copy', [
-        'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
-        'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
-        'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
-        'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
-        'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-        'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
-        'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
-        'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
-    ]);
-    ?>
-    <div class="ng-rack ng-rack--mosaic">
-      <?php foreach ($top_categories as $i => $term) :
-          $slug     = $term->slug;
-          $ar_name  = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
-          $link     = get_term_link($term);
-          $link     = is_wp_error($link) ? '#' : $link;
-
-          // Photo: prefer category thumbnail, fall back to first product
-          // image in this category so every card has imagery without
-          // manual setup. Cached per request via $cat_photo_cache.
-          static $cat_photo_cache = [];
-          if ( ! isset( $cat_photo_cache[ $term->term_id ] ) ) {
-              $thumb_id = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
-              if ( ! $thumb_id && function_exists( 'wc_get_products' ) ) {
-                  $first = wc_get_products( [
-                      'category' => [ $term->slug ],
-                      'limit'    => 1,
-                      'status'   => 'publish',
-                      'orderby'  => 'date',
-                      'order'    => 'DESC',
-                  ] );
-                  if ( ! empty( $first ) && $first[0] instanceof WC_Product ) {
-                      $thumb_id = (int) $first[0]->get_image_id();
-                  }
-              }
-              $cat_photo_cache[ $term->term_id ] = $thumb_id;
-          }
-          $thumb_id = (int) $cat_photo_cache[ $term->term_id ];
-
-          // AR description: copy_map override → Arabic term description (≤100 chars) → generic fallback.
-          if ( isset( $copy_map[ $slug ] ) ) {
-              $desc = $copy_map[ $slug ];
-          } else {
-              $desc_raw    = trim( (string) $term->description );
-              $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
-              $is_too_long = mb_strlen($desc_raw) > 100;
-              if ( $desc_raw === '' || $is_english || $is_too_long ) {
-                  $desc = sprintf( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', $ar_name );
-              } else {
-                  $desc = $desc_raw;
-              }
-          }
-      ?>
-      <a class="ng-cat-card reveal" href="<?php echo esc_url( $link ); ?>" aria-label="<?php echo esc_attr( $ar_name ); ?>">
-        <span class="ng-cat-photo" aria-hidden="true">
-          <?php if ( $thumb_id ) : ?>
-            <?php echo wp_get_attachment_image( $thumb_id, 'medium_large', false, [
-                'loading'  => 'lazy',
-                'decoding' => 'async',
-                'alt'      => '',
-                'class'    => 'ng-cat-img',
-            ] ); ?>
-          <?php endif; ?>
-        </span>
-        <span class="ng-cat-overlay" aria-hidden="true"></span>
-        <span class="ng-cat-count" dir="ltr"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
-        <span class="ng-cat-body">
-          <span class="ng-cat-title"><?php echo esc_html( $ar_name ); ?></span>
-          <span class="ng-cat-desc"><?php echo esc_html( $desc ); ?></span>
-          <span class="ng-cat-cta">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-        </span>
-      </a>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-<?php endif; ?>
-
         </div>
 
         <a class="ng-product-media<?php echo $img_alt_html ? ' has-alt' : ''; ?>" href="<?php echo esc_url( $perm ); ?>" aria-label="<?php echo esc_attr( $name_en ); ?>">
@@ -623,6 +525,106 @@ $rack_letter = function ($i) {
       <?php endforeach; ?>
       </div><!-- /.ng-product-grid--deck -->
     </div><!-- /.ng-deck-wrap -->
+  </div>
+</section>
+<?php endif; ?>
+
+<!-- ============================================================
+     CATEGORIES — PHOTO-LED MOSAIC (v1.26.0)
+     ============================================================ -->
+<?php if (!empty($top_categories)) : ?>
+<?php
+// Per-request cache for category photo lookup. Initialized once per
+// pageview so each category resolves its (thumbnail | first-product
+// image) at most once.
+$ng_cat_photo_cache = array();
+
+// AR copy per slug.
+$ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
+    'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
+    'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
+    'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
+    'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
+    'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+    'gaming-2'    => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
+    'homelab'     => 'هوم لاب — رفوف، سيرفرات، تخزين شبكة، NAS.',
+    'storage'     => 'تخزين — أقراص NVMe وSSD وHDD ومحطات NAS.',
+));
+?>
+<section class="ng-section" id="ng-cat">
+  <div class="ng-container">
+    <div class="ng-section-head reveal">
+      <div>
+        <div class="ng-section-label">02 · <b>الفئات</b></div>
+        <h2 class="ng-section-h">فئاتنا <span class="accent">الـ <?php echo esc_html( count( $top_categories ) ); ?></span><br>&#160;المختارة.</h2>
+        <div class="ng-section-ar">فئات مختارة. كل فئة لعمل تقني واضح.</div>
+      </div>
+      <p class="ng-section-note">
+        كل فئة مهيّأة لنوع مشغّل محدّد. أعداد المنتجات تُسحب مباشرةً من الكتالوج — إذا لم يكن المنتج نافعًا في شبكة جادة، أو هوم لاب، أو بيت ذكي، أو إعداد ألعاب، أو خدمة تنفيذ — فلا نحمله.
+      </p>
+    </div>
+
+    <div class="ng-rack ng-rack--mosaic">
+      <?php foreach ($top_categories as $i => $term) :
+          $slug    = $term->slug;
+          $ar_name = function_exists('ng_ar_label') ? ng_ar_label( $term->name ) : $term->name;
+          $link    = get_term_link($term);
+          $link    = is_wp_error($link) ? '#' : $link;
+
+          // Photo: prefer category thumbnail, fall back to first product image.
+          if ( ! isset( $ng_cat_photo_cache[ $term->term_id ] ) ) {
+              $thumb_id = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+              if ( ! $thumb_id && function_exists( 'wc_get_products' ) ) {
+                  $first = wc_get_products( array(
+                      'category' => array( $term->slug ),
+                      'limit'    => 1,
+                      'status'   => 'publish',
+                      'orderby'  => 'date',
+                      'order'    => 'DESC',
+                  ) );
+                  if ( ! empty( $first ) && $first[0] instanceof WC_Product ) {
+                      $thumb_id = (int) $first[0]->get_image_id();
+                  }
+              }
+              $ng_cat_photo_cache[ $term->term_id ] = $thumb_id;
+          }
+          $thumb_id = (int) $ng_cat_photo_cache[ $term->term_id ];
+
+          // AR description: copy_map override → Arabic term description (≤100 chars) → generic fallback.
+          if ( isset( $ng_cat_copy_map[ $slug ] ) ) {
+              $desc = $ng_cat_copy_map[ $slug ];
+          } else {
+              $desc_raw    = trim( (string) $term->description );
+              $is_english  = $desc_raw !== '' && ! preg_match('/[\x{0600}-\x{06FF}]/u', $desc_raw);
+              $is_too_long = mb_strlen($desc_raw) > 100;
+              if ( $desc_raw === '' || $is_english || $is_too_long ) {
+                  $desc = sprintf( 'تشكيلة %s مختارة — شحن من المملكة، ضمان 12 شهر.', $ar_name );
+              } else {
+                  $desc = $desc_raw;
+              }
+          }
+      ?>
+      <a class="ng-cat-card reveal" href="<?php echo esc_url( $link ); ?>" aria-label="<?php echo esc_attr( $ar_name ); ?>">
+        <span class="ng-cat-photo" aria-hidden="true">
+          <?php if ( $thumb_id ) : ?>
+            <?php echo wp_get_attachment_image( $thumb_id, 'medium_large', false, array(
+                'loading'  => 'lazy',
+                'decoding' => 'async',
+                'alt'      => '',
+                'class'    => 'ng-cat-img',
+            ) ); ?>
+          <?php endif; ?>
+        </span>
+        <span class="ng-cat-overlay" aria-hidden="true"></span>
+        <span class="ng-cat-count" dir="ltr"><b><?php echo esc_html( (int) $term->count ); ?></b> منتج</span>
+        <span class="ng-cat-body">
+          <span class="ng-cat-title"><?php echo esc_html( $ar_name ); ?></span>
+          <span class="ng-cat-desc"><?php echo esc_html( $desc ); ?></span>
+          <span class="ng-cat-cta">تصفّح <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+        </span>
+      </a>
+      <?php endforeach; ?>
+    </div>
   </div>
 </section>
 <?php endif; ?>
