@@ -355,17 +355,37 @@ function ng_shop_category_tiles() {
 }
 
 /**
- * Gift-cards category-archive extras (v1.32.0).
+ * Gift-cards category-archive extras (v1.32.0 → v1.33.0).
  *
  * On /product-category/gift-cards/ only, inject a region-tab row + a
  * trust strip ABOVE the product grid — LikeCard-style intent. Region
- * tabs are placeholder UI for now (link to anchor); when products get
- * a `_ng_gift_card_region` meta later, the tabs become live filters.
+ * tabs filter the loop via `_ng_gift_card_region` post meta when set.
  *
  * Hooks `woocommerce_before_shop_loop` at priority 8 — after
  * ng_shop_category_tiles (prio 5) which renders the cross-nav, before
  * the WC sort row (prio 10).
  */
+
+/**
+ * Filter the main archive query on /product-category/gift-cards/ when
+ * ?region=<slug> is present in the URL. Limits the loop to products
+ * whose `_ng_gift_card_region` meta matches (case-insensitive).
+ */
+add_action('pre_get_posts', function ($q) {
+    if ( is_admin() || ! $q->is_main_query() ) return;
+    if ( ! is_product_category( 'gift-cards' ) ) return;
+    $region = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
+    if ( $region === '' ) return;
+
+    $existing = (array) $q->get( 'meta_query' );
+    $existing[] = array(
+        'key'     => '_ng_gift_card_region',
+        'value'   => $region,
+        'compare' => '=',
+    );
+    $q->set( 'meta_query', $existing );
+});
+
 add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
 function ng_gift_cards_archive_extras() {
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
