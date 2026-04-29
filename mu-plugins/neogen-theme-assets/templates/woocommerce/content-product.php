@@ -136,16 +136,19 @@ do_action('woocommerce_before_shop_loop_item');
 
   <?php
   /*
-   * Upstream WC fires three title-position hooks. We don't render
-   * Woo's default title (we have our own AR/EN markup below), but we
-   * fire the hooks at the correct positions so 3rd-party plugins
-   * that attach badges, ribbons, or annotations (Yoast SEO, WC GLA
-   * compliance markers, sale-flash, conversion pixels) still get
-   * their attach point. We intentionally do NOT fire
-   * `woocommerce_shop_loop_item_title` itself, because that emits
-   * the default <h2> which would duplicate our title block below.
+   * v1.34.3: do NOT fire `woocommerce_before_shop_loop_item_title`
+   * or `woocommerce_after_shop_loop_item_title` here. Blocksy
+   * (parent theme) attaches its full product-card renderer to those
+   * hooks (inc/components/woocommerce/archive/product-card.php), which
+   * was injecting a duplicate `<figure class="ct-media-container">`
+   * image, title, price, meta and add-to-cart action between our
+   * .ng-product-media and our .ng-product-title — hence the visible
+   * "two photos stacked" bug. Our override owns the inner card
+   * markup completely; outer wrapping hooks
+   * (`woocommerce_before_shop_loop_item` /
+   * `woocommerce_after_shop_loop_item`) are still fired for plugins
+   * that genuinely need to wrap a card (wishlist icons, swatches).
    */
-  do_action( 'woocommerce_before_shop_loop_item_title' );
   ?>
   <div class="ng-product-title">
     <div class="ar"><?php echo esc_html($name_ar); ?></div>
@@ -153,7 +156,6 @@ do_action('woocommerce_before_shop_loop_item');
       <div class="en"><?php echo esc_html($name_en); ?></div>
     <?php endif; ?>
   </div>
-  <?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
 
   <?php if (!empty($specs)) : ?>
   <div class="ng-product-specs">
