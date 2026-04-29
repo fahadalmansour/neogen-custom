@@ -275,7 +275,26 @@ function ng_category_image_fallback( $slug ) {
  * markup so the existing CSS picks it up site-wide. Only fires on
  * is_shop() and is_product_category() — search/tag archives skip.
  */
-add_action('woocommerce_before_shop_loop', 'ng_shop_category_tiles', 5);
+// v1.34.2: split rendering by context.
+//   - Bare /shop/ archive: rack stays at TOP (priority 5 before the loop)
+//     because it's the primary entry point — "اختر فئة".
+//   - Inside any /product-category/.../ archive: rack moves to BOTTOM
+//     (priority 15 after the loop) — it's cross-nav, not a primary
+//     action, so the products themselves should lead the page.
+add_action('woocommerce_before_shop_loop', 'ng_shop_category_tiles_top', 5);
+add_action('woocommerce_after_shop_loop',  'ng_shop_category_tiles_bottom', 15);
+
+function ng_shop_category_tiles_top() {
+    if ( ! function_exists('is_shop') ) return;
+    if ( ! is_shop() ) return; // category archives render via _bottom
+    ng_shop_category_tiles();
+}
+function ng_shop_category_tiles_bottom() {
+    if ( ! function_exists('is_product_category') ) return;
+    if ( ! is_product_category() ) return; // bare shop renders via _top
+    ng_shop_category_tiles();
+}
+
 function ng_shop_category_tiles() {
     if ( ! function_exists('is_shop') ) return;
     if ( ! ( is_shop() || is_product_category() ) ) return;
