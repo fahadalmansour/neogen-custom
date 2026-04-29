@@ -184,6 +184,199 @@ $led_patterns = [
 $rack_letter = function ($i) {
     return chr(65 + ($i % 26));
 };
+
+// ============================================================
+// Reusable product-card + product-deck renderers (v1.27.0)
+// ============================================================
+// Picks, New Arrivals, Deals, and Gift Cards all share the same
+// .ng-product / .ng-product-grid--deck markup. Card-rendering logic
+// (sku/title/stock-badge/image/specs/price/CTA) lives in this closure
+// once. The deck renderer wraps a list of products in the section +
+// arrows + scroll container.
+
+$ng_render_product_card = function ($product) {
+    if (!$product instanceof WC_Product) { return; }
+    $id      = $product->get_id();
+    $sku     = $product->get_sku();
+    if (!$sku) { $sku = 'NG-' . $id; }
+    $name_en = $product->get_name();
+    $name_ar = get_post_meta($id, '_ng_ar_title', true);
+    if (!$name_ar) { $name_ar = function_exists('ng_ar_label') ? ng_ar_label($name_en) : $name_en; }
+    if (function_exists('ng_gift_card_clean_product_name')) {
+        $name_en = ng_gift_card_clean_product_name($name_en);
+        $name_ar = ng_gift_card_clean_product_name($name_ar);
+    }
+    $perm    = get_permalink($id);
+
+    // Stock badge.
+    $stock_qty  = $product->get_stock_quantity();
+    $tag_class  = '';
+    $tag_label  = '';
+    $created_ts = get_post_time('U', true, $id);
+    $is_new     = $created_ts && (time() - $created_ts) < 30 * DAY_IN_SECONDS;
+    if (is_numeric($stock_qty) && $stock_qty !== null && (int) $stock_qty > 0 && (int) $stock_qty < 5) {
+        $tag_class = 'hot';
+        $tag_label = 'مخزون منخفض · ' . (int) $stock_qty;
+    } elseif ($is_new) {
+        $tag_class = 'new';
+        $tag_label = 'جديد';
+    } elseif (is_numeric($stock_qty) && (int) $stock_qty >= 5) {
+        $tag_class = '';
+        $tag_label = 'متوفّر · ' . (int) $stock_qty;
+    } elseif ($product->is_in_stock()) {
+        $tag_class = '';
+        $tag_label = 'متوفّر';
+    } else {
+        $tag_class = 'hot';
+        $tag_label = 'نفد';
+    }
+
+    // Image.
+    $img_id       = $product->get_image_id();
+    $img          = $img_id ? wp_get_attachment_image($img_id, 'large', false, ['class' => 'ng-product-img', 'alt' => esc_attr($name_en)]) : '';
+    $has_gift_img = false;
+    if (function_exists('ng_gift_card_image_html')) {
+        $gift_img = ng_gift_card_image_html($product, 'large', $name_en, null, ['class' => 'ng-product-img']);
+        if ($gift_img) { $img = $gift_img; $has_gift_img = true; }
+    }
+    $gallery_ids  = $product->get_gallery_image_ids();
+    $img_alt_html = '';
+    if (!empty($gallery_ids) && !$has_gift_img) {
+        $img_alt_html = wp_get_attachment_image((int) $gallery_ids[0], 'large', false, [
+            'class' => 'ng-product-img-alt', 'alt' => '', 'loading' => 'lazy', 'decoding' => 'async',
+        ]);
+    }
+
+    // Specs (≤4 attributes/tags).
+    $specs = [];
+    foreach ($product->get_attributes() as $attr) {
+        if (!$attr instanceof WC_Product_Attribute) { continue; }
+        $vals = $attr->is_taxonomy()
+            ? wp_get_post_terms($id, $attr->get_name(), ['fields' => 'names'])
+            : $attr->get_options();
+        if (!empty($vals) && !is_wp_error($vals)) {
+            $specs[] = is_array($vals) ? reset($vals) : $vals;
+        }
+        if (count($specs) >= 4) { break; }
+    }
+    if (count($specs) < 4) {
+        $tag_terms = wp_get_post_terms($id, 'product_tag', ['fields' => 'names']);
+        if (!is_wp_error($tag_terms)) {
+            foreach ($tag_terms as $t) { $specs[] = $t; if (count($specs) >= 4) { break; } }
+        }
+    }
+
+    // Price.
+    $price_raw  = $product->get_price();
+    $price_html = $product->get_price_html();
+    $cta_url    = $product->is_type('simple') && $product->is_in_stock()
+        ? esc_url($product->add_to_cart_url())
+        : esc_url($perm);
+    $cta_label  = $product->is_type('simple') && $product->is_in_stock() ? 'أضف للسلة' : 'عرض';
+    ?>
+    <article class="ng-product reveal">
+      <div class="ng-product-head">
+        <span class="sku"><?php echo esc_html(strtoupper($sku)); ?></span>
+        <?php if ($tag_label) : ?>
+          <span class="tag <?php echo esc_attr($tag_class); ?>"><?php echo esc_html($tag_label); ?></span>
+        <?php endif; ?>
+      </div>
+      <a class="ng-product-media<?php echo $img_alt_html ? ' has-alt' : ''; ?>" href="<?php echo esc_url($perm); ?>" aria-label="<?php echo esc_attr($name_en); ?>">
+        <?php if ($img_alt_html) { echo $img_alt_html; } ?>
+        <?php if ($img) :
+            echo $img;
+        else : ?>
+          <svg class="placeholder" viewBox="0 0 200 120" fill="none" stroke="currentColor" stroke-width="1.4">
+            <rect x="30" y="20" width="140" height="80" rx="6"/>
+            <circle cx="100" cy="60" r="18"/>
+            <path d="M100 46v28M86 60h28"/>
+          </svg>
+        <?php endif; ?>
+      </a>
+      <div class="ng-product-title"><div class="ar"><?php echo esc_html($name_ar); ?></div></div>
+      <?php if (!empty($specs)) : ?>
+      <div class="ng-product-specs">
+        <?php foreach ($specs as $s) : ?><span class="s"><?php echo esc_html($s); ?></span><?php endforeach; ?>
+      </div>
+      <?php endif; ?>
+      <div class="ng-product-foot">
+        <div class="ng-product-price">
+          <?php if (is_numeric($price_raw)) : ?>
+            <div class="amount"><?php echo esc_html(number_format_i18n((float) $price_raw, 0)); ?> <small>SAR</small></div>
+          <?php else : ?>
+            <div class="amount"><?php echo wp_kses_post($price_html); ?></div>
+          <?php endif; ?>
+          <div class="inc">شامل الضريبة · شحن 2-5 أيام</div>
+        </div>
+        <a class="ng-product-cta" href="<?php echo esc_url($cta_url); ?>"<?php echo $product->is_type('simple') && $product->is_in_stock() ? ' data-product_id="' . esc_attr($id) . '"' : ''; ?>>
+          <?php echo esc_html($cta_label); ?>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
+        </a>
+      </div>
+    </article>
+    <?php
+};
+
+$ng_render_product_deck = function ($products, $args) use ($ng_render_product_card) {
+    if (empty($products)) { return; }
+    $a = wp_parse_args($args, [
+        'id'         => '',
+        'band_class' => '',
+        'label_html' => '',
+        'h2_html'    => '',
+        'subhead'    => '',
+        'note'       => '',
+    ]);
+    ?>
+    <section class="ng-section <?php echo esc_attr($a['band_class']); ?>"<?php if ($a['id']) echo ' id="' . esc_attr($a['id']) . '"'; ?>>
+      <div class="ng-container">
+        <div class="ng-section-head reveal">
+          <div>
+            <?php if ($a['label_html']) : ?><div class="ng-section-label"><?php echo wp_kses_post($a['label_html']); ?></div><?php endif; ?>
+            <?php if ($a['h2_html'])    : ?><h2 class="ng-section-h"><?php echo wp_kses_post($a['h2_html']); ?></h2><?php endif; ?>
+            <?php if ($a['subhead'])    : ?><div class="ng-section-ar"><?php echo esc_html($a['subhead']); ?></div><?php endif; ?>
+          </div>
+          <?php if ($a['note']) : ?><p class="ng-section-note"><?php echo esc_html($a['note']); ?></p><?php endif; ?>
+        </div>
+        <div class="ng-deck-wrap">
+          <button class="ng-deck-arrow ng-deck-arrow--prev" type="button" aria-label="السابق" data-direction="prev" data-disabled="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="ng-deck-arrow ng-deck-arrow--next" type="button" aria-label="التالي" data-direction="next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+          <div class="ng-product-grid ng-product-grid--deck">
+            <?php foreach ($products as $p) { $ng_render_product_card($p); } ?>
+          </div>
+        </div>
+      </div>
+    </section>
+    <?php
+};
+
+// Fetch product lists for the new e-commerce sections.
+$ng_new_arrivals = function_exists('wc_get_products') ? wc_get_products([
+    'status'  => 'publish', 'limit' => 12,
+    'orderby' => 'date',    'order' => 'DESC',
+]) : [];
+
+$ng_deals = [];
+if (function_exists('wc_get_products')) {
+    $ng_deals = wc_get_products([
+        'status'     => 'publish', 'limit' => 12,
+        'meta_query' => [[
+            'key'     => '_sale_price', 'value' => 0,
+            'compare' => '>', 'type' => 'NUMERIC',
+        ]],
+        'orderby'    => 'date', 'order' => 'DESC',
+    ]);
+}
+
+$ng_gift_cards = function_exists('wc_get_products') ? wc_get_products([
+    'status'   => 'publish', 'limit' => 12,
+    'category' => ['gift-cards'],
+    'orderby'  => 'date', 'order' => 'DESC',
+]) : [];
 ?>
 
 <!-- ============================================================
@@ -628,6 +821,40 @@ $ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
   </div>
 </section>
 <?php endif; ?>
+
+<!-- ============================================================
+     NEW ARRIVALS — horizontal scroll deck (v1.27.0)
+     ============================================================ -->
+<?php $ng_render_product_deck($ng_new_arrivals, [
+    'id'         => 'ng-new-arrivals',
+    'label_html' => '03 · <b>وصلت حديثاً</b>',
+    'h2_html'    => 'آخر <span class="accent">الإضافات</span><br>&#160;إلى الكتالوج.',
+    'subhead'    => 'أحدث المنتجات على الرفوف.',
+    'note'       => 'منتجات أُضيفت مؤخرًا — اختبرناها قبل الإضافة، وثبتنا توفّر القطع داخل المملكة.',
+]); ?>
+
+<!-- ============================================================
+     DEALS — horizontal scroll deck (sale-priced products only)
+     ============================================================ -->
+<?php $ng_render_product_deck($ng_deals, [
+    'id'         => 'ng-deals',
+    'band_class' => 'ng-band-light',
+    'label_html' => '04 · <b>تخفيضات</b>',
+    'h2_html'    => 'عروض <span class="accent">حالية</span><br>&#160;على المخزون.',
+    'subhead'    => 'أسعار تخفيض حقيقية. لا أرقام مفبركة.',
+    'note'       => 'منتجات بتخفيض حالي. السعر يُحدّث مباشرةً من الكتالوج — يختفي العرض عند انتهاء التخفيض.',
+]); ?>
+
+<!-- ============================================================
+     GIFT CARDS — GCC · US · UK
+     ============================================================ -->
+<?php $ng_render_product_deck($ng_gift_cards, [
+    'id'         => 'ng-gift-cards',
+    'label_html' => '05 · <b>بطاقات الهدايا</b>',
+    'h2_html'    => 'بطاقات رقمية.<br><span class="accent">GCC · US · UK</span>',
+    'subhead'    => 'تسليم فوري — Apple · Google Play · Steam · Netflix · Adobe.',
+    'note'       => 'بطاقات معتمدة من المتجر للسعودية ودول الخليج، الولايات المتحدة، والمملكة المتحدة. اختر منطقة التفعيل عند إكمال الشراء.',
+]); ?>
 
 <!-- ============================================================
      BRANDS STRIP — vendors
