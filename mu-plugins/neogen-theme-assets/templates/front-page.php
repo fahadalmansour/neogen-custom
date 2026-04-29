@@ -857,63 +857,149 @@ $ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
 ]); ?>
 
 <!-- ============================================================
-     BRANDS STRIP — vendors
+     BRANDS STRIP — vendors (marquee fallback when no logos uploaded)
      ============================================================ -->
 <?php
 $ng_brand_ids = (array) get_option('ng_brand_logo_ids', []);
 $ng_brand_ids = array_values( array_filter( array_map('intval', $ng_brand_ids) ) );
-if ( ! empty( $ng_brand_ids ) ) :
+
+// Text-based brand chips for the marquee (used when no logo IDs exist
+// or as a supplement). Pulled from the curated 24 products' real
+// vendor list.
+$ng_brand_chips = apply_filters('neogen_brand_chips', [
+    'ASUS ROG', 'Ubiquiti', 'MinisForum', 'Hubitat', 'TP-Link',
+    'NZXT', 'Corsair', 'Gigabyte AORUS', 'Beelink', 'HyperX',
+    'Elgato', 'DJI', 'Roborock', 'JSAUX', 'SwitchBot',
+    'Apple', 'Adobe', 'Kaspersky',
+]);
 ?>
 <section class="ng-section ng-brands">
   <div class="ng-container">
-    <div class="ng-section-head">
+    <div class="ng-section-head reveal">
       <div class="ng-section-kicker">
         <span></span>
-        02·ب · <b>علامات موثّقة</b>
+        06 · <b>علامات موثّقة</b>
       </div>
       <div class="ng-section-titles">
         <h2 class="ng-section-en">محمولة. مشحونة. مدعومة.</h2>
         <div class="ng-section-ar">العلامات التي نحملها — كل واحدة بمواصفات نعرفها.</div>
       </div>
     </div>
-    <div class="ng-brands-row">
-      <?php foreach ( $ng_brand_ids as $bid ) : ?>
-        <div class="ng-brand-tile">
-          <?php echo wp_get_attachment_image( $bid, 'medium', false, [
-              'loading'  => 'lazy',
-              'decoding' => 'async',
-              'alt'      => '',
-          ] ); ?>
+    <?php if ( ! empty( $ng_brand_ids ) ) : ?>
+      <div class="ng-brands-row">
+        <?php foreach ( $ng_brand_ids as $bid ) : ?>
+          <div class="ng-brand-tile">
+            <?php echo wp_get_attachment_image( $bid, 'medium', false, [
+                'loading'  => 'lazy', 'decoding' => 'async', 'alt' => '',
+            ] ); ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php else : ?>
+      <div class="ng-brands-marquee" aria-hidden="true">
+        <div class="ng-brands-marquee-track">
+          <?php for ($mq = 0; $mq < 2; $mq++) : ?>
+            <?php foreach ( $ng_brand_chips as $brand ) : ?>
+              <span class="ng-brand-chip"><?php echo esc_html( $brand ); ?></span>
+            <?php endforeach; ?>
+          <?php endfor; ?>
         </div>
-      <?php endforeach; ?>
-    </div>
+      </div>
+    <?php endif; ?>
   </div>
 </section>
-<?php endif; ?>
 
 <!-- ============================================================
-     SERVICE STRIP — "اكتب لنا مواصفاتك"
+     SERVICE STRIP — 3 build-to-spec cards (v1.28.0)
      ============================================================ -->
 <section class="ng-section" id="ng-service">
-  <div class="ng-service-strip reveal">
-    <div class="ng-service-inner">
-      <div class="ng-service-text">
-        <div class="kicker-s"><span style="width:7px;height:7px;background:var(--signal);display:inline-block;box-shadow:0 0 12px var(--signal);"></span>تنفيذ مخصّص · 03 · مكتب الخدمة</div>
-        <div class="ar">اكتب لنا مواصفاتك. نرجع لك بخطة واضحة.</div>
-        <p>
-          شبكة لمكتب، تركيبة هوم لاب، بيت ذكي كامل، أو محطة ألعاب تنافسية — اشرح لنا الاحتياج، ونرد عليك بمخطط تنفيذ مفصّل، قائمة مكوّنات، وتقدير زمن الشحن والتركيب.
-        </p>
+  <div class="ng-container">
+    <div class="ng-section-head reveal">
+      <div>
+        <div class="ng-section-label">07 · <b>مكتب الخدمة</b></div>
+        <h2 class="ng-section-h">تنفيذ <span class="accent">مخصّص.</span><br>&#160;من الفكرة إلى التشغيل.</h2>
+        <div class="ng-section-ar">اشرح لنا الاحتياج، نرد بخطة عمل واضحة.</div>
       </div>
-      <div class="ng-service-cta">
-        <a class="btn btn-primary" href="<?php echo esc_url( $contact_url ); ?>">
+      <p class="ng-section-note">شبكة، هوم لاب، أو بيت ذكي — نختار المكوّنات، نشحن داخل المملكة، ونركّب بالموقع. كل عرض يصل خلال يوم عمل.</p>
+    </div>
+
+    <div class="ng-service-grid">
+      <article class="ng-service-card reveal">
+        <span class="ng-service-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="16" cy="16" r="3"/>
+            <path d="M16 13V5M16 19v8M13 16H5M19 16h8M10 10l-4-4M22 22l4 4M10 22l-4 4M22 10l4-4"/>
+          </svg>
+        </span>
+        <h3 class="ng-service-title">شبكة مكتبية</h3>
+        <p class="ng-service-copy">شبكات للمكاتب والمشاريع — راوتر، سويتشات، نقاط وصول، ألياف، وكابلات معتمدة.</p>
+        <ul class="ng-service-bullets">
+          <li>تخطيط وتركيب كامل بالموقع</li>
+          <li>أجهزة MikroTik · Ubiquiti · TP-Link Omada</li>
+          <li>دعم بعد التشغيل</li>
+        </ul>
+        <a class="btn btn-primary ng-service-cta-btn" href="<?php echo esc_url( $contact_url . '?type=network' ); ?>">
+          اطلب عرضًا
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
+      </article>
+
+      <article class="ng-service-card reveal">
+        <span class="ng-service-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="5" y="6" width="22" height="6" rx="1"/>
+            <rect x="5" y="14" width="22" height="6" rx="1"/>
+            <rect x="5" y="22" width="22" height="4" rx="1"/>
+            <circle cx="9" cy="9" r="0.8" fill="currentColor"/>
+            <circle cx="9" cy="17" r="0.8" fill="currentColor"/>
+          </svg>
+        </span>
+        <h3 class="ng-service-title">هوم لاب</h3>
+        <p class="ng-service-copy">سيرفرات، تخزين شبكي NAS، رفوف 12U/24U، ومحطات Proxmox / TrueNAS جاهزة.</p>
+        <ul class="ng-service-bullets">
+          <li>اختيار المكوّنات حسب الحمل</li>
+          <li>MinisForum · Synology · Asustor · Dell</li>
+          <li>تركيب وتثبيت برمجي</li>
+        </ul>
+        <a class="btn btn-primary ng-service-cta-btn" href="<?php echo esc_url( $contact_url . '?type=homelab' ); ?>">
+          اطلب عرضًا
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
+      </article>
+
+      <article class="ng-service-card reveal">
+        <span class="ng-service-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 15 16 5l12 10M7 13v14h18V13"/>
+            <path d="M13 27v-7h6v7"/>
+          </svg>
+        </span>
+        <h3 class="ng-service-title">بيت ذكي</h3>
+        <p class="ng-service-copy">أتمتة الإضاءة والمناخ والأمن — تكامل Apple HomeKit, Matter, Home Assistant, Aqara.</p>
+        <ul class="ng-service-bullets">
+          <li>تخطيط الأجهزة لكل غرفة</li>
+          <li>Aqara · SwitchBot · Hubitat · Shelly</li>
+          <li>تركيب وضبط المشاهد</li>
+        </ul>
+        <a class="btn btn-primary ng-service-cta-btn" href="<?php echo esc_url( $contact_url . '?type=smart-home' ); ?>">
+          اطلب عرضًا
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
+      </article>
+    </div>
+
+    <div class="ng-service-foot reveal">
+      <p>أو راسلنا مباشرةً — نرد خلال يوم عمل.</p>
+      <div class="ng-service-foot-ctas">
+        <a class="btn btn-ghost" href="<?php echo esc_url( $contact_url ); ?>">
           <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/spec-brief.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
           أرسل المواصفات
         </a>
         <?php if ( $has_whatsapp ) : ?>
-        <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank" aria-label="مراسلتنا عبر واتساب">
-          <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/whatsapp.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
-          واتساب
-        </a>
+          <a class="btn btn-ghost" href="<?php echo esc_url( $whatsapp_url ); ?>" rel="noopener noreferrer" target="_blank" aria-label="مراسلتنا عبر واتساب">
+            <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/whatsapp.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
+            واتساب
+          </a>
         <?php endif; ?>
       </div>
     </div>

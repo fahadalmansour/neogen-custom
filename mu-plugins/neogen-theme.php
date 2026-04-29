@@ -1351,6 +1351,66 @@ add_action('wp_footer', function () {
     $year = date_i18n('Y');
     ?>
 <footer class="ng-footer">
+  <!-- Trust badges row (v1.28.0) -->
+  <div class="ng-foot-trust" aria-label="ضمانات المتجر">
+    <div class="ng-foot-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="9" rx="1"/>
+        <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </svg>
+      <span class="ng-foot-trust-label">دفع آمن</span>
+      <span class="ng-foot-trust-sub">Mada · Apple Pay · STC Pay · Tabby</span>
+    </div>
+    <div class="ng-foot-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <path d="M3 7h11v9H3z"/>
+        <path d="M14 10h4l3 3v3h-7"/>
+        <circle cx="7" cy="18" r="2"/>
+        <circle cx="17" cy="18" r="2"/>
+      </svg>
+      <span class="ng-foot-trust-label">شحن سريع</span>
+      <span class="ng-foot-trust-sub">2-5 أيام داخل المملكة</span>
+    </div>
+    <div class="ng-foot-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <path d="M3 12a9 9 0 1 0 3-6.7"/>
+        <path d="M3 4v5h5"/>
+      </svg>
+      <span class="ng-foot-trust-label">إرجاع 14 يوم</span>
+      <span class="ng-foot-trust-sub">بدون أسئلة</span>
+    </div>
+    <div class="ng-foot-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      <span class="ng-foot-trust-label">ضمان 12 شهر</span>
+      <span class="ng-foot-trust-sub">على كل المنتجات</span>
+    </div>
+  </div>
+
+  <!-- Newsletter capture (v1.28.0) -->
+  <div class="ng-foot-newsletter">
+    <div class="ng-foot-newsletter-inner">
+      <div class="ng-foot-newsletter-text">
+        <h3>عروض المشغّلين · مباشرة لبريدك</h3>
+        <p>منتجات جديدة، تخفيضات حصرية، ونصائح تقنية مختصرة. لا سبام — يمكنك إلغاء الاشتراك في أي وقت.</p>
+      </div>
+      <form class="ng-foot-newsletter-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" novalidate>
+        <input type="hidden" name="action" value="ng_newsletter_subscribe">
+        <?php wp_nonce_field( 'ng_newsletter', 'ng_newsletter_nonce' ); ?>
+        <label class="ng-foot-newsletter-field">
+          <span class="screen-reader-text">بريدك الإلكتروني</span>
+          <input type="email" name="email" placeholder="بريدك الإلكتروني" autocomplete="email" required>
+        </label>
+        <button type="submit" class="btn btn-primary">
+          اشترك
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <div class="ng-foot-inner">
     <div class="ng-foot-col ng-foot-brand">
       <a class="ng-lockup" href="<?php echo esc_url( $home ); ?>" style="margin-bottom:4px;">
