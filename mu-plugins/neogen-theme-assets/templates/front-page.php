@@ -33,7 +33,11 @@ $contact_url  = function_exists('wc_get_page_permalink') ? home_url('/contact/')
 $shop_url     = function_exists('wc_get_page_permalink') ? wc_get_page_permalink('shop') : home_url('/shop/');
 
 // Catalog counts (for the hero systems-brief aside).
-$published_products = (int) wp_count_posts('product')->publish;
+// wp_count_posts() returns a stdClass without a `publish` property on
+// fresh installs (no products yet) or when the `product` CPT isn't
+// registered, so guard before reading it.
+$product_counts     = function_exists('wc_get_page_permalink') ? wp_count_posts('product') : null;
+$published_products = ( is_object($product_counts) && isset($product_counts->publish) ) ? (int) $product_counts->publish : 0;
 
 // Top 5 product categories — transient-cached helper from neogen-theme.php.
 $top_categories = function_exists('ng_top_product_cats') ? ng_top_product_cats(5) : [];
