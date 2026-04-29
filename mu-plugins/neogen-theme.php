@@ -1347,6 +1347,20 @@ add_filter('wc_get_template_part', function ($template, $slug, $name) {
 }, 10, 3);
 
 /**
+ * v1.34.3: drop WC's default loop thumbnail hook.
+ *
+ * Our content-product.php override renders the product image inline
+ * (with brand polish + LED badge) before do_action(
+ * 'woocommerce_before_shop_loop_item_title' ). WC ships
+ * woocommerce_template_loop_product_thumbnail hooked there at prio 10,
+ * which was printing a duplicate image stacked above ours on every
+ * archive (shop / product_cat / tag / search). Remove it once.
+ */
+add_action( 'init', function () {
+    remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+}, 20 );
+
+/**
  * Route full Woo template paths (not template_parts) to our overrides.
  * Used for checkout/thankyou.php etc.
  */
