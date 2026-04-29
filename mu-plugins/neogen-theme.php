@@ -9,7 +9,7 @@
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_THEME_VERSION')) {
-    define('NEOGEN_THEME_VERSION', '1.5.8');
+    define('NEOGEN_THEME_VERSION', '1.5.9');
 }
 
 /**
@@ -295,11 +295,20 @@ function ng_shop_category_tiles() {
 
     echo '<section class="ng-section ng-shop-cats">';
     echo '<div class="ng-container">';
+    // v1.31.0: contextualize the heading.
+    // - Bare Shop archive (no category selected): "اختر فئة" prompt.
+    // - Inside a category archive: cross-nav "تصفّح فئات أخرى".
+    $is_inside_cat = is_product_category();
     echo '<div class="ng-section-head">';
     echo   '<div class="ng-section-kicker"><span></span>المتجر · <b>حسب الفئة</b></div>';
     echo   '<div class="ng-section-titles">';
-    echo     '<h2 class="ng-section-en">اختر فئة.</h2>';
-    echo     '<div class="ng-section-ar">اختر فئة لبدء التصفّح.</div>';
+    if ( $is_inside_cat ) {
+        echo '<h2 class="ng-section-en">تصفّح فئات أخرى.</h2>';
+        echo '<div class="ng-section-ar">كل الفئات في المتجر — للقفز السريع.</div>';
+    } else {
+        echo '<h2 class="ng-section-en">اختر فئة.</h2>';
+        echo '<div class="ng-section-ar">اختر فئة لبدء التصفّح.</div>';
+    }
     echo   '</div>';
     echo '</div>';
     echo '<div class="ng-rack">';
@@ -1009,6 +1018,15 @@ add_action('wp_head', function () {
 add_action('init', function () {
     $slugs = array_merge(['legal'], array_keys(ng_info_pages()));
     foreach ($slugs as $slug) {
+        // v1.31.0: yield to a real published WP page if one exists at
+        // this slug — lets the operator edit the content via wp-admin.
+        // /legal/ stays virtual since it's auto-derived from ng_cr().
+        if ($slug !== 'legal') {
+            $real = get_page_by_path($slug, OBJECT, 'page');
+            if ($real instanceof WP_Post && $real->post_status === 'publish') {
+                continue;
+            }
+        }
         add_rewrite_rule('^' . preg_quote($slug, '#') . '/?$', 'index.php?neogen_page=' . $slug, 'top');
     }
 
