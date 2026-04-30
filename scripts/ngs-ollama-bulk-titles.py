@@ -22,7 +22,7 @@ WP_BASE = 'https://neogen.store/wp-json/neogen/v1'
 WP_USER = 'n8n-bot'
 WP_PASS = 'woi18IhzUpiGVpWWr2ThpcNH'
 OLLAMA_URL = 'http://192.168.8.106:11434/api/generate'
-MODEL = 'qwen3:8b'
+MODEL = 'qwen2.5:7b'  # qwen3 had reasoning-mode token-budget issues
 
 PROMPT = """مهمتك ترجمة عنوان منتج إلكتروني إلى العربية الفصحى.
 القواعد:

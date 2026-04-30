@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen REST Content
  * Description: REST surface for n8n + Ollama-driven AR content backfill (titles, descriptions, imperial→metric). Auth: WP application password tied to a dedicated 'n8n-bot' user with shop_manager role.
- * Version: 1.37.1
+ * Version: 1.37.4
  *
  * v1.37.0 — first cut. Routes:
  *   GET  /wp-json/neogen/v1/products?missing=ar_title&limit=20
@@ -156,6 +156,18 @@ function ng_rest_set_ar_field( $request, $field_name, $meta_key, $source_key ) {
     // Output sanity: must contain Arabic codepoints.
     if ( ! preg_match( '/[\x{0600}-\x{06FF}]/u', $value ) ) {
         return new WP_Error( 'invalid_value', "$field_name has no Arabic characters.", array( 'status' => 422 ) );
+    }
+    // v1.37.4: reject script bleed — Cyrillic / Greek / CJK / Hangul /
+    // Devanagari. The first AR-content sweep had ~60 products with
+    // Cyrillic letters mixed mid-word and Korean / Chinese characters
+    // dropped in. This validator stops it at the door for every future
+    // write (n8n W1/W2, bulk scripts, manual REST calls alike).
+    if ( preg_match( '/[\x{0400}-\x{04FF}\x{0370}-\x{03FF}\x{4E00}-\x{9FFF}\x{3040}-\x{309F}\x{30A0}-\x{30FF}\x{AC00}-\x{D7AF}\x{0900}-\x{097F}]/u', $value, $m ) ) {
+        return new WP_Error(
+            'script_bleed',
+            "$field_name contains forbidden script (Cyrillic/Greek/CJK/Hangul/Devanagari). Sample: '" . esc_html( $m[0] ) . "'.",
+            array( 'status' => 422 )
+        );
     }
     // Strip stray leading "Translation:" / "Sure, here is" fluff that LLMs sometimes prepend.
     $value = preg_replace( '/^(translation\s*:|sure[,!]?\s*[a-z\s]*:|here\s+is[^:]*:)\s*/iu', '', $value );
