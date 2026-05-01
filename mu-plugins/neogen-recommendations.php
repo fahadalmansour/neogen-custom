@@ -187,50 +187,6 @@ function ng_recommended_products($exclude = 0, $limit = 4) {
     return array_slice($picks, 0, $limit);
 }
 
-/**
- * v1.38.0 — generic compatibility-note resolver for the Phase 3 PDP
- * "Works Best With" green box. Returns a short Arabic explanation of
- * why a recommended product pairs well with the source product. Default
- * copy is generic; site operators can override per (source, compat)
- * pair via the `ng_compatibility_note` filter.
- *
- * @param WC_Product|null $source   The PDP product the user is viewing.
- * @param WC_Product|null $compat   The recommended companion product.
- * @return string                   Filtered Arabic copy.
- */
-function ng_compatibility_note( $source = null, $compat = null ) {
-    $note = 'يعمل بشكل أفضل عند تشغيله مع هذه الوحدة المختارة من نفس الفئة.';
-
-    // Category-aware default — try to pick a richer line when the
-    // source product belongs to a known category.
-    if ( $source instanceof WC_Product ) {
-        $cats = wp_get_post_terms( $source->get_id(), 'product_cat', [ 'fields' => 'slugs' ] );
-        if ( ! is_wp_error( $cats ) && ! empty( $cats ) ) {
-            $first = (string) reset( $cats );
-            $by_cat = [
-                'networking' => 'مكوّن مكمّل للشبكة — تكامل مباشر مع الراوتر/السويتش بدون إعداد إضافي.',
-                'homelab'    => 'إضافة موصى بها للهوم لاب — توافق مُختبَر مع المنصات الشائعة.',
-                'smart-home' => 'يندمج مع منظومة البيت الذكي — Matter / HomeKit / Home Assistant.',
-                'gaming'     => 'مكوّن مكمّل لتجهيز الألعاب — أداء مُختبَر مع المنتج الرئيسي.',
-                'hardware'   => 'مكوّن مكمّل للجهاز — قابل للتركيب مباشرةً بدون إعداد إضافي.',
-                'gift-cards' => 'بطاقة مكمّلة — نفس المنطقة وتفعيل فوري.',
-            ];
-            if ( isset( $by_cat[ $first ] ) ) { $note = $by_cat[ $first ]; }
-        }
-    }
-
-    /**
-     * Filter the per-pair compatibility note shown in the PDP Works Best
-     * With section. Most operators will override this for specific SKU
-     * pairs (e.g. router + AP) where a hand-crafted line works better.
-     *
-     * @param string          $note   Default note.
-     * @param WC_Product|null $source The PDP product.
-     * @param WC_Product|null $compat The recommended companion.
-     */
-    return (string) apply_filters( 'ng_compatibility_note', $note, $source, $compat );
-}
-
 /* ----------------------------------------------------------------
    4. Renderer — themed strip reusing the .ng-product card via
       Woo's template_part loop. Output captured via ob_*().
