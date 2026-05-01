@@ -60,6 +60,19 @@ if (is_numeric($stock_qty) && (int) $stock_qty > 0 && (int) $stock_qty < 5) {
     $tag_label = 'نفد';
 }
 
+// v1.38.0 — sale state (used by the redesign for an extra "تخفيض" chip).
+// A product is on sale when it has a regular price AND a sale price set
+// AND the sale price is lower than the regular price. We emit a second
+// chip alongside the stock tag so the existing markup stays intact.
+$is_on_sale = $product->is_on_sale();
+if ( $is_on_sale ) {
+    $reg = (float) $product->get_regular_price();
+    $sal = (float) $product->get_sale_price();
+    $sale_pct = ( $reg > 0 && $sal > 0 && $sal < $reg )
+        ? (int) round( ( ( $reg - $sal ) / $reg ) * 100 )
+        : 0;
+}
+
 // Featured image — real first, SVG placeholder fallback.
 $img_id = $product->get_image_id();
 $img    = $img_id
@@ -117,6 +130,9 @@ do_action('woocommerce_before_shop_loop_item');
 <li <?php wc_product_class('ng-product reveal', $product); ?>>
   <div class="ng-product-head">
     <span class="sku"><?php echo esc_html(strtoupper($sku)); ?></span>
+    <?php if ( $is_on_sale ) : ?>
+      <span class="tag sale">تخفيض<?php echo $sale_pct ? ' · −' . $sale_pct . '%' : ''; ?></span>
+    <?php endif; ?>
     <?php if ($tag_label) : ?>
       <span class="tag <?php echo esc_attr($tag_class); ?>"><?php echo esc_html($tag_label); ?></span>
     <?php endif; ?>

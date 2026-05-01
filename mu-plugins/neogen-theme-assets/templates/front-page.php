@@ -411,105 +411,193 @@ $ng_gift_cards = function_exists('wc_get_products') ? wc_get_products([
   </div>
   <div class="ng-hero-scan" aria-hidden="true"></div>
 
+  <?php
+  // v1.38.0 — Redesign Phase 1: hero rotating product gallery.
+  // Source: /tmp/neogen-design/neogen-store/project/homepage.jsx (lines 4–172).
+  // Pulls up to 5 products from the picks pool calculated above so the
+  // hero showcases real, in-stock, diversified inventory. Categories are
+  // surfaced as small chips on each slide.
+  $ng_hero_products = [];
+  if ( ! empty( $picks ) ) {
+      foreach ( $picks as $hp ) {
+          if ( count( $ng_hero_products ) >= 5 ) { break; }
+          if ( ! $hp instanceof WC_Product ) { continue; }
+          $hp_id      = $hp->get_id();
+          $hp_sku     = $hp->get_sku();
+          if ( ! $hp_sku ) { $hp_sku = 'NG-' . $hp_id; }
+          $hp_name_en = $hp->get_name();
+          $hp_name_ar = (string) get_post_meta( $hp_id, '_ng_ar_title', true );
+          if ( $hp_name_ar === '' ) {
+              $hp_name_ar = function_exists( 'ng_ar_label' ) ? ng_ar_label( $hp_name_en ) : $hp_name_en;
+          }
+          if ( function_exists( 'ng_gift_card_clean_product_name' ) ) {
+              $hp_name_en = ng_gift_card_clean_product_name( $hp_name_en );
+              $hp_name_ar = ng_gift_card_clean_product_name( $hp_name_ar );
+          }
+          $hp_cat_name = '';
+          $hp_cats = get_the_terms( $hp_id, 'product_cat' );
+          if ( ! empty( $hp_cats ) && ! is_wp_error( $hp_cats ) ) {
+              $hp_cat_name = (string) get_term_meta( $hp_cats[0]->term_id, '_ng_ar_label', true );
+              if ( $hp_cat_name === '' ) { $hp_cat_name = $hp_cats[0]->name; }
+          }
+          $hp_img_id = (int) $hp->get_image_id();
+          $hp_img    = $hp_img_id
+              ? wp_get_attachment_image( $hp_img_id, 'large', false, [ 'alt' => esc_attr( $hp_name_en ), 'loading' => 'eager', 'decoding' => 'async' ] )
+              : '';
+          if ( function_exists( 'ng_gift_card_image_html' ) ) {
+              $g = ng_gift_card_image_html( $hp, 'large', $hp_name_en, null, [ 'loading' => 'eager' ] );
+              if ( $g ) { $hp_img = $g; }
+          }
+          $ng_hero_products[] = [
+              'id'        => $hp_id,
+              'sku'       => $hp_sku,
+              'ar'        => $hp_name_ar,
+              'en'        => $hp_name_en,
+              'cat'       => $hp_cat_name,
+              'price'     => $hp->get_price_html(),
+              'perm'      => get_permalink( $hp_id ),
+              'img'       => $hp_img,
+              'cta_url'   => $hp->is_type( 'simple' ) && $hp->is_in_stock() ? $hp->add_to_cart_url() : get_permalink( $hp_id ),
+              'cta_label' => $hp->is_type( 'simple' ) && $hp->is_in_stock() ? 'أضف للسلة' : 'عرض',
+          ];
+      }
+  }
+  $ng_hero_total = count( $ng_hero_products );
+  ?>
+
   <div class="ng-hero-inner">
-    <div class="ng-hero-main">
-      <div class="ng-kicker">
-        <span></span>
-        <?php echo esc_html__( 'متجر تقني سعودي · معتمد', 'neogen' ); ?>
+    <div class="ng-hero-grid">
+      <div class="ng-hero-main">
+        <div class="ng-kicker">
+          <span></span>
+          <?php echo esc_html__( 'متجر تقني سعودي · معتمد · 2026', 'neogen' ); ?>
+        </div>
+        <h1 class="ng-hero-h1">جيل التقنية<br><span class="accent">&#160;القادم</span>.</h1>
+
+        <div class="ng-hero-wordmark" aria-hidden="true">
+          <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="80" height="62" decoding="async">
+          <span class="sep"></span>
+          <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
+          <span class="store">STORE</span>
+        </div>
+
+        <p class="ng-hero-copy">
+          وحدات مختارة لمحترفي الشبكات، الهوم لاب، البيوت الذكية، والألعاب.
+          مواصفات بدون مبالغة. شحن من المملكة لكل دول الخليج.
+        </p>
+
+        <div class="ng-hero-sub">// تقنية متخصصة · مهيّأة للمشغّلين · شحن من المملكة //</div>
+
+        <div class="ng-hero-ctas">
+          <a class="btn btn-primary" href="<?php echo esc_url( $shop_url ); ?>">
+            تصفح المتجر
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#ng-service">
+            <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/build-rig.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
+            ابنِ جهازك
+          </a>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:28px;flex-wrap:wrap;">
+          <span class="mono-up" style="color:var(--dim);font-size:9px;">يشحن إلى:</span>
+          <?php foreach ( [ [ '🇸🇦', 'KSA' ], [ '🇦🇪', 'UAE' ], [ '🇰🇼', 'KW' ], [ '🇧🇭', 'BH' ], [ '🇴🇲', 'OM' ], [ '🇶🇦', 'QA' ] ] as $f ) : ?>
+            <span style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:11px;color:var(--ink-4);">
+              <span style="font-size:16px;"><?php echo esc_html( $f[0] ); ?></span> <?php echo esc_html( $f[1] ); ?>
+            </span>
+          <?php endforeach; ?>
+        </div>
       </div>
-      <h1 class="ng-hero-h1">جيل التقنية<br><span class="accent">&#160;القادم</span>.</h1>
 
-      <div class="ng-hero-wordmark" aria-hidden="true">
-        <img class="ng-lockup-mark" src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/logo/ng-mark.png' ); ?>" alt="" width="80" height="62" decoding="async">
-        <span class="sep"></span>
-        <span class="wordmark"><span class="neo">NEO</span><span class="gen">GEN</span></span>
-        <span class="store">STORE</span>
-      </div>
+      <?php if ( $ng_hero_total > 0 ) : ?>
+        <div class="ng-hero-gallery" data-ng-hero-gallery>
+          <div class="ng-hero-gallery-card">
+            <?php foreach ( $ng_hero_products as $i => $hp ) : ?>
+              <div class="ng-hero-gallery-slide" data-ng-hero-slide<?php echo $i === 0 ? '' : ' hidden'; ?>>
+                <?php if ( $hp['cat'] !== '' ) : ?>
+                  <div class="ng-hero-gallery-cat"><span class="chip chip-sky" style="font-size:10px;"><?php echo esc_html( $hp['cat'] ); ?></span></div>
+                <?php endif; ?>
+                <a class="ng-hero-gallery-media" href="<?php echo esc_url( $hp['perm'] ); ?>" aria-label="<?php echo esc_attr( $hp['en'] ); ?>">
+                  <?php if ( $hp['img'] ) {
+                      echo $hp['img']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — wp_get_attachment_image safe HTML
+                  } else { ?>
+                    <span class="ng-r1-ph-label"><?php echo esc_html( strtoupper( $hp['sku'] ) ); ?></span>
+                  <?php } ?>
+                </a>
+                <div class="ng-hero-gallery-info">
+                  <div class="sku"><?php echo esc_html( strtoupper( $hp['sku'] ) ); ?></div>
+                  <h3><a href="<?php echo esc_url( $hp['perm'] ); ?>" style="color:inherit;text-decoration:none;"><?php echo esc_html( $hp['ar'] ); ?></a></h3>
+                  <span class="en"><?php echo esc_html( $hp['en'] ); ?></span>
+                  <div class="row">
+                    <div class="price"><?php echo wp_kses_post( $hp['price'] ); ?></div>
+                    <a class="btn btn-sm" href="<?php echo esc_url( $hp['cta_url'] ); ?>" style="font-size:12px;padding:7px 12px;border-radius:var(--r-1);"><?php echo esc_html( $hp['cta_label'] ); ?> +</a>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+            <div class="ng-hero-gallery-progress"><span data-ng-hero-progress style="width:<?php echo esc_attr( (int) round( ( 1 / max( 1, $ng_hero_total ) ) * 100 ) ); ?>%;"></span></div>
+          </div>
 
-      <p class="ng-hero-copy">
-        متجر تقني سعودي لمحترفي الشبكات، الهوم لاب، البيوت الذكية، والألعاب.
-        منتجات مختارة، مواصفات بدون مبالغة، شحن من داخل المملكة.
-      </p>
+          <div class="ng-hero-thumbs" role="tablist" aria-label="معرض المنتجات">
+            <?php foreach ( $ng_hero_products as $i => $hp ) : ?>
+              <button type="button" data-ng-hero-thumb role="tab" aria-label="<?php echo esc_attr( $hp['ar'] ); ?>"<?php echo $i === 0 ? ' aria-current="true"' : ''; ?>>
+                <?php if ( $hp['img'] ) {
+                    // Reuse the markup; for thumbs we want a smaller image — simple <img> from same attachment id
+                    $thumb = wp_get_attachment_image( (int) get_post_thumbnail_id( $hp['id'] ) ?: 0, 'thumbnail', false, [ 'alt' => '', 'loading' => 'lazy' ] );
+                    if ( $thumb ) {
+                        echo $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    }
+                } ?>
+              </button>
+            <?php endforeach; ?>
+          </div>
 
-      <div class="ng-hero-sub">// تقنية متخصصة · مهيّأة للمشغّلين · شحن من المملكة //</div>
-
-      <div class="ng-hero-ctas">
-        <a class="btn btn-primary" href="<?php echo esc_url( $shop_url ); ?>">
-          تصفح المتجر
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </a>
-        <a class="btn btn-ghost" href="#ng-service">
-          <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/icons/build-rig.svg' ); ?>" width="20" height="20" alt="" class="ng-icon-mono">
-          ابنِ جهازك
-        </a>
-      </div>
+          <div class="ng-hero-dots" aria-hidden="true">
+            <?php foreach ( $ng_hero_products as $i => $hp ) : ?>
+              <button type="button" data-ng-hero-dot<?php echo $i === 0 ? ' aria-current="true"' : ''; ?>></button>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      <?php else : ?>
+        <?php if ( $ng_hero_id ) : ?>
+          <aside class="ng-hero-side" aria-hidden="true">
+            <?php echo wp_get_attachment_image( $ng_hero_id, 'large', false, [
+                'loading'       => 'eager',
+                'fetchpriority' => 'high',
+                'decoding'      => 'async',
+            ] ); ?>
+          </aside>
+        <?php endif; ?>
+      <?php endif; ?>
     </div>
 
     <?php
-    /*
-     * Hero side visual — three-tier cascade:
-     *   1. Explicit ng_hero_side_image_id (admin override) — wins.
-     *   2. CSS-only auto-collage of the four diversified picks
-     *      (gift-cards can only ever fill 1 of 4 slots thanks to the
-     *      primary-cat dedup in front-page picks logic). Falls back
-     *      gracefully on each missing image.
-     *   3. Top category thumbnails (last resort) so the panel is never
-     *      empty as long as the catalog has at least one category.
-     */
-    $ng_hero_side_id = (int) get_option('ng_hero_side_image_id');
+    // Trust strip — 5 cells, replaces the old chip row. Pulls live data
+    // where possible (CR via NG_CR / ng_cr() if present) and falls back
+    // to safe defaults.
+    $cr_number = '7053130576';
+    if ( function_exists( 'ng_cr' ) ) {
+        $cr = ng_cr();
+        if ( ! empty( $cr['number'] ) ) { $cr_number = (string) $cr['number']; }
+    } elseif ( defined( 'NG_CR' ) ) {
+        $cr_number = (string) NG_CR;
+    }
+    $ng_trust_cells = [
+        [ 'k' => 'السجل التجاري', 'v' => $cr_number ],
+        [ 'k' => 'الضريبة',       'v' => '15% شاملة' ],
+        [ 'k' => 'الشحن',         'v' => '2–5 أيام عمل' ],
+        [ 'k' => 'الإرجاع',       'v' => '14 يوم' ],
+        [ 'k' => 'الضمان',        'v' => '12 شهر' ],
+    ];
     ?>
-    <?php if ( $ng_hero_side_id ) : ?>
-      <aside class="ng-hero-side" aria-hidden="true">
-        <?php echo wp_get_attachment_image( $ng_hero_side_id, 'large', false, [
-            'loading'       => 'eager',
-            'fetchpriority' => 'high',
-            'decoding'      => 'async',
-        ] ); ?>
-      </aside>
-    <?php else :
-        // Auto-collage from the diversified picks (or category thumbs as fallback)
-        $collage_imgs = [];
-        foreach ( (array) $picks as $cp ) {
-            if ( count($collage_imgs) >= 4 ) break;
-            if ( ! $cp instanceof WC_Product ) continue;
-            $cp_img_id = (int) $cp->get_image_id();
-            if ( $cp_img_id ) {
-                $collage_imgs[] = wp_get_attachment_image( $cp_img_id, 'medium', false, [
-                    'loading'  => 'eager',
-                    'decoding' => 'async',
-                    'alt'      => '',
-                ] );
-            }
-        }
-        if ( count($collage_imgs) < 4 && ! empty( $top_categories ) ) {
-            foreach ( $top_categories as $tc ) {
-                if ( count($collage_imgs) >= 4 ) break;
-                $tc_id = (int) get_term_meta( $tc->term_id, 'thumbnail_id', true );
-                if ( $tc_id ) {
-                    $collage_imgs[] = wp_get_attachment_image( $tc_id, 'medium', false, [
-                        'loading'  => 'eager',
-                        'decoding' => 'async',
-                        'alt'      => '',
-                    ] );
-                }
-            }
-        }
-        if ( ! empty( $collage_imgs ) ) :
-    ?>
-      <aside class="ng-hero-side ng-hero-collage" aria-hidden="true">
-        <?php foreach ( $collage_imgs as $tile ) : ?>
-          <span class="ng-hero-tile"><?php echo $tile; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-        <?php endforeach; ?>
-      </aside>
-    <?php endif; endif; ?>
-  </div>
-
-  <div class="ng-hero-meta" aria-hidden="true">
-    <span class="ng-chip"><span class="dot"></span><strong>سجل تجاري</strong> 7053130576</span>
-    <span class="ng-chip"><strong>الضريبة</strong> 15% شاملة</span>
-    <span class="ng-chip"><strong>الشحن</strong> 2-5 أيام عمل</span>
-    <span class="ng-chip"><strong>الإرجاع</strong> 14 يوم</span>
-    <span class="ng-chip"><strong>الضمان</strong> 12 شهر</span>
+    <div class="ng-trust-strip" aria-label="ضمانات المتجر">
+      <?php foreach ( $ng_trust_cells as $cell ) : ?>
+        <div>
+          <span class="k"><?php echo esc_html( $cell['k'] ); ?></span>
+          <span class="v"><?php echo esc_html( $cell['v'] ); ?></span>
+        </div>
+      <?php endforeach; ?>
+    </div>
   </div>
 </header>
 

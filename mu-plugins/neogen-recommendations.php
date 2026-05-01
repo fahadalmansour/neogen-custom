@@ -237,6 +237,10 @@ function ng_render_recommendations($args = []) {
    ---------------------------------------------------------------- */
 add_action('woocommerce_after_single_product', function () {
     if (!function_exists('is_product') || !is_product()) return;
+    // v1.38.0 — when the redesigned PDP renders its Works Best With
+    // strip from this same engine, suppress the auto-recommendation
+    // section to avoid duplicate "recommended" rows below the article.
+    if (defined('NG_WORKS_BEST_RENDERED')) return;
     $id = (int) get_queried_object_id();
     echo ng_render_recommendations([
         'exclude' => $id,
