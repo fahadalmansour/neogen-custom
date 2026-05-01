@@ -148,3 +148,299 @@
 /* === Phase 15 · admin     ================================== */
 /* === Phase 16 · mobile    ================================== */
 /* === Phase 17 · states    ================================== */
+
+/* ============================================================
+   Phase 1 · Homepage hero rotating gallery + trust strip
+   Source: /tmp/neogen-design/neogen-store/project/homepage.jsx (lines 24-172)
+   Active when:  body.ngrd-on.ngrd-homepage
+   ============================================================ */
+
+.ngrd-on.ngrd-homepage .ngrd-hero {
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(900px circle at 70% 40%, rgba(56,189,248,0.08), transparent 55%),
+    linear-gradient(rgba(10,10,10,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.035) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 48px 48px, 48px 48px, auto;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 88px 48px 72px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 1100px) {
+  .ngrd-on.ngrd-homepage .ngrd-hero__grid { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 720px) {
+  .ngrd-on.ngrd-homepage .ngrd-hero__inner { padding: 48px 20px; }
+}
+
+/* --- Left text panel ----------------------------------------- */
+.ngrd-on.ngrd-homepage .ngrd-hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding: 6px 14px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__kicker .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__h1 {
+  font-family: var(--font-wordmark);
+  font-weight: 700;
+  font-size: clamp(52px, 6.5vw, 96px);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin: 0 0 12px;
+  color: var(--indigo);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__h1 .ngrd-accent {
+  font-family: var(--font-wordmark);
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__rule {
+  width: 56px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin: 28px 0;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__copy {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  max-width: 500px;
+  margin: 0;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__ships {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__ships .label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__ships .country {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-4);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__ships .country .flag { font-size: 16px; }
+
+/* --- Right gallery panel ------------------------------------- */
+.ngrd-on.ngrd-homepage .ngrd-hero__gallery { position: relative; }
+.ngrd-on.ngrd-homepage .ngrd-hero__card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__cat {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: 16px;
+  z-index: 2;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__media {
+  aspect-ratio: 4 / 3;
+  border-bottom: 1px solid var(--rule);
+  background: repeating-linear-gradient(135deg, #EEF2F6 0 10px, #E2E8F0 10px 20px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink-4);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--surface);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__info { padding: 20px 24px; }
+.ngrd-on.ngrd-homepage .ngrd-hero__info .sku {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  margin-bottom: 6px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__info h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--indigo);
+  line-height: 1.2;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__info h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__info .en {
+  font-family: var(--font-wordmark);
+  font-size: 12px;
+  color: var(--ink-4);
+  display: block;
+  margin-bottom: 16px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__info .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__progress {
+  height: 2px;
+  background: var(--surface-2);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__progress > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  width: 20%;
+  transition: width 0.4s var(--ease);
+}
+
+/* --- Thumbnail strip ----------------------------------------- */
+.ngrd-on.ngrd-homepage .ngrd-hero__thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__thumbs button {
+  padding: 0;
+  border: 2px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  background: repeating-linear-gradient(135deg, #EEF2F6 0 6px, #E2E8F0 6px 12px);
+  transition: border-color .2s;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__thumbs button[aria-current="true"] {
+  border-color: var(--accent);
+  background: repeating-linear-gradient(135deg, #BAE6FD 0 6px, #E0F2FE 6px 12px);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- Dot nav -------------------------------------------------- */
+.ngrd-on.ngrd-homepage .ngrd-hero__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__dots button {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  background: var(--rule-strong);
+  transition: width .3s var(--ease), background .2s;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__dots button[aria-current="true"] {
+  width: 20px;
+  background: var(--accent);
+}
+
+/* --- Trust strip --------------------------------------------- */
+.ngrd-on.ngrd-homepage .ngrd-hero__trust {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 72px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__trust > div {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-inline-start: 1px solid var(--rule);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__trust > div:first-child {
+  border-inline-start: none;
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__trust .k {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+}
+.ngrd-on.ngrd-homepage .ngrd-hero__trust .v {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--indigo);
+}
+@media (max-width: 880px) {
+  .ngrd-on.ngrd-homepage .ngrd-hero__trust { grid-template-columns: repeat(2, 1fr); }
+  .ngrd-on.ngrd-homepage .ngrd-hero__trust > div {
+    border-inline-start: none;
+    border-block-start: 1px solid var(--rule);
+  }
+  .ngrd-on.ngrd-homepage .ngrd-hero__trust > div:nth-child(-n+2) {
+    border-block-start: none;
+  }
+}
+
+/* --- Hide the legacy hero when the redesign hero is on ------ */
+.ngrd-on.ngrd-homepage header.ng-hero { display: none !important; }
+
+/* --- Reduced-motion ------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .ngrd-on.ngrd-homepage .ngrd-hero__progress > span,
+  .ngrd-on.ngrd-homepage .ngrd-hero__thumbs button,
+  .ngrd-on.ngrd-homepage .ngrd-hero__dots button { transition: none; }
+}

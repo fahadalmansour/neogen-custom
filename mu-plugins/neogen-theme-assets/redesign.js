@@ -85,3 +85,61 @@
   /* === Phase 13 · NGRD.compareList      ==================== */
   /* === Phase 14 · NGRD.notifToasts      ==================== */
 })();
+
+/* ============================================================
+   Phase 1 · NGRD.heroGallery
+   Source: /tmp/neogen-design/neogen-store/project/homepage.jsx
+           (lines 13-16 useEffect interval, 121-149 thumbs/dots)
+   Auto-advances every 4s, pauses on hover, respects
+   prefers-reduced-motion.
+   ============================================================ */
+(function () {
+  if (!window.NGRD) { return; }
+  NGRD.register('heroGallery', function () {
+    var root = document.querySelector('[data-ngrd-hero-gallery]');
+    if (!root) { return; }
+    var slides   = NGRD.qa('[data-ngrd-hero-slide]', root);
+    var thumbs   = NGRD.qa('[data-ngrd-hero-thumb]',  root);
+    var dots     = NGRD.qa('[data-ngrd-hero-dot]',    root);
+    var progress = root.querySelector('[data-ngrd-hero-progress]');
+    var total    = slides.length;
+    if (total < 2) { return; }
+    var idx   = 0;
+    var timer = null;
+
+    function show(i) {
+      idx = ((i % total) + total) % total;
+      slides.forEach(function (el, j) { el.hidden = j !== idx; });
+      thumbs.forEach(function (el, j) {
+        if (j === idx) { el.setAttribute('aria-current', 'true'); }
+        else           { el.removeAttribute('aria-current'); }
+      });
+      dots.forEach(function (el, j) {
+        if (j === idx) { el.setAttribute('aria-current', 'true'); }
+        else           { el.removeAttribute('aria-current'); }
+      });
+      if (progress) {
+        progress.style.width = (((idx + 1) / total) * 100) + '%';
+      }
+    }
+    function start() {
+      if (NGRD.prefersReducedMotion) { return; }
+      stop();
+      timer = window.setInterval(function () { show(idx + 1); }, 4000);
+    }
+    function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
+
+    thumbs.forEach(function (b, i) {
+      b.addEventListener('click', function () { show(i); start(); });
+    });
+    dots.forEach(function (b, i) {
+      b.addEventListener('click', function () { show(i); start(); });
+    });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    window.addEventListener('pagehide', stop);
+
+    show(0);
+    start();
+  });
+})();

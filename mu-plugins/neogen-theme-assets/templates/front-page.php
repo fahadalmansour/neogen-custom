@@ -382,6 +382,15 @@ $ng_gift_cards = function_exists('wc_get_products') ? wc_get_products([
 <!-- ============================================================
      HERO
      ============================================================ -->
+<?php
+// Phase 1 redesign — gated by ng_redesign_active('homepage'). When ON,
+// render the rotating product gallery + trust strip from the design
+// bundle and skip the legacy <header class="ng-hero"> entirely. When
+// OFF, the legacy hero below is unchanged.
+if ( function_exists( 'ng_redesign_active' ) && ng_redesign_active( 'homepage' ) ) :
+    include __DIR__ . '/parts/hero-redesign.php';
+else :
+?>
 <header class="ng-hero">
   <?php
       // Use ONLY the explicitly-configured hero image. Auto-falling back to
@@ -512,6 +521,7 @@ $ng_gift_cards = function_exists('wc_get_products') ? wc_get_products([
     <span class="ng-chip"><strong>الضمان</strong> 12 شهر</span>
   </div>
 </header>
+<?php endif; // legacy hero ?>
 
 <!-- ============================================================
      SKU TICKER
