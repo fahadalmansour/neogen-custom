@@ -37,82 +37,15 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
       <span class="led on" aria-hidden="true"></span>
       <span>02 · إتمام الطلب · تأكيد</span>
     </div>
-    <div class="ng-checkout-head-row" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;">
-      <h1 class="ng-checkout-h1">
-        <span class="ar">إتمام الطلب</span>
-      </h1>
-      <?php
-      // v1.38.0 — 3-step progress indicator (Cart → Shipping → Payment).
-      // Step 02 (shipping/checkout) is the active step here.
-      ?>
-      <nav class="ng-stepper" aria-label="مراحل الشراء">
-        <span class="ng-step-pill" style="opacity:.4;">
-          <span class="n">01</span><span class="l">السلة</span>
-        </span>
-        <span class="sep" aria-hidden="true"></span>
-        <span class="ng-step-pill" aria-current="step">
-          <span class="n">02</span><span class="l">الشحن</span>
-        </span>
-        <span class="sep" aria-hidden="true"></span>
-        <span class="ng-step-pill" style="opacity:.4;">
-          <span class="n">03</span><span class="l">الدفع</span>
-        </span>
-      </nav>
-    </div>
+    <h1 class="ng-checkout-h1">
+      <span class="ar">إتمام الطلب</span>
+    </h1>
     <div class="ng-checkout-pay-strip" aria-label="طرق الدفع المتاحة">
       <span class="ng-checkout-pay-label">// طرق الدفع</span>
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/mada.svg' ); ?>"      width="42" height="18" alt="مدى" loading="lazy">
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/apple-pay.svg' ); ?>" width="42" height="18" alt="Apple Pay" loading="lazy">
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/stcpay.svg' ); ?>"    width="42" height="18" alt="STC Pay" loading="lazy">
       <img src="<?php echo esc_url( NG_THEME_ASSET_URL . '/img/pay/tabby.svg' ); ?>"     width="42" height="18" alt="Tabby" loading="lazy">
-    </div>
-
-    <?php
-    // v1.38.0 — informational carrier-options preview. Shows the four
-    // shipping options NeoGen offers across the GCC. The actual carrier
-    // selection still happens in WooCommerce's native shipping-methods
-    // radio (rendered inside review-order.php / order_review action) so
-    // we don't break WC's AJAX cart-update or payment-gateway flows.
-    $ng_carriers = [
-        [ 'logo' => '📦', 'name' => 'Aramex Standard', 'price' => '25 SAR', 'eta' => '2–5 أيام عمل',  'rating' => '4.7★', 'features' => [ 'تتبع مباشر', 'SMS تنبيهات' ] ],
-        [ 'logo' => '⚡', 'name' => 'SMSA Express',    'price' => '35 SAR', 'eta' => '1–2 يوم عمل',   'rating' => '4.8★', 'features' => [ 'تسليم سريع', 'تتبع مباشر', 'واتساب' ] ],
-        [ 'logo' => '🌍', 'name' => 'DHL Express GCC', 'price' => '75 SAR', 'eta' => '1–3 أيام خليج', 'rating' => '4.9★', 'features' => [ 'شحن GCC', 'تتبع دقيق', 'مضمون' ] ],
-        [ 'logo' => '🏠', 'name' => 'نفس اليوم',       'price' => '55 SAR', 'eta' => 'اليوم قبل 9م',  'rating' => '4.6★', 'features' => [ 'الرياض فقط', 'تحديد الوقت' ], 'badge' => 'الرياض فقط' ],
-    ];
-    ?>
-    <div class="ng-carriers-preview" style="margin-top:24px;">
-      <div class="mono-up" style="color:var(--ink-4);margin-bottom:12px;">شركات الشحن المتاحة · CARRIERS</div>
-      <div class="ng-carrier-picker" role="list" aria-label="معاينة شركات الشحن">
-        <?php foreach ( $ng_carriers as $i => $c ) : ?>
-          <div class="ng-carrier-card" role="listitem"<?php echo $i === 0 ? ' data-active="true"' : ''; ?>>
-            <span class="radio" aria-hidden="true"></span>
-            <span class="logo" aria-hidden="true"><?php echo esc_html( $c['logo'] ); ?></span>
-            <div class="body">
-              <div class="row">
-                <div class="name">
-                  <?php echo esc_html( $c['name'] ); ?>
-                  <?php if ( ! empty( $c['badge'] ) ) : ?>
-                    <span class="chip chip-sale" style="font-size:8px;"><?php echo esc_html( $c['badge'] ); ?></span>
-                  <?php endif; ?>
-                </div>
-                <div>
-                  <div class="price"><?php echo esc_html( $c['price'] ); ?></div>
-                  <div class="eta"><?php echo esc_html( $c['eta'] ); ?></div>
-                </div>
-              </div>
-              <div class="rating"><?php echo esc_html( $c['rating'] ); ?></div>
-              <div class="features">
-                <?php foreach ( $c['features'] as $f ) : ?>
-                  <span class="f"><?php echo esc_html( $f ); ?></span>
-                <?php endforeach; ?>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-      <p style="font-size:11px;color:var(--ink-4);margin:10px 0 0;font-family:var(--font-mono);">
-        // اختر طريقة الشحن من نموذج الطلب أدناه — تُحسب الأسعار بناءً على المدينة والوزن.
-      </p>
     </div>
   </header>
 

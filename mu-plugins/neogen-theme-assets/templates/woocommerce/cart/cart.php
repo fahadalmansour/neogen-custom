@@ -23,29 +23,10 @@ do_action('woocommerce_before_cart');
       <span class="led on" aria-hidden="true"></span>
       <span>01 · CART · ORDER QUEUE</span>
     </div>
-    <div class="ng-cart-head-row" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;">
-      <h1 class="ng-cart-h1">
-        <span class="ar">السلة</span>
-        <span class="en">YOUR CART</span>
-      </h1>
-      <?php
-      // v1.38.0 — 3-step progress indicator (Cart → Shipping → Payment).
-      // Step 1 (cart) is always active here; 2 and 3 are dimmed previews.
-      ?>
-      <nav class="ng-stepper" aria-label="مراحل الشراء">
-        <span class="ng-step-pill" aria-current="step">
-          <span class="n">01</span><span class="l">السلة</span>
-        </span>
-        <span class="sep" aria-hidden="true"></span>
-        <span class="ng-step-pill">
-          <span class="n">02</span><span class="l">الشحن</span>
-        </span>
-        <span class="sep" aria-hidden="true"></span>
-        <span class="ng-step-pill">
-          <span class="n">03</span><span class="l">الدفع</span>
-        </span>
-      </nav>
-    </div>
+    <h1 class="ng-cart-h1">
+      <span class="ar">السلة</span>
+      <span class="en">YOUR CART</span>
+    </h1>
   </header>
 
   <div class="ng-cart-body">

@@ -191,193 +191,54 @@ if (is_wp_error($cats)) { $cats = []; }
   }
   ?>
 
-  <?php
-  /**
-   * v1.38.0 — Redesign Phase 1: PDP refresh.
-   *
-   * Render order below the gallery + summary:
-   *   A. Works Best With  — 4 companion product cards with a generic
-   *      "why compatible" hint, fed by ng_recommended_products() so we
-   *      reuse the existing recommendation engine instead of building
-   *      a parallel one.
-   *   B. Add-ons & Replacements — driven by per-product _ng_addons
-   *      meta (see mu-plugins/neogen-addons.php). Empty meta = section
-   *      hidden, so this is a no-op for products without curated addons.
-   *   C. Tabbed content — Description / Specs / Reviews / Shipping —
-   *      the existing flat sections are preserved as tab panel bodies
-   *      so all content remains discoverable; tabs just give the user
-   *      a faster way to jump between them.
-   *   D. Related products — kept (Woo's internal loop, themed via
-   *      content-product.php override).
-   */
-  $ng_compat_default = 'يعمل بشكل أفضل عند تشغيله مع هذه الوحدة المختارة من نفس الفئة.';
-  $ng_works_with     = function_exists( 'ng_recommended_products' )
-      ? ng_recommended_products( $id, 4 )
-      : [];
-  $ng_addons_html    = function_exists( 'ng_render_addons' ) ? ng_render_addons( $id ) : '';
-  ?>
-
-  <?php if ( ! empty( $ng_works_with ) ) :
-      // Suppress the auto-rec-strip in neogen-recommendations.php so we
-      // don't double-render the same products below the article.
-      if ( ! defined( 'NG_WORKS_BEST_RENDERED' ) ) { define( 'NG_WORKS_BEST_RENDERED', true ); }
-  ?>
-  <section class="ng-works-best-with" aria-labelledby="ng-works-heading-<?php echo (int) $id; ?>">
-    <div class="head">
+  <?php if ( ! empty( $attr_rows ) ) : ?>
+  <section class="ng-single-attrs">
+    <div class="ng-section-head">
       <div>
-        <div class="ng-section-label">A · <b>يعمل بشكل أفضل مع</b> · WORKS BEST WITH</div>
-        <h2 id="ng-works-heading-<?php echo (int) $id; ?>" class="ng-section-h" style="font-size:20px;margin:8px 0 0;">الأجهزة الموصى بها للاستخدام مع هذا المنتج</h2>
+        <div class="ng-section-label">02 · <b>المواصفات الفنية</b></div>
+        <h2 class="ng-section-h">المواصفات <span class="accent">الكاملة</span>.</h2>
       </div>
-      <a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">كل التوافقات &rarr;</a>
     </div>
-    <div class="ng-works-grid">
-      <?php foreach ( $ng_works_with as $w ) :
-          $w_id    = $w->get_id();
-          $w_sku   = $w->get_sku() ?: 'NG-' . $w_id;
-          $w_name  = $w->get_name();
-          $w_ar    = (string) get_post_meta( $w_id, '_ng_ar_title', true );
-          if ( $w_ar === '' ) { $w_ar = $w_name; }
-          if ( function_exists( 'ng_gift_card_clean_product_name' ) ) {
-              $w_name = ng_gift_card_clean_product_name( $w_name );
-              $w_ar   = ng_gift_card_clean_product_name( $w_ar );
-          }
-          $w_show_en = trim( (string) $w_name ) !== '' && trim( (string) $w_ar ) !== trim( (string) $w_name );
-          $w_perm    = get_permalink( $w_id );
-          $w_price   = $w->get_price_html();
-          $w_img_id  = $w->get_image_id();
-          $w_img     = $w_img_id
-              ? wp_get_attachment_image( $w_img_id, 'woocommerce_thumbnail', false, [ 'alt' => esc_attr( $w_name ) ] )
-              : '';
-      ?>
-        <article class="ng-works-card">
-          <a class="media" href="<?php echo esc_url( $w_perm ); ?>" aria-label="<?php echo esc_attr( $w_name ); ?>">
-            <?php if ( $w_img ) {
-                echo $w_img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — wp_get_attachment_image returns safe HTML
-            } else { ?>
-              <span class="ng-r1-ph-label"><?php echo esc_html( strtoupper( $w_sku ) ); ?></span>
-            <?php } ?>
-          </a>
-          <div class="body">
-            <div class="sku"><?php echo esc_html( strtoupper( $w_sku ) ); ?></div>
-            <a class="ar" href="<?php echo esc_url( $w_perm ); ?>" style="color:inherit;text-decoration:none;display:block;"><?php echo esc_html( $w_ar ); ?></a>
-            <?php if ( $w_show_en ) : ?>
-              <span class="en"><?php echo esc_html( $w_name ); ?></span>
-            <?php endif; ?>
-            <div class="why"><?php echo esc_html( $ng_compat_default ); ?></div>
-            <div class="foot">
-              <div class="price"><?php echo wp_kses_post( $w_price ); ?></div>
-              <a class="btn btn-sm" href="<?php echo esc_url( $w_perm ); ?>" style="font-size:11px;padding:6px 10px;">عرض ←</a>
-            </div>
-          </div>
-        </article>
+    <dl class="ng-single-attr-table">
+      <?php foreach ( $attr_rows as $row ) : ?>
+        <div class="ng-single-attr-row">
+          <dt><?php echo esc_html( $row['label'] ); ?></dt>
+          <dd><?php echo esc_html( $row['value'] ); ?></dd>
+        </div>
       <?php endforeach; ?>
+    </dl>
+  </section>
+  <?php endif; ?>
+
+  <?php if ($product->get_description()) : ?>
+  <section class="ng-single-description">
+    <div class="ng-section-head">
+      <div>
+        <div class="ng-section-label">03 · <b>تفاصيل المنتج</b></div>
+        <h2 class="ng-section-h">ما <span class="accent">داخل</span> الوحدة.</h2>
+      </div>
+    </div>
+    <div class="ng-single-desc-body">
+      <?php
+      // v1.37.2: prefer Arabic body from _ng_ar_description meta when
+      // present (generated by ngs-ollama-bulk-descriptions.py or by hand
+      // in wp-admin). Falls back to English post_content. wp_kses_post
+      // strips <script>/<style>/etc from stored content; apply the_content
+      // filter chain so autop, shortcodes, embeds, blocks render normally.
+      $ng_ar_desc = trim( (string) get_post_meta( $product->get_id(), '_ng_ar_description', true ) );
+      $ng_body    = $ng_ar_desc !== '' ? $ng_ar_desc : (string) $product->get_description();
+      echo apply_filters('the_content', wp_kses_post($ng_body));
+      ?>
     </div>
   </section>
   <?php endif; ?>
 
-  <?php if ( $ng_addons_html ) {
-      // ng_render_addons() returns escaped/structured HTML; output as-is.
-      echo $ng_addons_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — internal-render trusted output.
-  } ?>
-
-  <?php
-  /*
-   * Tabbed content. Preserve existing description / attrs sections inside
-   * tab panels so screen readers and search engines still find the same
-   * markup; the tabs are a presentational layer over them.
-   */
-  $ng_has_attrs = ! empty( $attr_rows );
-  $ng_has_desc  = (bool) $product->get_description();
-  if ( $ng_has_attrs || $ng_has_desc ) :
-  ?>
-  <section class="ng-pdp-tabs">
-    <div class="ng-pdp-tablist" role="tablist" aria-label="تفاصيل المنتج" data-ng-pdp-tabs>
-      <?php if ( $ng_has_desc ) : ?>
-        <button class="ng-pdp-tab" role="tab" id="ng-tab-desc-<?php echo (int) $id; ?>" aria-controls="ng-panel-desc-<?php echo (int) $id; ?>" aria-selected="true" tabindex="0" type="button">الوصف</button>
-      <?php endif; ?>
-      <?php if ( $ng_has_attrs ) : ?>
-        <button class="ng-pdp-tab" role="tab" id="ng-tab-specs-<?php echo (int) $id; ?>" aria-controls="ng-panel-specs-<?php echo (int) $id; ?>" aria-selected="<?php echo $ng_has_desc ? 'false' : 'true'; ?>" tabindex="<?php echo $ng_has_desc ? '-1' : '0'; ?>" type="button">المواصفات الكاملة</button>
-      <?php endif; ?>
-      <?php if ( comments_open() || get_comments_number() ) : ?>
-        <button class="ng-pdp-tab" role="tab" id="ng-tab-rev-<?php echo (int) $id; ?>" aria-controls="ng-panel-rev-<?php echo (int) $id; ?>" aria-selected="false" tabindex="-1" type="button">المراجعات<?php $rc = (int) get_comments_number( $id ); echo $rc ? ' (' . $rc . ')' : ''; ?></button>
-      <?php endif; ?>
-      <button class="ng-pdp-tab" role="tab" id="ng-tab-ship-<?php echo (int) $id; ?>" aria-controls="ng-panel-ship-<?php echo (int) $id; ?>" aria-selected="false" tabindex="-1" type="button">الشحن والإرجاع</button>
-    </div>
-
-    <?php if ( $ng_has_desc ) : ?>
-    <div class="ng-pdp-panel ng-single-desc-body" id="ng-panel-desc-<?php echo (int) $id; ?>" role="tabpanel" aria-labelledby="ng-tab-desc-<?php echo (int) $id; ?>" data-active="true">
-      <?php
-      // v1.37.2: prefer Arabic body from _ng_ar_description when set.
-      $ng_ar_desc = trim( (string) get_post_meta( $id, '_ng_ar_description', true ) );
-      $ng_body    = $ng_ar_desc !== '' ? $ng_ar_desc : (string) $product->get_description();
-      echo apply_filters( 'the_content', wp_kses_post( $ng_body ) );
-      ?>
-    </div>
-    <?php endif; ?>
-
-    <?php if ( $ng_has_attrs ) : ?>
-    <div class="ng-pdp-panel" id="ng-panel-specs-<?php echo (int) $id; ?>" role="tabpanel" aria-labelledby="ng-tab-specs-<?php echo (int) $id; ?>" data-active="<?php echo $ng_has_desc ? 'false' : 'true'; ?>"<?php echo $ng_has_desc ? ' aria-hidden="true"' : ''; ?>>
-      <dl class="ng-single-attr-table">
-        <?php foreach ( $attr_rows as $row ) : ?>
-          <div class="ng-single-attr-row">
-            <dt><?php echo esc_html( $row['label'] ); ?></dt>
-            <dd><?php echo esc_html( $row['value'] ); ?></dd>
-          </div>
-        <?php endforeach; ?>
-      </dl>
-    </div>
-    <?php endif; ?>
-
-    <?php if ( comments_open() || get_comments_number() ) : ?>
-    <div class="ng-pdp-panel" id="ng-panel-rev-<?php echo (int) $id; ?>" role="tabpanel" aria-labelledby="ng-tab-rev-<?php echo (int) $id; ?>" data-active="false" aria-hidden="true">
-      <?php comments_template(); ?>
-    </div>
-    <?php endif; ?>
-
-    <div class="ng-pdp-panel" id="ng-panel-ship-<?php echo (int) $id; ?>" role="tabpanel" aria-labelledby="ng-tab-ship-<?php echo (int) $id; ?>" data-active="false" aria-hidden="true">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
-        <div style="background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-2);overflow:hidden;">
-          <div style="padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--rule);">
-            <span class="mono-up" style="color:var(--ink-4);">الشحن والتوصيل</span>
-          </div>
-          <?php foreach ( [
-              [ 'الرياض',   '1–2 يوم · Aramex' ],
-              [ 'المملكة',  '2–5 أيام · SMSA' ],
-              [ 'خليج GCC', '3–7 أيام · DHL' ],
-              [ 'مجاني',    'فوق 500 SAR' ],
-          ] as $i => $row ) : ?>
-            <div style="display:grid;grid-template-columns:1fr 1.5fr;padding:12px 16px;<?php echo $i < 3 ? 'border-bottom:1px dashed var(--rule);' : ''; ?>">
-              <span class="mono-up" style="color:var(--dim);font-size:9px;"><?php echo esc_html( $row[0] ); ?></span>
-              <span style="font-size:13px;color:var(--ink-2);"><?php echo esc_html( $row[1] ); ?></span>
-            </div>
-          <?php endforeach; ?>
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--rule);border-radius:var(--r-2);overflow:hidden;">
-          <div style="padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--rule);">
-            <span class="mono-up" style="color:var(--ink-4);">الإرجاع والاستبدال</span>
-          </div>
-          <?php foreach ( [
-              [ 'مدة الإرجاع', '14 يوم من الاستلام' ],
-              [ 'الحالة',       'غير مستخدم · عبوة أصلية' ],
-              [ 'التواصل',      'support@neogen.store' ],
-              [ 'استرداد',      '5–7 أيام عمل' ],
-          ] as $i => $row ) : ?>
-            <div style="display:grid;grid-template-columns:1fr 1.5fr;padding:12px 16px;<?php echo $i < 3 ? 'border-bottom:1px dashed var(--rule);' : ''; ?>">
-              <span class="mono-up" style="color:var(--dim);font-size:9px;"><?php echo esc_html( $row[0] ); ?></span>
-              <span style="font-size:13px;color:var(--ink-2);"><?php echo esc_html( $row[1] ); ?></span>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      </div>
-    </div>
-  </section>
-  <?php endif; // tabs wrapper ?>
-
   <section class="ng-single-related">
     <?php
     /**
-     * Related products — Woo's internal loop, themed via the
-     * content-product.php override.
+     * Related products — renders via Woo's internal loop which calls
+     * content-product.php, which our mu-plugin routes to the
+     * .ng-product override. So related cards inherit the design.
      */
     woocommerce_output_related_products();
     ?>
