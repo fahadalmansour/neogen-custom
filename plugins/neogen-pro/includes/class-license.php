@@ -3,7 +3,7 @@
  * NeoGen Pro — License manager.
  *
  * Validates a per-site license key against the NeoGen licensing API
- * (hosted at neogen.store/wp-json/neogen-licensing/v1/verify).
+ * (hosted at neohub.dev/wp-json/neogen-licensing/v1/verify).
  * Results are cached in a 24-hour transient so validation doesn't
  * add a remote call to every page load.
  *
@@ -15,14 +15,14 @@
 
 defined('ABSPATH') || exit;
 
-class NeoGen_Pro_License {
+class NeoHub_Pro_License {
 
     private static ?self $instance = null;
 
     const OPTION_KEY    = 'neogen_pro_license_key';
     const OPTION_STATUS = 'neogen_pro_license_status';
     const OPTION_DATA   = 'neogen_pro_license_data';
-    const API_URL       = 'https://neogen.store/wp-json/neogen-licensing/v1/verify';
+    const API_URL       = 'https://neohub.dev/wp-json/neogen-licensing/v1/verify';
     const CACHE_TTL     = DAY_IN_SECONDS;
 
     public static function instance(): self {

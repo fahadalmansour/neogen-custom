@@ -6,7 +6,7 @@
 
 defined('ABSPATH') || exit;
 
-class NeoGen_Pro_Module_Theme {
+class NeoHub_Pro_Module_Theme {
 
     const VERSION = '1.0.0';
     

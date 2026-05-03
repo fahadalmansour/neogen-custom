@@ -7,7 +7,7 @@
 defined('ABSPATH') || exit;
 if (!current_user_can('manage_options')) wp_die(__('Unauthorized', 'neogen-pro'));
 
-$license = NeoGen_Pro_License::instance();
+$license = NeoHub_Pro_License::instance();
 $message = '';
 $error   = '';
 
@@ -38,7 +38,7 @@ if (isset($_POST['neogen_pro_action']) && check_admin_referer('neogen_pro_licens
     }
 }
 
-$status    = get_option(NeoGen_Pro_License::OPTION_STATUS, 'inactive');
+$status    = get_option(NeoHub_Pro_License::OPTION_STATUS, 'inactive');
 $key       = $license->get_key();
 $data      = $license->get_data();
 $is_active = $license->is_active();
@@ -110,7 +110,7 @@ $status_label = match($status) {
       <!-- Inactive state — activation form -->
       <p style="color:#64748B;font-size:13px;margin:0 0 16px;">
         <?php esc_html_e('Enter your NeoGen Pro license key to unlock all features.', 'neogen-pro'); ?>
-        <a href="https://neogen.store/pricing/" target="_blank" rel="noopener" style="color:#0284C7;">
+        <a href="https://neohub.dev/pricing/" target="_blank" rel="noopener" style="color:#0284C7;">
           <?php esc_html_e('Purchase a license →', 'neogen-pro'); ?>
         </a>
       </p>

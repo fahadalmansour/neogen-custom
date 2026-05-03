@@ -6,13 +6,13 @@
 
 defined('ABSPATH') || exit;
 
-class NeoGen_Pro_Module_SEO {
+class NeoHub_Pro_Module_SEO {
 
     const VERSION = '1.0.0';
-    const SITE_NAME = 'NeoGen Store';
-    const SITE_NAME_AR = 'نيوجين ستور';
+    const SITE_NAME = 'NeoHub';
+    const SITE_NAME_AR = 'نيوهب';
     const TITLE_SEPARATOR = ' | ';
-    const DEFAULT_DESCRIPTION = 'NeoGen Store — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
+    const DEFAULT_DESCRIPTION = 'NeoHub — متجر تقني سعودي للشبكات، الهوم لاب، البيوت الذكية، والألعاب. شحن من داخل المملكة، ضمان 12 شهر، إرجاع 14 يوم.';
     
     const METABOX_NONCE = 'ng_seo_metabox_nonce';
     const MIGRATION_NONCE = 'ng_seo_migration_nonce';
@@ -110,7 +110,7 @@ class NeoGen_Pro_Module_SEO {
             exit;
         }
 
-        echo "# ads.txt — neogen.store · auto-generated\n";
+        echo "# ads.txt — neohub.dev · auto-generated\n";
         echo "google.com, " . $pub . ", DIRECT, f08c47fec0942fa0\n";
         exit;
     }
@@ -150,7 +150,7 @@ class NeoGen_Pro_Module_SEO {
      * ===================================================================== */
     public static function robots_txt_filter($output, $public) {
         if (!$public) return $output;
-        $rules  = "\n# Citation / share crawlers — explicit allow (per neogen.store)\n";
+        $rules  = "\n# Citation / share crawlers — explicit allow (per neohub.dev)\n";
         $rules .= "User-agent: ChatGPT-User\nAllow: /\n\n";
         $rules .= "User-agent: PerplexityBot\nAllow: /\n\n";
         $rules .= "User-agent: FacebookBot\nAllow: /\n\n";

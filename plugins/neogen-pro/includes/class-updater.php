@@ -8,12 +8,12 @@
 
 defined('ABSPATH') || exit;
 
-class NeoGen_Pro_Updater {
+class NeoHub_Pro_Updater {
 
     private $slug;
     private $plugin_file;
     private $version;
-    private $api_url = 'https://neogen.store/wp-json/neogen-licensing/v1/update-check';
+    private $api_url = 'https://neohub.dev/wp-json/neogen-licensing/v1/update-check';
 
     public function __construct($file, $version) {
         $this->plugin_file = $file;
@@ -73,8 +73,8 @@ class NeoGen_Pro_Updater {
         $res->version        = $remote->new_version;
         $res->tested         = $remote->tested;
         $res->requires       = $remote->requires;
-        $res->author         = '<a href="https://neogen.store">NeoGen Store</a>';
-        $res->homepage       = 'https://neogen.store/pro/';
+        $res->author         = '<a href="https://neohub.dev">NeoGen Store</a>';
+        $res->homepage       = 'https://neohub.dev/pro/';
         $res->download_link  = $remote->package;
         $res->trunk          = $remote->package;
         $res->last_updated   = $remote->last_updated;
