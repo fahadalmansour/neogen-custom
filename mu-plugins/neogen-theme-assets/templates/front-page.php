@@ -372,11 +372,7 @@ if (function_exists('wc_get_products')) {
     ]);
 }
 
-$ng_gift_cards = function_exists('wc_get_products') ? wc_get_products([
-    'status'   => 'publish', 'limit' => 12,
-    'category' => ['gift-cards'],
-    'orderby'  => 'date', 'order' => 'DESC',
-]) : [];
+// removed 2026-05-07: gift-cards purged (v1.39.0) — query + deck section both gone
 ?>
 
 <!-- ============================================================
@@ -745,7 +741,8 @@ $ng_cat_photo_cache = array();
 // AR copy per slug.
 $ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
     'hardware'    => 'أجهزة وتجميعات PC مختارة — معالجات، لوحات، تخزين، تبريد.',
-    'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
+    // removed 2026-05-07: gift-cards purged (v1.39.0)
+    // 'gift-cards'  => 'بطاقات رقمية ومفاتيح برامج — تفعيل فوري.',
     'networking'  => 'شبكات واتصالات — راوتر، سويتش، نقاط وصول، ألياف.',
     'smart-home'  => 'أتمتة المنزل الذكي — Aqara · Shelly · Home Assistant.',
     'gaming'      => 'ألعاب وإكسسوارات — يدّات، شاشات، صوت، كيبل.',
@@ -855,6 +852,7 @@ $ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
     'note'       => 'منتجات بتخفيض حالي. السعر يُحدّث مباشرةً من الكتالوج — يختفي العرض عند انتهاء التخفيض.',
 ]); ?>
 
+<?php /* removed 2026-05-07: gift-cards purged (v1.39.0)
 <!-- ============================================================
      GIFT CARDS — GCC · US · UK
      ============================================================ -->
@@ -865,6 +863,7 @@ $ng_cat_copy_map = apply_filters('neogen_homepage_cat_copy', array(
     'subhead'    => 'تسليم فوري — Apple · Google Play · Steam · Netflix · Adobe.',
     'note'       => 'بطاقات معتمدة من المتجر للسعودية ودول الخليج، الولايات المتحدة، والمملكة المتحدة. اختر منطقة التفعيل عند إكمال الشراء.',
 ]); ?>
+*/ ?>
 
 <!-- ============================================================
      BRANDS STRIP — vendors (marquee fallback when no logos uploaded)

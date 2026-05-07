@@ -11,7 +11,6 @@
  *   pdp          · Works Best With + Add-ons + tabs
  *   cart         · 3-step indicator
  *   checkout     · Stepper + carrier styling
- *   gift_cards   · Multi-region showcase
  *   thankyou     · Order confirmation refresh
  *   search       · Quick-view overlay
  *   account      · 7-tab dashboard

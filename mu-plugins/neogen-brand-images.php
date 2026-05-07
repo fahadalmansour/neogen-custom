@@ -254,25 +254,16 @@ function ng_brand_image_html($product, $alt = '', $parent = null, $attr = []) {
 }
 
 /**
- * WC integration — runs at priority 30 so gift-cards (priority 20) wins
- * for its own products. If gift-cards already swapped, we don't touch.
+ * WC integration — runs at priority 30. Gift-cards filter at priority 20 was
+ * removed in v1.39.0 along with the rest of the gift-cards vertical, so the
+ * legacy "skip if src contains /img/gift-cards/" guards are no longer needed.
  */
 add_filter('woocommerce_product_get_image', function ($image, $product, $size, $attr) {
-    // Gift-cards filter at priority 20 already replaced the image if it matched.
-    // Heuristic: if the IMG src contains the gift-cards path, skip.
-    if (is_string($image) && strpos($image, '/img/gift-cards/') !== false) {
-        return $image;
-    }
-
     $brand_image = ng_brand_image_html($product, '', null, $attr);
     return $brand_image !== '' ? $brand_image : $image;
 }, 30, 4);
 
 add_filter('woocommerce_single_product_image_thumbnail_html', function ($html, $post_thumbnail_id) {
-    if (is_string($html) && strpos($html, '/img/gift-cards/') !== false) {
-        return $html;
-    }
-
     global $product;
     if (!is_object($product)) return $html;
 
@@ -287,9 +278,6 @@ add_filter('woocommerce_single_product_image_thumbnail_html', function ($html, $
 }, 30, 2);
 
 add_filter('woocommerce_cart_item_thumbnail', function ($thumbnail, $cart_item) {
-    if (is_string($thumbnail) && strpos($thumbnail, '/img/gift-cards/') !== false) {
-        return $thumbnail;
-    }
     $product = $cart_item['data'] ?? null;
     $brand_image = ng_brand_image_html($product, '', null, ['class' => 'attachment-woocommerce_thumbnail size-woocommerce_thumbnail']);
     return $brand_image !== '' ? $brand_image : $thumbnail;
