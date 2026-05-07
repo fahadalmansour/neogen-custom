@@ -1,0 +1,61 @@
+name: claude-ops
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2
+      - name: PHP syntax check
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            php -l "$f" || fail=1
+          done < <(find . -path ./vendor -prune -o -name '*.php' -print)
+          exit $fail
+
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2, cs2pr
+      - name: Install WPCS
+        run: |
+          composer global require --dev "squizlabs/php_codesniffer=*" "wp-coding-standards/wpcs=*" "phpcompatibility/phpcompatibility-wp=*"
+          composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --dev "dealerdirect/phpcodesniffer-composer-installer=*"
+          ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/wp-coding-standards/wpcs,~/.composer/vendor/phpcompatibility/php-compatibility,~/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,~/.composer/vendor/phpcompatibility/phpcompatibility-wp || true
+      - name: Run PHPCS
+        run: |
+          ~/.composer/vendor/bin/phpcs --standard=WordPress-Extra --extensions=php \
+            --ignore=*/vendor/*,*/node_modules/* \
+            mu-plugins themes plugins || true
+        continue-on-error: true
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

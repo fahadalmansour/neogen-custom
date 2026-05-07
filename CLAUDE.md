@@ -93,3 +93,13 @@ All four are active mu-plugins. Rank Math is disabled.
 - Deploy is rate-limited to 20/hr per admin.
 - The server-side deploy plugin holds a GitHub PAT with read+write on this repo; never commit one here.
 - Site is bilingual EN/AR — all user-facing strings must work in both directions (RTL for Arabic).
+
+## Operations
+
+Full operations contract: `~/sites/_docs/neogen-custom/` (`README.md`, `STACK.md`, `HOSTING.md`, `DEPLOY.md`, `AGENT.md`, `AUTOMATION.md`, `RUNBOOK.md`).
+
+Owning Claude agent: **`wp-woo-standards-auditor`**.
+
+CI: `.github/workflows/claude-ops.yml` (PHP -l + WPCS + secrets scan).
+
+The Notion mirror lives in the **NeoTech Sites & Repos** database.
