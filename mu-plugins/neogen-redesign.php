@@ -42,7 +42,8 @@ function ng_redesign_phases() {
         'pdp'           => [ 'label' => 'PDP — Works Best With + Add-ons + tabs',       'phase' => '3',  'version' => '1.38.3' ],
         'cart'          => [ 'label' => 'Cart 3-step indicator',                        'phase' => '4',  'version' => '1.38.4' ],
         'checkout'      => [ 'label' => 'Checkout stepper + carrier styling',           'phase' => '5',  'version' => '1.38.5' ],
-        'gift_cards'    => [ 'label' => 'Gift Cards multi-region showcase',             'phase' => '6',  'version' => '1.39.0' ],
+        // removed 2026-05-07: gift-cards purged
+        // 'gift_cards'    => [ 'label' => 'Gift Cards multi-region showcase',             'phase' => '6',  'version' => '1.39.0' ],
         'thankyou'      => [ 'label' => 'Order confirmation refresh',                   'phase' => '7',  'version' => '1.39.1' ],
         'search'        => [ 'label' => 'Search + quick-view overlay',                  'phase' => '8',  'version' => '1.39.2' ],
         'account'       => [ 'label' => 'Account dashboard (7 tabs)',                   'phase' => '9',  'version' => '1.40.0' ],

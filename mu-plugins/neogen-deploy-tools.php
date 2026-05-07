@@ -79,6 +79,7 @@ function ng_deploy_tools_render() {
       </form>
       <?php if (!empty($_GET['inspected'])) : ng_deploy_tools_render_inspection(); endif; ?>
       <hr>
+      <?php /* removed 2026-05-07: gift-cards purged — admin tool block hidden
       <h2>Gift-card match coverage report</h2>
       <p>Walks every published WC product matched by <code>ng_gift_card_is_candidate_product()</code> and tallies which slot they resolve to. Shows unmatched products with name + SKU so you can see which spellings need extra Arabic keyword coverage in <code>ng_gift_card_asset_map()</code>.</p>
       <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -88,6 +89,7 @@ function ng_deploy_tools_render() {
       </form>
       <?php if (!empty($_GET['gc_coverage'])) : ng_deploy_tools_render_gc_coverage(); endif; ?>
       <hr>
+      */ ?>
       <h2>Current raised-cap override</h2>
       <p>
         This plugin attempts to raise the cap to <b>200/hr</b> by filtering
@@ -343,14 +345,16 @@ add_action('admin_post_ng_deploy_reset_ratelimit', function () {
  * and tabulates per-brand match counts + unmatched-list.
  * ------------------------------------------------------------- */
 
-add_action('admin_post_ng_deploy_gc_coverage', function () {
-    if (!current_user_can('manage_options')) wp_die('forbidden');
-    check_admin_referer('ng_deploy_gc_coverage');
-    wp_safe_redirect(add_query_arg('gc_coverage', '1', admin_url('tools.php?page=neogen-deploy-tools')));
-    exit;
-});
+// removed 2026-05-07: gift-cards purged — admin_post handler detached
+// add_action('admin_post_ng_deploy_gc_coverage', function () {
+//     if (!current_user_can('manage_options')) wp_die('forbidden');
+//     check_admin_referer('ng_deploy_gc_coverage');
+//     wp_safe_redirect(add_query_arg('gc_coverage', '1', admin_url('tools.php?page=neogen-deploy-tools')));
+//     exit;
+// });
 
 function ng_deploy_tools_render_gc_coverage() {
+    return; // removed 2026-05-07: gift-cards purged — body retained for rollback
     if (!current_user_can('manage_options')) return;
     if (!function_exists('ng_gift_card_asset_map') || !function_exists('wc_get_products')) {
         echo '<div class="notice notice-error"><p>WooCommerce or gift-cards plugin not active.</p></div>';

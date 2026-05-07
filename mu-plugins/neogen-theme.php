@@ -240,9 +240,9 @@ function ng_category_image_fallback( $slug ) {
     if ( array_key_exists($slug, $resolved) ) return $resolved[$slug];
 
     $base = defined('NG_THEME_ASSET_URL') ? NG_THEME_ASSET_URL : '';
-    $defaults = [
-        'gift-cards' => $base . '/img/gift-cards/playstation.webp',
-    ];
+    // removed 2026-05-07: gift-cards purged
+    // 'gift-cards' => $base . '/img/gift-cards/playstation.webp',
+    $defaults = [];
 
     /**
      * Filter the slug → image-URL fallback map. Only consulted when
@@ -316,12 +316,8 @@ function ng_shop_category_tiles() {
     if ( ! ( is_shop() || is_product_category() ) ) return;
     if ( ! function_exists('ng_top_product_cats') ) return;
 
-    // v1.34.1: skip on gift-cards parent — the brand grid below
-    // (ng_gift_cards_brand_grid, prio 9) is the primary cross-nav
-    // there, so this rack would just stack redundantly. Descendant
-    // pages (game-cards/playstation/) still get the rack so users
-    // can jump back to other top-level cats from a brand drilldown.
-    if ( is_product_category( 'gift-cards' ) ) return;
+    // removed 2026-05-07: gift-cards purged — early-return no longer needed
+    // (the brand grid hook at line ~530 is also dormant via early-return).
 
     $current_id = is_product_category() ? get_queried_object_id() : 0;
     $cats = ng_top_product_cats(6);
@@ -417,6 +413,7 @@ function ng_shop_category_tiles() {
  * lookups stack so combinations like ?region=us&brand=playstation work.
  */
 add_action('pre_get_posts', function ($q) {
+    return; // removed 2026-05-07: gift-cards purged — body retained for rollback
     if ( is_admin() || ! $q->is_main_query() ) return;
     // Apply on /gift-cards/ and any descendant brand sub-cat too.
     $on_gift_cards = is_product_category( 'gift-cards' );
@@ -454,8 +451,10 @@ add_action('pre_get_posts', function ($q) {
     $q->set( 'meta_query', $existing );
 });
 
-add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
+// removed 2026-05-07: gift-cards purged — hook detached
+// add_action('woocommerce_before_shop_loop', 'ng_gift_cards_archive_extras', 8);
 function ng_gift_cards_archive_extras() {
+    return; // removed 2026-05-07: gift-cards purged — body retained for rollback
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
 
     // Region tabs — wired to ?region= via the pre_get_posts hook above.
@@ -527,8 +526,10 @@ function ng_gift_cards_archive_extras() {
  * filter fallback. Only fires on /product-category/gift-cards/ when
  * no brand filter is active.
  */
-add_action('woocommerce_before_shop_loop', 'ng_gift_cards_brand_grid', 9);
+// removed 2026-05-07: gift-cards purged — hook detached
+// add_action('woocommerce_before_shop_loop', 'ng_gift_cards_brand_grid', 9);
 function ng_gift_cards_brand_grid() {
+    return; // removed 2026-05-07: gift-cards purged — body retained for rollback
     if ( ! is_product_category( 'gift-cards' ) ) { return; }
     if ( ! empty( $_GET['brand'] ) ) { return; }
 

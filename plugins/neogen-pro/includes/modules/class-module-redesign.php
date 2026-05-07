@@ -60,9 +60,9 @@ class NeoGen_Pro_Module_Redesign {
         add_action( 'woocommerce_checkout_create_order_line_item',      [ __CLASS__, 'warranty_capture_at_purchase' ], 10, 4 );
         add_action( 'woocommerce_order_status_completed',               [ __CLASS__, 'warranty_stamp_on_complete' ] );
 
-        // Gift-card keys — order-edit metabox
-        add_action( 'add_meta_boxes',                  [ __CLASS__, 'gift_keys_metabox' ] );
-        add_action( 'woocommerce_process_shop_order_meta', [ __CLASS__, 'gift_keys_save' ] );
+        // removed 2026-05-07: gift-cards purged — hooks detached, methods retained
+        // add_action( 'add_meta_boxes',                  [ __CLASS__, 'gift_keys_metabox' ] );
+        // add_action( 'woocommerce_process_shop_order_meta', [ __CLASS__, 'gift_keys_save' ] );
     }
 
     /* =====================================================================
@@ -76,7 +76,8 @@ class NeoGen_Pro_Module_Redesign {
             'pdp'           => [ 'label' => 'PDP — Works Best With + Add-ons + tabs',       'phase' => '3',  'version' => '1.38.3' ],
             'cart'          => [ 'label' => 'Cart 3-step indicator',                        'phase' => '4',  'version' => '1.38.4' ],
             'checkout'      => [ 'label' => 'Checkout stepper + carrier styling',           'phase' => '5',  'version' => '1.38.5' ],
-            'gift_cards'    => [ 'label' => 'Gift Cards multi-region showcase',             'phase' => '6',  'version' => '1.39.0' ],
+            // removed 2026-05-07: gift-cards purged
+            // 'gift_cards'    => [ 'label' => 'Gift Cards multi-region showcase',             'phase' => '6',  'version' => '1.39.0' ],
             'thankyou'      => [ 'label' => 'Order confirmation refresh',                   'phase' => '7',  'version' => '1.39.1' ],
             'search'        => [ 'label' => 'Search + quick-view overlay',                  'phase' => '8',  'version' => '1.39.2' ],
             'account'       => [ 'label' => 'Account dashboard (7 tabs)',                   'phase' => '9',  'version' => '1.40.0' ],
