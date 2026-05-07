@@ -75,7 +75,7 @@ function ng_coming_soon_admin_render() {
                   Show holding page to public visitors
                 </label>
                 <?php if ($enabled === '1') : ?>
-                  <p style="color:#b32d2e;font-weight:600;margin-top:6px;">⚠ Currently LIVE on the public storefront.</p>
+                  <p style="color:#b32d2e;font-weight:600;margin-top:6px;"><strong>Warning:</strong> Currently LIVE on the public storefront.</p>
                 <?php endif; ?>
               </td>
             </tr>
@@ -472,7 +472,7 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
     if (get_option('ng_coming_soon_enabled') !== '1') return;
     $wp_admin_bar->add_node([
         'id'    => 'neogen-coming-soon-on',
-        'title' => '🛠 COMING-SOON ON',
+        'title' => 'COMING-SOON ON',
         'href'  => admin_url('tools.php?page=neogen-coming-soon'),
         'meta'  => [
             'title' => 'NeoGen coming-soon mode is currently shown to public visitors',

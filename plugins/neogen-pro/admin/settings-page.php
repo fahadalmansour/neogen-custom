@@ -177,20 +177,23 @@ $status_label = match($status) {
     <h3 style="margin:0 0 16px;font-size:14px;color:#1A2B4B;font-family:monospace;text-transform:uppercase;letter-spacing:0.08em;">Included Features</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
       <?php foreach ([
-        '✓ Brand CSS tokens (neogen.css)',
-        '✓ WooCommerce shop/archive template',
-        '✓ Product card (bilingual AR/EN)',
-        '✓ Single product (PDP) template',
-        '✓ Cart + checkout templates',
-        '✓ My Account templates',
-        '✓ Info pages: about, contact, FAQ',
-        '✓ Shipping, returns, warranty, terms',
-        '✓ WhatsApp float button',
-        '✓ RTL/LTR bilingual layout',
-        '✓ Blocksy child theme overrides',
-        '✓ WooCommerce HPOS compatible',
+        'Brand CSS tokens (neogen.css)',
+        'WooCommerce shop/archive template',
+        'Product card (bilingual AR/EN)',
+        'Single product (PDP) template',
+        'Cart + checkout templates',
+        'My Account templates',
+        'Info pages: about, contact, FAQ',
+        'Shipping, returns, warranty, terms',
+        'WhatsApp float button',
+        'RTL/LTR bilingual layout',
+        'Blocksy child theme overrides',
+        'WooCommerce HPOS compatible',
       ] as $f) : ?>
-        <div style="font-size:12px;color:#334155;"><?php echo esc_html($f); ?></div>
+        <div style="font-size:12px;color:#334155;display:flex;align-items:center;gap:8px;">
+          <?php echo function_exists('ng_icon') ? ng_icon('check', 14) : ''; ?>
+          <span><?php echo esc_html($f); ?></span>
+        </div>
       <?php endforeach; ?>
     </div>
   </div>

@@ -113,14 +113,14 @@ $ngrd_trust = [
     [ 'k' => 'الضمان',         'v' => '12 شهر' ],
 ];
 
-// GCC ship-to badges.
+// GCC ship-to badges. Country code only — emoji flags removed (v1.39.2).
 $ngrd_ships = [
-    [ 'flag' => '🇸🇦', 'code' => 'KSA' ],
-    [ 'flag' => '🇦🇪', 'code' => 'UAE' ],
-    [ 'flag' => '🇰🇼', 'code' => 'KW'  ],
-    [ 'flag' => '🇧🇭', 'code' => 'BH'  ],
-    [ 'flag' => '🇴🇲', 'code' => 'OM'  ],
-    [ 'flag' => '🇶🇦', 'code' => 'QA'  ],
+    [ 'code' => 'KSA' ],
+    [ 'code' => 'UAE' ],
+    [ 'code' => 'KW'  ],
+    [ 'code' => 'BH'  ],
+    [ 'code' => 'OM'  ],
+    [ 'code' => 'QA'  ],
 ];
 ?>
 <header class="ngrd-hero" dir="rtl">
@@ -153,10 +153,7 @@ $ngrd_ships = [
         <div class="ngrd-hero__ships">
           <span class="label">يشحن إلى:</span>
           <?php foreach ( $ngrd_ships as $s ) : ?>
-            <span class="country">
-              <span class="flag" aria-hidden="true"><?php echo esc_html( $s['flag'] ); ?></span>
-              <?php echo esc_html( $s['code'] ); ?>
-            </span>
+            <span class="country"><?php echo esc_html( $s['code'] ); ?></span>
           <?php endforeach; ?>
         </div>
       </div>

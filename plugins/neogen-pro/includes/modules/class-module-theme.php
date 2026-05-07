@@ -61,7 +61,7 @@ class NeoHub_Pro_Module_Theme {
 
     public static function ab_admin_bar($wp_admin_bar) {
         if (!current_user_can('manage_options')) return;
-        $wp_admin_bar->add_node(['id' => 'neogen-ab', 'title' => '🧪 A/B Suite', 'parent' => 'top-secondary']);
+        $wp_admin_bar->add_node(['id' => 'neogen-ab', 'title' => 'A/B Suite', 'parent' => 'top-secondary']);
     }
 
     /* =====================================================================

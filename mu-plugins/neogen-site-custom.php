@@ -2,14 +2,14 @@
 /**
  * Plugin Name: NeoGen Site Custom
  * Description: Central site customizations deployed via git. Auto-loaded (mu-plugin).
- * Version: 1.39.1
+ * Version: 1.39.2
  * Author: Fahad Almansour
  */
 
 defined('ABSPATH') || exit;
 
 if (!defined('NEOGEN_CUSTOM_VERSION')) {
-    define('NEOGEN_CUSTOM_VERSION', '1.39.1');
+    define('NEOGEN_CUSTOM_VERSION', '1.39.2');
 }
 
 /**
@@ -37,7 +37,7 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
     if (!current_user_can('manage_options')) return;
     $wp_admin_bar->add_node([
         'id'    => 'neogen-deployed-version',
-        'title' => '🚀 NG ' . NEOGEN_CUSTOM_VERSION,
+        'title' => 'NG ' . NEOGEN_CUSTOM_VERSION,
         'href'  => admin_url('tools.php?page=neogen-deploy'),
         'meta'  => ['title' => 'NeoGen Custom deployed version'],
     ]);

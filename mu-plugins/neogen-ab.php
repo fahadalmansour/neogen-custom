@@ -119,7 +119,7 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
     if (!current_user_can('manage_options')) return;
     $wp_admin_bar->add_node([
         'id'     => 'neogen-ab',
-        'title'  => '🧪 A/B ' . NEOGEN_AB_VERSION,
+        'title'  => 'A/B ' . NEOGEN_AB_VERSION,
         'parent' => 'top-secondary',
         'meta'   => ['title' => 'NeoGen A/B primitive — events at wp-content/uploads/neogen-ab.log'],
     ]);

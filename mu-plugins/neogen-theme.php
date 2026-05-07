@@ -460,13 +460,14 @@ function ng_gift_cards_archive_extras() {
     // Region tabs — wired to ?region= via the pre_get_posts hook above.
     // Each region: [label, flag-glyph]. v1.34.0 adds country-flag emoji
     // and a "Global" tab (Steam/Razer/Spotify/etc. live under that).
+    // emoji flags removed (v1.39.2). Function body unreachable post v1.39.0 — array kept only for rollback shape.
     $regions = array(
-        ''       => array( 'الكل',                '🌐' ),
-        'ksa'    => array( 'السعودية',            '🇸🇦' ),
-        'gcc'    => array( 'دول الخليج',          ''   ),
-        'us'     => array( 'الولايات المتحدة',     '🇺🇸' ),
-        'uk'     => array( 'المملكة المتحدة',      '🇬🇧' ),
-        'global' => array( 'عالمي',               '🌍' ),
+        ''       => array( 'الكل',                '' ),
+        'ksa'    => array( 'السعودية',            '' ),
+        'gcc'    => array( 'دول الخليج',          '' ),
+        'us'     => array( 'الولايات المتحدة',     '' ),
+        'uk'     => array( 'المملكة المتحدة',      '' ),
+        'global' => array( 'عالمي',               '' ),
     );
     $current = isset( $_GET['region'] ) ? sanitize_key( $_GET['region'] ) : '';
 

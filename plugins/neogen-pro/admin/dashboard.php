@@ -42,7 +42,7 @@ $key = $license->get_key();
     <?php if (!$is_active) : ?>
         <!-- LOCKED STATE: PROMINENT ACTIVATION PROMPT -->
         <div style="background: linear-gradient(135deg, #1A2B4B 0%, #10192C 100%); border-radius: 16px; padding: 60px 40px; text-align: center; color: #fff; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);">
-            <div style="font-size: 48px; margin-bottom: 24px;">🔒</div>
+            <div style="margin-bottom: 24px;"><?php echo function_exists('ng_icon') ? ng_icon('lock', 48) : ''; ?></div>
             <h2 style="color: #fff; font-size: 28px; font-weight: 700; margin: 0 0 16px;"><?php esc_html_e('Enter your NeoGen Pro license key to unlock all features', 'neogen-pro'); ?></h2>
             <p style="color: #94A3B8; font-size: 16px; max-width: 500px; margin: 0 auto 32px; line-height: 1.6;">
                 <?php esc_html_e('Unlock advanced SEO, theme customizer, bilingual product cards, and premium updates.', 'neogen-pro'); ?>
@@ -96,16 +96,16 @@ $key = $license->get_key();
                     <h3 style="margin:0 0 20px;font-size:16px;color:#1A2B4B;">Quick Actions</h3>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                         <a href="<?php echo admin_url('options-general.php?page=neogen-seo-migration'); ?>" style="text-decoration:none;background:#F1F5F9;padding:16px;border-radius:8px;color:#1A2B4B;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;">
-                            <span>🚀 Run SEO Migration</span>
+                            <span>Run SEO Migration</span>
                         </a>
                         <a href="<?php echo admin_url('options-general.php?page=neogen-seo-sitemap'); ?>" style="text-decoration:none;background:#F1F5F9;padding:16px;border-radius:8px;color:#1A2B4B;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;">
-                            <span>🗺 View Sitemaps</span>
+                            <span>View Sitemaps</span>
                         </a>
                         <a href="<?php echo admin_url('admin.php?page=neogen-coming-soon'); ?>" style="text-decoration:none;background:#F1F5F9;padding:16px;border-radius:8px;color:#1A2B4B;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;">
-                            <span>🚧 Coming Soon Settings</span>
+                            <span>Coming Soon Settings</span>
                         </a>
                         <a href="<?php echo admin_url('admin.php?page=neogen-pro-settings'); ?>" style="text-decoration:none;background:#F1F5F9;padding:16px;border-radius:8px;color:#1A2B4B;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;">
-                            <span>⚙️ Manage License</span>
+                            <span>Manage License</span>
                         </a>
                     </div>
                 </div>
