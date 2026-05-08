@@ -509,8 +509,24 @@ else :
     <?php endif; endif; ?>
   </div>
 
+  <?php
+  // Pull regulatory numbers from the canonical NG_CR array (mu-plugins/neogen-theme.php)
+  // so a future change to ZATCA / CSC / CR numbers updates everywhere at once.
+  $ng_org   = function_exists( 'ng_cr' ) ? ng_cr() : [];
+  $ng_cr_no = isset( $ng_org['cr'] ) ? $ng_org['cr'] : '7053130576';
+  $ng_zatca_no = '';
+  foreach ( (array) ( $ng_org['regulatory'] ?? [] ) as $reg ) {
+      if ( ( $reg['key'] ?? '' ) === 'zatca' && ! empty( $reg['number'] ) ) {
+          $ng_zatca_no = (string) $reg['number'];
+          break;
+      }
+  }
+  ?>
   <div class="ng-hero-meta" aria-hidden="true">
-    <span class="ng-chip"><span class="dot"></span><strong>سجل تجاري</strong> 7053130576</span>
+    <span class="ng-chip"><span class="dot"></span><strong>سجل تجاري</strong> <?php echo esc_html( $ng_cr_no ); ?></span>
+    <?php if ( $ng_zatca_no ) : ?>
+    <span class="ng-chip"><strong>الزكاة والضريبة</strong> <?php echo esc_html( $ng_zatca_no ); ?></span>
+    <?php endif; ?>
     <span class="ng-chip"><strong>الضريبة</strong> 15% شاملة</span>
     <span class="ng-chip"><strong>الشحن</strong> 2-5 أيام عمل</span>
     <span class="ng-chip"><strong>الإرجاع</strong> 14 يوم</span>
