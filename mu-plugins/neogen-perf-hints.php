@@ -24,14 +24,14 @@
  *              Content-Security-Policy header (verified against the
  *              live response 2026-05-08).
  *
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Fahad Almansour
  */
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'NEOGEN_PERF_HINTS_VERSION' ) ) {
-	define( 'NEOGEN_PERF_HINTS_VERSION', '1.0.0' );
+	define( 'NEOGEN_PERF_HINTS_VERSION', '1.0.1' );
 }
 
 /**
@@ -73,7 +73,7 @@ add_filter( 'wp_resource_hints', function ( $hints, $relation_type ) {
 					'crossorigin' => 'anonymous',
 				);
 				$hints[] = array(
-					'href'        => 'https://checkout.com',
+					'href'        => 'https://cdn.checkout.com', // SDK lives here, not on the apex
 					'crossorigin' => 'anonymous',
 				);
 				$hints[] = 'https://api.stcpay.com.sa';
@@ -87,9 +87,9 @@ add_filter( 'wp_resource_hints', function ( $hints, $relation_type ) {
 		// when the user lands on a Woo flow page even if not preconnected.
 		$hints[] = '//www.googleadservices.com';
 		$hints[] = '//www.googlesyndication.com';
-		$hints[] = '//doubleclick.net';
+		$hints[] = '//stats.g.doubleclick.net'; // real asset host, not the apex
 		$hints[] = '//api.tabby.ai';
-		$hints[] = '//checkout.com';
+		$hints[] = '//cdn.checkout.com';
 		$hints[] = '//api.stcpay.com.sa';
 		$hints[] = '//applepay.cdn-apple.com';
 	}
