@@ -149,30 +149,33 @@ function ng_recommended_products($exclude = 0, $limit = 4) {
 
     /* b) Same-category popular — only if we have categories.
      *    Single batched wc_get_products() call returning WC_Product
-     *    objects directly (visibility-filtered by Woo). Replaces the
-     *    prior WP_Query + per-row wc_get_product() lookup loop, which
-     *    was the N+1 the 2026-05-08 audit flagged. */
+     *    objects directly (visibility-filtered by Woo via visibility
+     *    arg). Replaces the prior WP_Query + per-row wc_get_product()
+     *    lookup loop, which was the N+1 the 2026-05-08 audit flagged. */
     if (!empty($cat_ids)) {
-        $candidates = wc_get_products([
-            'status'   => 'publish',
-            'limit'    => $limit * 2, // overshoot, dedupe + visibility-filter below
-            'exclude'  => $exclude_ids,
-            'category' => array_map(function ($tid) {
-                $term = get_term((int) $tid, 'product_cat');
-                return ($term && !is_wp_error($term)) ? $term->slug : null;
-            }, $cat_ids),
-            'orderby'  => 'meta_value_num',
-            'meta_key' => 'total_sales',
-            'order'    => 'DESC',
-            'visibility' => 'visible', // catalog-visible only
-        ]);
-        $candidates = array_filter($candidates ?: []);
-        foreach ($candidates as $p) {
-            if (count($picks) >= $limit) break;
-            if (!$p instanceof WC_Product) continue;
-            if (in_array($p->get_id(), $picked_ids, true)) continue;
-            $picks[]      = $p;
-            $picked_ids[] = $p->get_id();
+        $cat_slugs = array_values( array_filter( array_map( function ($tid) {
+            $term = get_term((int) $tid, 'product_cat');
+            return ($term && !is_wp_error($term)) ? $term->slug : null;
+        }, $cat_ids ) ) );
+
+        if (!empty($cat_slugs)) {
+            $candidates = wc_get_products([
+                'status'     => 'publish',
+                'limit'      => $limit * 2, // overshoot, dedupe in the loop
+                'exclude'    => $exclude_ids,
+                'category'   => $cat_slugs,
+                'orderby'    => 'meta_value_num',
+                'meta_key'   => 'total_sales',
+                'order'      => 'DESC',
+                'visibility' => 'visible', // catalog-visible only
+            ]);
+            foreach ((array) $candidates as $p) {
+                if (count($picks) >= $limit) break;
+                if (!$p instanceof WC_Product) continue;
+                if (in_array($p->get_id(), $picked_ids, true)) continue;
+                $picks[]      = $p;
+                $picked_ids[] = $p->get_id();
+            }
         }
     }
 
