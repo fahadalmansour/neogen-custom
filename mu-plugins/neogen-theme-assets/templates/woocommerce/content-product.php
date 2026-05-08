@@ -36,6 +36,32 @@ if (function_exists('ng_gift_card_clean_product_name')) {
     $name_en = ng_gift_card_clean_product_name($name_en);
     $name_ar = ng_gift_card_clean_product_name($name_ar);
 }
+
+/**
+ * Trim a product display name at the first em-dash / en-dash / pipe /
+ * spaced-hyphen separator. Marketing titles like
+ *   "هوم أسستنت جرين — مركز التحكم الذكي لبيتك"
+ *   "Beelink EQ12 Intel N100 Mini-PC — NeoGen Store"
+ * become "هوم أسستنت جرين" and "Beelink EQ12 Intel N100 Mini-PC".
+ *
+ * The \s+...\s+ guard preserves bare hyphens inside model numbers
+ * ("USW-Pro-24-PoE", "DS225+") — only spaced separators are split.
+ *
+ * Template-local helper (not promoted to a global function): the
+ * short-name policy applies on category-archive cards only per
+ * 2026-05-08 user scoping. A global helper would invite accidental
+ * re-use on the home strip, single-product page, and ticker.
+ */
+if (!function_exists('ng_pc_short_name')) {
+    function ng_pc_short_name($name) {
+        $name = (string) $name;
+        if ($name === '') return '';
+        $parts = preg_split('/\s+[—–|\-]\s+/u', $name, 2);
+        return is_array($parts) && isset($parts[0]) ? trim($parts[0]) : trim($name);
+    }
+}
+$name_ar = ng_pc_short_name($name_ar);
+$name_en = ng_pc_short_name($name_en);
 $perm    = get_permalink($id);
 
 // Stock / freshness tag.
