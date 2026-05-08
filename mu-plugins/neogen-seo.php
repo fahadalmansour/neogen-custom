@@ -35,7 +35,7 @@ add_action('send_headers', function () {
             "object-src 'none'",
             "frame-ancestors 'self'",
             "form-action 'self' https://*.mada.com.sa https://*.checkout.com https://*.tabby.ai https://*.stcpay.com.sa https://*.paypal.com",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googletagmanager.com https://*.google-analytics.com https://*.googleadservices.com https://*.googlesyndication.com https://*.doubleclick.net https://*.gstatic.com https://*.tabby.ai https://*.checkout.com https://*.stcpay.com.sa https://*.applepay.cdn-apple.com",
+            "script-src 'self' 'unsafe-inline' https://*.googletagmanager.com https://*.google-analytics.com https://*.googleadservices.com https://*.googlesyndication.com https://*.doubleclick.net https://*.gstatic.com https://*.tabby.ai https://*.checkout.com https://*.stcpay.com.sa https://*.applepay.cdn-apple.com",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.gstatic.com",
             "font-src 'self' data: https://fonts.gstatic.com",
             "img-src 'self' data: blob: https:",
@@ -44,9 +44,11 @@ add_action('send_headers', function () {
             "media-src 'self' blob: https:",
             "upgrade-insecure-requests",
         ]);
-        $csp_header = ( defined('NG_CSP_ENFORCE') && NG_CSP_ENFORCE )
-            ? 'Content-Security-Policy: ' . $csp
-            : 'Content-Security-Policy-Report-Only: ' . $csp;
+        // Default: enforced. To revert to report-only without a code change,
+        // add `define('NG_CSP_ENFORCE', false);` to wp-config.php.
+        $csp_header = ( defined('NG_CSP_ENFORCE') && NG_CSP_ENFORCE === false )
+            ? 'Content-Security-Policy-Report-Only: ' . $csp
+            : 'Content-Security-Policy: ' . $csp;
         header($csp_header);
     }
 });
