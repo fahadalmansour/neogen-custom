@@ -56,6 +56,11 @@ if (!function_exists('ng_pc_short_name')) {
     function ng_pc_short_name($name) {
         $name = (string) $name;
         if ($name === '') return '';
+        // Strip Unicode bidi marks (LRM U+200E, RLM U+200F, LRE/RLE/PDF/LRO/RLO,
+        // ALM U+061C) that often surround punctuation in RTL-edited copy. Without
+        // this, an invisible mark can be carried into the trimmed name as a
+        // ghost suffix (audit LOW, 2026-05-08).
+        $name = preg_replace('/[\x{200E}\x{200F}\x{202A}-\x{202E}\x{061C}]/u', '', $name);
         $parts = preg_split('/\s+[—–|\-]\s+/u', $name, 2);
         return is_array($parts) && isset($parts[0]) ? trim($parts[0]) : trim($name);
     }

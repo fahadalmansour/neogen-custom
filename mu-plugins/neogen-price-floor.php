@@ -20,14 +20,14 @@
  *              untouched — WC distinguishes "price not set" (empty) from
  *              "price set to zero" (numeric 0). Only numeric zero is bumped.
  *
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Fahad Almansour
  */
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'NEOGEN_PRICE_FLOOR_VERSION' ) ) {
-	define( 'NEOGEN_PRICE_FLOOR_VERSION', '1.0.0' );
+	define( 'NEOGEN_PRICE_FLOOR_VERSION', '1.0.1' );
 }
 
 // Default floor; override in wp-config.php if needed.
@@ -71,13 +71,19 @@ function ng_price_floor_apply( $price, $product = null ) {
 // hood, so this triple-hook catches all of them and keeps the behaviour
 // consistent across product types (simple, variable, grouped variation
 // children).
-add_filter( 'woocommerce_product_get_price',         'ng_price_floor_apply', 99, 2 );
-add_filter( 'woocommerce_product_get_regular_price', 'ng_price_floor_apply', 99, 2 );
-add_filter( 'woocommerce_product_get_sale_price',    'ng_price_floor_apply', 99, 2 );
+// PHP_INT_MAX - 10 instead of 99: makes the floor a true terminal
+// post-processor — any future plugin that legitimately hooks at 100+
+// still runs first, but 99% of price-mutating plugins use priority 10
+// or 20 default so the floor lands last in practice. The -10 leaves
+// headroom for genuinely-final hooks (e.g. a B2B markup plugin) to
+// run after.
+add_filter( 'woocommerce_product_get_price',         'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
+add_filter( 'woocommerce_product_get_regular_price', 'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
+add_filter( 'woocommerce_product_get_sale_price',    'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
 
 // Variable / variation children read their prices through their own
 // filter set. Hooking these too means the parent variable product's
 // min/max price (computed from children) reflects the floor.
-add_filter( 'woocommerce_product_variation_get_price',         'ng_price_floor_apply', 99, 2 );
-add_filter( 'woocommerce_product_variation_get_regular_price', 'ng_price_floor_apply', 99, 2 );
-add_filter( 'woocommerce_product_variation_get_sale_price',    'ng_price_floor_apply', 99, 2 );
+add_filter( 'woocommerce_product_variation_get_price',         'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
+add_filter( 'woocommerce_product_variation_get_regular_price', 'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
+add_filter( 'woocommerce_product_variation_get_sale_price',    'ng_price_floor_apply', PHP_INT_MAX - 10, 2 );
