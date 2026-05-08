@@ -118,9 +118,15 @@
   })();
 
   // --- IntersectionObserver scroll reveal --------------------------------
+  // CSS keeps .reveal at opacity:1 by default so the page is readable
+  // without JS (crawlers, slow networks, prefers-reduced-motion users).
+  // We opt in to the animation by adding .ng-reveal-ready on <html>,
+  // which activates the .reveal{opacity:0; transform:translateY(24px)}
+  // rule scoped under that ancestor. IO then toggles .in to fade in.
   (function reveal() {
     var els = document.querySelectorAll('.reveal');
     if (!els.length) return;
+    document.documentElement.classList.add('ng-reveal-ready');
     if (!('IntersectionObserver' in window)) {
       els.forEach(function (e) { e.classList.add('in'); });
       return;
