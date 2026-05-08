@@ -345,7 +345,6 @@ function ng_shop_category_tiles() {
     echo   '<div class="ng-section-titles">';
     if ( $is_inside_cat ) {
         echo '<h2 class="ng-section-en">تصفّح فئات أخرى.</h2>';
-        echo '<div class="ng-section-ar">كل الفئات في المتجر — للقفز السريع.</div>';
     } else {
         echo '<h2 class="ng-section-en">اختر فئة.</h2>';
         echo '<div class="ng-section-ar">اختر فئة لبدء التصفّح.</div>';
