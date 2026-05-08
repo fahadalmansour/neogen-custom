@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: NeoGen Security Hardening
- * Description: Three-layer defensive hardening: (1) disables XML-RPC + strips X-Pingback; (2) rate-limits failed wp-login attempts per IP without locking anyone out; (3) strips the WP version generator from HTML head + RSS to reduce trivial fingerprinting. Designed to sit alongside the existing CSP + HSTS headers in neogen-seo.php.
- * Version: 1.0.0
+ * Description: Four-layer defensive hardening: (1) disables XML-RPC + strips X-Pingback; (2) rate-limits failed wp-login attempts per IP without locking anyone out; (3) strips the WP version generator from HTML head + RSS to reduce trivial fingerprinting; (4) auth-gates exposable REST routes (/wp/v2/users, /wp-abilities/v1, /neogen/v1/products) and blocks ?author=N enumeration. Designed to sit alongside the existing CSP + HSTS headers in neogen-seo.php.
+ * Version: 1.1.0
  * Author: Fahad Almansour
  *
  * Why a rate-limiter instead of an IP-allowlist:
@@ -22,7 +22,7 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'NEOGEN_SECURITY_VERSION' ) ) {
-	define( 'NEOGEN_SECURITY_VERSION', '1.0.0' );
+	define( 'NEOGEN_SECURITY_VERSION', '1.1.0' );
 }
 
 // Tunables — exposed as constants so a future ops-tools mu-plugin can override.
@@ -160,3 +160,93 @@ remove_action( 'wp_head', 'wp_generator' );
 
 // Belt-and-braces: filter the_generator (used by RSS/Atom + the meta tag).
 add_filter( 'the_generator', '__return_empty_string' );
+
+/* =====================================================================
+ * Layer 4 — REST API hardening + ?author=N enumeration block
+ * =====================================================================
+ *
+ * The 2026-05-08 readiness audit flagged four exposable REST routes that
+ * either leak data or accept fake credentials when hit anonymously:
+ *
+ *   /wp-json/wp/v2/users          → core; lists admin record (slug + name)
+ *   /wp-json/wp-abilities/v1      → exposable MCP-shaped surface
+ *   /wp-json/neogen/v1/products   → leaks AR-translation-gap intelligence
+ *   /?author=N                    → 301s to /author/<slug>/ leaking slug
+ *
+ * Fix gates each with the appropriate WP capability via rest_pre_dispatch
+ * and bounces ?author=N for anon visitors via init.
+ *
+ * The /wp-json/neogen-licensing/v1/* routes from NEOHUB-SERVER-HELPER.php
+ * are not registered on this install (curl POST returns rest_no_route 404,
+ * verified 2026-05-08), so no rule needed here. Defense-in-depth gate is
+ * applied directly in NEOHUB-SERVER-HELPER.php.
+ */
+
+/**
+ * Map of REST route prefix patterns to the WP capability required to
+ * call them. Patterns are evaluated as `strpos === 0` against the route
+ * (which arrives prefixed with a forward slash, e.g. "/wp/v2/users").
+ */
+function ng_sec_rest_protected_routes() {
+	return array(
+		'/wp/v2/users'        => 'list_users',
+		'/wp-abilities/v1'    => 'edit_posts',
+		'/neogen/v1/products' => 'edit_products',
+	);
+}
+
+add_filter( 'rest_pre_dispatch', function ( $result, $server, $request ) {
+	if ( null !== $result ) return $result; // some other handler already errored / responded
+	$route = (string) $request->get_route();
+	foreach ( ng_sec_rest_protected_routes() as $prefix => $cap ) {
+		if ( strpos( $route, $prefix ) === 0 ) {
+			if ( ! current_user_can( $cap ) ) {
+				$status = is_user_logged_in() ? 403 : 401;
+				return new WP_Error(
+					'rest_forbidden',
+					__( 'Authentication required for this route.', 'neogen' ),
+					array( 'status' => $status )
+				);
+			}
+		}
+	}
+	return $result;
+}, 10, 3 );
+
+/**
+ * Block ?author=N enumeration on the front-end. WP's default behaviour is
+ * to 301 the request to /author/<slug>/, leaking the admin user_login.
+ * Anonymous visitors get bounced home; logged-in users (and admin) keep
+ * the existing UI for genuine author-archive use.
+ */
+// Default priority (10) — `wp_init_current_user` runs on `init` at priority 0,
+// so calling `is_user_logged_in()` from a priority-0 callback can race the
+// auth bootstrap and incorrectly redirect a fresh admin session. Default
+// priority is well after auth is settled.
+add_action( 'init', function () {
+	if ( is_admin() || is_user_logged_in() ) return;
+	// Only act on actual front-end GETs; don't break REST or login.
+	if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || $_SERVER['REQUEST_METHOD'] !== 'GET' ) return;
+	if ( isset( $_GET['author'] ) ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+} );
+
+/**
+ * Belt-and-braces: if a request slips through to the WP query and resolves
+ * to an author archive, redirect anonymous visitors home. Catches the
+ * /author/<slug>/ pretty-permalink form too.
+ *
+ * `is_feed()` short-circuits so /author/<slug>/feed/ keeps returning a
+ * valid (empty) feed body instead of a 301 — protects any RSS readers
+ * that subscribed before this hardening landed.
+ */
+add_action( 'template_redirect', function () {
+	if ( is_user_logged_in() ) return;
+	if ( is_feed() ) return; // don't 301 RSS subscribers; feed is empty if no author content exists
+	if ( function_exists( 'is_author' ) && is_author() ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+} );

@@ -110,7 +110,7 @@ function ng_blocksy_handoff_render() {
 
     // POST handler — both checkboxes saved on a single submit.
     if ( isset($_POST['ng_blocksy_handoff_nonce'])
-        && wp_verify_nonce($_POST['ng_blocksy_handoff_nonce'], 'ng_blocksy_handoff_save') ) {
+        && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_blocksy_handoff_nonce'] ) ), 'ng_blocksy_handoff_save' ) ) {
 
         if ( ! $forced_chrome ) {
             $new = isset($_POST['ng_blocksy_handoff_enabled']) ? 1 : 0;

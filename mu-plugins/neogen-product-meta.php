@@ -57,7 +57,7 @@ add_action('save_post_product', function ($post_id) {
      * value set elsewhere (CSV import, direct meta edit).
      */
     if (!isset($_POST['ng_product_ar_title_nonce'])
-        || !wp_verify_nonce($_POST['ng_product_ar_title_nonce'], 'ng_product_ar_title_save')) {
+        || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_product_ar_title_nonce'] ) ), 'ng_product_ar_title_save')) {
         return;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;

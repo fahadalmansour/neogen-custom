@@ -174,7 +174,7 @@ function ng_seo_cutover_render() {
     $forced = defined('NG_SEO_ENGINE_ENABLED');
 
     if ( isset($_POST['ng_seo_cutover_nonce'])
-        && wp_verify_nonce( $_POST['ng_seo_cutover_nonce'], 'ng_seo_cutover_save' )
+        && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_seo_cutover_nonce'] ) ), 'ng_seo_cutover_save' )
         && ! $forced ) {
         $new = isset($_POST['ng_seo_cutover_enabled']) ? 1 : 0;
         update_option(NG_SEO_CUTOVER_OPTION, $new ? 1 : 0, false);

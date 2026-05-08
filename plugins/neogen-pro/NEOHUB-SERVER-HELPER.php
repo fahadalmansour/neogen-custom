@@ -8,35 +8,78 @@
 
 defined('ABSPATH') || exit;
 
-// ── Configuration (Move to wp-config.php for better security) ────────────
-if (!defined('NEOHUB_GITHUB_PAT'))   define('NEOHUB_GITHUB_PAT',   'YOUR_GITHUB_PERSONAL_ACCESS_TOKEN');
-if (!defined('NEOHUB_GITHUB_REPO'))  define('NEOHUB_GITHUB_REPO',  'your-github-username/neogen-pro');
-if (!defined('NEOHUB_GITHUB_OWNER')) define('NEOHUB_GITHUB_OWNER', 'your-github-username');
+/*
+ * SAFETY GATE — these routes register the NeoHub.dev licensing server.
+ * They must NEVER fire on a customer install (e.g. neogen.store).
+ *
+ * Requires `define('NEOHUB_IS_LICENSING_SERVER', true);` in wp-config.php
+ * on the licensing-server install. On any other install (including this
+ * one), the constant is undefined and rest_api_init never registers the
+ * routes. Verified 2026-05-08: a POST to /wp-json/neogen-licensing/v1/verify
+ * on neogen.store returns rest_no_route 404 (route not registered).
+ *
+ * Defence-in-depth: even with the gate, the validator (neohub_validate_key)
+ * is HMAC-based and fails closed when NEOHUB_LICENSE_SECRET is undefined,
+ * so re-enabling the gate by accident still cannot accept any "NH-" string
+ * as a valid key the way the previous strpos check did.
+ */
+if ( defined( 'NEOHUB_IS_LICENSING_SERVER' ) && NEOHUB_IS_LICENSING_SERVER ) {
 
-// ── REST API Endpoints ──────────────────────────────────────────────────
-add_action('rest_api_init', function () {
-    
-    // 1. Verify License Endpoint
-    register_rest_route('neogen-licensing/v1', '/verify', [
-        'methods'  => 'POST',
-        'callback' => 'neohub_handle_license_verify',
-        'permission_callback' => '__return_true',
-    ]);
+    // ── Configuration (Move to wp-config.php for better security) ────────
+    if (!defined('NEOHUB_GITHUB_PAT'))   define('NEOHUB_GITHUB_PAT',   'YOUR_GITHUB_PERSONAL_ACCESS_TOKEN');
+    if (!defined('NEOHUB_GITHUB_REPO'))  define('NEOHUB_GITHUB_REPO',  'your-github-username/neogen-pro');
+    if (!defined('NEOHUB_GITHUB_OWNER')) define('NEOHUB_GITHUB_OWNER', 'your-github-username');
 
-    // 2. Update Check Endpoint
-    register_rest_route('neogen-licensing/v1', '/update-check', [
-        'methods'  => 'POST',
-        'callback' => 'neohub_handle_update_check',
-        'permission_callback' => '__return_true',
-    ]);
+    // ── REST API Endpoints ──────────────────────────────────────────────
+    add_action('rest_api_init', function () {
 
-    // 3. Download Proxy Endpoint
-    register_rest_route('neogen-licensing/v1', '/download', [
-        'methods'  => 'GET',
-        'callback' => 'neohub_handle_secure_download',
-        'permission_callback' => '__return_true',
-    ]);
-});
+        // 1. Verify License Endpoint
+        register_rest_route('neogen-licensing/v1', '/verify', [
+            'methods'  => 'POST',
+            'callback' => 'neohub_handle_license_verify',
+            'permission_callback' => '__return_true',
+        ]);
+
+        // 2. Update Check Endpoint
+        register_rest_route('neogen-licensing/v1', '/update-check', [
+            'methods'  => 'POST',
+            'callback' => 'neohub_handle_update_check',
+            'permission_callback' => '__return_true',
+        ]);
+
+        // 3. Download Proxy Endpoint
+        register_rest_route('neogen-licensing/v1', '/download', [
+            'methods'  => 'GET',
+            'callback' => 'neohub_handle_secure_download',
+            'permission_callback' => '__return_true',
+        ]);
+    });
+
+} // end NEOHUB_IS_LICENSING_SERVER gate
+
+/**
+ * Validate a NeoHub license key via HMAC.
+ *
+ * Replaces the previous `strpos($key, 'NH-') === 0` check, which accepted
+ * any string starting "NH-" as a valid key. Now requires the request to
+ * carry "<key_id>|<signature>" where signature ===
+ * hash_hmac('sha256', key_id, NEOHUB_LICENSE_SECRET).
+ *
+ * Fails closed when NEOHUB_LICENSE_SECRET is undefined (e.g. on every
+ * non-licensing-server install) — so the validator stays safe even if
+ * the route gate above is bypassed.
+ */
+function neohub_validate_key( $key ) {
+    if ( ! defined( 'NEOHUB_LICENSE_SECRET' ) || ! NEOHUB_LICENSE_SECRET ) {
+        return false;
+    }
+    if ( ! is_string( $key ) || strpos( $key, '|' ) === false ) {
+        return false;
+    }
+    list( $key_id, $signature ) = explode( '|', $key, 2 );
+    $expected = hash_hmac( 'sha256', (string) $key_id, NEOHUB_LICENSE_SECRET );
+    return hash_equals( $expected, (string) $signature );
+}
 
 /**
  * Handle License Verification
@@ -45,8 +88,7 @@ function neohub_handle_license_verify($request) {
     $params = $request->get_params();
     $key    = sanitize_text_field($params['key'] ?? '');
     
-    // TODO: Connect this to your real license database (e.g. WooCommerce Orders)
-    $is_valid = (strpos($key, 'NH-') === 0); // Temporary: NH- keys are valid
+    $is_valid = neohub_validate_key( $key );
 
     if ($is_valid) {
         return [
@@ -68,7 +110,7 @@ function neohub_handle_update_check($request) {
     $key    = sanitize_text_field($params['key'] ?? '');
 
     // Validate license before returning update info
-    if (strpos($key, 'NH-') !== 0) {
+    if ( ! neohub_validate_key( $key ) ) {
         return new WP_Error('unauthorized', 'Valid license required for updates.', ['status' => 403]);
     }
 
@@ -112,7 +154,7 @@ function neohub_handle_secure_download($request) {
     $key = sanitize_text_field($request->get_param('key'));
 
     // 1. Final Security Check
-    if (strpos($key, 'NH-') !== 0) {
+    if ( ! neohub_validate_key( $key ) ) {
         wp_die('Unauthorized: Invalid License Key.');
     }
 
@@ -121,8 +163,10 @@ function neohub_handle_secure_download($request) {
     
     // 3. Setup redirect/proxy to GitHub zip
     // Note: To be truly secure and hide the PAT, we proxy the body:
+    // 30s ceiling — anything longer hangs a PHP-FPM worker if a request
+    // ever lands here in error. Original 300s was the audit's HIGH item.
     $response = wp_remote_get($repo_url, [
-        'timeout' => 300,
+        'timeout' => 30,
         'headers' => [
             'Authorization' => 'token ' . NEOHUB_GITHUB_PAT,
             'User-Agent'    => 'NeoHub-Server'

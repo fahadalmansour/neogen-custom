@@ -161,7 +161,7 @@ function ng_seo_metabox_render( $post ) {
 add_action('save_post', function ( $post_id, $post, $update ) {
     if ( wp_is_post_autosave($post_id) || wp_is_post_revision($post_id) ) return;
     if ( ! isset($_POST[NG_SEO_METABOX_NONCE]) ) return; // metabox not present in this save (REST without it)
-    if ( ! wp_verify_nonce( $_POST[NG_SEO_METABOX_NONCE], 'ng_seo_metabox_save' ) ) return;
+    if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[NG_SEO_METABOX_NONCE] ) ), 'ng_seo_metabox_save' ) ) return;
     if ( ! current_user_can('edit_post', $post_id) ) return;
 
     $fields = [
@@ -207,7 +207,7 @@ function ng_seo_migration_render() {
 
     $action_taken = '';
     if ( isset($_POST[NG_SEO_MIGRATION_NONCE])
-        && wp_verify_nonce( $_POST[NG_SEO_MIGRATION_NONCE], 'ng_seo_migrate' )
+        && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[NG_SEO_MIGRATION_NONCE] ) ), 'ng_seo_migrate' )
         && ! empty($_POST['ng_seo_run_migration']) ) {
         $result = ng_seo_migrate_rank_math_meta();
         $action_taken = sprintf(

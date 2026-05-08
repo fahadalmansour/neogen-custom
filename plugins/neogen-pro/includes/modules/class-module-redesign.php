@@ -421,7 +421,7 @@ class NeoGen_Pro_Module_Redesign {
 
     public static function addons_save( $post_id ) {
         if ( ! isset( $_POST['ng_product_addons_nonce'] )
-             || ! wp_verify_nonce( $_POST['ng_product_addons_nonce'], 'ng_product_addons_save' ) ) {
+             || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_product_addons_nonce'] ) ), 'ng_product_addons_save' ) ) {
             return;
         }
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; }
@@ -800,7 +800,7 @@ class NeoGen_Pro_Module_Redesign {
     }
 
     public static function gift_keys_save( $order_id ) {
-        if ( ! isset( $_POST['ng_gck_nonce'] ) || ! wp_verify_nonce( $_POST['ng_gck_nonce'], 'ng_gck_save_' . $order_id ) ) {
+        if ( ! isset( $_POST['ng_gck_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_gck_nonce'] ) ), 'ng_gck_save_' . (int) $order_id ) ) {
             return;
         }
         if ( ! current_user_can( 'edit_shop_orders' ) ) { return; }

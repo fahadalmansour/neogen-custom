@@ -65,7 +65,7 @@ function ng_product_video_meta_box($post) {
 
 add_action('save_post_product', function ($post_id) {
     if (!isset($_POST['ng_product_video_nonce'])
-        || !wp_verify_nonce($_POST['ng_product_video_nonce'], 'ng_product_video_save')) {
+        || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ng_product_video_nonce'] ) ), 'ng_product_video_save')) {
         return;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
