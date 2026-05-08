@@ -6597,6 +6597,15 @@ h4.wp-block-heading:empty,
     .ng-hero-collage .ng-hero-tile img { padding: 10%; }
 }
 
+/* H3 (audit 2026-05-08): on phone-narrow viewports the 2×2 collage
+   tiles render at <80 px each, becoming unidentifiable micro-thumbs
+   between the hero copy and the brand mark. The collage is purely
+   decorative (aria-hidden) — remove it below 480 px so the hero
+   reads as: kicker → headline → wordmark → copy → CTAs. */
+@media (max-width: 480px) {
+    .ng-hero-collage { display: none; }
+}
+
 /* ==========================================================
    v1.20.10 — Blocksy/Elementor surface tweaks
    Migrated from WP Customizer (Additional CSS) so they ship
@@ -6934,6 +6943,15 @@ h4.wp-block-heading:empty,
 @media (max-width: 580px) {
   .ng-foot-newsletter-form { flex-direction: column; }
   .ng-foot-newsletter-form .btn { justify-content: center; }
+}
+/* H5 (audit 2026-05-08): below ~420 px the 2×2 trust strip still
+   crowds payment-method labels onto 3+ lines (icons overlap text).
+   Drop to a single column so each trust item gets full width and
+   the icon + label + sub-label read in a clean stack. */
+@media (max-width: 420px) {
+  .ng-foot-trust { grid-template-columns: 1fr; gap: 8px; padding: 20px 16px; }
+  .ng-foot-trust-item { padding: 14px 16px; }
+  .ng-foot-trust-sub { font-size: 11.5px; line-height: 1.45; }
 }
 
 /* ============================================================
