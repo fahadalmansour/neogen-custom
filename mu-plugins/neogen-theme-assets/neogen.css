@@ -1185,7 +1185,10 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
 }
 
 /* AR is the headline (site convention: AR first / EN last). EN drops
-   to a mono operator-console subtitle. */
+   to a mono operator-console subtitle.
+   Defense-in-depth (audit B-cat 2026-05-08): clamp to 2 lines so a
+   long term description that ever slips past the PHP guard cannot
+   blow the tile layout. */
 .ng-rack-title .ar {
   font-family: var(--font-ar-ui);
   font-size: 19px;
@@ -1193,6 +1196,10 @@ body.theme-light .ng-lockup .sep { background: var(--accent); opacity: 0.7; }
   font-weight: 500;
   direction: rtl;
   line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ng-rack-title .en {

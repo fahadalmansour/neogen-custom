@@ -359,8 +359,22 @@ function ng_shop_category_tiles() {
         $link      = get_term_link($term);
         $link      = is_wp_error($link) ? '#' : $link;
         $is_curr   = ( (int) $term->term_id === $current_id );
-        $ar_name   = trim((string) $term->description);
-        if ( $ar_name === '' ) { $ar_name = ng_ar_label( $term->name ); }
+        // Mirror the english/length guard from
+        // templates/front-page.php:813 — the term description field is
+        // operator-edited SEO landing copy and may legitimately hold a
+        // long bilingual paragraph with HTML. The narrow rack tile is
+        // designed for a 1-line short Arabic name; if the description
+        // is English-only (no Arabic chars) or > 60 chars, fall back
+        // to ng_ar_label() which strips the English side of any
+        // "English | Arabic" pipe-separated term name.
+        $desc_raw    = trim( (string) $term->description );
+        $is_english  = $desc_raw !== '' && ! preg_match( '/[\x{0600}-\x{06FF}]/u', $desc_raw );
+        $is_too_long = mb_strlen( $desc_raw ) > 60;
+        if ( $desc_raw === '' || $is_english || $is_too_long ) {
+            $ar_name = ng_ar_label( $term->name );
+        } else {
+            $ar_name = $desc_raw;
+        }
         $led       = $led_patterns[$i % count($led_patterns)];
         $rack_id   = sprintf('%02d · رف %s', $i + 1, chr(65 + $i));
         $cls       = 'ng-rack-unit reveal' . ( $is_curr ? ' is-current' : '' );
