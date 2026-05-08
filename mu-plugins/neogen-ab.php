@@ -79,7 +79,11 @@ function neogen_ab_visitor_id() {
     try {
         $vid = bin2hex(random_bytes(16));
     } catch (\Throwable $e) {
-        $vid = md5(uniqid('ngab', true) . ($_SERVER['REMOTE_ADDR'] ?? ''));
+        // random_bytes failed (extremely rare). Use WP's UUID v4
+        // generator — RFC 4122 compliant and safer than the prior
+        // md5(uniqid . REMOTE_ADDR) fallback, which leaked low-entropy
+        // process state and tied the visitor ID to source IP.
+        $vid = function_exists('wp_generate_uuid4') ? str_replace('-', '', wp_generate_uuid4()) : md5(uniqid('ngab', true));
     }
     setcookie(
         'ngab_vid',

@@ -24,7 +24,15 @@ add_action('send_headers', function () {
         header('X-Frame-Options: SAMEORIGIN');
         header('Permissions-Policy: interest-cohort=(), browsing-topics=()');
         if ( is_ssl() ) {
-            header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+            // HSTS with `preload` directive. The directive alone is
+            // harmless — it signals intent to be on the HSTS preload
+            // list, but does NOT add the domain. To actually preload,
+            // submit `neogen.store` at https://hstspreload.org once
+            // every subdomain is HTTPS-only and the merchant accepts
+            // the irrevocability (browsers ship the list embedded;
+            // removal takes months). Until then the directive is a
+            // promise the browser doesn't act on.
+            header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
         }
 
         // Content-Security-Policy — broad allowances tuned for WooCommerce +
@@ -122,9 +130,14 @@ add_action('init', function () {
     echo "Country: Saudi Arabia\n";
     echo "Languages: ar-SA, en\n";
     echo "\n";
+    // The endpoint serves text/plain (llms.txt convention) so HTML
+    // escapes don't apply, but esc_url_raw still normalises URLs and
+    // sanitize_text_field strips control chars from term names — both
+    // matter if a malicious term ever lands in the catalog.
+    $home_safe = esc_url_raw( $home );
     echo "## Primary URLs\n";
-    echo "Home: $home/\n";
-    echo "Shop: $home/shop/\n";
+    echo "Home: " . $home_safe . "/\n";
+    echo "Shop: " . $home_safe . "/shop/\n";
 
     if ( taxonomy_exists('product_cat') && function_exists('ng_top_product_cats') ) {
         echo "\n## Categories\n";
@@ -132,16 +145,16 @@ add_action('init', function () {
         foreach ( (array) $cats as $term ) {
             $link = get_term_link($term);
             if ( ! is_wp_error($link) ) {
-                echo $term->name . ': ' . $link . "\n";
+                echo sanitize_text_field( $term->name ) . ': ' . esc_url_raw( $link ) . "\n";
             }
         }
     }
 
     echo "\n## Information\n";
     foreach ( ['about', 'shipping', 'returns', 'warranty', 'privacy', 'terms', 'contact'] as $slug ) {
-        echo ucfirst($slug) . ": $home/$slug/\n";
+        echo ucfirst($slug) . ": " . esc_url_raw( $home_safe . '/' . $slug . '/' ) . "\n";
     }
-    echo "Legal disclosure: $home/legal/\n";
+    echo "Legal disclosure: " . esc_url_raw( $home_safe . '/legal/' ) . "\n";
     echo "\n";
     echo "## Notes\n";
     echo "- Single-merchant Saudi e-commerce, CR 7053130576.\n";

@@ -34,7 +34,7 @@ function ng_deploy_tools_render() {
     if (!current_user_can('manage_options')) {
         wp_die('Insufficient permissions.');
     }
-    $cleared = isset($_GET['cleared']) ? (int) $_GET['cleared'] : null;
+    $cleared = isset($_GET['cleared']) ? (int) wp_unslash($_GET['cleared']) : null;
     ?>
     <div class="wrap">
       <h1>NeoGen Deploy Tools</h1>
@@ -61,7 +61,7 @@ function ng_deploy_tools_render() {
         <input type="hidden" name="action" value="ng_deploy_source_dump">
         <?php submit_button('Dump plugin source around throttle', 'secondary'); ?>
       </form>
-      <?php if ( ! empty($_GET['source_dumped']) ) : ng_deploy_tools_render_source_dump(); endif; ?>
+      <?php if ( ! empty( wp_unslash( $_GET['source_dumped'] ?? '' ) ) ) : ng_deploy_tools_render_source_dump(); endif; ?>
 
       <hr>
       <h2>Throttle inspector (read-only)</h2>
@@ -77,7 +77,7 @@ function ng_deploy_tools_render() {
         <input type="hidden" name="action" value="ng_deploy_throttle_inspect">
         <?php submit_button('Run throttle inspector', 'secondary'); ?>
       </form>
-      <?php if (!empty($_GET['inspected'])) : ng_deploy_tools_render_inspection(); endif; ?>
+      <?php if ( ! empty( wp_unslash( $_GET['inspected'] ?? '' ) ) ) : ng_deploy_tools_render_inspection(); endif; ?>
       <hr>
       <?php /* removed 2026-05-07: gift-cards purged — admin tool block hidden
       <h2>Gift-card match coverage report</h2>
