@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NeoGen Recommendations
  * Description: Cookie-based recently-viewed tracking and rule-based product recommendations. No ML, no third-party. Renders themed .ng-rec-strip below related products on single-product pages, and via [neogen_recommendations] shortcode anywhere. Admin test mode: ?ng_simulate_recent=12,15,22 to preview the engine.
- * Version: 1.20.3
+ * Version: 1.42.0
  * Author: Fahad Almansour
  */
 
@@ -14,41 +14,71 @@ if (!defined('NG_REC_TTL_DAYS'))  { define('NG_REC_TTL_DAYS', 30); }
 
 /* ----------------------------------------------------------------
    1. Track recently-viewed product IDs in a cookie.
+
+   Implementation detail (changed v1.42.0 — readiness-2026-05-08 BLOCKER #2):
+   the cookie is set client-side via a tiny inline JS in the page footer,
+   not server-side via setcookie() in template_redirect.
+
+   Why: a server-emitted Set-Cookie on every cold product-page GET makes
+   LiteSpeed Cache treat the response as private and refuses to serve it
+   from cache to other anonymous visitors. Moving the cookie write to
+   client-side JS keeps the HTML response cookie-free, so LSCache can
+   serve the same cached HTML to every anonymous visitor (cache HIT
+   instead of MISS).
+
+   Trade-off: the recommendations strip on the *current* page won't yet
+   include the product just being viewed in its history — but that's
+   fine because the strip is "you might also like", not "you're looking
+   at this". The next product page picks up the previous IDs as before.
+
+   The reader (ng_rec_read_cookie) still reads $_COOKIE[NG_REC_COOKIE]
+   server-side, populated by the JS write on the previous request.
+   HttpOnly is dropped (JS needs to write it), but the cookie carries
+   only product IDs — no auth, no PII — so reducing it to non-HttpOnly
+   is acceptable. Secure + SameSite=Lax retained.
    ---------------------------------------------------------------- */
-add_action('template_redirect', function () {
+add_action('wp_footer', function () {
     if (is_admin()) return;
     if (!function_exists('is_product') || !is_product()) return;
 
     $id = (int) get_queried_object_id();
     if (!$id) return;
 
-    $existing = ng_rec_read_cookie();
-    $existing = array_values(array_filter($existing, function ($x) use ($id) {
-        return (int) $x !== $id;
-    }));
-    array_unshift($existing, $id);
-    $existing = array_slice($existing, 0, NG_REC_MAX);
+    // ng_recent is a comma-separated list of product IDs, newest first,
+    // capped at NG_REC_MAX entries, retained for NG_REC_TTL_DAYS days.
+    $cookie_name = wp_json_encode( NG_REC_COOKIE );
+    $product_id  = (int) $id;
+    $max         = (int) NG_REC_MAX;
+    $ttl_days    = (int) NG_REC_TTL_DAYS;
+    $secure_attr = is_ssl() ? '; Secure' : '';
+    ?>
+    <script>
+    (function () {
+        try {
+            var name = <?php echo $cookie_name; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — wp_json_encode output is JSON-safe ?>;
+            var id   = <?php echo $product_id; ?>;
+            var max  = <?php echo $max; ?>;
+            var days = <?php echo $ttl_days; ?>;
 
-    $value = implode(',', array_map('intval', $existing));
-    if (!headers_sent()) {
-        // PHP 7.3+ array form so we can set HttpOnly + SameSite together.
-        // HttpOnly: nothing in the page reads this cookie from JS.
-        // SameSite=Lax: prevents the cookie from leaking on cross-site
-        // navigations and from skewing recommendations via CSRF-style requests.
-        setcookie(
-            NG_REC_COOKIE,
-            $value,
-            [
-                'expires'  => time() + (NG_REC_TTL_DAYS * DAY_IN_SECONDS),
-                'path'     => '/',
-                'secure'   => is_ssl(),
-                'httponly' => true,
-                'samesite' => 'Lax',
-            ]
-        );
-    }
-    $_COOKIE[NG_REC_COOKIE] = $value;
-}, 5);
+            var raw = '';
+            var m   = document.cookie.split('; ').find(function (r) { return r.indexOf(name + '=') === 0; });
+            if (m) raw = m.substring(name.length + 1);
+
+            var ids = raw ? raw.split(',').map(function (n) { return parseInt(n, 10); }).filter(function (n) { return n > 0; }) : [];
+            ids = ids.filter(function (n) { return n !== id; });
+            ids.unshift(id);
+            if (ids.length > max) ids = ids.slice(0, max);
+
+            var d = new Date();
+            d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = name + '=' + ids.join(',')
+                + '; expires=' + d.toUTCString()
+                + '; path=/; SameSite=Lax<?php echo esc_js( $secure_attr ); ?>';
+        } catch (e) { /* fail silent — recommendations gracefully degrade */ }
+    })();
+    </script>
+    <?php
+}, 99);
 
 /* ----------------------------------------------------------------
    2. Read the recent-viewed list. Admin test mode supported via
@@ -117,33 +147,33 @@ function ng_recommended_products($exclude = 0, $limit = 4) {
     $picks      = [];
     $picked_ids = [];
 
-    /* b) Same-category popular — only if we have categories. */
+    /* b) Same-category popular — only if we have categories.
+     *    Single batched wc_get_products() call returning WC_Product
+     *    objects directly (visibility-filtered by Woo). Replaces the
+     *    prior WP_Query + per-row wc_get_product() lookup loop, which
+     *    was the N+1 the 2026-05-08 audit flagged. */
     if (!empty($cat_ids)) {
-        $args = [
-            'post_type'      => 'product',
-            'post_status'    => 'publish',
-            'posts_per_page' => $limit * 2, // overshoot, dedupe later
-            'post__not_in'   => $exclude_ids ?: [0],
-            'meta_key'       => 'total_sales',
-            'orderby'        => 'meta_value_num date',
-            'order'          => 'DESC',
-            'tax_query'      => [[
-                'taxonomy' => 'product_cat',
-                'field'    => 'term_id',
-                'terms'    => $cat_ids,
-            ]],
-            'no_found_rows'  => true,
-        ];
-        $q = new WP_Query($args);
-        foreach ($q->posts as $post) {
+        $candidates = wc_get_products([
+            'status'   => 'publish',
+            'limit'    => $limit * 2, // overshoot, dedupe + visibility-filter below
+            'exclude'  => $exclude_ids,
+            'category' => array_map(function ($tid) {
+                $term = get_term((int) $tid, 'product_cat');
+                return ($term && !is_wp_error($term)) ? $term->slug : null;
+            }, $cat_ids),
+            'orderby'  => 'meta_value_num',
+            'meta_key' => 'total_sales',
+            'order'    => 'DESC',
+            'visibility' => 'visible', // catalog-visible only
+        ]);
+        $candidates = array_filter($candidates ?: []);
+        foreach ($candidates as $p) {
             if (count($picks) >= $limit) break;
-            $p = wc_get_product($post->ID);
-            if (!$p instanceof WC_Product || !$p->is_visible()) continue;
+            if (!$p instanceof WC_Product) continue;
             if (in_array($p->get_id(), $picked_ids, true)) continue;
             $picks[]      = $p;
             $picked_ids[] = $p->get_id();
         }
-        wp_reset_postdata();
     }
 
     /* c) Top up from featured. */
